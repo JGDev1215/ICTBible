@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Breaker - Bread and Butter Setup - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ICT Breaker - Bread and Butter Setup</h1>
+        <p>One of the strongest PD arrays for capitalizing on stop runs and pending orders</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#liquidity">Liquidity Stages</a>
+        <a href="#structure">Structure</a>
+        <a href="#bearish">Bearish Breaker</a>
+        <a href="#bullish">Bullish Breaker</a>
+        <a href="#targeting">Targeting</a>
+        <a href="#entry">Entry Refinement</a>
+        <a href="#scaling">Position Scaling</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <div class="quote">
+                <p><em>"this is my bearish breaker it is a schematic in terms of understanding how runs on liquidity and then a repricing lower occurs"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"this is one of the strongest PD arrays I have because the characteristic behind this PD array is acting on pending orders"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"if you've ever traded and had your stop run hit and then see it run in your favor after your stop loss was hit that's what this pattern capitalizes on"</em></p>
+            </div>
+        </section>
+
+        <section id="liquidity">
+            <h2>Two Stages of Liquidity</h2>
+            <div class="quote">
+                <p><em>"there's two stages of liquidity for the highest form of precision with my breaker you'll always have the short-term buy side liquidity above the short-term high but it's going to want to reach into a higher time frame by side liquidity"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Stage 1: Short-term Liquidity</span>
+                </div>
+                <p><em>"the short-term buy side liquidity above the short-term high"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Stage 2: Higher Time Frame Liquidity</span>
+                </div>
+                <p><em>"it's going to want to reach into a higher time frame by side liquidity"</em></p>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2>Structure & Pattern Recognition</h2>
+
+            <h3>The A to B Price Leg</h3>
+            <div class="quote">
+                <p><em>"inside of this price Lake from A to B that right there is what you're looking for for targeting so this A to B leg we're ignoring all this this is Market protraction okay this is the manipulation"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"think of this as time Distortion it's running from the low to the high to get that liquidity but once it does that ignore it for a second"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bearish Breaker Structure</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Point A (Low) -->
+                <circle cx="150" cy="400" r="6" fill="#2ed573"/>
+                <text x="150" y="475" fill="#e8e8ed" font-size="16" text-anchor="middle">A (Low)</text>
+
+                <!-- Price action moving up to Point B -->
+                <line x1="150" y1="400" x2="350" y2="150" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Point B (High) -->
+                <circle cx="350" cy="150" r="6" fill="#ff4757"/>
+                <text x="350" y="130" fill="#e8e8ed" font-size="16" text-anchor="middle">B (High)</text>
+                <text x="350" y="110" fill="#9898a8" font-size="14" text-anchor="middle">Higher Time Frame Buy Side</text>
+
+                <!-- Short-term high (before Point B) -->
+                <circle cx="280" cy="250" r="5" fill="#ffa502"/>
+                <text x="280" y="230" fill="#ffa502" font-size="14" text-anchor="middle">Short-term High</text>
+                <line x1="280" y1="250" x2="350" y2="250" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+
+                <!-- Market protraction/manipulation zone -->
+                <line x1="350" y1="150" x2="450" y2="350" stroke="#ff4757" stroke-width="3"/>
+                <text x="500" y="250" fill="#ff4757" font-size="14">Market Protraction</text>
+                <text x="500" y="270" fill="#ff4757" font-size="14">(Time Distortion)</text>
+
+                <!-- Continuation lower -->
+                <line x1="450" y1="350" x2="600" y2="420" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- A to B bracket -->
+                <line x1="120" y1="400" x2="120" y2="150" stroke="#ffa502" stroke-width="2"/>
+                <line x1="115" y1="400" x2="125" y2="400" stroke="#ffa502" stroke-width="2"/>
+                <line x1="115" y1="150" x2="125" y2="150" stroke="#ffa502" stroke-width="2"/>
+                <text x="90" y="280" fill="#ffa502" font-size="16" font-weight="bold">A to B</text>
+                <text x="60" y="300" fill="#ffa502" font-size="14">(Use for targeting)</text>
+            </svg>
+
+            <div class="quote">
+                <p><em>"this A to B price leg you take that leg from the high down to the low and you lay your Fibonacci on that and then you you do your standard deviations lower"</em></p>
+            </div>
+        </section>
+
+        <section id="bearish">
+            <h2>Bearish Breaker Application</h2>
+
+            <div class="quote">
+                <p><em>"if you're anticipating the market going lower if you're looking for a bare Market to provide a additional entry or a point of reference for pyramiding new short positions this is what you're looking"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it really takes you into the marketplace in terms of a narrative to attack the ill-informed or retail Trader that tries to look for continuations if they have no idea where liquidity is and where with narrativism why the market should be going lower"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"they will be caught being a buyer of a breakout above a short-term high and then it only goes up to a higher time frame b side liquidity where the actual reversal occurs"</em></p>
+            </div>
+
+            <h3>What Happens to Retail Traders</h3>
+            <div class="quote">
+                <p><em>"they get many times trapped by this move um they will be caught being a buyer of a breakout above a short-term high"</em></p>
+            </div>
+        </section>
+
+        <section id="bullish">
+            <h2>Bullish Breaker Application</h2>
+
+            <div class="quote">
+                <p><em>"everything can be reversed and what we want to see here if we're bullish this could be a reversal pattern or it could be a continuation in an existing bull market"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"if we're presently on their bu program and we're expecting higher prices this can be used intraday any time frame by the way these patterns form"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bullish Breaker Structure</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Point A (High) -->
+                <circle cx="150" cy="150" r="6" fill="#ff4757"/>
+                <text x="150" y="130" fill="#e8e8ed" font-size="16" text-anchor="middle">A (High)</text>
+
+                <!-- Price action moving down to Point B -->
+                <line x1="150" y1="150" x2="350" y2="400" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- Point B (Low) -->
+                <circle cx="350" cy="400" r="6" fill="#2ed573"/>
+                <text x="350" y="480" fill="#e8e8ed" font-size="16" text-anchor="middle">B (Low)</text>
+                <text x="350" y="495" fill="#9898a8" font-size="14" text-anchor="middle">Higher Time Frame Sell Side</text>
+
+                <!-- Short-term low (before Point B) -->
+                <circle cx="280" cy="300" r="5" fill="#ffa502"/>
+                <text x="280" y="320" fill="#ffa502" font-size="14" text-anchor="middle">Short-term Low</text>
+                <line x1="280" y1="300" x2="350" y2="300" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+
+                <!-- Market protraction/manipulation zone -->
+                <line x1="350" y1="400" x2="450" y2="200" stroke="#2ed573" stroke-width="3"/>
+                <text x="500" y="300" fill="#2ed573" font-size="14">Market Protraction</text>
+                <text x="500" y="320" fill="#2ed573" font-size="14">(Time Distortion)</text>
+
+                <!-- Continuation higher -->
+                <line x1="450" y1="200" x2="600" y2="130" stroke="#2ed573" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- A to B bracket -->
+                <line x1="120" y1="150" x2="120" y2="400" stroke="#ffa502" stroke-width="2"/>
+                <line x1="115" y1="150" x2="125" y2="150" stroke="#ffa502" stroke-width="2"/>
+                <line x1="115" y1="400" x2="125" y2="400" stroke="#ffa502" stroke-width="2"/>
+                <text x="90" y="280" fill="#ffa502" font-size="16" font-weight="bold">A to B</text>
+                <text x="60" y="300" fill="#ffa502" font-size="14">(Use for targeting)</text>
+            </svg>
+
+            <h3>Two Levels of Sell Side Liquidity</h3>
+            <div class="quote">
+                <p><em>"the best Breakers are going to see two levels of sell side obviously the shortterm that would be created with the short-term low here and a rally up and then a lower drop into a much more significant or or higher time frame sside liquidity so there's two pools of liquidity that's being engaged here"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I love when it goes down real close to it and starts to Rally because I know what that's doing it's enticing folks to see that that's a time to go long and this run higher Engineers more liquidity below that low and makes this a much more juicier liquidity pool"</em></p>
+            </div>
+        </section>
+
+        <section id="targeting">
+            <h2>Bread and Butter Targeting</h2>
+
+            <div class="quote">
+                <p><em>"whatever this range is from here to here here one standard deviation lower that is the easiest bread and butter approach to using the breaker"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"this A to B price leg you take that leg from the high down to the low and you lay your Fibonacci on that and then you you do your standard deviations lower"</em></p>
+            </div>
+
+            <h3>Standard Deviation Method</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Bearish Breaker - Standard Deviation Lower</span>
+                </div>
+                <p><em>"whatever this range is from here to here here one standard deviation lower that is the easiest bread and butter approach"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Bullish Breaker - Standard Deviation Higher</span>
+                </div>
+                <p><em>"whatever this low is to this High add it to this high up so that would be one standard deviation of this price range A to B that is the easiest bread and butter setup"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"you can literally carve out an income career just with that"</em></p>
+            </div>
+
+            <h3>Advanced Application with Higher Time Frame</h3>
+            <div class="quote">
+                <p><em>"if you understand where the Market's going to go on higher time frame if you're utilizing something like this pattern here to get in sync with a higher time frame buy model you can then use the standard deviations between point a and point B and see if they agree with a larger higher time frame pull of liquidity"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"you want to see a Confluence of levels anywhere in that range so if we anticipate 44965 which is based on that A to B price leg here to here"</em></p>
+            </div>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Refinement</h2>
+
+            <h3>No Need to Wait for Breakout</h3>
+            <div class="quote">
+                <p><em>"you don't need it to come down into this level here and trade back up many times you'll see me annotate a breaker and I'm entering in this price leg running lower before it even breaks out that low"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I could be selling short throughout this entire range using the 2022 model and then use the breaker as an additional area where I can add in pyramid more or I can simply just wait for it to come back down wait for it to provide some means to go back up here"</em></p>
+            </div>
+
+            <h3>Order Block Within the Breaker</h3>
+            <div class="quote">
+                <p><em>"you zero in on the change in the state of delivery that last candle right there inside that last candle I can be a buyer anywhere in here"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it's the last up closed candle prior to the lower run to there when it's trading in that range"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Breakers are order blocks"</em></p>
+            </div>
+
+            <h3>Mean Threshold Entry</h3>
+            <div class="quote">
+                <p><em>"if we look at the high and the low if we measure that range okay and there's gradients to that upper quarter 50% or mean threshold because it's an order block Theory Breakers are order blocks and then the low and the lower quarter midpoint or mean threshold"</em></p>
+            </div>
+
+            <h3>Accumulation Strategy</h3>
+            <div class="quote">
+                <p><em>"I'm utilizing look at those levels look at them what am I buying consequent encroachment of that 5 minute fair value G that's defined by this level and that level then I'm buying what consequent corach of the inversion fair value G which is this level here"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I'm looking for all these areas as price presents them so when price was down here that fair value Gap was already there so I'm I'm I'm accumulating long positions here right in the middle of it which is consequent enourage of the 5minute fair B gap"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I'm buying it when it's in the midpoint of it right there I'm buying it there and then I'm buying the low end range of it there so I'm accumulating and pyramiding with logic"</em></p>
+            </div>
+        </section>
+
+        <section id="scaling">
+            <h2>Position Scaling Strategy</h2>
+
+            <h3>Standard ES Scaling (Not Breaker Specific)</h3>
+            <div class="quote">
+                <p><em>"the model I've been showing you with trading es is I'll go in and trade six contracts first then I'll add three and then I'll add one for a 10 lot position"</em></p>
+            </div>
+
+            <h3>Breaker Specific Scaling</h3>
+            <div class="quote">
+                <p><em>"this type of trade here I would go in with one add three in here and then six on a really good run into the breaker"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I'm building in the likelihood of even if I'm wrong and it goes against me on the six contracts I have three and one that help offset or mitigate most of the draw down that would be occurring if it was to quickly reverse and take out that high"</em></p>
+            </div>
+
+            <h3>Stop Loss Management</h3>
+            <div class="quote">
+                <p><em>"what happens if I go short here and it goes right up here or goes into my stop loss and stops me up you take a loss how's that for logic"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"then you consider does it still want to go lower if it does and nothing's changed you just got stopped out you just go in again with half the position size that you ed on your first trade that's all you do folks"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"the market comes back down reprices to that level does the Dirty Work of knocking those traders that have a sell stop below here on their long that were maybe briefly profitable and then drops down goes against them stops them out if you did take a trade like that you get stopped out you wait for this type of scenario here where it creates an imbalance once it does that you can be a buyer right there"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a bearish breaker according to ICT?</div>
+                    <div class="flashcard-answer">"this is my bearish breaker it is a schematic in terms of understanding how runs on liquidity and then a repricing lower occurs"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is the breaker one of the strongest PD arrays?</div>
+                    <div class="flashcard-answer">"this is one of the strongest PD arrays I have because the characteristic behind this PD array is acting on pending orders"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What two stages of liquidity should you look for in a breaker?</div>
+                    <div class="flashcard-answer">"you'll always have the short-term buy side liquidity above the short-term high but it's going to want to reach into a higher time frame by side liquidity"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the A to B price leg and how is it used?</div>
+                    <div class="flashcard-answer">"this A to B price leg you take that leg from the high down to the low and you lay your Fibonacci on that and then you you do your standard deviations lower"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do you ignore when measuring the A to B leg?</div>
+                    <div class="flashcard-answer">"we're ignoring all this this is Market protraction okay this is the manipulation... think of this as time Distortion it's running from the low to the high to get that liquidity but once it does that ignore it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the easiest bread and butter approach to using the breaker?</div>
+                    <div class="flashcard-answer">"whatever this range is from here to here here one standard deviation lower that is the easiest bread and butter approach to using the breaker"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do you need to wait for the breaker to trade back to the level?</div>
+                    <div class="flashcard-answer">"you don't need it to come down into this level here and trade back up many times you'll see me annotate a breaker and I'm entering in this price leg running lower before it even breaks out that low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT scale into a breaker trade?</div>
+                    <div class="flashcard-answer">"this type of trade here I would go in with one add three in here and then six on a really good run into the breaker"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do if you get stopped out on a breaker trade?</div>
+                    <div class="flashcard-answer">"you take a loss how's that for logic then you consider does it still want to go lower if it does and nothing's changed you just got stopped out you just go in again with half the position size that you ed on your first trade"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are breakers in relation to order blocks?</div>
+                    <div class="flashcard-answer">"Breakers are order blocks"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Can breakers be used on any timeframe?</div>
+                    <div class="flashcard-answer">"this can be used intraday any time frame by the way these patterns form but you have to understand where there's liquidity"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does a bullish breaker create more liquidity?</div>
+                    <div class="flashcard-answer">"I love when it goes down real close to it and starts to Rally because I know what that's doing it's enticing folks to see that that's a time to go long and this run higher Engineers more liquidity below that low and makes this a much more juicier liquidity pool"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

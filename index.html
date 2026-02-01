@@ -16,6 +16,7 @@
             --text-muted: #555d70;
             --accent: #d4a855;
             --accent-dim: rgba(212, 168, 85, 0.15);
+            --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
@@ -32,6 +33,7 @@
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         .library-shell {
@@ -40,53 +42,55 @@
             min-height: 0;
         }
 
-        /* Navigation Sidebar */
+        /* Navigation Sidebar - Premium refinement */
         .nav-sidebar {
-            width: 280px;
-            min-width: 280px;
-            background: var(--bg-nav);
+            width: 300px;
+            min-width: 300px;
+            background: linear-gradient(180deg, var(--bg-nav) 0%, rgba(13, 15, 20, 0.95) 100%);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
+            transition: transform var(--transition), width var(--transition);
         }
 
         .nav-sidebar.collapsed {
-            transform: translateX(-280px);
+            transform: translateX(-300px);
             width: 0;
             min-width: 0;
             border-right: none;
         }
 
-        /* Toggle Button */
+        /* Toggle Button - Refined */
         .sidebar-toggle {
             position: fixed;
             top: 60px;
             left: 16px;
             z-index: 200;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: var(--bg-nav);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--text-secondary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: all var(--transition);
             font-size: 18px;
+            font-weight: 500;
         }
 
         .sidebar-toggle:hover {
             background: var(--bg-nav-hover);
             color: var(--accent);
             border-color: var(--accent);
+            transform: scale(1.05);
         }
 
         .nav-sidebar:not(.collapsed) ~ .content-area .sidebar-toggle {
-            left: 296px;
+            left: 316px;
         }
 
         .nav-sidebar.collapsed ~ .content-area .sidebar-toggle {
@@ -94,75 +98,81 @@
         }
 
         .nav-header {
-            padding: 24px 20px;
+            padding: 28px 24px;
             border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(212, 168, 85, 0.05) 0%, transparent 100%);
         }
 
         .nav-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 600;
             color: var(--accent);
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
         }
 
         .nav-subtitle {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-top: 4px;
+            letter-spacing: 0.12em;
+            margin-top: 8px;
+            font-weight: 500;
         }
 
         .nav-list {
             flex: 1;
             overflow-y: auto;
-            padding: 12px;
+            padding: 16px 12px;
         }
 
         .nav-item {
             display: block;
-            padding: 14px 16px;
-            margin-bottom: 4px;
-            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 2px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all var(--transition);
             border: 1px solid transparent;
         }
 
         .nav-item:hover {
-            background: var(--bg-nav-hover);
+            background: rgba(212, 168, 85, 0.08);
             border-color: var(--border);
         }
 
         .nav-item.active {
             background: var(--accent-dim);
             border-color: var(--accent);
+            box-shadow: inset 0 0 0 1px var(--accent);
         }
 
         .nav-item-title {
-            font-size: 0.875rem;
+            font-size: 0.86rem;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .nav-item.active .nav-item-title {
             color: var(--accent);
+            font-weight: 600;
         }
 
         .nav-item-desc {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .nav-category {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             color: var(--text-muted);
-            padding: 16px 16px 8px;
+            padding: 18px 14px 10px;
             font-weight: 600;
+            margin-top: 8px;
         }
 
         /* Content Area */
@@ -171,57 +181,65 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            background: var(--bg-primary);
         }
 
         .content-header {
-            padding: 12px 20px;
-            padding-left: 64px;
-            background: var(--bg-nav);
+            padding: 14px 20px;
+            padding-left: 68px;
+            background: linear-gradient(90deg, var(--bg-nav) 0%, rgba(13, 15, 20, 0.95) 100%);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
+            transition: all var(--transition);
         }
 
         .current-page {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
             font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            flex: 1;
         }
 
         .open-new-tab {
             margin-left: auto;
-            padding: 6px 12px;
+            padding: 7px 14px;
             background: transparent;
             border: 1px solid var(--border);
-            border-radius: 4px;
+            border-radius: 8px;
             color: var(--text-secondary);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all var(--transition);
             font-family: inherit;
+            font-weight: 500;
         }
 
         .open-new-tab:hover {
-            background: var(--bg-nav-hover);
-            color: var(--text-primary);
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
         .header-btn {
-            padding: 6px 12px;
+            padding: 7px 14px;
             background: transparent;
             border: 1px solid var(--border);
-            border-radius: 4px;
+            border-radius: 8px;
             color: var(--text-secondary);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all var(--transition);
             font-family: inherit;
+            font-weight: 500;
         }
 
         .header-btn:hover {
-            background: var(--bg-nav-hover);
-            color: var(--text-primary);
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
         .content-frame {
@@ -230,32 +248,32 @@
             background: var(--bg-primary);
         }
 
-        /* Welcome screen when no page selected */
+        /* Welcome screen - Premium design */
         .welcome-screen {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
-            padding-top: 60px;
+            padding: 60px 40px;
             text-align: center;
             overflow-y: auto;
         }
 
         .welcome-title {
-            font-size: 1.5rem;
-            font-weight: 500;
+            font-size: 2rem;
+            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .welcome-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            max-width: 400px;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            line-height: 1.6;
         }
 
         /* Global navigation bar */
@@ -263,73 +281,87 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            padding: 10px 18px;
-            background: var(--topbar-bg, var(--bg-nav, var(--bg-secondary, #0d0f14)));
-            border-bottom: 1px solid var(--topbar-border, var(--border, var(--border-color, #1e2330)));
-            font-family: var(--topbar-font, inherit);
+            gap: 20px;
+            padding: 14px 24px;
+            background: linear-gradient(90deg, var(--bg-nav) 0%, rgba(13, 15, 20, 0.95) 100%);
+            border-bottom: 1px solid var(--border);
+            font-family: inherit;
             position: sticky;
             top: 0;
             z-index: 999;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(10px);
         }
+
         .global-brand {
-            font-size: 0.72rem;
-            letter-spacing: 0.14em;
+            font-size: 0.68rem;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: var(--text-muted, #8892a8);
-            font-weight: 600;
+            color: var(--text-muted);
+            font-weight: 700;
         }
+
         .global-links {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
+            margin-left: auto;
         }
+
         .global-topbar a {
-            color: var(--text-primary, #e4e8f0);
+            color: var(--text-primary);
             text-decoration: none;
-            font-size: 0.8rem;
-            padding: 6px 12px;
-            border-radius: 999px;
-            border: 1px solid var(--topbar-border, var(--border, var(--border-color, #1e2330)));
+            font-size: 0.78rem;
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
             background: transparent;
-            transition: all 0.15s ease;
+            transition: all var(--transition);
+            font-weight: 500;
         }
+
         .global-topbar a:hover {
-            border-color: var(--topbar-accent, var(--accent, var(--accent-gold, var(--accent-cyan, #d4a855))));
-            color: var(--topbar-accent, var(--accent, var(--accent-gold, var(--accent-cyan, #d4a855))));
-            background: var(--topbar-accent-dim, rgba(212, 168, 85, 0.12));
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
         }
+
         @media (max-width: 520px) {
             .global-topbar {
-                align-items: flex-start;
                 flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .global-links {
+                margin-left: 0;
+                width: 100%;
             }
         }
 
         .welcome-actions {
-            margin-top: 20px;
+            margin-top: 32px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .welcome-btn {
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 10px;
             border: 1px solid var(--border);
             background: transparent;
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all var(--transition);
+            font-weight: 500;
         }
 
         .welcome-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
             background: var(--accent-dim);
+            transform: translateY(-2px);
         }
 
         .welcome-btn.primary {
@@ -341,17 +373,18 @@
         .welcome-btn.primary:hover {
             background: #e5b966;
             border-color: #e5b966;
+            box-shadow: 0 4px 12px rgba(212, 168, 85, 0.2);
         }
 
         .bubble-options {
-            margin-top: 32px;
+            margin-top: 48px;
             display: none;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             flex-direction: column;
-            gap: 24px;
+            gap: 32px;
             text-align: left;
-            padding-bottom: 40px;
+            padding-bottom: 60px;
         }
 
         .bubble-options.active {
@@ -365,76 +398,79 @@
         .category-header {
             font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.14em;
             color: var(--text-muted);
-            margin-bottom: 10px;
-            font-weight: 600;
+            margin-bottom: 14px;
+            font-weight: 700;
             padding-left: 2px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 6px;
+            padding-bottom: 10px;
         }
 
         .category-bubbles {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
         }
 
         .topic-bubble {
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: 8px;
             border: 1px solid var(--border);
             background: var(--bg-nav);
             color: var(--text-secondary);
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all var(--transition);
+            font-weight: 500;
         }
 
         .topic-bubble:hover {
             border-color: var(--accent);
             color: var(--accent);
             background: var(--accent-dim);
+            transform: translateY(-2px);
         }
 
-        /* Scrollbar */
+        /* Scrollbar - Refined */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--bg-nav);
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--border);
-            border-radius: 3px;
+            border-radius: 4px;
+            transition: all var(--transition);
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
+            background: var(--accent-dim);
         }
 
         /* Mobile responsive */
         @media (max-width: 768px) {
             .nav-sidebar {
                 position: fixed;
-                left: -280px;
+                left: -300px;
                 z-index: 100;
-                transition: left 0.3s ease;
-                width: 280px;
-                min-width: 280px;
+                transition: left var(--transition);
+                width: 300px;
+                min-width: 300px;
             }
             .nav-sidebar.open {
                 left: 0;
             }
             .nav-sidebar.collapsed {
                 transform: none;
-                left: -280px;
+                left: -300px;
             }
             .sidebar-toggle {
                 left: 16px !important;
                 top: 60px;
             }
             .nav-sidebar.open ~ .content-area .sidebar-toggle {
-                left: 296px !important;
+                left: 316px !important;
             }
             .content-header {
                 padding-left: 56px;
@@ -443,11 +479,11 @@
             }
             .content-header .header-btn {
                 font-size: 0.7rem;
-                padding: 5px 8px;
+                padding: 5px 10px;
             }
             .open-new-tab {
                 font-size: 0.7rem;
-                padding: 5px 8px;
+                padding: 5px 10px;
             }
             .current-page {
                 font-size: 0.7rem;
@@ -457,21 +493,24 @@
                 white-space: nowrap;
             }
             .welcome-screen {
-                padding: 20px 16px;
-                padding-top: 50px;
+                padding: 40px 20px;
             }
             .welcome-title {
-                font-size: 1.25rem;
+                font-size: 1.5rem;
             }
             .welcome-desc {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
+            }
+            .welcome-actions {
+                gap: 10px;
             }
             .bubble-options {
-                padding: 0 8px 30px;
+                padding: 0 8px 40px;
+                gap: 24px;
             }
             .topic-bubble {
-                font-size: 0.7rem;
-                padding: 5px 10px;
+                font-size: 0.72rem;
+                padding: 6px 12px;
             }
             .category-header {
                 font-size: 0.6rem;
@@ -506,6 +545,9 @@
             }
             .welcome-btn {
                 width: 100%;
+            }
+            .welcome-screen {
+                padding: 30px 16px;
             }
         }
     </style>
@@ -815,6 +857,76 @@
 
             <div class="nav-item" data-page="ICT_BIBLE__SELECTING_PRECISION_PRICE_OBJECTIVES__2026-02-01.html">
                 <div class="nav-item-title">Selecting Precision Price Objectives</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__ALGORITHMIC_TIMINGS_WITH_OPENING_RANGES__2026-02-01.html">
+                <div class="nav-item-title">Algorithmic Timings With Opening Ranges</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__ASIAN_RANGE__2026-02-01.html">
+                <div class="nav-item-title">Asian Range</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__BREAKER_BREAD_AND_BUTTER__2026-02-01.html">
+                <div class="nav-item-title">Breaker Bread and Butter</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__DAILY_REBALANCE_THEORY__2026-02-01.html">
+                <div class="nav-item-title">Daily Rebalance Theory</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__FAIR_VALUE_GAP_TRADING__2026-02-01.html">
+                <div class="nav-item-title">Fair Value Gap Trading</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__FRIDAY_ASIAN_RANGE_MONDAY_TRADING__2026-02-01.html">
+                <div class="nav-item-title">Friday Asian Range Monday Trading</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__HIGH_PROBABILITY_MARKET_REVERSAL__2026-02-01.html">
+                <div class="nav-item-title">High Probability Market Reversal</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__HIGH_RESISTANCE_VS_LOW_RESISTANCE_LIQUIDITY_RUNS__2026-02-01.html">
+                <div class="nav-item-title">High Resistance vs Low Resistance Liquidity Runs</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__HIGH_vs_LOW_RESISTANCE_LIQUIDITY_RUN__2026-02-01.html">
+                <div class="nav-item-title">High vs Low Resistance Liquidity Run</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__INVERSION_FAIR_VALUE_GAP_BREAKAWAY__2026-02-01.html">
+                <div class="nav-item-title">Inversion Fair Value Gap Breakaway</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__INVERSION_FAIR_VALUE_GAP__2026-02-01.html">
+                <div class="nav-item-title">Inversion Fair Value Gap</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__SESSION_LIQUIDITY_TRADING__2026-02-01.html">
+                <div class="nav-item-title">Session Liquidity Trading</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__TRADING_MARKET_REVERSALS_TURTLE_SOUPS__2026-02-01.html">
+                <div class="nav-item-title">Trading Market Reversals Turtle Soups</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__WEEKLY_RANGE_PROFILES__2026-02-01.html">
+                <div class="nav-item-title">Weekly Range Profiles</div>
                 <div class="nav-item-desc">Additional study topic</div>
             </div>
 

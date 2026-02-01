@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How To Trade Session Liquidity - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-bull);
+            background: rgba(46, 213, 115, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .bull-label {
+            fill: var(--accent-bull);
+        }
+
+        .bear-label {
+            fill: var(--accent-bear);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How To Trade Session Liquidity</h1>
+        <p>ICT Gems - Session Liquidity Framework with Opening Range Gaps and Judas Swings</p>
+    </header>
+
+    <nav>
+        <a href="#midnight-price">NY Midnight Price</a>
+        <a href="#judas-swing">Judas Swing</a>
+        <a href="#session-liquidity">Session Liquidity</a>
+        <a href="#opening-range-gap">Opening Range Gap</a>
+        <a href="#two-gap-rule">Two Gap Rule</a>
+        <a href="#repricing-macro">Repricing Macro</a>
+        <a href="#lunch-hour">Lunch Hour</a>
+        <a href="#moc-algo">Market on Close</a>
+        <a href="#one-setup">One Setup for Life</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="midnight-price">
+            <h2>New York Midnight Opening Price</h2>
+            <span class="timestamp">0:39-1:02</span>
+
+            <div class="quote">
+                <p><em>"here's the brass tax of today's delivery New York opening midnight price that is this candle's opening price that's extended throughout the day the market rallies at 9:30 trades up to the buy side liquidity pool that I showed you on the 15-minute time frame inside that 15-minute fair value Gap"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"the best shorts are above the opening price at midnight New York local time"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">NY Midnight Opening Price Framework</text>
+
+                <!-- Time axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Midnight candle -->
+                <rect x="90" y="200" width="40" height="100" fill="#1a1a24" stroke="#ffa502" stroke-width="2"/>
+                <text x="110" y="320" fill="#e8e8ed" font-size="12" text-anchor="middle">Midnight</text>
+                <text x="110" y="335" fill="#9898a8" font-size="11" text-anchor="middle">00:00</text>
+
+                <!-- Horizontal price line extending from midnight open -->
+                <line x1="130" y1="200" x2="650" y2="200" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="680" y="205" fill="#ffa502" font-size="14">NY Midnight Opening Price</text>
+
+                <!-- 9:30 marker -->
+                <line x1="300" y1="340" x2="300" y2="360" stroke="#2ed573" stroke-width="2"/>
+                <text x="300" y="375" fill="#2ed573" font-size="12" text-anchor="middle">9:30 Open</text>
+
+                <!-- Rally to buy side -->
+                <polyline points="300,300 350,250 400,220 450,180 500,150" fill="none" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Buy side liquidity zone -->
+                <rect x="480" y="120" width="80" height="50" fill="rgba(46, 213, 115, 0.2)" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="520" y="110" fill="#2ed573" font-size="13" text-anchor="middle">Buy Side</text>
+                <text x="520" y="95" fill="#2ed573" font-size="13" text-anchor="middle">Liquidity</text>
+
+                <!-- Best shorts annotation -->
+                <text x="400" y="185" fill="#ff4757" font-size="12" text-anchor="middle">Best shorts above</text>
+                <text x="400" y="170" fill="#ff4757" font-size="12" text-anchor="middle">midnight price</text>
+            </svg>
+        </section>
+
+        <section id="judas-swing">
+            <h2>Judas Swing</h2>
+            <span class="timestamp">1:08-1:45</span>
+
+            <h3>Definition</h3>
+            <div class="quote">
+                <p><em>"all of this run here is a Judah swing a Judah swing is what I dub a false run that gets people that chase it they get offside"</em></p>
+            </div>
+
+            <h3>Context</h3>
+            <div class="quote">
+                <p><em>"so the algorithm is going to repic to a premium to some random level no to repic up to an old inefficiency and the best shorts are above the opening price at midnight New York local time the market rallies up multiple times"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Judas Swing Purpose</span>
+                </div>
+                <p><em>"a false run that gets people that chase it they get offside"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Judas Swing - False Run</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="50" x2="50" y2="400" stroke="#9898a8" stroke-width="2"/>
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Midnight opening price line -->
+                <line x1="50" y1="250" x2="750" y2="250" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="650" y="245" fill="#ffa502" font-size="13">Midnight Opening Price</text>
+
+                <!-- 9:30 start marker -->
+                <text x="150" y="420" fill="#e8e8ed" font-size="12" text-anchor="middle">9:30</text>
+                <line x1="150" y1="390" x2="150" y2="410" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- 10:00 end marker -->
+                <text x="550" y="420" fill="#e8e8ed" font-size="12" text-anchor="middle">10:00</text>
+                <line x1="550" y1="390" x2="550" y2="410" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Judas swing rally -->
+                <polyline points="150,380 200,320 250,280 300,240 350,200 400,180 450,160 500,150" fill="none" stroke="#2ed573" stroke-width="4"/>
+
+                <!-- Old inefficiency zone at top -->
+                <rect x="450" y="120" width="100" height="60" fill="rgba(255, 165, 2, 0.3)" stroke="#ffa502" stroke-width="2"/>
+                <text x="500" y="110" fill="#ffa502" font-size="12" text-anchor="middle">Old Inefficiency</text>
+                <text x="500" y="95" fill="#ffa502" font-size="12" text-anchor="middle">(Premium)</text>
+
+                <!-- Buy side liquidity highs -->
+                <circle cx="350" cy="200" r="5" fill="#2ed573"/>
+                <circle cx="400" cy="180" r="5" fill="#2ed573"/>
+                <circle cx="450" cy="160" r="5" fill="#2ed573"/>
+                <circle cx="500" cy="150" r="5" fill="#2ed573"/>
+                <text x="500" y="135" fill="#2ed573" font-size="11" text-anchor="middle">Buy Side Liquidity</text>
+
+                <!-- False run annotation -->
+                <text x="350" y="350" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">FALSE RUN</text>
+                <text x="350" y="370" fill="#ff4757" font-size="11" text-anchor="middle">Chasers get offside</text>
+
+                <!-- Reversal -->
+                <polyline points="500,150 550,200 600,280 650,340" fill="none" stroke="#ff4757" stroke-width="4" stroke-dasharray="5,5"/>
+            </svg>
+        </section>
+
+        <section id="session-liquidity">
+            <h2>Session Liquidity</h2>
+            <span class="timestamp">2:01-2:35</span>
+
+            <h3>London Session Liquidity</h3>
+            <div class="quote">
+                <p><em>"running out buy side here what kind of buy side is that London session liquidity then we have the low of the London session what is that that's the London session sell side liquidity"</em></p>
+            </div>
+
+            <h3>The Framework</h3>
+            <div class="quote">
+                <p><em>"so notice how the market at open at 9:30 rallies up sucks everybody in thinking it's going to go higher if you're bearish the best short entries are going to occur at the price not the time the price of New York opening price what time when is the Judas swing going to form at 9:30 to 10:00 that is your open opening range counterparty London session liquidity aiming for London session liquidity"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Timing: 9:30 to 10:00</span>
+                </div>
+                <p><em>"when is the Judas swing going to form at 9:30 to 10:00 that is your open opening range"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Entry Price (Not Time)</span>
+                </div>
+                <p><em>"the best short entries are going to occur at the price not the time the price of New York opening price"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Target: London Session Liquidity</span>
+                </div>
+                <p><em>"counterparty London session liquidity aiming for London session liquidity"</em></p>
+            </div>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Session Liquidity Framework</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="450" x2="850" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- London Session -->
+                <rect x="80" y="50" width="250" height="350" fill="rgba(255, 165, 2, 0.1)" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="205" y="35" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">LONDON SESSION</text>
+
+                <!-- London High (Buy Side Liquidity) -->
+                <line x1="80" y1="120" x2="330" y2="120" stroke="#2ed573" stroke-width="3"/>
+                <text x="340" y="115" fill="#2ed573" font-size="12">London Session</text>
+                <text x="340" y="130" fill="#2ed573" font-size="12">Buy Side Liquidity</text>
+
+                <!-- London Low (Sell Side Liquidity) -->
+                <line x1="80" y1="350" x2="330" y2="350" stroke="#ff4757" stroke-width="3"/>
+                <text x="340" y="345" fill="#ff4757" font-size="12">London Session</text>
+                <text x="340" y="360" fill="#ff4757" font-size="12">Sell Side Liquidity</text>
+
+                <!-- NY Session -->
+                <rect x="400" y="50" width="400" height="350" fill="rgba(46, 213, 115, 0.05)" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="600" y="35" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">NEW YORK SESSION</text>
+
+                <!-- 9:30 marker -->
+                <line x1="420" y1="440" x2="420" y2="460" stroke="#2ed573" stroke-width="3"/>
+                <text x="420" y="475" fill="#2ed573" font-size="13" text-anchor="middle">9:30</text>
+
+                <!-- 10:00 marker -->
+                <line x1="550" y1="440" x2="550" y2="460" stroke="#ff4757" stroke-width="3"/>
+                <text x="550" y="475" fill="#ff4757" font-size="13" text-anchor="middle">10:00</text>
+
+                <!-- Opening Range shading -->
+                <rect x="420" y="100" width="130" height="300" fill="rgba(255, 255, 255, 0.05)" stroke="#ffa502" stroke-width="2"/>
+                <text x="485" y="90" fill="#ffa502" font-size="11" text-anchor="middle">Opening Range</text>
+
+                <!-- Judas Swing rally to London Buy Side -->
+                <polyline points="420,380 450,320 480,250 510,180 540,140 570,120" fill="none" stroke="#2ed573" stroke-width="4"/>
+                <text x="500" y="200" fill="#e8e8ed" font-size="11" text-anchor="middle">Rally sucks</text>
+                <text x="500" y="215" fill="#e8e8ed" font-size="11" text-anchor="middle">everyone in</text>
+
+                <!-- Reversal down to London Sell Side -->
+                <polyline points="570,120 600,180 630,250 660,300 700,350" fill="none" stroke="#ff4757" stroke-width="4"/>
+
+                <!-- Target annotation -->
+                <text x="720" y="355" fill="#ff4757" font-size="12">Aiming for</text>
+                <text x="720" y="370" fill="#ff4757" font-size="12">London Sell Side</text>
+            </svg>
+        </section>
+
+        <section id="opening-range-gap">
+            <h2>Opening Range Gap</h2>
+            <span class="timestamp">2:38-3:28</span>
+
+            <h3>Definition</h3>
+            <div class="quote">
+                <p><em>"this is the opening range Gap okay and what you're looking at is this candle here is Friday's data and you're going to be showing this on your trading VI chart with regular trading hours needs to be toggled this price here the close is what's being shown for that candle right there so at 4:14 p.m. Friday June 23rd 2023 the closing price is 4,388 even then you you're going to wait until 9:30 in the morning New York local time when the market starts trading regular trading hours so the difference between the closing price on Friday and the opening price on the next trading day or Monday that is the opening range Gap"</em></p>
+            </div>
+
+            <h3>Discount vs Premium Opening Range Gap</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Discount Opening Range Gap</span>
+                </div>
+                <p><em>"whenever there's an opening range Gap lower than Friday's close we are opening with a discount opening range Gap"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Premium Opening Range Gap</span>
+                </div>
+                <p><em>"if we are opening with a gap that's above Friday's close we are opening with an opening range Gap premium"</em></p>
+            </div>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Opening Range Gap - Discount vs Premium</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="50" x2="50" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Friday's Close line -->
+                <line x1="50" y1="250" x2="850" y2="250" stroke="#ffa502" stroke-width="3"/>
+                <text x="760" y="245" fill="#ffa502" font-size="14" font-weight="bold">Friday's Close (4:14 PM)</text>
+
+                <!-- DISCOUNT GAP (Left side) -->
+                <text x="250" y="80" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">DISCOUNT OPENING RANGE GAP</text>
+
+                <!-- Friday candle -->
+                <rect x="120" y="220" width="30" height="40" fill="#1a1a24" stroke="#ffa502" stroke-width="2"/>
+                <line x1="135" y1="200" x2="135" y2="270" stroke="#ffa502" stroke-width="2"/>
+                <text x="135" y="285" fill="#e8e8ed" font-size="11" text-anchor="middle">Friday</text>
+
+                <!-- Gap zone - Discount -->
+                <rect x="180" y="300" width="200" height="80" fill="rgba(46, 213, 115, 0.3)" stroke="#2ed573" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="280" y="340" fill="#2ed573" font-size="13" text-anchor="middle" font-weight="bold">OPENING RANGE GAP</text>
+                <text x="280" y="360" fill="#2ed573" font-size="12" text-anchor="middle">(Lower than Friday's close)</text>
+
+                <!-- Monday open - Discount -->
+                <rect x="350" y="370" width="30" height="30" fill="#2ed573" stroke="#2ed573" stroke-width="2"/>
+                <text x="365" y="415" fill="#2ed573" font-size="11" text-anchor="middle">Monday</text>
+                <text x="365" y="430" fill="#2ed573" font-size="11" text-anchor="middle">9:30 AM</text>
+
+                <!-- Arrow showing gap -->
+                <path d="M 150 260 L 150 310 L 180 310" fill="none" stroke="#2ed573" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+                <!-- PREMIUM GAP (Right side) -->
+                <text x="650" y="80" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">PREMIUM OPENING RANGE GAP</text>
+
+                <!-- Friday candle -->
+                <rect x="520" y="220" width="30" height="40" fill="#1a1a24" stroke="#ffa502" stroke-width="2"/>
+                <line x1="535" y1="200" x2="535" y2="270" stroke="#ffa502" stroke-width="2"/>
+                <text x="535" y="285" fill="#e8e8ed" font-size="11" text-anchor="middle">Friday</text>
+
+                <!-- Gap zone - Premium -->
+                <rect x="580" y="120" width="200" height="80" fill="rgba(255, 71, 87, 0.3)" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="680" y="160" fill="#ff4757" font-size="13" text-anchor="middle" font-weight="bold">OPENING RANGE GAP</text>
+                <text x="680" y="180" fill="#ff4757" font-size="12" text-anchor="middle">(Above Friday's close)</text>
+
+                <!-- Monday open - Premium -->
+                <rect x="750" y="130" width="30" height="30" fill="#ff4757" stroke="#ff4757" stroke-width="2"/>
+                <text x="765" y="115" fill="#ff4757" font-size="11" text-anchor="middle">Monday</text>
+                <text x="765" y="100" fill="#ff4757" font-size="11" text-anchor="middle">9:30 AM</text>
+
+                <!-- Arrow showing gap -->
+                <path d="M 550 260 L 550 190 L 580 190" fill="none" stroke="#ff4757" stroke-width="2" marker-end="url(#arrowred)"/>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#2ed573" />
+                    </marker>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ff4757" />
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="two-gap-rule">
+            <h2>Two Gap Rule</h2>
+            <span class="timestamp">4:30-5:03</span>
+
+            <div class="quote">
+                <p><em>"we broke down and we had two gaps here this one that's shaded in yellow and this one here so consequent encroachment I placed my stop loss just above that why did I do that because we've already proven algorithmically that we're not going higher so just Dro down even though it didn't take up that low I have to use the two rule when there's two gaps you have to factor in the higher Gap"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Stop Placement with Two Gaps</span>
+                </div>
+                <p><em>"when there's two gaps you have to factor in the higher Gap"</em> - Place stop loss just above consequent encroachment of the higher gap</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Algorithmic Confirmation</span>
+                </div>
+                <p><em>"because we've already proven algorithmically that we're not going higher"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Two Gap Rule - Stop Placement</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="50" x2="50" y2="400" stroke="#9898a8" stroke-width="2"/>
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Gap 1 (Higher) - Yellow shaded -->
+                <rect x="200" y="120" width="150" height="60" fill="rgba(255, 165, 2, 0.4)" stroke="#ffa502" stroke-width="2"/>
+                <text x="275" y="110" fill="#ffa502" font-size="13" text-anchor="middle">Gap 1 (Higher)</text>
+
+                <!-- Consequent encroachment of higher gap -->
+                <line x1="200" y1="150" x2="600" y2="150" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="610" y="155" fill="#ffa502" font-size="12">Consequent Encroachment</text>
+
+                <!-- Gap 2 (Lower) - Yellow shaded -->
+                <rect x="200" y="220" width="150" height="60" fill="rgba(255, 165, 2, 0.4)" stroke="#ffa502" stroke-width="2"/>
+                <text x="275" y="210" fill="#ffa502" font-size="13" text-anchor="middle">Gap 2 (Lower)</text>
+
+                <!-- Stop loss placement -->
+                <line x1="400" y1="140" x2="600" y2="140" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="600" cy="140" r="6" fill="#ff4757"/>
+                <text x="610" y="135" fill="#ff4757" font-size="14" font-weight="bold">STOP LOSS</text>
+                <text x="610" y="125" fill="#ff4757" font-size="11">(Just above higher gap CE)</text>
+
+                <!-- Price action breakdown -->
+                <polyline points="150,100 200,110 250,140 300,180 350,230 400,280 450,320 500,350" fill="none" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- Annotation -->
+                <text x="400" y="370" fill="#e8e8ed" font-size="12" text-anchor="middle">Breakdown continues</text>
+                <text x="400" y="385" fill="#9898a8" font-size="11" text-anchor="middle">"proven algorithmically we're not going higher"</text>
+            </svg>
+        </section>
+
+        <section id="repricing-macro">
+            <h2>Repricing Macro</h2>
+            <span class="timestamp">5:03-5:22</span>
+
+            <div class="quote">
+                <p><em>"so this is a repricing macro all of this is a Judah swing take the low to the high find equilibrium what PD array would be a discount array below 50% there is a gap here so I was looking for it to trade towards the opening range Gap and trade into a discount and I just used a imbalance there and worked below the new week opening Gap low"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Process: Low to High Equilibrium</span>
+                </div>
+                <p><em>"take the low to the high find equilibrium what PD array would be a discount array below 50%"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Target Areas</span>
+                </div>
+                <p><em>"I was looking for it to trade towards the opening range Gap and trade into a discount and I just used a imbalance there and worked below the new week opening Gap low"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Repricing Macro - Judas Swing Structure</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="50" x2="50" y2="400" stroke="#9898a8" stroke-width="2"/>
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Low point -->
+                <circle cx="150" cy="350" r="6" fill="#2ed573"/>
+                <text x="150" y="370" fill="#2ed573" font-size="13" text-anchor="middle">Low</text>
+
+                <!-- High point (Judas swing) -->
+                <circle cx="450" cy="100" r="6" fill="#ff4757"/>
+                <text x="450" y="90" fill="#ff4757" font-size="13" text-anchor="middle">High</text>
+
+                <!-- 50% Equilibrium -->
+                <line x1="50" y1="225" x2="750" y2="225" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="700" y="220" fill="#ffa502" font-size="13" font-weight="bold">50% Equilibrium</text>
+
+                <!-- Discount zone (below 50%) -->
+                <rect x="50" y="225" width="700" height="175" fill="rgba(46, 213, 115, 0.15)" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="100" y="310" fill="#2ed573" font-size="14" font-weight="bold">DISCOUNT ARRAY</text>
+                <text x="100" y="330" fill="#2ed573" font-size="12">(Below 50%)</text>
+
+                <!-- Opening Range Gap in discount -->
+                <rect x="500" y="280" width="100" height="50" fill="rgba(255, 165, 2, 0.4)" stroke="#ffa502" stroke-width="2"/>
+                <text x="550" y="270" fill="#ffa502" font-size="12" text-anchor="middle">Opening Range Gap</text>
+
+                <!-- Imbalance zone -->
+                <rect x="550" y="320" width="80" height="40" fill="rgba(46, 213, 115, 0.3)" stroke="#2ed573" stroke-width="2"/>
+                <text x="590" y="360" fill="#2ed573" font-size="11" text-anchor="middle">Imbalance</text>
+
+                <!-- New week opening gap low -->
+                <line x1="50" y1="340" x2="650" y2="340" stroke="#9898a8" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="580" y="380" fill="#9898a8" font-size="11" text-anchor="middle">New Week Opening Gap Low</text>
+
+                <!-- Judas swing path -->
+                <polyline points="150,350 250,250 350,150 450,100" fill="none" stroke="#2ed573" stroke-width="3"/>
+                <text x="300" y="180" fill="#e8e8ed" font-size="12">Judas Swing Rally</text>
+
+                <!-- Repricing down -->
+                <polyline points="450,100 500,180 550,250 580,300 610,330" fill="none" stroke="#ff4757" stroke-width="3"/>
+                <text x="520" y="200" fill="#ff4757" font-size="12">Repricing to Discount</text>
+            </svg>
+        </section>
+
+        <section id="lunch-hour">
+            <h2>Lunch Hour Liquidity</h2>
+            <span class="timestamp">7:00-8:12</span>
+
+            <div class="quote">
+                <p><em>"so if this is New York lunch buy side liquidity okay what's the highs where's the liquidity at during the lunch hour well here's noon here so we have a high here we have a high here and we have that open range gap which is that shaded area so it makes perfect sense for it to do what reach up into half of that yellow shaded area right so that's reasonable why would it be possibly advantageous to see price do that who would be better equipped to make a trade with that idea shorts"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Lunch Hour Setup for Shorts</span>
+                </div>
+                <p><em>"so smart money can wait for the algorithm to reprice back up into half of the Shaded area or just above these relative equal highs so the algorithm runs quickly to the get to that level and then it spends time here until we get to what the 315"</em></p>
+            </div>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Lunch Hour Liquidity Framework</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="450" x2="850" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Noon marker -->
+                <line x1="250" y1="440" x2="250" y2="460" stroke="#ffa502" stroke-width="3"/>
+                <text x="250" y="475" fill="#ffa502" font-size="13" text-anchor="middle">Noon</text>
+
+                <!-- 3:15 marker -->
+                <line x1="650" y1="440" x2="650" y2="460" stroke="#ff4757" stroke-width="3"/>
+                <text x="650" y="475" fill="#ff4757" font-size="13" text-anchor="middle">3:15</text>
+
+                <!-- Lunch hour zone -->
+                <rect x="250" y="80" width="400" height="350" fill="rgba(255, 165, 2, 0.08)" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="450" y="65" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">LUNCH HOUR</text>
+
+                <!-- Opening Range Gap (yellow shaded area) -->
+                <rect x="300" y="150" width="250" height="80" fill="rgba(255, 165, 2, 0.4)" stroke="#ffa502" stroke-width="2"/>
+                <text x="425" y="140" fill="#ffa502" font-size="12" text-anchor="middle">Opening Range Gap</text>
+
+                <!-- Half of gap -->
+                <line x1="300" y1="190" x2="550" y2="190" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="560" y="195" fill="#ffa502" font-size="11">Half of Gap</text>
+
+                <!-- Relative equal highs -->
+                <circle cx="320" cy="170" r="5" fill="#2ed573"/>
+                <circle cx="380" cy="165" r="5" fill="#2ed573"/>
+                <circle cx="440" cy="168" r="5" fill="#2ed573"/>
+                <line x1="320" y1="170" x2="440" y2="168" stroke="#2ed573" stroke-width="1" stroke-dasharray="2,2"/>
+                <text x="380" y="155" fill="#2ed573" font-size="11" text-anchor="middle">Relative Equal Highs</text>
+                <text x="380" y="130" fill="#2ed573" font-size="11" text-anchor="middle">NY Lunch Buy Side Liquidity</text>
+
+                <!-- Algorithm run up -->
+                <polyline points="250,350 300,280 350,220 400,185 450,175" fill="none" stroke="#2ed573" stroke-width="3"/>
+                <text x="320" y="310" fill="#e8e8ed" font-size="11">Runs quickly</text>
+                <text x="320" y="325" fill="#e8e8ed" font-size="11">to level</text>
+
+                <!-- Consolidation -->
+                <polyline points="450,175 480,185 500,180 520,190 540,185 560,195 580,190" fill="none" stroke="#9898a8" stroke-width="2"/>
+                <text x="500" y="220" fill="#9898a8" font-size="11" text-anchor="middle">Spends time here</text>
+
+                <!-- Drop at 3:15 -->
+                <polyline points="580,190 620,260 650,320 680,370" fill="none" stroke="#ff4757" stroke-width="4"/>
+                <text x="700" y="320" fill="#ff4757" font-size="12">Attacking Lunch</text>
+                <text x="700" y="335" fill="#ff4757" font-size="12">Sell Side Liquidity</text>
+
+                <!-- Lunch low (sell side) -->
+                <line x1="250" y1="380" x2="650" y2="380" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="450" y="405" fill="#ff4757" font-size="12" text-anchor="middle">Lunch Hour Sell Side Liquidity</text>
+            </svg>
+        </section>
+
+        <section id="moc-algo">
+            <h2>Market on Close Algorithm</h2>
+            <span class="timestamp">7:00-8:12</span>
+
+            <div class="quote">
+                <p><em>"until we get to what the 315 the 345 Market on close algorithm 315 to 345 boom attacking the opposing side sell side liquidity of the lunch hour"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Market on Close Time Window</span>
+                </div>
+                <p><em>"the 315 the 345 Market on close algorithm 315 to 345"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">MOC Action</span>
+                </div>
+                <p><em>"boom attacking the opposing side sell side liquidity of the lunch hour"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Market on Close Algorithm (3:15 - 3:45)</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Time markers -->
+                <line x1="150" y1="340" x2="150" y2="360" stroke="#9898a8" stroke-width="2"/>
+                <text x="150" y="375" fill="#9898a8" font-size="12" text-anchor="middle">Noon-3:00</text>
+
+                <!-- 3:15 start -->
+                <line x1="400" y1="340" x2="400" y2="360" stroke="#ff4757" stroke-width="3"/>
+                <text x="400" y="375" fill="#ff4757" font-size="13" text-anchor="middle" font-weight="bold">3:15</text>
+
+                <!-- 3:45 end -->
+                <line x1="600" y1="340" x2="600" y2="360" stroke="#ff4757" stroke-width="3"/>
+                <text x="600" y="375" fill="#ff4757" font-size="13" text-anchor="middle" font-weight="bold">3:45</text>
+
+                <!-- MOC window -->
+                <rect x="400" y="100" width="200" height="240" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="3"/>
+                <text x="500" y="85" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">MARKET ON CLOSE</text>
+                <text x="500" y="70" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">ALGORITHM</text>
+
+                <!-- Consolidation before MOC -->
+                <polyline points="150,200 200,210 250,205 300,215 350,210 390,205" fill="none" stroke="#9898a8" stroke-width="2"/>
+                <text x="250" y="180" fill="#9898a8" font-size="11" text-anchor="middle">Consolidation</text>
+
+                <!-- BOOM drop -->
+                <polyline points="400,200 450,250 500,290 550,320 600,330" fill="none" stroke="#ff4757" stroke-width="5"/>
+                <text x="500" y="250" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">BOOM</text>
+
+                <!-- Target -->
+                <line x1="50" y1="330" x2="750" y2="330" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="680" y="325" fill="#ff4757" font-size="12">Lunch Hour</text>
+                <text x="680" y="315" fill="#ff4757" font-size="12">Sell Side Liquidity</text>
+            </svg>
+        </section>
+
+        <section id="one-setup">
+            <h2>One Setup for Life</h2>
+            <span class="timestamp">8:15-8:33</span>
+
+            <div class="quote">
+                <p><em>"go back and watch the one trade setup for life I promise you if you listen to what I'm teaching you there this is exactly what I have been doing for years every single time I take a trade I've used the logic in that teaching that's the lesson that looking for that's the one because if you understand what I'm teaching you there you will never run out of setups"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Core Framework Reference</span>
+                </div>
+                <p><em>"this is exactly what I have been doing for years every single time I take a trade I've used the logic in that teaching"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Promise</span>
+                </div>
+                <p><em>"if you understand what I'm teaching you there you will never run out of setups"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the New York Midnight Opening Price and why is it important?</div>
+                    <div class="flashcard-answer">"New York opening midnight price that is this candle's opening price that's extended throughout the day" and "the best shorts are above the opening price at midnight New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a Judas Swing?</div>
+                    <div class="flashcard-answer">"a Judah swing is what I dub a false run that gets people that chase it they get offside"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does the Judas Swing form?</div>
+                    <div class="flashcard-answer">"when is the Judas swing going to form at 9:30 to 10:00 that is your open opening range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two types of London Session liquidity mentioned?</div>
+                    <div class="flashcard-answer">"London session liquidity" (buy side at the high) and "the London session sell side liquidity" (at the low of London session)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How is the Opening Range Gap defined?</div>
+                    <div class="flashcard-answer">"the difference between the closing price on Friday and the opening price on the next trading day or Monday that is the opening range Gap"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a Discount Opening Range Gap?</div>
+                    <div class="flashcard-answer">"whenever there's an opening range Gap lower than Friday's close we are opening with a discount opening range Gap"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a Premium Opening Range Gap?</div>
+                    <div class="flashcard-answer">"if we are opening with a gap that's above Friday's close we are opening with an opening range Gap premium"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Two Gap Rule for stop placement?</div>
+                    <div class="flashcard-answer">"when there's two gaps you have to factor in the higher Gap" - "I placed my stop loss just above that" (the consequent encroachment of the higher gap)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Repricing Macro process?</div>
+                    <div class="flashcard-answer">"take the low to the high find equilibrium what PD array would be a discount array below 50%" - looking for it to "trade towards the opening range Gap and trade into a discount"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should best short entries occur?</div>
+                    <div class="flashcard-answer">"the best short entries are going to occur at the price not the time the price of New York opening price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Market on Close Algorithm time window?</div>
+                    <div class="flashcard-answer">"the 315 the 345 Market on close algorithm 315 to 345 boom attacking the opposing side sell side liquidity of the lunch hour"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does the algorithm do during lunch hour before MOC?</div>
+                    <div class="flashcard-answer">"the algorithm runs quickly to the get to that level and then it spends time here until we get to what the 315"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the core promise of the "One Setup for Life" teaching?</div>
+                    <div class="flashcard-answer">"if you understand what I'm teaching you there you will never run out of setups" and "this is exactly what I have been doing for years every single time I take a trade"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the target when trading session liquidity from NY open?</div>
+                    <div class="flashcard-answer">"counterparty London session liquidity aiming for London session liquidity" (specifically the London session sell side liquidity)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does price rally at 9:30 in this framework?</div>
+                    <div class="flashcard-answer">"the market at open at 9:30 rallies up sucks everybody in thinking it's going to go higher" - this is the Judas Swing</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does the algorithm reprice to in a bearish scenario?</div>
+                    <div class="flashcard-answer">"the algorithm is going to repic to a premium to some random level no to repic up to an old inefficiency"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you identify lunch hour buy side liquidity?</div>
+                    <div class="flashcard-answer">"if this is New York lunch buy side liquidity okay what's the highs where's the liquidity at during the lunch hour well here's noon here so we have a high here we have a high here"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is reasonable price action during lunch hour?</div>
+                    <div class="flashcard-answer">"it makes perfect sense for it to do what reach up into half of that yellow shaded area right so that's reasonable"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Who is better equipped to trade the lunch hour repricing?</div>
+                    <div class="flashcard-answer">"who would be better equipped to make a trade with that idea shorts so smart money can wait for the algorithm to reprice back up"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does smart money approach relative equal highs at lunch?</div>
+                    <div class="flashcard-answer">"smart money can wait for the algorithm to reprice back up into half of the Shaded area or just above these relative equal highs"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
