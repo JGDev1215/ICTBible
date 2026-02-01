@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeframe Selection & Defining Setups - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Timeframe Selection & Defining Setups</h1>
+        <p>ICT Mentorship Core Content - Month 03</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#monthly">Monthly Chart</a>
+        <a href="#weekly">Weekly Chart</a>
+        <a href="#daily">Daily Chart</a>
+        <a href="#intraday">Intraday</a>
+        <a href="#models">Trader Models</a>
+        <a href="#setups">Three Setups</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#study">Study Cards</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Timeframe Selection Overview</h2>
+
+            <div class="quote">
+                <p><em>"this topic is going to be specifically dealing with the time frame selection and defining setups for your model"</em> <span class="timestamp">(0:43-0:48)</span></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">ICT Timeframe Hierarchy</text>
+
+                <!-- Monthly Chart -->
+                <rect x="50" y="60" width="700" height="80" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="8"/>
+                <text x="400" y="90" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">MONTHLY CHART</text>
+                <text x="400" y="110" fill="#e8e8ed" font-size="14" text-anchor="middle">Position Trading</text>
+                <text x="400" y="130" fill="#9898a8" font-size="12" text-anchor="middle">Long-term holds</text>
+
+                <!-- Weekly Chart -->
+                <rect x="100" y="160" width="600" height="70" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="400" y="185" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">WEEKLY CHART</text>
+                <text x="400" y="205" fill="#e8e8ed" font-size="14" text-anchor="middle">Swing Trading</text>
+                <text x="400" y="220" fill="#9898a8" font-size="12" text-anchor="middle">1-2 trades per 3 months</text>
+
+                <!-- Daily Chart -->
+                <rect x="150" y="250" width="500" height="70" fill="#1a1a24" stroke="#ffa502" stroke-width="3" rx="8"/>
+                <text x="400" y="275" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">DAILY CHART - BEST CHART</text>
+                <text x="400" y="295" fill="#e8e8ed" font-size="14" text-anchor="middle">Short-term Trading</text>
+                <text x="400" y="310" fill="#9898a8" font-size="12" text-anchor="middle">Best of both worlds</text>
+
+                <!-- 4 Hour or Less -->
+                <rect x="200" y="340" width="400" height="70" fill="#1a1a24" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="400" y="365" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">4 HOURS OR LESS</text>
+                <text x="400" y="385" fill="#e8e8ed" font-size="14" text-anchor="middle">Day Trading</text>
+                <text x="400" y="400" fill="#9898a8" font-size="12" text-anchor="middle">Intraday swing trading</text>
+
+                <!-- Arrows showing hierarchy -->
+                <path d="M 400 140 L 400 160" stroke="#9898a8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <path d="M 400 230 L 400 250" stroke="#9898a8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <path d="M 400 320 L 400 340" stroke="#9898a8" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#9898a8"/>
+                    </marker>
+                </defs>
+
+                <!-- Legend -->
+                <text x="400" y="460" fill="#9898a8" font-size="12" text-anchor="middle">Higher timeframes = More time between setups | Lower timeframes = More action</text>
+                <text x="400" y="485" fill="#ffa502" font-size="12" text-anchor="middle">Daily Chart = Recommended starting point</text>
+            </svg>
+        </section>
+
+        <section id="monthly">
+            <h2>Monthly Chart - Position Trading</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Primary Use</span>
+                    <span class="timestamp">(0:59-1:07)</span>
+                </div>
+                <p><em>"for the monthly chart we use this for position trading"</em></p>
+            </div>
+
+            <h3>Benefits of Monthly Chart</h3>
+            <div class="quote">
+                <p><em>"the monthly charts actually going to do a lot of assistance for your trading and your analysis"</em> <span class="timestamp">(1:10-1:25)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"the precision and the accuracy that i have has a lot to do with the direction that's derived by the information on the monthly chart"</em> <span class="timestamp">(1:25-1:39)</span></p>
+            </div>
+
+            <h3>Removes Price Action Shock</h3>
+            <div class="quote">
+                <p><em>"if you trade on these longer-term charts or at least trade off of the the ideas that come from the monthly charts it removes a lot of the price action shock that comes with intraday trading or short-term trading"</em> <span class="timestamp">(2:31-2:43)</span></p>
+            </div>
+
+            <h3>ICT's Personal Experience</h3>
+            <div class="quote">
+                <p><em>"i can admit to you like i've done many times in the past i am not a long-term trader i don't have the personality to to hold on to a position that long i tend to change my mind a lot"</em> <span class="timestamp">(1:50-2:04)</span></p>
+            </div>
+
+            <h3>Who Should Use Monthly Charts</h3>
+            <div class="quote">
+                <p><em>"if you're a person it takes a long time to make a decision uh it comes hell or high water you're sticking with it that's probably the avenue that would best suit you as a trader"</em> <span class="timestamp">(2:04-2:19)</span></p>
+            </div>
+        </section>
+
+        <section id="weekly">
+            <h2>Weekly Chart - Swing Trading</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Primary Use</span>
+                    <span class="timestamp">(2:50-2:55)</span>
+                </div>
+                <p><em>"the weekly chart we use that for swing trading"</em></p>
+            </div>
+
+            <h3>Swing Trading Definition</h3>
+            <div class="quote">
+                <p><em>"swing train's a little bit more frequent than long-term position trading uh swing trading is invite by my definition it's typically a one or two trades within a three month period"</em> <span class="timestamp">(2:50-3:07)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"every quarter of the year in other words every three to four months there's going to be a setup that takes place and you can find them very easily on a weekly chart"</em> <span class="timestamp">(3:07-3:13)</span></p>
+            </div>
+
+            <h3>Patience Requirement</h3>
+            <div class="quote">
+                <p><em>"because the weekly chart is much like the monthly in regards to how long it takes to form the setups it takes a great deal of patience"</em> <span class="timestamp">(3:13-3:26)</span></p>
+            </div>
+
+            <h3>Removes Short-term Volatility</h3>
+            <div class="quote">
+                <p><em>"for those individuals that can't be in the marketplace on a very intraday minute by minute basis again this the weekly chart will actually serve you very well you don't have to do a whole lot of trading it's a whole lot of time in between the setups and much like the monthly chart it removes that that initial shock of short-term volatility"</em> <span class="timestamp">(3:34-4:14)</span></p>
+            </div>
+
+            <h3>ICT's Use of Weekly Chart</h3>
+            <div class="quote">
+                <p><em>"while i may not be trading specifically on the setup itself i will use those ideas to help frame the short-term trades that i take or even in day trades"</em> <span class="timestamp">(3:31-3:45)</span></p>
+            </div>
+        </section>
+
+        <section id="daily">
+            <h2>Daily Chart - The Best Chart</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">ICT's #1 Choice</span>
+                    <span class="timestamp">(4:20-4:26)</span>
+                </div>
+                <p><em>"the daily chart to me personally i believe this chart is the best chart"</em></p>
+            </div>
+
+            <h3>Why Daily Chart Is Best</h3>
+            <div class="quote">
+                <p><em>"it gives you the best of both worlds it gives you a long-term perspective it gives you all of the near-term banking levels so all the levels that the banks would be interested in all the large funds would be interested in you can clearly see those on this daily chart"</em> <span class="timestamp">(4:26-4:42)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"the daily chart also gives us the framework to do a lot of analysis for short-term trading so it has the benefits of higher time frame but not to the degree of weekly and monthly but it does give you a higher time frame perspective"</em> <span class="timestamp">(4:42-4:58)</span></p>
+            </div>
+
+            <h3>What You Find on Daily Chart</h3>
+            <div class="quote">
+                <p><em>"if we can arrive at strong analysis reference points in terms of institutional order flow if we can look at points at which there may be stops there may be a liquidity void there may be a fair value gap"</em> <span class="timestamp">(4:52-5:10)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"if you apply that to the daily chart you'll have a plethora of setups and plenty of things to trade on"</em> <span class="timestamp">(5:16-5:22)</span></p>
+            </div>
+
+            <h3>If You Had to Choose One Chart</h3>
+            <div class="quote">
+                <p><em>"if there was a a chart selection i had someone hold a gun to my head uh which chart would i'd like to trade off of it would be the daily chart because it gives you a great deal of range to work within it gives you the inter bank levels to be monitoring where stops would be residing um where long-term objectives would be seen in form of liquidity above or below the marketplace"</em> <span class="timestamp">(5:48-6:11)</span></p>
+            </div>
+
+            <h3>Recommended Starting Point</h3>
+            <div class="quote">
+                <p><em>"i would suggest that you start in the daily chart even if you're going to know it in your heart of hearts that you're going to try to be a day trader start the daily chart because the daily chart is going to be a really good bellwether"</em> <span class="timestamp">(19:45-19:57)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it's just the one that will give you everything you need to know with a lot of the higher time frame reference points and it'll also give you the directional bias"</em> <span class="timestamp">(19:57-20:04)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"you find that on the daily chart that tells you everything there and once you go through this teaching and the next teaching with institutional order flow you'll see how easy and uh the the daily bias is really it's not that hard but the problem is trusting it that's that's the hard part"</em> <span class="timestamp">(20:09-20:28)</span></p>
+            </div>
+        </section>
+
+        <section id="intraday">
+            <h2>4 Hours or Less - Day Trading</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Timeframe Definition</span>
+                    <span class="timestamp">(7:05-7:11)</span>
+                </div>
+                <p><em>"four hours or less is day trading"</em></p>
+            </div>
+
+            <h3>Specific Day Trading Concepts</h3>
+            <div class="quote">
+                <p><em>"we're not going to speak too much about day trading in this particular teaching because there's a lot of things that we got to go in regards to day trading and specific concepts that are inherently related to time of day"</em> <span class="timestamp">(7:11-7:24)</span></p>
+            </div>
+        </section>
+
+        <section id="models">
+            <h2>Five Trader Models</h2>
+
+            <h3>1. Trend Trader</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Trend Trader Definition</span>
+                    <span class="timestamp">(13:12-13:36)</span>
+                </div>
+                <p><em>"a trend trader that's one model that a trader can be using all my concepts with uh you'll be trading only in the direction of the monthly and weekly charts so in other words if the monthly and weekly are indicating it's going to be a bearish marketplace you're going to only be trading short and holding on to these positions for a great deal of time if it's bullish on the monthly and weekly chart obviously you're going to look for buy signals you're going to hold them for a great deal time that is the nature of trend trading"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"i am not a long-term position trader so while i tried that early on in my career it didn't fit me and it didn't tickle my fancy so i'm a short-term trader"</em> <span class="timestamp">(13:36-13:49)</span></p>
+            </div>
+
+            <h3>2. Swing Trader</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Swing Trader Definition</span>
+                    <span class="timestamp">(13:54-14:23)</span>
+                </div>
+                <p><em>"swing trader which i've done a lot in my early days but because i found that it was more of an allure for me to be in the marketplace more than just a couple times a month a swing trader they're trading the daily intermediate term price action and you're going to see there's a lot of setups that require you to sit on your hands and wait but when they form and you position yourself in them they offer stellar rewards and they just go on and on and the payouts are amazing but again it requires a great deal of patience"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"i can tell you as your mentor i just don't have a lot of patience for swing trading on the daily chart it just takes too much time to wait for the setups and for the trades to pan out"</em> <span class="timestamp">(14:17-14:29)</span></p>
+            </div>
+
+            <h3>ICT's Velocity Philosophy</h3>
+            <div class="quote">
+                <p><em>"i want my money to have velocity in other words i want to be able to put my money at work let it do its thing get my return and then compound that returned rate and my base equity and put it back to work again into something that gives me more velocity"</em> <span class="timestamp">(14:29-14:47)</span></p>
+            </div>
+
+            <h3>3. Contrarian Trader</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Contrarian Trader Definition</span>
+                    <span class="timestamp">(15:37-17:05)</span>
+                </div>
+                <p><em>"contrarian trader okay now it doesn't always mean that being contrarian is the right way to go about it and it doesn't mean that not being a contrarian is the right way always as well there's going to be times when to be a contrary in trader is optimal and what you're basically doing is you're trading reversal patterns at market streams"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"when the market's really gone a great distance higher and it's been moving higher for a long period of time eventually it's going to hit a specific level or significant level i should say usually and typically it's on a higher time frame it will create reversal patterns"</em> <span class="timestamp">(15:52-16:11)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it doesn't mean the market's going to reverse and create a top there it can and sometimes it will but you can still trade reversal patterns at extreme moves or what would become referred to as capitulation where the market just moves extremely you know that last bit of burst higher if it's been bullish or that quick sudden drop you know with a great deal of magnitude going lower and it usually makes the low of the move"</em> <span class="timestamp">(16:11-16:40)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it could be on a short term basis where if you watch the daily chart we may go above a previous month time and that may be a really good selling scenario to sell short but not forever but it's still an opportunity to trade with"</em> <span class="timestamp">(16:52-17:11)</span></p>
+            </div>
+
+            <h3>4. Short-term Trader</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Short-term Trader Definition</span>
+                    <span class="timestamp">(17:11-17:22)</span>
+                </div>
+                <p><em>"for short-term trading which again that's what i excel in uh you're trading the weekly ranges and you're holding for typically about one to five days in duration"</em></p>
+            </div>
+
+            <h3>5. Day Trader</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Day Trader Definition</span>
+                    <span class="timestamp">(17:22-17:28)</span>
+                </div>
+                <p><em>"setups that are found for the day traders model where you're trading intraday swing trading with exits by 2 pm new york time"</em></p>
+            </div>
+
+            <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Five Trader Models Using ICT Concepts</text>
+
+                <!-- 1. Trend Trader -->
+                <rect x="50" y="60" width="800" height="90" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="70" y="85" fill="#2ed573" font-size="16" font-weight="bold">1. TREND TRADER</text>
+                <text x="70" y="110" fill="#e8e8ed" font-size="13">Timeframes: Monthly & Weekly direction only</text>
+                <text x="70" y="130" fill="#9898a8" font-size="12">Holds: Long-term positions | Requirement: High patience & commitment</text>
+
+                <!-- 2. Swing Trader -->
+                <rect x="50" y="170" width="800" height="90" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="8"/>
+                <text x="70" y="195" fill="#ffa502" font-size="16" font-weight="bold">2. SWING TRADER</text>
+                <text x="70" y="220" fill="#e8e8ed" font-size="13">Timeframes: Daily intermediate term price action</text>
+                <text x="70" y="240" fill="#9898a8" font-size="12">Holds: Multiple days | Rewards: Stellar payouts | Requirement: Patience to wait</text>
+
+                <!-- 3. Contrarian Trader -->
+                <rect x="50" y="280" width="800" height="90" fill="#1a1a24" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="70" y="305" fill="#ff4757" font-size="16" font-weight="bold">3. CONTRARIAN TRADER</text>
+                <text x="70" y="330" fill="#e8e8ed" font-size="13">Timeframes: Higher timeframes for reversals at extremes</text>
+                <text x="70" y="350" fill="#9898a8" font-size="12">Strategy: Reversal patterns at market extremes / capitulation / stop runs</text>
+
+                <!-- 4. Short-term Trader -->
+                <rect x="50" y="390" width="800" height="90" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="70" y="415" fill="#2ed573" font-size="16" font-weight="bold">4. SHORT-TERM TRADER (ICT's Model)</text>
+                <text x="70" y="440" fill="#e8e8ed" font-size="13">Timeframes: Trading weekly ranges</text>
+                <text x="70" y="460" fill="#9898a8" font-size="12">Holds: 1-5 days duration | Focus: Velocity of capital</text>
+
+                <!-- 5. Day Trader -->
+                <rect x="50" y="500" width="800" height="80" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="8"/>
+                <text x="70" y="525" fill="#ffa502" font-size="16" font-weight="bold">5. DAY TRADER</text>
+                <text x="70" y="550" fill="#e8e8ed" font-size="13">Timeframes: 4 hours or less | Exits: By 2 PM New York time</text>
+                <text x="70" y="570" fill="#9898a8" font-size="12">Strategy: Intraday swing trading with time-specific concepts</text>
+            </svg>
+        </section>
+
+        <section id="setups">
+            <h2>ICT's Three Primary Setups</h2>
+
+            <div class="quote">
+                <p><em>"ict what are the only three setups that you teach well this is what i'm gonna use for the example the daily chart you already know what i like to do i like to either be uh trading inside of a range or inside of an institutional reference point looking for an optimal trade entry that's number one"</em> <span class="timestamp">(45:29-45:35)</span></p>
+            </div>
+
+            <h3>Setup 1: Trading Inside a Range / Optimal Trade Entry</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Setup #1</span>
+                    <span class="timestamp">(45:29-45:35)</span>
+                </div>
+                <p><em>"trading inside of a range or inside of an institutional reference point looking for an optimal trade entry"</em></p>
+            </div>
+
+            <h3>Setup 2: Selling at Bearish Order Block</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Setup #2</span>
+                    <span class="timestamp">(45:42-45:43)</span>
+                </div>
+                <p><em>"i like to sell at a bearish order block"</em></p>
+            </div>
+
+            <h3>Setup 3: Turtle Soup / Stop Runs Above Highs</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Setup #3</span>
+                    <span class="timestamp">(45:49-46:01)</span>
+                </div>
+                <p><em>"i like to sell short above old highs in the form of a turtle soup that's stop runs that go above old highs and then when they trade back down i'm a seller or i get short"</em></p>
+            </div>
+
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">ICT's Three Primary Setups</text>
+
+                <!-- Setup 1 -->
+                <rect x="30" y="60" width="260" height="300" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="160" y="90" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">SETUP #1</text>
+                <text x="160" y="115" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Optimal Trade Entry</text>
+
+                <!-- OTE Diagram -->
+                <line x1="60" y1="140" x2="260" y2="140" stroke="#9898a8" stroke-width="1"/>
+                <text x="60" y="135" fill="#9898a8" font-size="10">Range High</text>
+
+                <rect x="80" y="200" width="160" height="30" fill="#ffa502" fill-opacity="0.3" stroke="#ffa502" stroke-width="1"/>
+                <text x="160" y="220" fill="#e8e8ed" font-size="11" text-anchor="middle">OTE Zone</text>
+
+                <line x1="60" y1="280" x2="260" y2="280" stroke="#9898a8" stroke-width="1"/>
+                <text x="60" y="295" fill="#9898a8" font-size="10">Range Low</text>
+
+                <text x="160" y="330" fill="#e8e8ed" font-size="11" text-anchor="middle">Trade inside range or</text>
+                <text x="160" y="345" fill="#e8e8ed" font-size="11" text-anchor="middle">institutional reference point</text>
+
+                <!-- Setup 2 -->
+                <rect x="320" y="60" width="260" height="300" fill="#1a1a24" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="450" y="90" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">SETUP #2</text>
+                <text x="450" y="115" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Bearish Order Block</text>
+
+                <!-- Bearish OB Diagram -->
+                <polyline points="350,280 380,260 380,240 410,220 410,200 440,180 470,160 500,140"
+                          fill="none" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="470" y="140" width="60" height="30" fill="#ff4757" fill-opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="500" y="158" fill="#ff4757" font-size="10" text-anchor="middle" font-weight="bold">Bearish OB</text>
+
+                <polyline points="500,170 520,190 520,210 540,230 540,250 550,270 550,290"
+                          fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="555" y="300" fill="#ff4757" font-size="10">Sell</text>
+
+                <text x="450" y="330" fill="#e8e8ed" font-size="11" text-anchor="middle">Sell at bearish order block</text>
+
+                <!-- Setup 3 -->
+                <rect x="610" y="60" width="260" height="300" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="8"/>
+                <text x="740" y="90" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">SETUP #3</text>
+                <text x="740" y="115" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Turtle Soup</text>
+
+                <!-- Turtle Soup Diagram -->
+                <line x1="640" y1="160" x2="840" y2="160" stroke="#e8e8ed" stroke-width="2"/>
+                <text x="850" y="165" fill="#e8e8ed" font-size="10">Old High</text>
+
+                <circle cx="740" cy="140" r="4" fill="#2ed573"/>
+                <text x="740" y="130" fill="#2ed573" font-size="10" text-anchor="middle">Stop run</text>
+                <text x="740" y="118" fill="#2ed573" font-size="10" text-anchor="middle">above high</text>
+
+                <line x1="740" y1="145" x2="740" y2="250" stroke="#ff4757" stroke-width="2" marker-end="url(#arrowred)"/>
+                <text x="750" y="200" fill="#ff4757" font-size="11">Trade back</text>
+                <text x="750" y="213" fill="#ff4757" font-size="11">down = Sell</text>
+
+                <text x="740" y="330" fill="#e8e8ed" font-size="11" text-anchor="middle">Sell stop runs above old highs</text>
+                <text x="740" y="345" fill="#e8e8ed" font-size="11" text-anchor="middle">when price trades back down</text>
+
+                <!-- Arrow marker for turtle soup -->
+                <defs>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#ff4757"/>
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="philosophy">
+            <h2>Core Philosophy & Mindset</h2>
+
+            <h3>Find Your Own Model</h3>
+            <div class="quote">
+                <p><em>"it's important as a mentor i don't try to force you into a specific mold it's never been my goal to give you a copy me be just like ict that's not going to work it's never going to work for anyone"</em> <span class="timestamp">(7:40-7:53)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it does give you a goal it gives you a framework to work within while striving for replication of some of the things you probably see me do you're going to discover the trader that actually resides in you"</em> <span class="timestamp">(7:53-8:10)</span></p>
+            </div>
+
+            <h3>The Epiphany Moment</h3>
+            <div class="quote">
+                <p><em>"one day and it sounds like you know a fairy tale but it really is you'll have an epiphany where all of these things will suddenly make sense to you and you'll know what type of trader you want to be and what's even better is you actually know what setups did you like"</em> <span class="timestamp">(8:17-8:34)</span></p>
+            </div>
+
+            <h3>Align With Your Psychology</h3>
+            <div class="quote">
+                <p><em>"your comfort level and your psychological makeup as a trader has to align with that so in other words your patience level your aptitude and your life i mean let's just be real about it your life has to allow you the ability to be in front of the charts or at least do the analysis and then execute on that analysis"</em> <span class="timestamp">(9:30-9:50)</span></p>
+            </div>
+
+            <h3>Conceptual & Modular Learning</h3>
+            <div class="quote">
+                <p><em>"that's the benefit of studying conceptually and modular things because you'll quickly ascertain whether or not a specific pattern or concept gels with you in other words does it resonate with you as a trader"</em> <span class="timestamp">(10:06-10:21)</span></p>
+            </div>
+
+            <h3>Universal Application</h3>
+            <div class="quote">
+                <p><em>"your pattern or your bread and butter go to setup once you understand it it's applicable on all these time frames"</em> <span class="timestamp">(9:11-9:18)</span></p>
+            </div>
+
+            <h3>Not About Indicators</h3>
+            <div class="quote">
+                <p><em>"most of your trades are linked to a mathematically derived indicator when we look at setups we're looking at specifically finding unique characteristics that repeat themselves over and over again in price action because there are generic characteristics and traits in price action that repeat over and over again they're not limited to any one of these specific time frames"</em> <span class="timestamp">(12:21-12:46)</span></p>
+            </div>
+
+            <h3>Velocity Philosophy</h3>
+            <div class="quote">
+                <p><em>"because i have a universal application and i have experience doing all these types of trading just because i don't elect to trade on a monthly or weekly or daily all the time what i'm actually telling you is i can do that but because of my appetite for more action and because i want to put my money at work faster get it ready to return and put it back to work again so i can turn it in and capitalize on velocity turning my money over and over and over again quicker"</em> <span class="timestamp">(18:01-18:30)</span></p>
+            </div>
+
+            <h3>Trust The Process</h3>
+            <div class="quote">
+                <p><em>"do not let me convince you or try to talk you into that's the best way to go because it's not it's not for everyone"</em> <span class="timestamp">(18:42-18:50)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"you can still compound your money exceedingly well trading on a higher time frame charts believe me it's not about the setups or the time frame it's about your unique alignment with the setups and the time frame that meets the happy medium for you as a trader"</em> <span class="timestamp">(18:50-19:09)</span></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review Flashcards</h2>
+            <p>Click each card to reveal the answer from the transcript</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the monthly chart used for?</div>
+                    <div class="flashcard-answer">"for the monthly chart we use this for position trading" (0:59-1:07)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT describe swing trading frequency on the weekly chart?</div>
+                    <div class="flashcard-answer">"swing trading is invite by my definition it's typically a one or two trades within a three month period" (2:55-3:07)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does ICT say about the daily chart?</div>
+                    <div class="flashcard-answer">"the daily chart to me personally i believe this chart is the best chart" (4:20-4:26)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is the daily chart the best chart according to ICT?</div>
+                    <div class="flashcard-answer">"it gives you the best of both worlds it gives you a long-term perspective it gives you all of the near-term banking levels so all the levels that the banks would be interested in all the large funds would be interested in you can clearly see those on this daily chart" (4:26-4:42)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What timeframe is used for day trading?</div>
+                    <div class="flashcard-answer">"four hours or less is day trading" (7:05-7:11)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT define a trend trader?</div>
+                    <div class="flashcard-answer">"a trend trader that's one model that a trader can be using all my concepts with uh you'll be trading only in the direction of the monthly and weekly charts" (13:12-13:18)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a swing trader trade according to ICT?</div>
+                    <div class="flashcard-answer">"a swing trader they're trading the daily intermediate term price action" (13:59-14:06)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a contrarian trader doing?</div>
+                    <div class="flashcard-answer">"you're trading reversal patterns at market streams" (15:52-15:56)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How long does a short-term trader hold positions?</div>
+                    <div class="flashcard-answer">"you're trading the weekly ranges and you're holding for typically about one to five days in duration" (17:11-17:22)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time does a day trader exit by?</div>
+                    <div class="flashcard-answer">"you're trading intraday swing trading with exits by 2 pm new york time" (17:22-17:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is ICT's first primary setup?</div>
+                    <div class="flashcard-answer">"trading inside of a range or inside of an institutional reference point looking for an optimal trade entry" (45:29-45:35)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is ICT's second primary setup?</div>
+                    <div class="flashcard-answer">"i like to sell at a bearish order block" (45:42-45:43)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is ICT's third primary setup?</div>
+                    <div class="flashcard-answer">"i like to sell short above old highs in the form of a turtle soup that's stop runs that go above old highs and then when they trade back down i'm a seller or i get short" (45:49-46:01)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is ICT's goal as a mentor?</div>
+                    <div class="flashcard-answer">"it's never been my goal to give you a copy me be just like ict that's not going to work it's never going to work for anyone" (7:47-7:53)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What will happen when you study ICT concepts?</div>
+                    <div class="flashcard-answer">"you're going to discover the trader that actually resides in you" (8:04-8:10)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must align with your trading?</div>
+                    <div class="flashcard-answer">"your comfort level and your psychological makeup as a trader has to align with that" (9:30-9:37)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Is ICT a long-term position trader?</div>
+                    <div class="flashcard-answer">"i can admit to you like i've done many times in the past i am not a long-term trader i don't have the personality to to hold on to a position that long i tend to change my mind a lot" (1:50-2:04)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does monthly chart precision help with?</div>
+                    <div class="flashcard-answer">"the precision and the accuracy that i have has a lot to do with the direction that's derived by the information on the monthly chart" (1:25-1:39)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do longer-term charts remove?</div>
+                    <div class="flashcard-answer">"if you trade on these longer-term charts or at least trade off of the the ideas that come from the monthly charts it removes a lot of the price action shock that comes with intraday trading or short-term trading" (2:31-2:43)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does ICT want his money to have?</div>
+                    <div class="flashcard-answer">"i want my money to have velocity in other words i want to be able to put my money at work let it do its thing get my return and then compound that returned rate and my base equity and put it back to work again" (14:29-14:42)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT excel in trading?</div>
+                    <div class="flashcard-answer">"my defined setups are on a lower time frame than the daily chart so it requires a little bit more dynamic study and time in front of the charts but that's what my unique model is i i excel in that that approaches trading" (15:01-15:18)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Are ICT setups limited to specific timeframes?</div>
+                    <div class="flashcard-answer">"your pattern or your bread and butter go to setup once you understand it it's applicable on all these time frames" (9:11-9:18)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you look for instead of indicators?</div>
+                    <div class="flashcard-answer">"when we look at setups we're looking at specifically finding unique characteristics that repeat themselves over and over again in price action" (12:27-12:34)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should you start your analysis even if you want to day trade?</div>
+                    <div class="flashcard-answer">"i would suggest that you start in the daily chart even if you're going to know it in your heart of hearts that you're going to try to be a day trader start the daily chart" (19:45-19:57)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does the daily chart tell you about bias?</div>
+                    <div class="flashcard-answer">"you find that on the daily chart that tells you everything there and once you go through this teaching and the next teaching with institutional order flow you'll see how easy and uh the the daily bias is really it's not that hard but the problem is trusting it" (20:09-20:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What will happen one day while studying ICT concepts?</div>
+                    <div class="flashcard-answer">"one day and it sounds like you know a fairy tale but it really is you'll have an epiphany where all of these things will suddenly make sense to you and you'll know what type of trader you want to be" (8:17-8:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What determines the right timeframe for you?</div>
+                    <div class="flashcard-answer">"it's not about the setups or the time frame it's about your unique alignment with the setups and the time frame that meets the happy medium for you as a trader" (18:56-19:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Can you compound money well on higher timeframes?</div>
+                    <div class="flashcard-answer">"you can still compound your money exceedingly well trading on a higher time frame charts believe me" (18:50-18:56)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What benefit does modular learning provide?</div>
+                    <div class="flashcard-answer">"that's the benefit of studying conceptually and modular things because you'll quickly ascertain whether or not a specific pattern or concept gels with you" (10:06-10:15)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are price action characteristics?</div>
+                    <div class="flashcard-answer">"there are generic characteristics and traits in price action that repeat over and over again they're not limited to any one of these specific time frames" (12:34-12:46)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Keyboard navigation for flashcards
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' || e.key === 'Enter') {
+                const focused = document.activeElement;
+                if (focused.classList.contains('flashcard')) {
+                    focused.classList.toggle('revealed');
+                }
+            }
+        });
+
+        // Make flashcards keyboard accessible
+        document.querySelectorAll('.flashcard').forEach(card => {
+            card.setAttribute('tabindex', '0');
+        });
+    </script>
+</body>
+</html>

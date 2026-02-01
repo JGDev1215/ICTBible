@@ -42,6 +42,48 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
+        }
+
+        .nav-sidebar.collapsed {
+            transform: translateX(-280px);
+            width: 0;
+            min-width: 0;
+            border-right: none;
+        }
+
+        /* Toggle Button */
+        .sidebar-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            width: 36px;
+            height: 36px;
+            background: var(--bg-nav);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 18px;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--bg-nav-hover);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .nav-sidebar:not(.collapsed) ~ .content-area .sidebar-toggle {
+            left: 296px;
+        }
+
+        .nav-sidebar.collapsed ~ .content-area .sidebar-toggle {
+            left: 16px;
         }
 
         .nav-header {
@@ -126,6 +168,7 @@
 
         .content-header {
             padding: 12px 20px;
+            padding-left: 64px;
             background: var(--bg-nav);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -188,38 +231,41 @@
             align-items: center;
             justify-content: center;
             padding: 40px;
+            padding-top: 60px;
             text-align: center;
+            overflow-y: auto;
         }
 
         .welcome-title {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
         }
 
         .welcome-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
+            font-size: 0.9rem;
+            color: var(--text-muted);
             max-width: 400px;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .welcome-actions {
-            margin-top: 24px;
+            margin-top: 20px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .welcome-btn {
-            padding: 10px 16px;
-            border-radius: 999px;
+            padding: 8px 16px;
+            border-radius: 6px;
             border: 1px solid var(--border);
-            background: var(--bg-nav);
-            color: var(--text-primary);
-            font-size: 0.85rem;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.15s ease;
         }
@@ -227,30 +273,64 @@
         .welcome-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: var(--bg-nav-hover);
+            background: var(--accent-dim);
+        }
+
+        .welcome-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .welcome-btn.primary:hover {
+            background: #e5b966;
+            border-color: #e5b966;
         }
 
         .bubble-options {
-            margin-top: 24px;
+            margin-top: 32px;
             display: none;
-            max-width: 640px;
+            max-width: 800px;
             width: 100%;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+            text-align: left;
+            padding-bottom: 40px;
         }
 
         .bubble-options.active {
             display: flex;
         }
 
+        .category-section {
+            width: 100%;
+        }
+
+        .category-header {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 600;
+            padding-left: 2px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+
+        .category-bubbles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
         .topic-bubble {
-            padding: 8px 14px;
-            border-radius: 999px;
+            padding: 6px 12px;
+            border-radius: 4px;
             border: 1px solid var(--border);
-            background: transparent;
+            background: var(--bg-nav);
             color: var(--text-secondary);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.15s ease;
         }
@@ -300,16 +380,50 @@
             <div class="nav-subtitle">Smart Money Concepts</div>
         </div>
         <div class="nav-list">
-            <div class="nav-category">Foundational Concepts</div>
+            <!-- START HERE -->
+            <div class="nav-category">📍 Start Here</div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__WHAT_TO_FOCUS_ON_RIGHT_NOW__2026-02-01.html">
+                <div class="nav-item-title">What To Focus On Right Now</div>
+                <div class="nav-item-desc">Learning priorities & study path</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__ESSENTIALS_TO_ICT_DAYTRADING__2026-02-01.html">
+                <div class="nav-item-title">Essentials to ICT Day Trading</div>
+                <div class="nav-item-desc">Daily range targets, kill zones & Power Three</div>
+            </div>
 
             <div class="nav-item" data-page="ict_SMC.html">
                 <div class="nav-item-title">Smart Money Concepts</div>
                 <div class="nav-item-desc">Comprehensive SMC framework & institutional trading</div>
             </div>
 
+            <!-- CORE FRAMEWORK -->
+            <div class="nav-category">Core Framework</div>
+
             <div class="nav-item" data-page="ICT_BIBLE__MARKET_EFFICIENCY_PARADIGM__2026-02-01.html">
                 <div class="nav-item-title">Market Efficiency Paradigm</div>
                 <div class="nav-item-desc">Core framework for price delivery algorithms</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__INSTITUTIONAL_MARKET_STRUCTURE__2026-02-01.html">
+                <div class="nav-item-title">Institutional Market Structure</div>
+                <div class="nav-item-desc">HTF structure & swing point analysis</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__INSTITUTIONAL_ORDER_FLOW__2026-02-01.html">
+                <div class="nav-item-title">Institutional Order Flow</div>
+                <div class="nav-item-desc">Smart money footprints & order flow</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__INSTITUTIONAL_SPONSORSHIP__2026-02-01.html">
+                <div class="nav-item-title">Institutional Sponsorship</div>
+                <div class="nav-item-desc">Identifying institutional backing & momentum</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">
+                <div class="nav-item-title">Macro to Micro</div>
+                <div class="nav-item-desc">Multi-timeframe alignment & drill-down</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">
@@ -317,89 +431,75 @@
                 <div class="nav-item-desc">External/internal ranges & liquidity runs</div>
             </div>
 
+            <div class="nav-item" data-page="ICT_BIBLE__IPDA_DATA_RANGES__2026-02-01.html">
+                <div class="nav-item-title">IPDA Data Ranges</div>
+                <div class="nav-item-desc">Interbank Price Delivery Algorithm ranges</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">
+                <div class="nav-item-title">HTF PD Arrays & Hierarchy</div>
+                <div class="nav-item-desc">Higher timeframe structure & price delivery sequencing</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__TIMEFRAME_SELECTION_DEFINING_SETUPS__2026-02-01.html">
+                <div class="nav-item-title">Timeframe Selection & Defining Setups</div>
+                <div class="nav-item-desc">Choosing timeframes & setup criteria</div>
+            </div>
+
+            <!-- TIME & SESSION -->
+            <div class="nav-category">Time & Sessions</div>
+
             <div class="nav-item" data-page="ICT_BIBLE__DEFINING_DAILY_RANGE__2026-02-01.html">
                 <div class="nav-item-title">Defining Daily Range</div>
-                <div class="nav-item-desc">Daily session range mechanics & analysis</div>
+                <div class="nav-item-desc">Asian, London, NY sessions & IPDA True Day</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__CENTRAL_BANK_DEALERS_RANGE__2026-02-01.html">
                 <div class="nav-item-title">Central Bank Dealers Range</div>
-                <div class="nav-item-desc">Institutional range patterns & activity zones</div>
+                <div class="nav-item-desc">2PM-8PM NY range & standard deviations</div>
             </div>
 
-            <div class="nav-category">Price Action Structures</div>
-
-            <div class="nav-item" data-page="ict-orderblock-lecture.html">
-                <div class="nav-item-title">Order Blocks</div>
-                <div class="nav-item-desc">Lecture analysis on institutional order flow</div>
+            <div class="nav-item" data-page="ICT_BIBLE__OPENING_RANGE_THEORY__2026-02-01.html">
+                <div class="nav-item-title">Opening Range Theory</div>
+                <div class="nav-item-desc">9:30-10:00 ET range & First Presented FVG logic</div>
             </div>
-
-            <div class="nav-item" data-page="rejection-block-study.html">
-                <div class="nav-item-title">Rejection Blocks</div>
-                <div class="nav-item-desc">Study guide for rejection block formations</div>
-            </div>
-
-            <div class="nav-item" data-page="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">
-                <div class="nav-item-title">Change in State of Delivery</div>
-                <div class="nav-item-desc">Buy programs & order block formation</div>
-            </div>
-
-            <div class="nav-item" data-page="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">
-                <div class="nav-item-title">Reclaimed Order Block</div>
-                <div class="nav-item-desc">Invalidation patterns & reversal signals</div>
-            </div>
-
-            <div class="nav-item" data-page="ICT_BIBLE__PROPULSION_BLOCK__2026-02-01.html">
-                <div class="nav-item-title">Propulsion Block</div>
-                <div class="nav-item-desc">Explosive moves & displacement characteristics</div>
-            </div>
-
-            <div class="nav-item" data-page="ICT_BIBLE__VACUUM_BLOCK__2026-02-01.html">
-                <div class="nav-item-title">Vacuum Block</div>
-                <div class="nav-item-desc">Fair value gaps & liquidity magnets</div>
-            </div>
-
-            <div class="nav-category">Session & Market Analysis</div>
 
             <div class="nav-item" data-page="ict_opening_range_library.html">
                 <div class="nav-item-title">Opening Range & First FVG</div>
                 <div class="nav-item-desc">Session opens & early FVG entry models</div>
             </div>
 
-            <div class="nav-item" data-page="ict_SIBIFVG.html">
-                <div class="nav-item-title">Single Internal Bar Imbalance FVG</div>
-                <div class="nav-item-desc">SIBIFVG patterns & scalping applications</div>
+            <div class="nav-item" data-page="ICT_BIBLE__LONDON_KILLZONE__2026-02-01.html">
+                <div class="nav-item-title">London Killzone</div>
+                <div class="nav-item-desc">London session timing & key setups</div>
             </div>
 
-            <div class="nav-item" data-page="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">
-                <div class="nav-item-title">HTF Price Delivery Arrays & Hierarchy</div>
-                <div class="nav-item-desc">Higher timeframe structure & price delivery sequencing</div>
+            <div class="nav-item" data-page="ICT_BIBLE__NEW_YORK_KILLZONE__2026-02-01.html">
+                <div class="nav-item-title">New York Killzone</div>
+                <div class="nav-item-desc">NY session timing & key setups</div>
             </div>
 
-            <div class="nav-category">Market Dynamics & Psychology</div>
-
-            <div class="nav-item" data-page="ict-interest-rate-effects.html">
-                <div class="nav-item-title">Interest Rate Effects</div>
-                <div class="nav-item-desc">How rates drive currency movements</div>
+            <div class="nav-item" data-page="ICT_BIBLE__WHEN_TO_AVOID_LONDON_SESSION__2026-02-01.html">
+                <div class="nav-item-title">When To Avoid London Session</div>
+                <div class="nav-item-desc">Session filtering & risk avoidance rules</div>
             </div>
 
-            <div class="nav-item" data-page="ICT_BIBLE__DIVERGENCE_PHANTOMS__2026-02-01.html">
-                <div class="nav-item-title">Divergence Phantoms</div>
-                <div class="nav-item-desc">Indicator traps & retail manipulation</div>
+            <div class="nav-item" data-page="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">
+                <div class="nav-item-title">Order Blocks & Kill Zones</div>
+                <div class="nav-item-desc">Kill zone timing & entry zones</div>
             </div>
 
-            <div class="nav-category">Live Sessions</div>
-
-            <div class="nav-item" data-page="ICT_BIBLE__2026_LIVE_JAN29_SMART_MONEY__2026-02-01.html">
-                <div class="nav-item-title">2026 Live: Jan 29 Smart Money</div>
-                <div class="nav-item-desc">Live session review & smart money commentary</div>
+            <div class="nav-item" data-page="ICT_BIBLE__SILVER_BULLET_TIME_BASED_TRADING__2026-02-01.html">
+                <div class="nav-item-title">Silver Bullet Time-Based Trading</div>
+                <div class="nav-item-desc">Specific time windows for high-probability setups</div>
             </div>
 
-            <div class="nav-category">Advanced Concepts</div>
+            <!-- LIQUIDITY -->
+            <div class="nav-category">Liquidity</div>
 
             <div class="nav-item" data-page="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">
                 <div class="nav-item-title">Liquidity Pools</div>
-                <div class="nav-item-desc">Institutional liquidity clustering</div>
+                <div class="nav-item-desc">Buy side & sell side liquidity clustering</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__LIQUIDITY_VOIDS__2026-02-01.html">
@@ -412,15 +512,8 @@
                 <div class="nav-item-desc">Low & high resistance liquidity movement</div>
             </div>
 
-            <div class="nav-item" data-page="ICT_BIBLE__DOUBLE_TOPS_DOUBLE_BOTTOMS__2026-02-01.html">
-                <div class="nav-item-title">Double Tops & Bottoms</div>
-                <div class="nav-item-desc">Reversal patterns & market dynamics</div>
-            </div>
-
-            <div class="nav-item" data-page="ICT_BIBLE__WHAT_TO_FOCUS_ON_RIGHT_NOW__2026-02-01.html">
-                <div class="nav-item-title">What To Focus On Right Now</div>
-                <div class="nav-item-desc">Learning priorities & study path</div>
-            </div>
+            <!-- FAIR VALUE -->
+            <div class="nav-category">Fair Value & Imbalances</div>
 
             <div class="nav-item" data-page="ICT_BIBLE__FAIR_VALUE_GAP__2026-02-01.html">
                 <div class="nav-item-title">Fair Value Gap</div>
@@ -429,49 +522,143 @@
 
             <div class="nav-item" data-page="ICT_BIBLE__FAIR_VALUATION__2026-02-01.html">
                 <div class="nav-item-title">Fair Valuation</div>
-                <div class="nav-item-desc">Price equilibrium & valuation levels</div>
+                <div class="nav-item-desc">Premium, discount & equilibrium levels</div>
             </div>
 
-            <div class="nav-item" data-page="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">
-                <div class="nav-item-title">Order Blocks & Kill Zones</div>
-                <div class="nav-item-desc">Entry zones & institutional activity</div>
+            <div class="nav-item" data-page="ict_SIBIFVG.html">
+                <div class="nav-item-title">SIBI FVG</div>
+                <div class="nav-item-desc">Imbalances vs FVGs & CISD validation</div>
             </div>
 
-            <div class="nav-category">Technical Setups & Entries</div>
+            <!-- ORDER BLOCKS -->
+            <div class="nav-category">Order Blocks & PD Arrays</div>
+
+            <div class="nav-item" data-page="ict-orderblock-lecture.html">
+                <div class="nav-item-title">Order Blocks Lecture</div>
+                <div class="nav-item-desc">Dealing range, OTE & confluence factors</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">
+                <div class="nav-item-title">Change in State of Delivery</div>
+                <div class="nav-item-desc">Order block formation & buy programs</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">
+                <div class="nav-item-title">Reclaimed Order Block</div>
+                <div class="nav-item-desc">Invalidation patterns & reversal signals</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__PROPULSION_BLOCK__2026-02-01.html">
+                <div class="nav-item-title">Propulsion Block</div>
+                <div class="nav-item-desc">Explosive moves & displacement</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__VACUUM_BLOCK__2026-02-01.html">
+                <div class="nav-item-title">Vacuum Block</div>
+                <div class="nav-item-desc">FVG magnets & attraction zones</div>
+            </div>
+
+            <div class="nav-item" data-page="rejection-block-study.html">
+                <div class="nav-item-title">Rejection Blocks</div>
+                <div class="nav-item-desc">False breakouts & accumulation/distribution</div>
+            </div>
+
+            <!-- PRICE PATTERNS -->
+            <div class="nav-category">Price Patterns</div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__DOUBLE_TOPS_DOUBLE_BOTTOMS__2026-02-01.html">
+                <div class="nav-item-title">Double Tops & Bottoms</div>
+                <div class="nav-item-desc">Measured moves & stop hunting</div>
+            </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">
                 <div class="nav-item-title">Impulse Swings & Market Protraction</div>
                 <div class="nav-item-desc">Price movement mechanics & extensions</div>
             </div>
 
+            <div class="nav-item" data-page="ICT_BIBLE__DIVERGENCE_PHANTOMS__2026-02-01.html">
+                <div class="nav-item-title">Divergence Phantoms</div>
+                <div class="nav-item-desc">Market maker traps & indicator manipulation</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__TRENDLINE_PHANTOMS__2026-02-01.html">
+                <div class="nav-item-title">Trendline Phantoms</div>
+                <div class="nav-item-desc">Trendline liquidity & false breaks</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__MARKET_MAKER_TRAP_HEAD_SHOULDERS__2026-02-01.html">
+                <div class="nav-item-title">Market Maker Trap: Head & Shoulders</div>
+                <div class="nav-item-desc">Trap patterns & manipulation signatures</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__JUDAS_SWING__2026-02-01.html">
+                <div class="nav-item-title">Judas Swing</div>
+                <div class="nav-item-desc">False directional moves & reversal traps</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__MARKET_MAKER_MODELS__2026-02-01.html">
+                <div class="nav-item-title">Market Maker Models</div>
+                <div class="nav-item-desc">AMD cycles & accumulation/distribution</div>
+            </div>
+
+            <!-- TRADE EXECUTION -->
+            <div class="nav-category">Trade Execution</div>
+
             <div class="nav-item" data-page="ICT_BIBLE__ELEMENTS_OF_TRADE_SETUP__2026-02-01.html">
                 <div class="nav-item-title">Elements of Trade Setup</div>
-                <div class="nav-item-desc">Key components for valid trade entries</div>
+                <div class="nav-item-desc">Market conditions & ICT tool coupling</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__THE_NEXT_SETUP__2026-02-01.html">
+                <div class="nav-item-title">The Next Setup</div>
+                <div class="nav-item-desc">Identifying upcoming trade opportunities</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__OTE_OPTIMAL_TRADE_ENTRY__2026-02-01.html">
+                <div class="nav-item-title">OTE - Optimal Trade Entry</div>
+                <div class="nav-item-desc">Fibonacci retracement & sweet spot entries</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__TRADE_CONDITIONS_SETUP_PROGRESSIONS__2026-02-01.html">
-                <div class="nav-item-title">Trade Conditions & Setup Progressions</div>
-                <div class="nav-item-desc">Market conditions & progressive setup development</div>
+                <div class="nav-item-title">Trade Conditions & Progressions</div>
+                <div class="nav-item-desc">Setup development & market conditions</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__LIMIT_ORDER_ENTRY_LONG_TERM__2026-02-01.html">
-                <div class="nav-item-title">Limit Order Entry (Long Term)</div>
-                <div class="nav-item-desc">Strategic limit order placement & execution</div>
+                <div class="nav-item-title">Limit Order Entry</div>
+                <div class="nav-item-desc">Strategic limit order placement</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__STOP_ENTRY_TECHNIQUES_LONG_TERM__2026-02-01.html">
-                <div class="nav-item-title">Stop Entry Techniques (Long Term)</div>
-                <div class="nav-item-desc">Stop order strategies & risk management</div>
+                <div class="nav-item-title">Stop Entry Techniques</div>
+                <div class="nav-item-desc">Stop order strategies & momentum entries</div>
             </div>
 
             <div class="nav-item" data-page="ICT_BIBLE__POSITION_TRADE_MANAGEMENT__2026-02-01.html">
                 <div class="nav-item-title">Position Trade Management</div>
-                <div class="nav-item-desc">Managing active positions & scaling strategies</div>
+                <div class="nav-item-desc">Managing positions & scaling strategies</div>
+            </div>
+
+            <!-- MACRO & FUNDAMENTALS -->
+            <div class="nav-category">Macro & Fundamentals</div>
+
+            <div class="nav-item" data-page="ict-interest-rate-effects.html">
+                <div class="nav-item-title">Interest Rate Effects</div>
+                <div class="nav-item-desc">Treasury bonds & currency drivers</div>
+            </div>
+
+            <!-- LIVE SESSIONS -->
+            <div class="nav-category">Live Sessions</div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__2026_LIVE_JAN29_SMART_MONEY__2026-02-01.html">
+                <div class="nav-item-title">2026 Live: Jan 29</div>
+                <div class="nav-item-desc">Trading inside the range & 3/4 rule</div>
             </div>
         </div>
     </nav>
 
     <main class="content-area">
+        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">☰</button>
         <div class="content-header" id="contentHeader" style="display: none;">
             <span class="current-page" id="currentPage"></span>
             <button class="header-btn" id="goBackBtn">Go Back</button>
@@ -481,11 +668,11 @@
         </div>
 
         <div class="welcome-screen" id="welcomeScreen">
-            <div class="welcome-title">Select a Topic</div>
-            <div class="welcome-desc">Choose a concept from the sidebar to begin exploring the ICT methodology library.</div>
+            <div class="welcome-title">ICT Knowledge Library</div>
+            <div class="welcome-desc">Select a topic from the sidebar or browse by category below.</div>
             <div class="welcome-actions">
-                <button class="welcome-btn" id="startFreshBtn">Start Fresh</button>
-                <button class="welcome-btn" id="showBubblesBtn">Select Bubble Options</button>
+                <button class="welcome-btn primary" id="startFreshBtn">Start Learning</button>
+                <button class="welcome-btn" id="showBubblesBtn">Browse Categories</button>
             </div>
             <div class="bubble-options" id="bubbleOptions" aria-live="polite"></div>
         </div>
@@ -506,8 +693,16 @@
         const startFreshBtn = document.getElementById('startFreshBtn');
         const showBubblesBtn = document.getElementById('showBubblesBtn');
         const bubbleOptions = document.getElementById('bubbleOptions');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const navSidebar = document.querySelector('.nav-sidebar');
 
         let currentPage = '';
+
+        // Sidebar toggle functionality
+        sidebarToggle.addEventListener('click', () => {
+            navSidebar.classList.toggle('collapsed');
+            sidebarToggle.textContent = navSidebar.classList.contains('collapsed') ? '☰' : '✕';
+        });
 
         navItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -539,28 +734,52 @@
         }
 
         function buildBubbleOptions() {
+            const categories = document.querySelectorAll('.nav-category');
             const fragment = document.createDocumentFragment();
-            navItems.forEach(item => {
-                const title = item.querySelector('.nav-item-title')?.textContent?.trim();
-                const page = item.dataset.page;
-                if (!title || !page) {
-                    return;
-                }
-                const bubble = document.createElement('button');
-                bubble.type = 'button';
-                bubble.className = 'topic-bubble';
-                bubble.textContent = title;
-                bubble.dataset.page = page;
-                bubble.addEventListener('click', () => {
-                    const match = Array.from(navItems).find(i => i.dataset.page === page);
-                    if (match) {
-                        navItems.forEach(i => i.classList.remove('active'));
-                        match.classList.add('active');
+
+            categories.forEach(category => {
+                const categoryName = category.textContent.trim();
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.textContent = categoryName;
+                section.appendChild(header);
+
+                const bubblesContainer = document.createElement('div');
+                bubblesContainer.className = 'category-bubbles';
+
+                // Get all nav-items following this category until next category
+                let sibling = category.nextElementSibling;
+                while (sibling && !sibling.classList.contains('nav-category')) {
+                    if (sibling.classList.contains('nav-item')) {
+                        const title = sibling.querySelector('.nav-item-title')?.textContent?.trim();
+                        const page = sibling.dataset.page;
+                        if (title && page) {
+                            const bubble = document.createElement('button');
+                            bubble.type = 'button';
+                            bubble.className = 'topic-bubble';
+                            bubble.textContent = title;
+                            bubble.dataset.page = page;
+                            bubble.addEventListener('click', () => {
+                                const match = Array.from(navItems).find(i => i.dataset.page === page);
+                                if (match) {
+                                    navItems.forEach(i => i.classList.remove('active'));
+                                    match.classList.add('active');
+                                }
+                                loadPage(page);
+                            });
+                            bubblesContainer.appendChild(bubble);
+                        }
                     }
-                    loadPage(page);
-                });
-                fragment.appendChild(bubble);
+                    sibling = sibling.nextElementSibling;
+                }
+
+                section.appendChild(bubblesContainer);
+                fragment.appendChild(section);
             });
+
             bubbleOptions.appendChild(fragment);
         }
 

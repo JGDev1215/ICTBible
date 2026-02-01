@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT New York Killzone - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ICT New York Killzone</h1>
+        <p>"The classic ICT New York open kill zone" - 7:00 AM to 9:00 AM New York time</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#timeframe">Time & Pairs</a>
+        <a href="#session">NY Session</a>
+        <a href="#characteristics">Characteristics</a>
+        <a href="#daily-bias">Daily Bias</a>
+        <a href="#power-three">Power Three</a>
+        <a href="#objectives">Weekly Objectives</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <div class="quote">
+                <p><em>"The New York open frequently sets up an optimal trade entry pattern that can offer 20 to 30 pips as a scalp"</em></p>
+            </div>
+            <div class="quote">
+                <p><em>"Key times to monitor are 7:00 a.m. to 9:00 a.m. New York time this is what I refer to as the classic ICT New York open kill zone"</em></p>
+            </div>
+        </section>
+
+        <section id="timeframe">
+            <h2>Time & Pairs</h2>
+
+            <h3>Optimal Pairs</h3>
+            <div class="quote">
+                <p><em>"The majors that are coupled with the dollar index or the dollar that to me is the ideal pair for this time of day"</em></p>
+            </div>
+
+            <h3>Daily Opportunity</h3>
+            <div class="quote">
+                <p><em>"Every single day Monday through Friday I believe that if a trader were to scan through the major that are coupled with the dollar index they would find a set up that would offer 20 to 30 pips"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Every pair doesn't have a set up every New York open but every New York open has a set up in one or more of the majors that are crossed with the dollar"</em></p>
+            </div>
+
+            <h3>London Overlap Advantage</h3>
+            <div class="quote">
+                <p><em>"It's the easiest time to trade because we have the luxury of having London over lap and New York"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"New York open in my opinion and I've been doing this for a very very long time it's so much easier to trade that session because as a built-in advantage and the secret to it is what's going on in London"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Timeline -->
+                <line x1="50" y1="150" x2="750" y2="150" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- London Session -->
+                <rect x="100" y="100" width="300" height="40" fill="#ff4757" opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="250" y="125" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">London Session</text>
+
+                <!-- NY Killzone -->
+                <rect x="300" y="110" width="200" height="60" fill="#ffa502" opacity="0.5" stroke="#ffa502" stroke-width="3"/>
+                <text x="400" y="145" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">NY Killzone</text>
+                <text x="400" y="165" fill="#e8e8ed" font-size="14" text-anchor="middle">7 AM - 9 AM NY</text>
+
+                <!-- NY Session Extension -->
+                <rect x="300" y="110" width="400" height="20" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="500" y="100" fill="#2ed573" font-size="14" text-anchor="middle">NY Session extends to 2 PM</text>
+
+                <!-- Time markers -->
+                <text x="100" y="180" fill="#9898a8" font-size="12" text-anchor="middle">3 AM</text>
+                <text x="300" y="180" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">7 AM</text>
+                <text x="500" y="180" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">9 AM</text>
+                <text x="700" y="180" fill="#9898a8" font-size="12" text-anchor="middle">2 PM</text>
+
+                <!-- Overlap annotation -->
+                <text x="400" y="230" fill="#e8e8ed" font-size="16" text-anchor="middle" font-style="italic">London Overlap = Built-in Advantage</text>
+            </svg>
+        </section>
+
+        <section id="session">
+            <h2>New York Session</h2>
+
+            <h3>Session Extension</h3>
+            <div class="quote">
+                <p><em>"The New York trading session actually extends beyond the nine o'clock hour and it goes to 2:00 p.m. in New York time"</em></p>
+            </div>
+
+            <h3>Economic News Impact</h3>
+            <div class="quote">
+                <p><em>"The price action during the New York session sees a consistent round of economic news releases now these news releases will many times stimulate price action and sometimes its predictable and other times it's not sometimes these news releases will cause reversals in the marketplace and sometimes they'll add fuel to the fire and/or momentum to an existing daily bias"</em></p>
+            </div>
+        </section>
+
+        <section id="characteristics">
+            <h2>Session Characteristics</h2>
+
+            <h3>Two Potential Scenarios</h3>
+            <div class="quote">
+                <p><em>"The New York session typically has two potential scenarios continuation of London's move for a complete reversal on the daily direction"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Scenario 1: Continuation of London's Move</span>
+                </div>
+                <p><em>"The continuation of the London move I believe is the easiest and that's why I taught in my free tutorials that approach"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Scenario 2: Complete Reversal on Daily Direction</span>
+                </div>
+                <p><em>"It's not my goal to teach you market reversals because quite honestly there's a lot of things that are required to do that"</em></p>
+                <p style="margin-top: 1rem;"><em>"Reversals are they require a lot more things that I can't teach in just one video there's so many things that goes into that"</em></p>
+            </div>
+        </section>
+
+        <section id="daily-bias">
+            <h2>Daily Bias Alignment</h2>
+
+            <h3>Easiest Approach</h3>
+            <div class="quote">
+                <p><em>"When the daily chart is in a clear one-sided momentum it is easiest to look with confirmation of that direction in the London price action"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If London agrees with the daily chart being bullish that means we should be seeing a low form in London we would anticipate a retracement lower into New York open and in agreement with that daily bias so we would anticipate a New York low to post a continuation setup or optimal trade entry"</em></p>
+            </div>
+
+            <h3>Trading With Daily Bias</h3>
+            <div class="quote">
+                <p><em>"Try to convince yourself that it's much easier to trade with the daily bias and to look for your daily ranges to expand in that direction"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you get accustomed to trading continuations and trading an agreement with the daily bias and only taking those setups you will have the best setups"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"It's much easier for us to see the daily bias on the daily chart where that momentum is and trade in that direction because that's gonna be the most likely expansion or the most likely side of the market place to be on where the big moves are going to occur"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bullish Daily Bias → London Low → NY Retracement → Expansion</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="50" x2="50" y2="450" stroke="#9898a8" stroke-width="2"/>
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- London Low formation -->
+                <circle cx="150" cy="350" r="8" fill="#ff4757"/>
+                <text x="150" y="380" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">London Low</text>
+
+                <!-- London rally -->
+                <line x1="150" y1="350" x2="250" y2="200" stroke="#2ed573" stroke-width="3"/>
+                <text x="200" y="260" fill="#2ed573" font-size="12">London Rally</text>
+
+                <!-- London high -->
+                <circle cx="250" cy="200" r="8" fill="#2ed573"/>
+                <text x="250" y="185" fill="#e8e8ed" font-size="12" text-anchor="middle">Initial Daily High</text>
+
+                <!-- NY retracement -->
+                <line x1="250" y1="200" x2="400" y2="300" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="325" y="240" fill="#ff4757" font-size="12">NY Retracement</text>
+                <text x="325" y="255" fill="#ff4757" font-size="11">(7 AM - 9 AM)</text>
+
+                <!-- Optimal Trade Entry zone -->
+                <rect x="350" y="280" width="100" height="40" fill="#ffa502" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <text x="400" y="305" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">Optimal Trade</text>
+                <text x="400" y="320" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">Entry</text>
+
+                <!-- NY expansion -->
+                <line x1="400" y1="300" x2="650" y2="100" stroke="#2ed573" stroke-width="4"/>
+                <text x="525" y="180" fill="#2ed573" font-size="14" font-weight="bold">NY Expansion</text>
+                <text x="525" y="195" fill="#2ed573" font-size="11">(High of Day)</text>
+
+                <!-- High of day -->
+                <circle cx="650" cy="100" r="8" fill="#2ed573"/>
+                <text x="650" y="85" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">High of Day</text>
+
+                <!-- Time labels -->
+                <text x="150" y="470" fill="#9898a8" font-size="12" text-anchor="middle">London</text>
+                <text x="400" y="470" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">7-9 AM NY</text>
+                <text x="650" y="470" fill="#9898a8" font-size="12" text-anchor="middle">NY Session</text>
+            </svg>
+        </section>
+
+        <section id="power-three">
+            <h2>Power Three Fractal Pattern</h2>
+
+            <div class="quote">
+                <p><em>"Everything is fractal so if we see the open here and we're bullish we see it open a small little decline creating the low of the range expansion high the range and comes off the high and closes just like in power three on the daily candle or bar we can see the New York session creates that same fractal pattern"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Power Three Applied to New York Session (NY Open to 2 PM)</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Session open -->
+                <circle cx="100" cy="250" r="6" fill="#e8e8ed"/>
+                <text x="100" y="280" fill="#e8e8ed" font-size="12" text-anchor="middle">NY Open</text>
+
+                <!-- 1. Low of Range -->
+                <line x1="100" y1="250" x2="200" y2="300" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="200" cy="300" r="8" fill="#ff4757"/>
+                <text x="200" y="330" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Low of Range</text>
+                <text x="150" y="370" fill="#ffa502" font-size="16" font-weight="bold">1</text>
+
+                <!-- 2. High of Range -->
+                <line x1="200" y1="300" x2="500" y2="100" stroke="#2ed573" stroke-width="4"/>
+                <circle cx="500" cy="100" r="8" fill="#2ed573"/>
+                <text x="500" y="85" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">High of Range</text>
+                <text x="350" y="370" fill="#ffa502" font-size="16" font-weight="bold">2</text>
+
+                <!-- 3. Close -->
+                <line x1="500" y1="100" x2="650" y2="200" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <circle cx="650" cy="200" r="6" fill="#e8e8ed"/>
+                <text x="650" y="230" fill="#e8e8ed" font-size="12" text-anchor="middle">Close (2 PM)</text>
+                <text x="575" y="370" fill="#ffa502" font-size="16" font-weight="bold">3</text>
+
+                <!-- Power Three labels -->
+                <text x="150" y="390" fill="#e8e8ed" font-size="12" text-anchor="middle">Creates Low</text>
+                <text x="350" y="390" fill="#e8e8ed" font-size="12" text-anchor="middle">Expansion</text>
+                <text x="575" y="390" fill="#e8e8ed" font-size="12" text-anchor="middle">Comes Off High</text>
+            </svg>
+
+            <h3>Fractal Nature</h3>
+            <div class="quote">
+                <p><em>"Same scenario here you see open it trades down creating too low the range expands up creates too high the range and comes off too high and closes our three applied to the individual trading sessions"</em></p>
+            </div>
+        </section>
+
+        <section id="objectives">
+            <h2>Weekly Objectives & Trading Strategy</h2>
+
+            <h3>Weekly Pip Targets</h3>
+            <div class="quote">
+                <p><em>"I look for my personal trading is 50 to 75 pips a week"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Between what I've shared so far with the London open with the Asian open and now with the New York open you have three opportunities every single trading day to look for an opportunity to get those specific objectives for the week"</em></p>
+            </div>
+
+            <h3>One Shot One Kill Approach</h3>
+            <div class="quote">
+                <p><em>"I know that there's a high probability that I can get my entire weekly objective in one solid London open if it moves a lot"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If I do not get it or I do not get a weekly objective which is my one shot one kill where I trade the weekly range because that's really what I'm framing my setup"</em></p>
+            </div>
+
+            <h3>NY Open as Mitigation Tool</h3>
+            <div class="quote">
+                <p><em>"If I miss it or if I get it wrong and I have to mitigate a loss I will use New York to mitigate any mess-ups that I make during the week"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If I take a loss or if I miss an opportunity and I still feel confident about the weekly objectives still coming to fruition that means I see a setup that's still viable I will go in and trade in New York open to get those small little scalps to add up to 50 to 75 pips"</em></p>
+            </div>
+
+            <h3>Weekly Focus</h3>
+            <div class="quote">
+                <p><em>"My focus is at the beginning of the week because Monday Tuesday and Wednesday if I operate most of my trading most many times all of my trading needs then"</em></p>
+            </div>
+
+            <h3>Daily Scalp Confidence</h3>
+            <div class="quote">
+                <p><em>"I'm confident that I can get 20 to 30 pips and in New York open in one of the majors every single day that's my experience speaking"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Every single dollar based Cross will give you a set up between 7 a.m. and 9 a.m. New York time"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time period defines the classic ICT New York open kill zone?</div>
+                    <div class="flashcard-answer">"Key times to monitor are 7:00 a.m. to 9:00 a.m. New York time this is what I refer to as the classic ICT New York open kill zone"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What pip range does the New York open frequently offer as a scalp?</div>
+                    <div class="flashcard-answer">"The New York open frequently sets up an optimal trade entry pattern that can offer 20 to 30 pips as a scalp"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What pairs are ideal for the New York killzone?</div>
+                    <div class="flashcard-answer">"The majors that are coupled with the dollar index or the dollar that to me is the ideal pair for this time of day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does every pair have a setup every New York open?</div>
+                    <div class="flashcard-answer">"Every pair doesn't have a set up every New York open but every New York open has a set up in one or more of the majors that are crossed with the dollar"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is New York open the easiest time to trade?</div>
+                    <div class="flashcard-answer">"It's the easiest time to trade because we have the luxury of having London over lap and New York"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the secret built-in advantage of the NY session?</div>
+                    <div class="flashcard-answer">"The secret to it is what's going on in London"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How far does the New York trading session extend?</div>
+                    <div class="flashcard-answer">"The New York trading session actually extends beyond the nine o'clock hour and it goes to 2:00 p.m. in New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two potential scenarios for the New York session?</div>
+                    <div class="flashcard-answer">"The New York session typically has two potential scenarios continuation of London's move for a complete reversal on the daily direction"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Which scenario is the easiest to trade in NY?</div>
+                    <div class="flashcard-answer">"The continuation of the London move I believe is the easiest and that's why I taught in my free tutorials that approach"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is ICT's weekly pip objective?</div>
+                    <div class="flashcard-answer">"I look for my personal trading is 50 to 75 pips a week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT describe his one shot approach?</div>
+                    <div class="flashcard-answer">"I do not get a weekly objective which is my one shot one kill where I trade the weekly range because that's really what I'm framing my setup"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does ICT use the New York open?</div>
+                    <div class="flashcard-answer">"If I miss it or if I get it wrong and I have to mitigate a loss I will use New York to mitigate any mess-ups that I make during the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should traders look for when daily chart is bullish and London agrees?</div>
+                    <div class="flashcard-answer">"If London agrees with the daily chart being bullish that means we should be seeing a low form in London we would anticipate a retracement lower into New York open and in agreement with that daily bias so we would anticipate a New York low to post a continuation setup or optimal trade entry"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does Power Three apply to the New York session?</div>
+                    <div class="flashcard-answer">"We see it open a small little decline creating the low of the range expansion high the range and comes off the high and closes just like in power three on the daily candle or bar we can see the New York session creates that same fractal pattern"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What days does ICT focus most of his trading?</div>
+                    <div class="flashcard-answer">"My focus is at the beginning of the week because Monday Tuesday and Wednesday if I operate most of my trading most many times all of my trading needs then"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

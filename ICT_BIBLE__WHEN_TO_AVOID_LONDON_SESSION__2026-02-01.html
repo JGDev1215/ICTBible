@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>When To Avoid The London Session - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-meta {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .lesson-meta p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            margin: 0.25rem 0;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid var(--accent-bear);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--accent-bear);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(46, 213, 115, 0.1);
+            border-left: 4px solid var(--accent-bull);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--accent-bull);
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .threshold-badge {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin: 0 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>When To Avoid The London Session</h1>
+        <p><em>"The best rules are the ones that help you stay out of the marketplace because everybody can get in the marketplace"</em></p>
+        <div class="lesson-meta">
+            <p>ICT Mentorship Core Content - Month 08 (April 2017)</p>
+            <p>Lesson 6: ICT Day Trading Model</p>
+            <p>Type: Rule-Based | Discipline Framework | NO CHARTS BY DESIGN</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#daily-conditions">Daily Conditions</a>
+        <a href="#intraday-characteristics">Intraday Characteristics</a>
+        <a href="#ideal-conditions">Ideal Conditions</a>
+        <a href="#amd-model">AMD Model</a>
+        <a href="#framework">Mental Framework</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="philosophy">
+            <h2>Lesson Philosophy</h2>
+
+            <div class="quote">
+                <p><em>"This lesson is going to be completely void of any charts any kind of examples any kind of distractions because I want you to think about the characteristics that I'm outlining here"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I want you to think about the things I'm outlining in this lesson from a conceptual or characteristic Viewpoint because they're not ambiguous they're very specific things I look for"</em></p>
+            </div>
+
+            <h3>The "I Don't Know" Philosophy</h3>
+
+            <div class="quote">
+                <p><em>"So I know what you're probably saying what's going on in the marketplace when these events are happening what are the central banks doing ready for this I don't know"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I don't know and if I don't know or have a belief in what they're doing then that's certainly not a time where I want to put money at risk and neither should it be for you"</em></p>
+            </div>
+
+            <h3>Not Trading Every Day</h3>
+
+            <div class="quote">
+                <p><em>"Every single trading day will not have the recipe for a clear profile as we described in lesson five"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You do not trade every single trading day these conditions will prevent you from taking positions in London and you have to accept it you got to submit to it you have to be subordinate to some level rules"</em></p>
+            </div>
+
+            <h3>Best Rules Help You Stay Out</h3>
+
+            <div class="quote">
+                <p><em>"You have to have rules you have to and the best rules are the ones that help you stay out of the marketplace because everybody can get in the marketplace there's no there's no shortage on reasons to get into a trade"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Very little is written about how do you know when to stay out of the marketplace that's what this lesson has given you"</em></p>
+            </div>
+
+            <h3>Rule-Based Ideas Are Filters</h3>
+
+            <div class="quote">
+                <p><em>"We have to have rule-based ideas we have to have filters these are our filters"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"It's 100 rules and I'm going to leave it up to you to have this created as a checklist I'm not going to give you a checklist that has this stuff because I want you to write it in your own handwriting once you write it out subconsciously you're going to retain that"</em></p>
+            </div>
+        </section>
+
+        <section id="daily-conditions">
+            <h2>Daily Chart Conditions - When NOT To Trade London</h2>
+
+            <p>These are specific conditions on the daily chart that indicate you should avoid the London session:</p>
+
+            <h3>1. After A Large Range Day</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">THRESHOLD: Greater Than 2x Five-Day Average Daily Range</span>
+                </div>
+                <div class="quote">
+                    <p><em>"Typically after a large range day which is greater than two times the average five day range in other words if you look at the average daily range of a particular pair if you ever have a day prior to the day you're wanting to day trade or trade it on the session If the previous day or previous trading day had a huge or large range day that went greater than two times its five day average daily range on the day that it had the large range day okay that is a day that you do not want to trade immediately the day after"</em></p>
+                </div>
+                <div class="warning-box">
+                    <h4>Expected Outcome</h4>
+                    <p><em>"Typically there'll be a consolidation or it could go choppy"</em></p>
+                </div>
+            </div>
+
+            <h3>2. After Three Consecutive Up Closes</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">AVOID LONDON LONGS</span>
+                </div>
+                <div class="quote">
+                    <p><em>"After a series of three consecutive up closes on a daily chart you want to avoid trading longs at least in the London session because typically you can get a retracement that could be rather deep creating a down close day on a candle on the daily chart or a really long Wick intraday and then maybe continuing in the direction of the three consecutive closes but generally after three up closes you're going to either get a pause or a retracement lower"</em></p>
+                </div>
+                <div class="warning-box">
+                    <h4>Fourth Trading Day Risk</h4>
+                    <p><em>"It doesn't mean it can't happen but it's highly unlikely to occur on the fourth trading day"</em></p>
+                </div>
+            </div>
+
+            <h3>3. After Three Consecutive Down Closes</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">AVOID LONDON SHORTS</span>
+                </div>
+                <div class="quote">
+                    <p><em>"After a series of three consecutive down closes on a daily chart you want to be avoiding London shorts and again just the same thing we just mentioned with three consecutive up closes as a daily chart would indicate many times when you see three consecutive down closes on a daily trading short in London the next day or the fourth trading day in a row many times you can get caught up in a deep retracement or it can go sideways and it makes it not ideal for London session"</em></p>
+                </div>
+                <div class="warning-box">
+                    <h4>Filter Effect</h4>
+                    <p><em>"Generally you won't see a big range day now it doesn't mean it can't happen but it's highly unlikely to occur on the fourth trading day"</em></p>
+                </div>
+            </div>
+
+            <h3>4. After FOMC Event With Extreme Whipsaw</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">POST-FOMC WHIPSAW</span>
+                </div>
+                <div class="quote">
+                    <p><em>"After a fomc event that produces extreme whipsaw now this could be linked to the very first one I said as well after a large range day greater than two times its average daily range on the five day basis that can be the factor that puts you on the sidelines not trading London"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"I don't care I don't care so much about that what I want to say is what was the action in The Marketplace so if the fomc event creates and produces an extreme whipsaw up and down generally fomc comes out two o'clock in the afternoon in New York time so if we see that big whipsaw price action that's going to mess up London okay it's going to screw up the Central Bank dealers range and possibly roll right on into the Asian session so just avoid trading London open after fomc events that create whipsaw"</em></p>
+                </div>
+            </div>
+
+            <h3>5. Ahead Of Non-Farm Payroll</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">NFP FRIDAY - NO LONDON</span>
+                </div>
+                <div class="quote">
+                    <p><em>"Ahead of non-farm payroll numbers typically uh the first Friday not always but generally the first Friday of every trading month we expect to see non-farm payroll if we are looking for non-farm apparel to occur we are not trading London session at all on that Friday"</em></p>
+                </div>
+            </div>
+
+            <h3>6. Day Heading Into Long Weekend Or Holiday</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">PRE-HOLIDAY SESSION</span>
+                </div>
+                <div class="quote">
+                    <p><em>"Now the same trading day that's heading into a long weekend or a holiday that day we avoid trading London as well because it could be an early leave a lot of Trades are going to go on an early Escape From The Marketplace and a lot of money is going to be sitting on the sidelines"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"We trade in a world of probabilities and statistical Edge so if we know that historically the normal event is if there's a day leading into a holiday usually it's a Friday it could be a Thursday generally you want to avoid trading your London session because it's going to probably be a quiet session it's not worth taking on the risk"</em></p>
+                </div>
+            </div>
+
+            <h3>7. Multiple High To Medium Impact News Drivers</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">MULTIPLE NEWS EVENTS</span>
+                </div>
+                <div class="quote">
+                    <p><em>"Multiple High to medium impact news drivers for that particular market so if we look on the economic calendar you can use Forex Factor you can use any other reputable economic calendar that tracks what news releases or Market drivers that are going to be released throughout the week in each particular trading session for every major pair"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"If we see multiple drivers like for instance maybe it's a two o'clock event that's coming out and then at three o'clock there's another one or maybe there's a three o'clock event coming out and then there's a five o'clock in that at five o'clock in the morning event as well one may be medium impact or one maybe a high impact or they most they both may be uh one or the other in terms of medium or high impact news if we see multiple events due out on the economic calendar for that particular pair it could be problematic for your London session trade"</em></p>
+                </div>
+                <div class="success-box">
+                    <h4>Ideal News Profile</h4>
+                    <p><em>"We want to see generally one high impact or medium impact news event and that way we know there's going to be probably one stage of manipulation for that particular day and then the profit release portion of the day or the expansion of the daily range will unfold going into New York"</em></p>
+                </div>
+            </div>
+
+            <h3>8. Absence Of Any News During London</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">WILD CARD DAY</span>
+                </div>
+                <div class="quote">
+                    <p><em>"An absence of any news during London can be a wild card day that means it could go either way it could be a real easy technical day where your profiles unfold exactly as you expect or as we just recently seen in the time of this mentorship the UK prime minister came out with a snap election decision right on the heels of the holiday break and it took the cable by storm so we had a 400 pip move in one trading day for uh the British pound USD"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"So and there was an absence completely of any London time-based news events so it was sprung on the market last minute and then that was the result so there's always some kind of a Black Swan unexpected didn't see it coming curveball and that was when we just seen while we were doing the mentorship"</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="intraday-characteristics">
+            <h2>Intraday Characteristics - What To Avoid</h2>
+
+            <p><em>"What characteristics do I look for to look for an avoidance of London session"</em></p>
+
+            <h3>1. Central Bank Dealers Range Greater Than 50 Pips</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">CBD RANGE THRESHOLD: <span class="threshold-badge">>50 PIPS</span></span>
+                </div>
+                <div class="quote">
+                    <p><em>"The Central Bank dealers range if it's greater than 50 Pips I'm already knowing first hand i'm possibly going to pass on a London session it doesn't mean it's a guaranteed set in stone but if I have plans the next day if I have uh you know plans with my family and I want to be rested I'll just not Pat I'll just pass on a London session and even if it moves well I won't even get up at midnight to see how it sets up I'll just avoid the London session altogether get a good night's rest if I can and be rested and spend my time with my family"</em></p>
+                </div>
+            </div>
+
+            <h3>2. Asian Range Greater Than 40 Pips</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">ASIAN RANGE THRESHOLD: <span class="threshold-badge">>40 PIPS</span></span>
+                </div>
+                <div class="quote">
+                    <p><em>"If the agent range is greater than 40 Pips I'm going to consider the delayed protraction profile but it has to meet every one of those criteria for it to unfold otherwise I'll move to the sidelines and avoid trading London"</em></p>
+                </div>
+            </div>
+
+            <h3>3. Market Sustaining Rally Or Decline From 8 PM New York</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">8 PM NY SUSTAINED MOVE</span>
+                </div>
+                <div class="quote">
+                    <p><em>"If the market starts to sustain Rally or decline from 8 PM New York that's usually a poor indication of a London session that means that the real event is started at zero DMT and they're probably going to keep a sustained move going through and very little retracement usually the retracement will occur if at all during a New York session"</em></p>
+                </div>
+            </div>
+
+            <h3>4. CBD Range And/Or Asian Range NOT Consolidating</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">LACK OF CONSOLIDATION = AVOID</span>
+                </div>
+                <div class="quote">
+                    <p><em>"If Central Bank dealers range and or Asian range is not visually and it means obviously consolidating I'm going to look to avoid the London session"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"That means there has to be a completely different Market profile from that what we saw of the intraday price action between the London open and London close of the previous day so it after 2 p.m the previous day going into 8 PM if it isn't a quiet small little consolidation range that's not an ideal scenario it means it's going to be a poor setup going into London"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"Same thing with Asian range if the Asian range gets really wild or widens up that again lessens the statistical Edge that ipta will give us by moving into a protractionary state right after midnight"</em></p>
+                </div>
+                <div class="warning-box">
+                    <h4>Critical Rule</h4>
+                    <p><em>"Bottom line Central Bank dealers range and or Asian range must trade down into small tight consolidation range if we don't see that if it's trending in both or either or it makes the London session highly suspect"</em></p>
+                </div>
+            </div>
+
+            <h3>5. Wide, Erratic, Or Trending Ranges</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">VISUAL CLARITY REQUIRED</span>
+                </div>
+                <div class="quote">
+                    <p><em>"You'll know clearly by looking at the time window that creates the Central Bank dealers range and the Asian range if it's not in consolidation or if it is in consolidation very clear obvious you'll see what I mean by going through your charts and going back over a 15 minute time frame you'll see it clearly when it creates a consolidation it looks very very distinct small little narrow range in contrast to all the previous days into the action"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"If it's wide or erratic or trending in either one of those ranges Central Bank deals range are Asian it makes London highly suspect and I don't want to trade in those conditions"</em></p>
+                </div>
+            </div>
+
+            <h3>6. When London Sloppiness Is Expected</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">SLEEP IN, TRADE NEW YORK</span>
+                </div>
+                <div class="quote">
+                    <p><em>"If the market is trending from 8 PM New York generally this is going to create London sloppiness that means the move is most likely occurred at the beginning of zero GMT 8 PM New York time and it's going to keep on rolling through until we see the New York session"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"When the market is conditioned for London slop as we just described in the previous point sleep in trade New York"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"That means if any of these things that we've mentioned so far are there that means that the London session is going to be sloppy if it's going to be sloppy does that mean it's a high probability condition absolutely not"</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ideal-conditions">
+            <h2>When London Open Killzone IS Ideal</h2>
+
+            <p><em>"When is London open Killzone ideal and we obviously we've talked about what makes the avoidance of London session most apt to be the best choice but what do we do to help formulate an ideal scenario going to London"</em></p>
+
+            <h3>1. Daily Chart Clearly Respecting PD Arrays</h3>
+
+            <div class="success-box">
+                <h4>Clear PD Array Respect</h4>
+                <div class="quote">
+                    <p><em>"Well the daily chart is going to be clearly respecting PD arrays so are we in an environment where the Market's clearly respecting a obvious clear non-ambiguous PD arrays where the market just clearly is going to a an order block or it's closing in a gap and it's responding as you would realistically expect it to"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"So we have to have a discernible Direction in the marketplace on the daily chart and it has to be respecting a PD array Matrix in that way we know what our daily bias is is it going to be reaching higher it's going to be reaching lower it's just that simple"</em></p>
+                </div>
+            </div>
+
+            <h3>2. Market Poised To Trade Higher To Premium Array</h3>
+
+            <div class="success-box">
+                <h4>LONDON LONGS IDEAL</h4>
+                <div class="quote">
+                    <p><em>"Now when the market is poised to trade higher on the daily to a premium array we're going to be looking for London Longs because they're going to be ideal entry points because we know that on the higher time frame daily it's respecting The pdra Matrix and the most likely outcome is it's going to be reaching for a premium PD array"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"The range at which it is trading at right now at market price to the next premium PD array that is going to be indicative of how much we can anticipate for the next price move higher it may not fulfill that entirely in the day trade day that you're trading that in other words it won't fulfill that entire range in one day it can take several days"</em></p>
+                </div>
+            </div>
+
+            <h3>3. Market Poised To Trade Lower To Discount Array</h3>
+
+            <div class="success-box">
+                <h4>LONDON SHORTS IDEAL</h4>
+                <div class="quote">
+                    <p><em>"When the market is poised to trade lower on The Daily to a discount array London shorts are ideal same scenario just reversed in the previous point if we have just recently traded off of a premium array and we're going to be reaching down into a discount array that means a bullish order block closing a fair value got the below market price closing a liquidity void below market price uh trade down below an old low Market deploys to make a low resistance liquidity run to a discount"</em></p>
+                </div>
+                <div class="warning-box">
+                    <h4>Conditions Still Apply</h4>
+                    <p><em>"If we see that scenario in the daily London shorts are ideal it doesn't mean circumvent all the previous slides that I just mentioned those conditions have to be eliminated in other words they can't be present even in this condition here in the previous Point as well as it relates to premium arrays either one of these conditions can be canceled out if we've seen the conditions that we just shown in the previous two slides"</em></p>
+                </div>
+            </div>
+
+            <h3>4. Daily Range Has NOT Exceeded Five-Day ADR</h3>
+
+            <div class="success-box">
+                <h4>EXPANSION DAY DUE</h4>
+                <div class="quote">
+                    <p><em>"When the daily range has not recently exceeded its five-day average daily range an expansion day is due to form"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"In other words if you study average daily range you can do several uh studies like this you can look at every single day what's the expected average daily range from a five-day basis and what is the actual five-day average daily range at the close of the day and keep a running log of that of the pairs that you trade"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"This is the reason why you don't want to be trading 20 pairs because you can get really tuned in to your payer or pairs if it's just two by doing these types of things because when the average daily range of the last five days is factored not every single day will the average daily range be met"</em></p>
+                </div>
+                <div class="quote">
+                    <p><em>"Many times it'll be just below it or not even much more than half the average daily range if we're in a quiet period but if we have traded several days and the previous day has not seen or exceeded it doesn't mean it has to go two times the average daily range of a five-day basis but it has yet to trade above the average daily range on a five-day basis the previous day and you're bullish you have a really good chance of having a large range day the day of your trade"</em></p>
+                </div>
+                <div class="success-box">
+                    <h4>Big Range Day Opportunity</h4>
+                    <p><em>"You have the highest probability of a big expansion day because the five-day average daily range has not been traded to or exceeded in the previous day so we have a condition of volatility it's low and the average daily range many times will be either one and a half or maybe even two times the five day average daily range in instances where we can get a big range day"</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="amd-model">
+            <h2>Accumulation, Manipulation, Distribution</h2>
+
+            <div class="quote">
+                <p><em>"Accumulation manipulation and distribution is the business of intraday trading that's all it is intraday is the short-term Horizon where Banks can manipulate and knock people out push in orders you know facilitate uh false sentiment ideas"</em></p>
+            </div>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" font-weight="bold" text-anchor="middle" font-family="Space Grotesk, sans-serif">
+                    Accumulation → Manipulation → Distribution
+                </text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="250" x2="850" y2="250" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Phase 1: Accumulation -->
+                <rect x="70" y="150" width="200" height="150" fill="rgba(46, 213, 115, 0.2)" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="170" y="120" fill="#2ed573" font-size="16" font-weight="bold" text-anchor="middle" font-family="JetBrains Mono, monospace">
+                    ACCUMULATION
+                </text>
+                <text x="170" y="200" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    CBD Range + Asian Range
+                </text>
+                <text x="170" y="225" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Small Tight Consolidation
+                </text>
+                <text x="170" y="250" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Orders Build Above/Below
+                </text>
+                <text x="170" y="275" fill="#ffa502" font-size="12" text-anchor="middle" font-family="Crimson Pro, serif" font-style="italic">
+                    "Open Float"
+                </text>
+
+                <!-- Arrow 1 -->
+                <path d="M 280 225 L 330 225" stroke="#ffa502" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                <!-- Phase 2: Manipulation -->
+                <rect x="340" y="150" width="200" height="150" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="440" y="120" fill="#ff4757" font-size="16" font-weight="bold" text-anchor="middle" font-family="JetBrains Mono, monospace">
+                    MANIPULATION
+                </text>
+                <text x="440" y="200" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    London Open
+                </text>
+                <text x="440" y="225" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Price Taken Lower (Bullish)
+                </text>
+                <text x="440" y="250" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Induce Sellers
+                </text>
+                <text x="440" y="275" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Unseat Premature Longs
+                </text>
+
+                <!-- Arrow 2 -->
+                <path d="M 550 225 L 600 225" stroke="#ffa502" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                <!-- Phase 3: Distribution -->
+                <rect x="610" y="150" width="200" height="150" fill="rgba(46, 213, 115, 0.2)" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="710" y="120" fill="#2ed573" font-size="16" font-weight="bold" text-anchor="middle" font-family="JetBrains Mono, monospace">
+                    DISTRIBUTION
+                </text>
+                <text x="710" y="200" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Protraction
+                </text>
+                <text x="710" y="225" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Near Low of Day
+                </text>
+                <text x="710" y="250" fill="#e8e8ed" font-size="13" text-anchor="middle" font-family="Crimson Pro, serif">
+                    London Close / Late NY
+                </text>
+                <text x="710" y="275" fill="#ffa502" font-size="12" text-anchor="middle" font-family="Crimson Pro, serif" font-style="italic">
+                    "Near High of Day"
+                </text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502"/>
+                    </marker>
+                </defs>
+
+                <!-- Bottom Quote -->
+                <text x="450" y="350" fill="#9898a8" font-size="12" text-anchor="middle" font-family="Crimson Pro, serif" font-style="italic">
+                    "We know based on our directional bias from the daily chart in four hour with using the pdra Matrix"
+                </text>
+                <text x="450" y="375" fill="#9898a8" font-size="12" text-anchor="middle" font-family="Crimson Pro, serif" font-style="italic">
+                    "and if the data ranges where price will most likely draw to on the higher time frames"
+                </text>
+
+                <!-- Key Points -->
+                <text x="450" y="420" fill="#ffa502" font-size="13" font-weight="bold" text-anchor="middle" font-family="Space Grotesk, sans-serif">
+                    Required For This Model To Work:
+                </text>
+                <text x="450" y="445" fill="#e8e8ed" font-size="12" text-anchor="middle" font-family="Crimson Pro, serif">
+                    Daily Bias + Clear PD Array Respect + Small Tight Consolidation (CBD + Asian)
+                </text>
+                <text x="450" y="470" fill="#e8e8ed" font-size="12" text-anchor="middle" font-family="Crimson Pro, serif">
+                    + NONE of the Avoidance Conditions Present
+                </text>
+            </svg>
+
+            <h3>Building Open Float</h3>
+
+            <div class="quote">
+                <p><em>"Now we as Traders as a day trader we're going to be aiming for days when the banks will hold the market to build open float and again that builds on the the idea of the previous point when we anticipate the banks holding the market in a small tight consolidation what they're doing is they're allowing orders to build above and below to intraday height is being formed between the Asian range open and the Asian Range close at midnight"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"So we're looking for that building up of orders we don't need to know what the orders are how much they are because we're never going to know what that is but we can see it indicated in how they maintain a very narrow price range through Central Bank dealers range time window and the Asian range"</em></p>
+            </div>
+
+            <h3>Clear Manipulation Cycle Required</h3>
+
+            <div class="quote">
+                <p><em>"Again if it's not clear if it's not obvious in a small tight range it's probably going to be an ugly London session and you're not going to see a clear manipulation cycle or protractionary state"</em></p>
+            </div>
+
+            <h3>The Complete Model</h3>
+
+            <div class="quote">
+                <p><em>"That's the model we're trading off of that's we're looking for so if we don't have clues or fingerprints if you will to lend to these ideas being in price it's not ambiguous it's not a guessing game it's not well I wonder if it's going to do this or what if it's going to do that no we know exactly what we're looking for there's Hallmark trademark characteristics that make these London session entries perfect and ideal"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"It's based on the criteria we've given you from the Central Bank dealers range and the Asian range there are specific things that you look for if they're not present you do not have high probability conditions to trade in"</em></p>
+            </div>
+        </section>
+
+        <section id="framework">
+            <h2>Mental Framework & Equity Management</h2>
+
+            <h3>Smooth Equity Growth</h3>
+
+            <div class="quote">
+                <p><em>"You don't want to take your big winning day and use that to remove all the stupid trading days in order avoiding the previous two slides conditions and still trying to force a trade and trying to show you know the community and mentorship or show the internet that you're you know you're smart or you outdone what was necessarily uh the ICT rules you were able to find a setup don't do that"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You don't want conditions like that in your Equity growth okay you want to show a smooth Equity growth line by ferreting out the times when you don't want to be trading because if you can take the periods of drawdown probability out of the equation or at least do your best to remove it then you stand a better chance of trading when it's in ideal scenarios"</em></p>
+            </div>
+
+            <h3>Big Range Days Are The Cream</h3>
+
+            <div class="quote">
+                <p><em>"You don't need very many of those over the course of a month to erase a lot of the screw-ups that you'll make if you try to trade every single day"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Know that when we have these big range days we that's that's the cream that's the that's the bonus for the month okay when we catch these big range days"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You don't want to be trading every single day because you're going to get small little singles draw down days draw down days draw down days and then when you get a good win it doesn't really show as a win because you have all these small little singles small little singles that erased by a loss a loss a loss so you're treading water"</em></p>
+            </div>
+
+            <h3>The 20-Day Study</h3>
+
+            <div class="quote">
+                <p><em>"If you look at a 20-day study of every train every trading month if you trade it every single day you're going to see that your results are skewed in such a way that if you're profitable if you take out your largest profitable day you probably aren't making money"</em></p>
+            </div>
+
+            <h3>Big Expansion Day Benefits</h3>
+
+            <div class="quote">
+                <p><em>"You catch a big average daily range big move and you hold on to it for the whole day many times that'll push you 10 15 more for the month than your normal return and there's a way of standardizing your monthly return but you have to start with these rule-based ideas"</em></p>
+            </div>
+
+            <h3>High Probability Over Frequency</h3>
+
+            <div class="quote">
+                <p><em>"So while you still may suffer losses and you still absolutely will the larger losses will hopefully be avoided because you're forcing yourself in a role-based idea that way you'll have singles singles doubles three to one wins and then when you get these really big huge Runners and you're able to position yourself in London and you let them go that will push your Equity return for the month way over your average"</em></p>
+            </div>
+
+            <h3>Understanding Why Not To Trade</h3>
+
+            <div class="quote">
+                <p><em>"So if I say I'm not trading today you'll know why I'm not trading it and you won't get upset you won't be offended you won't think I'm trying to go to the beach the next morning and I'm just trying to get some sleep you'll know why there's a real reason why and it's consistent"</em></p>
+            </div>
+
+            <h3>Study The Markets</h3>
+
+            <div class="quote">
+                <p><em>"It's not something that takes a great deal of you know mental acrobatics to understand these are very simple things to understand when you look at the price study it go back and look at several months of data I don't care what pair you look at if you see these things in the marketplace it's highly unlikely they're going to get a clean London session and that's what we want"</em></p>
+            </div>
+
+            <h3>Daily Chart Accuracy</h3>
+
+            <div class="quote">
+                <p><em>"We know where the Market's going to want to go on a daily chart how many times have you seen over the course of the last six seven months where I'm calling the market on the daily chart it's almost 98 accurate it's ridiculous okay"</em></p>
+            </div>
+
+            <h3>Protection From Losses</h3>
+
+            <div class="quote">
+                <p><em>"We'll see many instances where it will protect us from taking what would otherwise be a losing trade in London"</em></p>
+            </div>
+
+            <h3>Winners Mindset</h3>
+
+            <div class="quote">
+                <p><em>"It's one of those lessons that helps you build a Winner's mindset you have to have rules you have to and the best rules are the ones that help you stay out of the marketplace because everybody can get in the marketplace there's no there's no shortage on reasons to get into a trade because everybody can come up with one they make books about it all day long every bookshelf in the bookstores have some reason why you need to be a buyer or seller based on something"</em></p>
+            </div>
+
+            <h3>Universal Application</h3>
+
+            <div class="quote">
+                <p><em>"I don't care if you're a position Trader at heart a swing Trader at heart I don't care if you're a One-Shot one kill Trader I don't care if you're just gonna be a day trader or if you're going to be a scalper like we're going to learn next month the criteria I just gave you here will save your backside regardless of what trading discipline you have"</em></p>
+            </div>
+
+            <h3>Being Onside, Not Offside</h3>
+
+            <div class="quote">
+                <p><em>"That's where you want to live as a Trader you want to be in the market when it's highly favored on your side of the marketplace you want to be on side not offside"</em></p>
+            </div>
+
+            <h3>Human Nature & Rule-Based Ideas</h3>
+
+            <div class="quote">
+                <p><em>"The way I've learned over a long period and these are lessons that I had to learn painfully very painfully because I'm stubborn I want to do things the way I want to do things and if someone tells me I shouldn't do this I'm going in doing that very thing you know what it's like the sign says on the lawn don't step on the grass I'm doing The Jig on it I'm dancing all over it moonwalking on it not because I'm ignorant I'm trying to be rude it's just that's my nature it's human nature to do the very things you know you're not supposed to do so you have to have these rule-based ideas"</em></p>
+            </div>
+
+            <h3>Create Your Own Checklist</h3>
+
+            <div class="quote">
+                <p><em>"I'm not going to give you a checklist that has this stuff because I want you to write it in your own handwriting once you write it out subconsciously you're going to retain that and then every day you're going to refer to it when you look at the marketplace and in the previous two slides if those conditions are there you already know probability has fallen off the table and it's not likely to be a easy trading session for London"</em></p>
+            </div>
+
+            <h3>Empowerment Through Context</h3>
+
+            <div class="quote">
+                <p><em>"Now think about that very very empowering it also gives you context yet you might still be bullish on that pair you might be bearish on that pair but when you don't have the conditions in favor for technical symmetry where you can expect and clearly anticipate the manipulation on the central banks when they reprice higher and go in a perfectionary state we're entering in that if we don't have the framework to clearly see when they're going to do that what are we doing in the marketplace then what everybody else does Gamble"</em></p>
+            </div>
+
+            <h3>Gamblers Rarely Make A Living</h3>
+
+            <div class="quote">
+                <p><em>"Gamblers sometimes make money but gamblers rarely make a living"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+
+            <div class="flashcard-container">
+                <!-- Philosophy Cards -->
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does this lesson have NO charts or examples?</div>
+                    <div class="flashcard-answer">"This lesson is going to be completely void of any charts any kind of examples any kind of distractions because I want you to think about the characteristics that I'm outlining here... from a conceptual or characteristic Viewpoint because they're not ambiguous they're very specific things I look for"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the "I don't know" philosophy?</div>
+                    <div class="flashcard-answer">"What's going on in the marketplace when these events are happening what are the central banks doing ready for this I don't know... and if I don't know or have a belief in what they're doing then that's certainly not a time where I want to put money at risk and neither should it be for you"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the best trading rules?</div>
+                    <div class="flashcard-answer">"The best rules are the ones that help you stay out of the marketplace because everybody can get in the marketplace there's no there's no shortage on reasons to get into a trade"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should you trade every single trading day?</div>
+                    <div class="flashcard-answer">"You do not trade every single trading day these conditions will prevent you from taking positions in London and you have to accept it you got to submit to it you have to be subordinate to some level rules"</div>
+                </div>
+
+                <!-- Daily Conditions Cards -->
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What defines a "large range day" that signals avoidance?</div>
+                    <div class="flashcard-answer">"A large range day which is greater than two times the average five day range... that is a day that you do not want to trade immediately the day after typically there'll be a consolidation or it could go choppy"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens after three consecutive up closes on the daily chart?</div>
+                    <div class="flashcard-answer">"After a series of three consecutive up closes on a daily chart you want to avoid trading longs at least in the London session because typically you can get a retracement that could be rather deep creating a down close day on a candle on the daily chart or a really long Wick intraday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens after three consecutive down closes on the daily chart?</div>
+                    <div class="flashcard-answer">"After a series of three consecutive down closes on a daily chart you want to be avoiding London shorts... many times you can get caught up in a deep retracement or it can go sideways and it makes it not ideal for London session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does FOMC whipsaw affect London session?</div>
+                    <div class="flashcard-answer">"If the fomc event creates and produces an extreme whipsaw up and down... that's going to mess up London okay it's going to screw up the Central Bank dealers range and possibly roll right on into the Asian session so just avoid trading London open after fomc events that create whipsaw"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should you trade London on Non-Farm Payroll Friday?</div>
+                    <div class="flashcard-answer">"If we are looking for non-farm apparel to occur we are not trading London session at all on that Friday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why avoid trading the day before a holiday?</div>
+                    <div class="flashcard-answer">"The same trading day that's heading into a long weekend or a holiday that day we avoid trading London as well because it could be an early leave a lot of Trades are going to go on an early Escape From The Marketplace and a lot of money is going to be sitting on the sidelines... it's going to probably be a quiet session it's not worth taking on the risk"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal news profile for London trading?</div>
+                    <div class="flashcard-answer">"We want to see generally one high impact or medium impact news event and that way we know there's going to be probably one stage of manipulation for that particular day and then the profit release portion of the day or the expansion of the daily range will unfold going into New York"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a "wild card day"?</div>
+                    <div class="flashcard-answer">"An absence of any news during London can be a wild card day that means it could go either way it could be a real easy technical day where your profiles unfold exactly as you expect or... there's always some kind of a Black Swan unexpected didn't see it coming curveball"</div>
+                </div>
+
+                <!-- Intraday Characteristics Cards -->
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Central Bank Dealers Range threshold for avoidance?</div>
+                    <div class="flashcard-answer">"The Central Bank dealers range if it's greater than 50 Pips I'm already knowing first hand i'm possibly going to pass on a London session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Asian Range threshold for consideration?</div>
+                    <div class="flashcard-answer">"If the agent range is greater than 40 Pips I'm going to consider the delayed protraction profile but it has to meet every one of those criteria for it to unfold otherwise I'll move to the sidelines and avoid trading London"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a sustained move from 8 PM New York indicate?</div>
+                    <div class="flashcard-answer">"If the market starts to sustain Rally or decline from 8 PM New York that's usually a poor indication of a London session that means that the real event is started at zero DMT and they're probably going to keep a sustained move going through and very little retracement usually the retracement will occur if at all during a New York session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must CBD Range and Asian Range look like for ideal London?</div>
+                    <div class="flashcard-answer">"Bottom line Central Bank dealers range and or Asian range must trade down into small tight consolidation range if we don't see that if it's trending in both or either or it makes the London session highly suspect"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How clear should the consolidation be visually?</div>
+                    <div class="flashcard-answer">"Very clear obvious you'll see what I mean by going through your charts and going back over a 15 minute time frame you'll see it clearly when it creates a consolidation it looks very very distinct small little narrow range in contrast to all the previous days into the action"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do when London sloppiness is expected?</div>
+                    <div class="flashcard-answer">"When the market is conditioned for London slop... sleep in trade New York"</div>
+                </div>
+
+                <!-- Ideal Conditions Cards -->
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What daily chart condition is required for ideal London trading?</div>
+                    <div class="flashcard-answer">"The daily chart is going to be clearly respecting PD arrays... we have to have a discernible Direction in the marketplace on the daily chart and it has to be respecting a PD array Matrix in that way we know what our daily bias is"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When are London longs ideal?</div>
+                    <div class="flashcard-answer">"When the market is poised to trade higher on the daily to a premium array we're going to be looking for London Longs because they're going to be ideal entry points because we know that on the higher time frame daily it's respecting The pdra Matrix and the most likely outcome is it's going to be reaching for a premium PD array"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When are London shorts ideal?</div>
+                    <div class="flashcard-answer">"When the market is poised to trade lower on The Daily to a discount array London shorts are ideal... if we have just recently traded off of a premium array and we're going to be reaching down into a discount array"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What creates the highest probability for an expansion day?</div>
+                    <div class="flashcard-answer">"When the daily range has not recently exceeded its five-day average daily range an expansion day is due to form... you have the highest probability of a big expansion day because the five-day average daily range has not been traded to or exceeded in the previous day"</div>
+                </div>
+
+                <!-- AMD Model Cards -->
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the business of intraday trading?</div>
+                    <div class="flashcard-answer">"Accumulation manipulation and distribution is the business of intraday trading that's all it is"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is "open float" and how is it built?</div>
+                    <div class="flashcard-answer">"When we anticipate the banks holding the market in a small tight consolidation what they're doing is they're allowing orders to build above and below to intraday height is being formed between the Asian range open and the Asian Range close at midnight"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do we need to know the exact orders building?</div>
+                    <div class="flashcard-answer">"We're looking for that building up of orders we don't need to know what the orders are how much they are because we're never going to know what that is but we can see it indicated in how they maintain a very narrow price range through Central Bank dealers range time window and the Asian range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens if the consolidation isn't clear?</div>
+                    <div class="flashcard-answer">"If it's not clear if it's not obvious in a small tight range it's probably going to be an ugly London session and you're not going to see a clear manipulation cycle or protractionary state"</div>
+                </div>
+
+                <!-- Framework & Psychology Cards -->
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are big range days in the context of monthly returns?</div>
+                    <div class="flashcard-answer">"Know that when we have these big range days we that's that's the cream that's the that's the bonus for the month okay when we catch these big range days"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens if you trade every single day?</div>
+                    <div class="flashcard-answer">"You're going to get small little singles draw down days draw down days draw down days and then when you get a good win it doesn't really show as a win because you have all these small little singles small little singles that erased by a loss a loss a loss so you're treading water"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does the 20-day study reveal?</div>
+                    <div class="flashcard-answer">"If you look at a 20-day study of every train every trading month if you trade it every single day you're going to see that your results are skewed in such a way that if you're profitable if you take out your largest profitable day you probably aren't making money"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What kind of equity growth should you aim for?</div>
+                    <div class="flashcard-answer">"You want to show a smooth Equity growth line by ferreting out the times when you don't want to be trading because if you can take the periods of drawdown probability out of the equation or at least do your best to remove it then you stand a better chance of trading when it's in ideal scenarios"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does avoiding bad days help your trading?</div>
+                    <div class="flashcard-answer">"While you still may suffer losses and you still absolutely will the larger losses will hopefully be avoided because you're forcing yourself in a role-based idea that way you'll have singles singles doubles three to one wins and then when you get these really big huge Runners... that will push your Equity return for the month way over your average"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do gamblers do vs. what traders should do?</div>
+                    <div class="flashcard-answer">"If we don't have the framework to clearly see when they're going to do that what are we doing in the marketplace then what everybody else does Gamble and gamblers sometimes make money but gamblers rarely make a living"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does this lesson apply only to day traders?</div>
+                    <div class="flashcard-answer">"I don't care if you're a position Trader at heart a swing Trader at heart I don't care if you're a One-Shot one kill Trader I don't care if you're just gonna be a day trader or if you're going to be a scalper like we're going to learn next month the criteria I just gave you here will save your backside regardless of what trading discipline you have"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does "onside not offside" mean?</div>
+                    <div class="flashcard-answer">"That's where you want to live as a Trader you want to be in the market when it's highly favored on your side of the marketplace you want to be on side not offside"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why must you create your own checklist?</div>
+                    <div class="flashcard-answer">"I'm not going to give you a checklist that has this stuff because I want you to write it in your own handwriting once you write it out subconsciously you're going to retain that and then every day you're going to refer to it when you look at the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is written about staying out of the marketplace?</div>
+                    <div class="flashcard-answer">"Very little is written about how do you know when to stay out of the marketplace that's what this lesson has given you"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Add visual feedback for revealed flashcards count
+        const flashcards = document.querySelectorAll('.flashcard');
+        let revealedCount = 0;
+
+        flashcards.forEach(card => {
+            card.addEventListener('click', function() {
+                if (!this.classList.contains('revealed')) {
+                    revealedCount++;
+                } else {
+                    revealedCount--;
+                }
+
+                // Update progress in console (optional enhancement)
+                console.log(`Progress: ${revealedCount}/${flashcards.length} cards reviewed`);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendline Phantoms (False Trend Lines) - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trendline Phantoms</h1>
+        <p>Market Maker Trap: False Trend Lines</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#types">Types</a>
+        <a href="#theory">Theory</a>
+        <a href="#awareness">Price Awareness</a>
+        <a href="#banks">Banks & Trendlines</a>
+        <a href="#flawed">Core Flaw</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <div class="quote">
+                <p><em>"Trendline Phantoms or false trend lines"</em> <span class="timestamp">(0:41)</span></p>
+            </div>
+        </section>
+
+        <section id="types">
+            <h2>Two Types of Trendline Phantoms</h2>
+
+            <h3>1. Diagonal Trend Line Support</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Priming Process</span>
+                </div>
+                <p><em>"The priming is done by way of seeing the market begin to make higher highs and higher lows"</em> <span class="timestamp">(0:50)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"The market appears to have an imaginary diagonal line it seems to repel price higher from"</em> <span class="timestamp">(0:57)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retail Trader Response</span>
+                </div>
+                <p><em>"Retail Traders will extend these imaginary lines into the future and attribute support theories to it"</em> <span class="timestamp">(1:04)</span></p>
+                <p style="margin-top: 1rem;"><em>"When price hits the extended imaginary diagonal line connecting higher lows retail traders buy it then"</em> <span class="timestamp">(1:12)</span></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Diagonal Trend Line Support</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Higher lows pattern -->
+                <circle cx="100" cy="320" r="5" fill="#2ed573"/>
+                <circle cx="250" cy="280" r="5" fill="#2ed573"/>
+                <circle cx="400" cy="240" r="5" fill="#2ed573"/>
+
+                <!-- Higher highs -->
+                <circle cx="175" cy="200" r="5" fill="#2ed573"/>
+                <circle cx="325" cy="160" r="5" fill="#2ed573"/>
+                <circle cx="475" cy="120" r="5" fill="#2ed573"/>
+
+                <!-- Diagonal support line (imaginary) -->
+                <line x1="100" y1="320" x2="650" y2="150" stroke="#ffa502" stroke-width="3" stroke-dasharray="10,5"/>
+
+                <!-- Extended into future -->
+                <line x1="400" y1="240" x2="650" y2="150" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- Labels -->
+                <text x="100" y="345" fill="#e8e8ed" font-size="12" text-anchor="middle">Higher Low</text>
+                <text x="250" y="305" fill="#e8e8ed" font-size="12" text-anchor="middle">Higher Low</text>
+                <text x="400" y="265" fill="#e8e8ed" font-size="12" text-anchor="middle">Higher Low</text>
+
+                <text x="550" y="180" fill="#ff4757" font-size="14" text-anchor="start">Extended imaginary line</text>
+                <text x="550" y="200" fill="#e8e8ed" font-size="12" text-anchor="start">Retail traders buy here</text>
+            </svg>
+
+            <h3>2. Diagonal Trend Line Resistance</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Priming Process</span>
+                </div>
+                <p><em>"This is primed in the thought processes of retail Traders by seeing the market begin to make lower highs and lower lows"</em> <span class="timestamp">(1:25)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"The market appears to have an imaginary diagonal line it seems to propel price lower from"</em> <span class="timestamp">(1:41)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retail Trader Response</span>
+                </div>
+                <p><em>"Retail Traders will extend these imaginary lines into the future and attribute resistance theories to them"</em> <span class="timestamp">(1:48)</span></p>
+                <p style="margin-top: 1rem;"><em>"When price hits the extended imaginary diagonal line connecting lower highs retail Traders short at that moment"</em> <span class="timestamp">(1:55)</span></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Diagonal Trend Line Resistance</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Lower highs pattern -->
+                <circle cx="100" cy="100" r="5" fill="#ff4757"/>
+                <circle cx="250" cy="150" r="5" fill="#ff4757"/>
+                <circle cx="400" cy="200" r="5" fill="#ff4757"/>
+
+                <!-- Lower lows -->
+                <circle cx="175" cy="180" r="5" fill="#ff4757"/>
+                <circle cx="325" cy="230" r="5" fill="#ff4757"/>
+                <circle cx="475" cy="280" r="5" fill="#ff4757"/>
+
+                <!-- Diagonal resistance line (imaginary) -->
+                <line x1="100" y1="100" x2="650" y2="280" stroke="#ffa502" stroke-width="3" stroke-dasharray="10,5"/>
+
+                <!-- Extended into future -->
+                <line x1="400" y1="200" x2="650" y2="280" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- Labels -->
+                <text x="100" y="90" fill="#e8e8ed" font-size="12" text-anchor="middle">Lower High</text>
+                <text x="250" y="140" fill="#e8e8ed" font-size="12" text-anchor="middle">Lower High</text>
+                <text x="400" y="190" fill="#e8e8ed" font-size="12" text-anchor="middle">Lower High</text>
+
+                <text x="550" y="250" fill="#ff4757" font-size="14" text-anchor="start">Extended imaginary line</text>
+                <text x="550" y="270" fill="#e8e8ed" font-size="12" text-anchor="start">Retail traders short here</text>
+            </svg>
+        </section>
+
+        <section id="theory">
+            <h2>Trend Line Theory - ICT's Perspective</h2>
+
+            <div class="quote">
+                <p><em>"It's my perspective that there's no basis on trend line theory in the form of diagonal support or diagonal resistance"</em> <span class="timestamp">(2:12)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I believe it says basically an opinion. There's no statistical Edge that I've been able to build with use of diagonal support or resistance in the form of trend lines"</em> <span class="timestamp">(2:22)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">24 Years of Experience</span>
+                </div>
+                <p><em>"Now I've been doing this for 24 years... and in 24 years I've done a lot of things in analysis and I was indoctrinated with trend lines when I first started and to me it made perfect sense because I could see it in the past and you know all the books gave us perfect examples where it all works"</em> <span class="timestamp">(2:33)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"But when we try to use the trendline idea you know which lows do you draw connections to which highs do you draw connections to and quickly all of a sudden and you it's like well maybe this isn't as easy as I thought it was"</em> <span class="timestamp">(2:58)</span></p>
+            </div>
+        </section>
+
+        <section id="awareness">
+            <h2>Price Awareness of Trend Lines</h2>
+
+            <div class="quote">
+                <p><em>"But does price have an awareness of the point of trendline support or does price have an awareness of the point of trend line resistance I'll submit to you that it does not"</em> <span class="timestamp">(3:11)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">What Price Respects</span>
+                </div>
+                <p><em>"Price has no awareness of your trend line price doesn't respect what you have on your charts price only respects where the actual liquidity is in the marketplace"</em> <span class="timestamp">(3:21)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"And because they can't see you because you're too small the marketplace sees where the large pools of liquidity are that means in buying interest and selling interest that's already in the marketplace in the form of protective cell stops protective buy stops or new buy stocks for long entries or new sell stops for selling entries"</em> <span class="timestamp">(3:34)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"That's the only thing that makes price move and it's going to be hinged and framed on the context of who is in play right now what what smart money entity has the control of the marketplace at the moment is it going higher based on their book being bullish or is it going lower based on their book being bearish"</em> <span class="timestamp">(3:53)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">What This Mentorship Teaches</span>
+                </div>
+                <p><em>"That's what this mentorship teaches it gives you those ideas to go into seeing where price is most likely going to go and we don't subscribe to down sloping trend lines or up sloping trend lines to formulate ideas in which we find support or resistance based on that idea"</em> <span class="timestamp">(4:16)</span></p>
+            </div>
+        </section>
+
+        <section id="banks">
+            <h2>Banks & Trendline Theory</h2>
+
+            <div class="quote">
+                <p><em>"Do banks associate value or prognostication on the basis of trendline theory I'll submit to you no they do not"</em> <span class="timestamp">(4:33)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I'm telling you since the banks don't have any association or prognostication placed on valuing a trendline level on a diagonal basis and the reason why is because it's so subjective"</em> <span class="timestamp">(4:48)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Subjectivity Problem</span>
+                </div>
+                <p><em>"You are associating future price movement to a level that hasn't been traded to yet you're doing it on the basis of connecting two reference points in the past that don't have any bearing on what the future price is going to do has nothing"</em> <span class="timestamp">(5:02)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"That high that you connected to to a lower high when you're looking for resistance or down trending trend line resistance that third time it supposedly comes up to that line what makes you so confident that it's going to go down at that point just because you drew the line on on your chart"</em> <span class="timestamp">(5:20)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"The Banks don't care what you're scribbling all of your charts they don't care about that they're not aware of it okay but what they are aware of is sentiment that shifts and builds around those levels"</em> <span class="timestamp">(5:40)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Funds Are The Target</span>
+                </div>
+                <p><em>"Funds will get beat up That's the basis of trading large Traders are the prey that's where the markets go they go for their orders not for our little orders not for our little liquidity okay"</em> <span class="timestamp">(5:57)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"But because we've learned to trade and herd like the fund Traders we all many times are casualties of that war between smart money and large funds that's the business model that goes on"</em> <span class="timestamp">(6:12)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Large funds are cannibalized at reversals but they're permitted to facilitate long-term trends when the markets are in that environment but trend lines are not the key to it"</em> <span class="timestamp">(6:28)</span></p>
+            </div>
+        </section>
+
+        <section id="flawed">
+            <h2>Core Flaw of Trend Lines</h2>
+
+            <div class="quote">
+                <p><em>"Is the very nature of trend lines flawed at its core I will submit to you that yes it is because it gives too many dangling carrots in front of the Trader's eyes thinking that okay this is going to be an easy setup"</em> <span class="timestamp">(6:43)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"So therefore let me go in here and sell out this resistance trend line or let me buy it this diagonal support trend line it's not that easy folks"</em> <span class="timestamp">(6:53)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Beautiful Disguised Impossibilities</span>
+                </div>
+                <p><em>"But many times our charts will paint these beautifully disguised opportunities that are impossibilities"</em> <span class="timestamp">(7:03)</span></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Knowing this how can market makers capitalize on this fallacy and price action"</em> <span class="timestamp">(7:13)</span></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are Trendline Phantoms?</div>
+                    <div class="flashcard-answer">"Trendline Phantoms or false trend lines"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How is diagonal trend line support primed?</div>
+                    <div class="flashcard-answer">"The priming is done by way of seeing the market begin to make higher highs and higher lows. The market appears to have an imaginary diagonal line it seems to repel price higher from"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do retail traders do with diagonal support lines?</div>
+                    <div class="flashcard-answer">"Retail Traders will extend these imaginary lines into the future and attribute support theories to it. When price hits the extended imaginary diagonal line connecting higher lows retail traders buy it then"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How is diagonal trend line resistance primed?</div>
+                    <div class="flashcard-answer">"This is primed in the thought processes of retail Traders by seeing the market begin to make lower highs and lower lows. The market appears to have an imaginary diagonal line it seems to propel price lower from"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is ICT's perspective on trend line theory?</div>
+                    <div class="flashcard-answer">"It's my perspective that there's no basis on trend line theory in the form of diagonal support or diagonal resistance. I believe it says basically an opinion. There's no statistical Edge that I've been able to build with use of diagonal support or resistance in the form of trend lines"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does price have awareness of trend lines?</div>
+                    <div class="flashcard-answer">"Does price have an awareness of the point of trendline support or does price have an awareness of the point of trend line resistance I'll submit to you that it does not. Price has no awareness of your trend line price doesn't respect what you have on your charts"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does price actually respect?</div>
+                    <div class="flashcard-answer">"Price only respects where the actual liquidity is in the marketplace... in the form of protective cell stops protective buy stops or new buy stocks for long entries or new sell stops for selling entries. That's the only thing that makes price move"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What context determines price movement according to ICT?</div>
+                    <div class="flashcard-answer">"It's going to be hinged and framed on the context of who is in play right now what what smart money entity has the control of the marketplace at the moment is it going higher based on their book being bullish or is it going lower based on their book being bearish"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do banks use trendline theory?</div>
+                    <div class="flashcard-answer">"Do banks associate value or prognostication on the basis of trendline theory I'll submit to you no they do not. The banks don't have any association or prognostication placed on valuing a trendline level on a diagonal basis and the reason why is because it's so subjective"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is trendline theory subjective?</div>
+                    <div class="flashcard-answer">"You are associating future price movement to a level that hasn't been traded to yet you're doing it on the basis of connecting two reference points in the past that don't have any bearing on what the future price is going to do has nothing"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Who are the real targets in the market?</div>
+                    <div class="flashcard-answer">"Large Traders are the prey that's where the markets go they go for their orders not for our little orders not for our little liquidity"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens to large funds?</div>
+                    <div class="flashcard-answer">"Large funds are cannibalized at reversals but they're permitted to facilitate long-term trends when the markets are in that environment but trend lines are not the key to it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is the very nature of trend lines flawed?</div>
+                    <div class="flashcard-answer">"It gives too many dangling carrots in front of the Trader's eyes thinking that okay this is going to be an easy setup. Many times our charts will paint these beautifully disguised opportunities that are impossibilities"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What challenge does trendline theory present?</div>
+                    <div class="flashcard-answer">"When we try to use the trendline idea you know which lows do you draw connections to which highs do you draw connections to and quickly all of a sudden and you it's like well maybe this isn't as easy as I thought it was"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are banks aware of regarding trendlines?</div>
+                    <div class="flashcard-answer">"The Banks don't care what you're scribbling all of your charts they don't care about that they're not aware of it okay but what they are aware of is sentiment that shifts and builds around those levels"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
