@@ -491,6 +491,40 @@
       font-size: 0.75rem;
     }
 
+    /* Mobile menu toggle */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      width: 44px;
+      height: 44px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-menu-toggle:hover {
+      background: var(--bg-tertiary);
+      color: var(--accent-gold);
+    }
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 90;
+    }
+    .sidebar-overlay.active { display: block; }
+
     /* Responsive */
     @media (max-width: 1200px) {
       .content-grid {
@@ -499,14 +533,21 @@
     }
 
     @media (max-width: 900px) {
+      .mobile-menu-toggle { display: flex; }
       .sidebar {
-        display: none;
+        position: fixed;
+        left: -280px;
+        width: 280px;
+        transition: left 0.3s ease;
+        z-index: 100;
       }
+      .sidebar.open { left: 0; }
       .main-content {
         margin-left: 0;
       }
       .hero {
         padding: 40px 24px;
+        padding-top: 70px;
       }
       .hero h1 {
         font-size: 2.5rem;
@@ -515,12 +556,24 @@
         padding: 40px 24px;
       }
     }
+
+    @media (max-width: 600px) {
+      .mobile-menu-toggle { top: 12px; left: 12px; width: 40px; height: 40px; }
+      .hero { padding: 24px 16px; padding-top: 60px; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 1rem; }
+      .section { padding: 24px 16px; }
+      .section-title { font-size: 1.3rem; }
+      .nav-link { padding: 12px 20px; }
+    }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <!-- Sidebar Navigation -->
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">ICT Library</div>
         <div class="sidebar-subtitle">Imbalances & Fair Value Gaps</div>
@@ -1728,6 +1781,25 @@
   </div>
 
   <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function closeMobileSidebar() {
+      sidebar.classList.remove('open');
+      sidebarOverlay.classList.remove('active');
+      mobileMenuToggle.textContent = '☰';
+    }
+
+    mobileMenuToggle.addEventListener('click', () => {
+      const isOpen = sidebar.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active', isOpen);
+      mobileMenuToggle.textContent = isOpen ? '✕' : '☰';
+    });
+
+    sidebarOverlay.addEventListener('click', closeMobileSidebar);
+
     // Smooth scroll for navigation
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', function(e) {
@@ -1737,10 +1809,13 @@
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
+
         // Update active state
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         this.classList.add('active');
+
+        // Close sidebar on mobile
+        if (window.innerWidth <= 900) closeMobileSidebar();
       });
     });
 

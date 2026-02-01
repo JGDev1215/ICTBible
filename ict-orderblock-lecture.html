@@ -323,14 +323,23 @@
         }
 
         /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 4rem 0 2.5rem; }
+            h1 { font-size: 2.2rem; }
+            .container { padding: 0 1.5rem; }
+            section { padding: 2.5rem 0; }
+            h2 { font-size: 1.5rem; }
+        }
+
         @media (max-width: 640px) {
-            .levels-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            blockquote {
-                padding: 1.5rem 1rem 1.5rem 2rem;
-            }
+            .levels-grid { grid-template-columns: 1fr; }
+            blockquote { padding: 1.5rem 1rem 1.5rem 2rem; }
+            header { padding: 3rem 0 2rem; }
+            h1 { font-size: 1.8rem; }
+            .container { padding: 0 1rem; }
+            section { padding: 2rem 0; }
+            h2 { font-size: 1.3rem; }
+            .overline { font-size: 0.6rem; }
         }
 
         /* Chart styles */
