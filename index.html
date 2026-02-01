@@ -157,6 +157,23 @@
             color: var(--text-primary);
         }
 
+        .header-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+
+        .header-btn:hover {
+            background: var(--bg-nav-hover);
+            color: var(--text-primary);
+        }
+
         .content-frame {
             flex: 1;
             border: none;
@@ -186,6 +203,62 @@
             color: var(--text-secondary);
             max-width: 400px;
             line-height: 1.6;
+        }
+
+        .welcome-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .welcome-btn {
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--bg-nav);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .welcome-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--bg-nav-hover);
+        }
+
+        .bubble-options {
+            margin-top: 24px;
+            display: none;
+            max-width: 640px;
+            width: 100%;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .bubble-options.active {
+            display: flex;
+        }
+
+        .topic-bubble {
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .topic-bubble:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
         }
 
         /* Scrollbar */
@@ -401,12 +474,20 @@
     <main class="content-area">
         <div class="content-header" id="contentHeader" style="display: none;">
             <span class="current-page" id="currentPage"></span>
+            <button class="header-btn" id="goBackBtn">Go Back</button>
+            <button class="header-btn" id="selectTopicBtn">Select New Topic</button>
+            <button class="header-btn" id="openIndexBtn">Full Index</button>
             <button class="open-new-tab" id="openNewTab">Open in New Tab ↗</button>
         </div>
 
         <div class="welcome-screen" id="welcomeScreen">
             <div class="welcome-title">Select a Topic</div>
             <div class="welcome-desc">Choose a concept from the sidebar to begin exploring the ICT methodology library.</div>
+            <div class="welcome-actions">
+                <button class="welcome-btn" id="startFreshBtn">Start Fresh</button>
+                <button class="welcome-btn" id="showBubblesBtn">Select Bubble Options</button>
+            </div>
+            <div class="bubble-options" id="bubbleOptions" aria-live="polite"></div>
         </div>
 
         <iframe class="content-frame" id="contentFrame" style="display: none;"></iframe>
@@ -419,6 +500,12 @@
         const welcomeScreen = document.getElementById('welcomeScreen');
         const currentPageEl = document.getElementById('currentPage');
         const openNewTabBtn = document.getElementById('openNewTab');
+        const goBackBtn = document.getElementById('goBackBtn');
+        const selectTopicBtn = document.getElementById('selectTopicBtn');
+        const openIndexBtn = document.getElementById('openIndexBtn');
+        const startFreshBtn = document.getElementById('startFreshBtn');
+        const showBubblesBtn = document.getElementById('showBubblesBtn');
+        const bubbleOptions = document.getElementById('bubbleOptions');
 
         let currentPage = '';
 
@@ -442,11 +529,77 @@
             currentPageEl.textContent = page;
         }
 
+        function showWelcome() {
+            currentPage = '';
+            contentFrame.src = '';
+            contentFrame.style.display = 'none';
+            contentHeader.style.display = 'none';
+            welcomeScreen.style.display = 'flex';
+            navItems.forEach(i => i.classList.remove('active'));
+        }
+
+        function buildBubbleOptions() {
+            const fragment = document.createDocumentFragment();
+            navItems.forEach(item => {
+                const title = item.querySelector('.nav-item-title')?.textContent?.trim();
+                const page = item.dataset.page;
+                if (!title || !page) {
+                    return;
+                }
+                const bubble = document.createElement('button');
+                bubble.type = 'button';
+                bubble.className = 'topic-bubble';
+                bubble.textContent = title;
+                bubble.dataset.page = page;
+                bubble.addEventListener('click', () => {
+                    const match = Array.from(navItems).find(i => i.dataset.page === page);
+                    if (match) {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        match.classList.add('active');
+                    }
+                    loadPage(page);
+                });
+                fragment.appendChild(bubble);
+            });
+            bubbleOptions.appendChild(fragment);
+        }
+
         openNewTabBtn.addEventListener('click', () => {
             if (currentPage) {
                 window.open(currentPage, '_blank');
             }
         });
+
+        openIndexBtn.addEventListener('click', () => {
+            window.location.href = 'all-topics.html';
+        });
+
+        goBackBtn.addEventListener('click', () => {
+            showWelcome();
+            bubbleOptions.classList.remove('active');
+        });
+
+        selectTopicBtn.addEventListener('click', () => {
+            showWelcome();
+            bubbleOptions.classList.add('active');
+        });
+
+        startFreshBtn.addEventListener('click', () => {
+            const firstPage = 'ict_SMC.html';
+            const match = Array.from(navItems).find(item => item.dataset.page === firstPage);
+            if (match) {
+                navItems.forEach(i => i.classList.remove('active'));
+                match.classList.add('active');
+            }
+            loadPage(firstPage);
+            bubbleOptions.classList.remove('active');
+        });
+
+        showBubblesBtn.addEventListener('click', () => {
+            bubbleOptions.classList.toggle('active');
+        });
+
+        buildBubbleOptions();
 
         // Auto-load first page
         // Uncomment below to auto-load:

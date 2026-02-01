@@ -329,9 +329,42 @@
             .page-header, .content-wrapper { padding: 24px; }
             .card-grid { grid-template-columns: 1fr; }
         }
-    </style>
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
 </head>
 <body>
+    <div class="global-topbar">
+        <a href="index.html">Library Home</a>
+        <a href="all-topics.html">Full Index</a>
+    </div>
+
     <div class="app-container">
         <nav class="sidebar">
             <div class="sidebar-header">
