@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPDA Data Ranges - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ict-interest-rate-effects.html">Next Chapter</a>
+        <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>IPDA Data Ranges</h1>
+        <p>The Interbank Price Delivery Algorithm - 20, 40, and 60 Day Look Back and Cast Forward Methodology</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#quarterly">Quarterly Shifts</a>
+        <a href="#methodology">20/40/60 Methodology</a>
+        <a href="#algorithm">Algorithm Function</a>
+        <a href="#liquidity">Finding Liquidity</a>
+        <a href="#aussie">Australian Dollar Example</a>
+        <a href="#application">Practical Application</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>IPDA Definition</h2>
+
+            <blockquote class="quote">
+                <p><em>"IPDA is the Interbank Price Delivery Algorithm"</em></p>
+                <span class="timestamp">15:42-15:48</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"The IPDA data range okay you have a 20 day look back and cast forward range you have a 40 day look back and cast forward range and then you have a 60 day look back and cast forward range"</em></p>
+                <span class="timestamp">13:21-13:45</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If you understand that we're going to be referring to things that are numerical they are price related they are value based that means that we have to look at a specific level and price"</em></p>
+                <span class="timestamp">21:56-22:09</span>
+            </div>
+
+            <h3>Purpose of IPDA</h3>
+
+            <blockquote class="quote">
+                <p><em>"What the IPDA data range okay what it's really doing is it's highlighting you as the trader you're going to try to mimic what this algorithm is doing it's looking for the liquidity in the range of 60 days in the past"</em></p>
+                <span class="timestamp">16:50-17:12</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"The algorithm will look back 60 days and it'll find it's very easy if you if you know anything about computer programming and you don't even have to do that but just look at this first of november if you look back 60 days in the past what was the highest high in the last 60 days there's going to be buy stops above that high what's the lowest low in the last 60 days there's going to be cell stops below that low"</em></p>
+                <span class="timestamp">27:37-28:06</span>
+            </div>
+        </section>
+
+        <section id="quarterly">
+            <h2>Quarterly Market Structure Shifts</h2>
+
+            <blockquote class="quote">
+                <p><em>"That's a quarterly market shift over the last three to six months that's the most obvious one you can clearly see it"</em></p>
+                <span class="timestamp">12:00-12:12</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Every three months there's going to be something like this occurring it could be a sell-off creating a high or it could be a a low where it starts to rally but every three months I want you to look at your charts and anticipate finding that in hindsight"</em></p>
+                <span class="timestamp">12:25-12:43</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Every three to four months or so we find it we identified the beginning of that month you gotta roll back to that first month why are we doing that why does it have to go back to the first month first of the month rather"</em></p>
+                <span class="timestamp">19:16-19:30</span>
+            </div>
+
+            <h3>Identifying the Quarterly Shift</h3>
+
+            <blockquote class="quote">
+                <p><em>"If we look at back in november we can clearly see that there was a major market shift in november 2016. Now what that does it gives us a great deal of insight we can't take a time capsule travel back in time okay and be back in november and go short there but we can use the information that our daily charts are telling us there that means there was a great deal of displacement by the large players or smart money"</em></p>
+                <span class="timestamp">11:21-11:52</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"It's really easy if you just divide your your daily chart into uh quarters like put one put a line on march put a line on uh june and september december and just keep doing that your your eye will go right to where these uh quarterly shifts are happening"</em></p>
+                <span class="timestamp">16:19-16:35</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"They're not going to always occur on those months there's a little bit of gray area which is the reason why we have a look back and cast forward"</em></p>
+                <span class="timestamp">16:35-16:50</span>
+            </div>
+        </section>
+
+        <section id="methodology">
+            <h2>The 20/40/60 Day Methodology</h2>
+
+            <h3>Look Back and Cast Forward Explained</h3>
+
+            <blockquote class="quote">
+                <p><em>"When we find the clear market structure shift that happens every quarterly every three to four months or so we find it we identified the beginning of that month you gotta roll back to that first month"</em></p>
+                <span class="timestamp">19:16-19:30</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"You're now identifying the beginning of november so you have to have a basis point where where is it where did it all begin because if you don't get yourself in sync with what IPDA most recently did"</em></p>
+                <span class="timestamp">15:29-15:42</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"You're going to delineate where the most obvious one in the last three months has been then you're going to cast out 20 days go forward from the beginning of the the month that that market structure shift or quarterly shift takes place you're going to count out 20 days"</em></p>
+                <span class="timestamp">15:53-16:09</span>
+            </div>
+
+            <h3>The 20 Day Range</h3>
+
+            <blockquote class="quote">
+                <p><em>"This is the look forward okay or cast forward of november this is 20 days out from the 1st of november so we have 20 days here inside of that 20 day range there's going to be a significant setup that you can use for your trading"</em></p>
+                <span class="timestamp">34:11-34:29</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"It may not even be 20 days you may look at the chart and say hey this is an obvious one right here something's really going on if you do that you're really doing too much anticipation you got to go back to the most obvious one and it may require you going back three months but find the most recent one where the market structure has shifted"</em></p>
+                <span class="timestamp">16:09-16:28</span>
+            </div>
+
+            <h3>The 40 Day Range</h3>
+
+            <blockquote class="quote">
+                <p><em>"You can go from the beginning of november to the 20th yes there was a price swing but using the information next stage would be 40 days out from that price point of november beginning we have here that is your 40-day lookout or cast forward"</em></p>
+                <span class="timestamp">34:48-35:10</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"In the last 40 days what was the last highest high and what was the last lowest low looking back in the range to the left from that november red line that we're dealing in november where are the stops below and above those highs inside of the range of 20 days 40 days and 60 days"</em></p>
+                <span class="timestamp">28:06-28:28</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We had a small little range in here and then we came down and hit this level here 71.50 that's the 40 days out from the beginning of november framed on the quarterly shift that took place here"</em></p>
+                <span class="timestamp">35:31-35:45</span>
+            </div>
+
+            <h3>The 60 Day Range</h3>
+
+            <blockquote class="quote">
+                <p><em>"Where is the sell stops in the last 60 days where are the buy stops in the last 60 days where are the fair value gaps where's the price gaps that price has not been efficiently delivered in the last 60 days"</em></p>
+                <span class="timestamp">17:12-17:38</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If you look back 60 days in the past what was the highest high in the last 60 days there's going to be buy stops above that high what's the lowest low in the last 60 days there's going to be cell stops below that low"</em></p>
+                <span class="timestamp">27:41-28:00</span>
+            </div>
+
+            <h3>Visual Representation</h3>
+
+            <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background grid -->
+                <line x1="50" y1="450" x2="950" y2="450" stroke="#2a2a3a" stroke-width="2"/>
+
+                <!-- Title -->
+                <text x="500" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">IPDA Look Back and Cast Forward - 20/40/60 Day Methodology</text>
+
+                <!-- Quarterly Shift Point -->
+                <line x1="250" y1="100" x2="250" y2="450" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="250" y="80" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Quarterly Shift</text>
+                <text x="250" y="95" fill="#e8e8ed" font-size="12" text-anchor="middle">(November 1st)</text>
+
+                <!-- Look Back Arrow -->
+                <line x1="250" y1="150" x2="80" y2="150" stroke="#9898a8" stroke-width="2" marker-start="url(#arrowstart)"/>
+                <text x="165" y="140" fill="#9898a8" font-size="13" text-anchor="middle">Look Back 60 Days</text>
+
+                <!-- 60 Day Look Back -->
+                <rect x="80" y="170" width="170" height="60" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="5"/>
+                <text x="165" y="195" fill="#2ed573" font-size="12" text-anchor="middle" font-weight="bold">60 Day Range (Past)</text>
+                <text x="165" y="212" fill="#e8e8ed" font-size="11" text-anchor="middle">Highest High = Buy Stops</text>
+                <text x="165" y="225" fill="#e8e8ed" font-size="11" text-anchor="middle">Lowest Low = Sell Stops</text>
+
+                <!-- 40 Day Look Back -->
+                <rect x="110" y="250" width="140" height="50" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="5"/>
+                <text x="180" y="272" fill="#2ed573" font-size="12" text-anchor="middle" font-weight="bold">40 Day Range (Past)</text>
+                <text x="180" y="288" fill="#e8e8ed" font-size="11" text-anchor="middle">Find Highs/Lows</text>
+
+                <!-- 20 Day Look Back -->
+                <rect x="140" y="320" width="110" height="50" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="5"/>
+                <text x="195" y="342" fill="#2ed573" font-size="12" text-anchor="middle" font-weight="bold">20 Day Range (Past)</text>
+                <text x="195" y="358" fill="#e8e8ed" font-size="11" text-anchor="middle">Find Highs/Lows</text>
+
+                <!-- Cast Forward Arrow -->
+                <line x1="250" y1="400" x2="420" y2="400" stroke="#9898a8" stroke-width="2" marker-end="url(#arrowend)"/>
+                <text x="335" y="390" fill="#9898a8" font-size="13" text-anchor="middle">Cast Forward</text>
+
+                <!-- 20 Day Cast Forward -->
+                <rect x="420" y="170" width="110" height="60" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="5"/>
+                <text x="475" y="195" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">20 Days Forward</text>
+                <text x="475" y="212" fill="#e8e8ed" font-size="11" text-anchor="middle">Significant Setup</text>
+                <text x="475" y="225" fill="#e8e8ed" font-size="11" text-anchor="middle">May occur</text>
+
+                <!-- 40 Day Cast Forward -->
+                <rect x="550" y="250" width="140" height="60" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="5"/>
+                <text x="620" y="275" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">40 Days Forward</text>
+                <text x="620" y="292" fill="#e8e8ed" font-size="11" text-anchor="middle">Potential Shift</text>
+                <text x="620" y="305" fill="#e8e8ed" font-size="11" text-anchor="middle">Example: 71.50 level</text>
+
+                <!-- 60 Day Cast Forward -->
+                <rect x="710" y="320" width="170" height="60" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="5"/>
+                <text x="795" y="345" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">60 Days Forward</text>
+                <text x="795" y="362" fill="#e8e8ed" font-size="11" text-anchor="middle">Major Structural Change</text>
+                <text x="795" y="375" fill="#e8e8ed" font-size="11" text-anchor="middle">Expected</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowend" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#9898a8" />
+                    </marker>
+                    <marker id="arrowstart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M9,0 L9,6 L0,3 z" fill="#9898a8" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Not Predicting Exact Turning Points</h3>
+
+            <blockquote class="quote">
+                <p><em>"I'm not telling you the market turns every 20 days every 40 days and every 60 days but it can and will sometimes do that what we're looking for is these quarterly shifts that take place once we identify one there's our beginning point"</em></p>
+                <span class="timestamp">38:49-39:06</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"It's not always going to do like what you're seeing here where it's almost calling the very day it moves and makes the change it's you're allowing your study to say okay the price is going to move about 20 days and then we could see something if it doesn't happen in 20 days okay well in the next 20 days up to 40 days from where the market structure last shifted here quarterly then we're going to anticipate in the realm of the next 20 days it may happen"</em></p>
+                <span class="timestamp">35:56-36:21</span>
+            </div>
+        </section>
+
+        <section id="algorithm">
+            <h2>How the Algorithm Functions</h2>
+
+            <h3>Computer Program Analogy</h3>
+
+            <blockquote class="quote">
+                <p><em>"If an algorithm and i'm not sure if any of you are aware of how computer programs are made or designed but when a systems analyst sits down with a company and they say okay look this is what i want the output to be or i need a a report generator that's it's going to give me this outcome or i need this information or i need this computation made i need this process done okay the system that's a system analyst is going to say okay what what data points are you making available to me"</em></p>
+                <span class="timestamp">19:36-20:06</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"A computer program and a computer programmer is completely utterly blind and useless if he doesn't have data points to use you can't have a computer program do anything of any value unless it knows where to draw data points from there has to be an array of information coming to it to process and do calculations"</em></p>
+                <span class="timestamp">20:50-21:09</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"My here's my this was my epiphany okay when i was sitting down with the folks that were introducing these ideas to me and know they're not in the teaching circuits you're never going to meet these people okay but when i was introduced on how the markets actually work and operate the the fast thing i the fastest and most obvious thing i learned was there was no ambiguity to how price moves around there was no randomness because they were talking about things that had a finite or origination where it wasn't like it could have been this day it could have been that year it could have been this month no no no no it's absolutely nothing like that"</em></p>
+                <span class="timestamp">21:09-21:56</span>
+            </div>
+
+            <h3>Data Points Required</h3>
+
+            <blockquote class="quote">
+                <p><em>"The look pack period is 20 days 40 days and 60 days and what you're doing is and this is what i want you to do with your your time after today's teaching while you're waiting for today's daily recap video because there'll be two bits go up this is the teaching video for today"</em></p>
+                <span class="timestamp">25:25-25:44</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If it's a computer program or i'm quoting with my fingers now the interbank price delivery algorithm that computer program we're going to call it from this point on for this teaching for it to be effective it has to know where to look at to find stops"</em></p>
+                <span class="timestamp">26:50-27:09</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"They don't see orders that's not what's going on they don't see orders the orders are executed on by the traders at the bank level the algorithm just permits the price to move to that level which gives the opportunity for the traders to execute on that run"</em></p>
+                <span class="timestamp">27:14-27:32</span>
+            </div>
+        </section>
+
+        <section id="liquidity">
+            <h2>Finding Liquidity Pools</h2>
+
+            <h3>Buy Stops and Sell Stops</h3>
+
+            <blockquote class="quote">
+                <p><em>"If you look back 60 days in the past what was the highest high in the last 60 days there's going to be buy stops above that high what's the lowest low in the last 60 days there's going to be cell stops below that low"</em></p>
+                <span class="timestamp">27:41-28:00</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"In the last 40 days what was the last highest high and what was the last lowest low looking back in the range to the left from that november red line that we're dealing in november where are the stops below and above those highs inside of the range of 20 days 40 days and 60 days"</em></p>
+                <span class="timestamp">28:06-28:28</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Because human nature says that we will as traders put our sell stop below a low and we will put a buy stop above an old high that's all the algorithms doing it's seeking to take price to that level"</em></p>
+                <span class="timestamp">30:48-31:02</span>
+            </div>
+
+            <h3>What Happens When Levels Are Cleared</h3>
+
+            <blockquote class="quote">
+                <p><em>"What happens if there's a low that's really really obvious that's just outside the range of 60 days that's the farthest extreme that's when the open float will move aggressively and go outside that normal parameter of 60 days and you'll see that big run the market will jump and skip right down into that old low that's just outside that 60 day range"</em></p>
+                <span class="timestamp">28:28-28:53</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"How do you know when it's going to be an explosive move michael when you have that scenario if the last 60 days if they've already ran out the the stops below and low in the last 60 days or above an old high in the last 60 days and there is a larger higher high or lower low where the stocks will be resting above or below respectively then you know there's going to be a big run on price"</em></p>
+                <span class="timestamp">28:53-29:20</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If everything's been wiped out above and below the marketplace in other words the open float all the buy stops above old highs and all the sell stocks below all those in the last 68 darn your look back in other words everything to the left of that november vertical line at red line if everything's been cleaned out above and below the highs and lows there's no more buy stops there's no more cell stops it has to create a new expansion"</em></p>
+                <span class="timestamp">32:31-33:02</span>
+            </div>
+
+            <h3>Spike Behavior Explained</h3>
+
+            <blockquote class="quote">
+                <p><em>"When it gets to that level then your broker then the central bank can do a wild spike and send it above 10 to 20 pips think about it now 10 to 20 pips then becomes logical why they do those big spikes okay intraday 20 and 10 and 20 pips above and over high then it stops rate many times rate at 20 pips or 10 pips and then rejects it goes the other way"</em></p>
+                <span class="timestamp">31:02-31:29</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"It first has to get to those levels based on a daily chart in the realm of a 20 pip 40 i'm sorry 20 day 40 day or 60 day look back and then cast forward"</em></p>
+                <span class="timestamp">31:29-31:47</span>
+            </div>
+        </section>
+
+        <section id="aussie">
+            <h2>Australian Dollar Case Study</h2>
+
+            <h3>Using the Futures Contract</h3>
+
+            <blockquote class="quote">
+                <p><em>"We have here a futures chart okay this is the march contract the underlying daily chart of the futures contract of the australian dollar"</em></p>
+                <span class="timestamp">6:10-6:24</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"By looking at the futures contract if we're going to be trading forex okay it's it's really important that you know that you can get a lot of insight just by studying the underlying futures price"</em></p>
+                <span class="timestamp">6:24-6:39</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"There are certain data points that you cannot get by looking at the foreign exchange market there's simply no way of getting that because foreign exchange doesn't give you volume it doesn't give you accurate volume like you can get volume from the underlying futures contract"</em></p>
+                <span class="timestamp">8:01-8:21</span>
+            </div>
+
+            <h3>November Quarterly Shift</h3>
+
+            <blockquote class="quote">
+                <p><em>"The most recent market shift okay in the last three months occurred back in november"</em></p>
+                <span class="timestamp">9:51-10:00</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We know that we can see it because it's taken out an area of equal highs and we pierced above that taking out the buy stop liquidity pool and that's seen here that was the that was the basis and the framework around what caused the market structure shift that quarterly effect comes in to operation at that moment"</em></p>
+                <span class="timestamp">14:59-15:23</span>
+            </div>
+
+            <h3>The 40-Day Example at 71.50</h3>
+
+            <blockquote class="quote">
+                <p><em>"We came down and hit this level here 71.50 that's the 40 days out from the beginning of november framed on the quarterly shift that took place here so we're anticipating a potential change in in the direction okay 20 40 or 60 days out"</em></p>
+                <span class="timestamp">35:31-35:56</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"7150 is a significant level it's a mid figure level and it's happening at a time when inside of 40 days the if the data range is going to be looking to do something it has it has to do something every three months price is going to be pushed around it's going to be drawn to a level or it's going to repel from a level"</em></p>
+                <span class="timestamp">40:49-41:13</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"I'll count you to go into your 4 hour 1 hour and 15 minute time frame and put up 7300 on your aussie dollar and see what you see there's nothing random about this stuff folks"</em></p>
+                <span class="timestamp">44:12-44:31</span>
+            </div>
+
+            <h3>Price Response After 40 Days</h3>
+
+            <blockquote class="quote">
+                <p><em>"On this day here this is 40 days out from the beginning of november very significant price move occurred from that price 71.50 i mean i would think everyone if we were all in the same room if we raised our hand if we were in agreement i think the majority of us if not all of us would raise our hand say that's a pretty significant move off that level"</em></p>
+                <span class="timestamp">36:38-36:57</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"It was not the 40th uh i'm sorry it wasn't the fact that it made the lowest low and turned on that day but look at the low in proximity to the lowest low that was formed here inside to see this day here was inside the range of 40 days back to this point price point here"</em></p>
+                <span class="timestamp">39:43-40:02</span>
+            </div>
+        </section>
+
+        <section id="application">
+            <h2>Practical Application Steps</h2>
+
+            <h3>Step 1: Identify the Quarterly Shift</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Find the Most Obvious Market Shift</span>
+                </div>
+                <p><em>"If we look at back in november we can clearly see that there was a major market shift in november 2016"</em> (11:21)</p>
+                <p><em>"Every three months I want you to look at your charts and anticipate finding that in hindsight"</em> (12:25-12:43)</p>
+            </div>
+
+            <h3>Step 2: Roll Back to the First of the Month</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Establish the Starting Point</span>
+                </div>
+                <p><em>"You're now identifying the beginning of november so you have to have a basis point where where is it where did it all begin"</em> (15:29-15:35)</p>
+                <p><em>"You have to roll back to the beginning of that month it occurs in it occurred in the second week of uh of the month of november so we're now we're calibrated"</em> (39:06-39:19)</p>
+            </div>
+
+            <h3>Step 3: Count Forward 20, 40, 60 Days</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Cast Forward Time Periods</span>
+                </div>
+                <p><em>"Then you're going to cast out 20 days go forward from the beginning of the the month that that market structure shift or quarterly shift takes place you're going to count out 20 days"</em> (15:53-16:09)</p>
+                <p><em>"You can literally go on your daily chart in mt4 and change your date 60 days forward to make a vertical line and that way as price starts to paint you'll know you're approaching that 60 day"</em> (29:46-29:58)</p>
+            </div>
+
+            <h3>Step 4: Look Back for Highs and Lows</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Identify Liquidity Reference Points</span>
+                </div>
+                <p><em>"You work just like the algorithm will in a 60-day range look back the last 60 days and then you watch going forward you cast forward 60 days"</em> (29:27-29:40)</p>
+                <p><em>"Where's the lowest low in the last 20 days where's the last 40 days where's the lowest low in that range where's the highest high in that last range and you need to be noting those because that's the one that they're going to run they're going to run rate for those"</em> (32:12-32:29)</p>
+            </div>
+
+            <h3>Step 5: Monitor for Institutional Order Flow</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Wait for Confirmation</span>
+                </div>
+                <p><em>"You look for evidences that that institutional order flow is going that direction then you know where it's going it gives you directional bias because of the higher time frame nature of this daily chart and weekly and monthly"</em> (33:57-34:11)</p>
+            </div>
+
+            <h3>Study Assignment</h3>
+
+            <blockquote class="quote">
+                <p><em>"I want you to spend your time this evening okay and even tomorrow while we're not doing any live session go back through your charts and don't just look at the australian dollar look at every currency pair look at every commodity look at individual stocks look at indices and you'll see quickly by studying this it will become quickly clear that there's no randomness to it there's a specific pattern that this thing does all the time"</em></p>
+                <span class="timestamp">25:54-26:20</span>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does IPDA stand for?</div>
+                    <div class="flashcard-answer">"IPDA is the Interbank Price Delivery Algorithm" (15:42-15:48)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the three IPDA data range periods?</div>
+                    <div class="flashcard-answer">"You have a 20 day look back and cast forward range you have a 40 day look back and cast forward range and then you have a 60 day look back and cast forward range" (13:28-13:45)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How often do quarterly market structure shifts occur?</div>
+                    <div class="flashcard-answer">"Every three months there's going to be something like this occurring" (12:25-12:31)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When you identify a quarterly shift, where do you start counting the IPDA ranges from?</div>
+                    <div class="flashcard-answer">"You gotta roll back to that first month... you have to roll back to the beginning of that month it occurs in" (19:23-19:30, 39:06-39:13)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the algorithm looking for when it looks back 60 days?</div>
+                    <div class="flashcard-answer">"It's looking for the liquidity in the range of 60 days in the past where is the sell stops in the last 60 days where are the buy stops in the last 60 days" (17:05-17:18)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where are buy stops located relative to old highs?</div>
+                    <div class="flashcard-answer">"What was the highest high in the last 60 days there's going to be buy stops above that high" (27:44-27:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where are sell stops located relative to old lows?</div>
+                    <div class="flashcard-answer">"What's the lowest low in the last 60 days there's going to be cell stops below that low" (27:50-28:00)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when all liquidity within 60 days has been cleared?</div>
+                    <div class="flashcard-answer">"If everything's been cleaned out above and below the highs and lows there's no more buy stops there's no more cell stops it has to create a new expansion" (32:42-32:56)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What signals an explosive move outside the normal 60-day range?</div>
+                    <div class="flashcard-answer">"If there's a low that's really really obvious that's just outside the range of 60 days that's the farthest extreme that's when the open float will move aggressively and go outside that normal parameter of 60 days" (28:28-28:48)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does the algorithm see individual retail trader orders?</div>
+                    <div class="flashcard-answer">"They don't see orders that's not what's going on they don't see orders the orders are executed on by the traders at the bank level the algorithm just permits the price to move to that level" (27:14-27:27)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does the algorithm need specific data points like the first of the month?</div>
+                    <div class="flashcard-answer">"A computer program and a computer programmer is completely utterly blind and useless if he doesn't have data points to use... there has to be an array of information coming to it to process and do calculations" (20:50-21:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Is price movement random according to ICT?</div>
+                    <div class="flashcard-answer">"There was no ambiguity to how price moves around there was no randomness because they were talking about things that had a finite or origination" (21:32-21:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does the market always turn exactly on the 20th, 40th, or 60th day?</div>
+                    <div class="flashcard-answer">"I'm not telling you the market turns every 20 days every 40 days and every 60 days but it can and will sometimes do that" (38:49-38:55)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What was the significant level hit at 40 days in the Australian Dollar example?</div>
+                    <div class="flashcard-answer">"We came down and hit this level here 71.50 that's the 40 days out from the beginning of november" (35:31-35:38)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is 71.50 significant beyond just being 40 days out?</div>
+                    <div class="flashcard-answer">"7150 is a significant level it's a mid figure level and it's happening at a time when inside of 40 days the if the data range is going to be looking to do something" (40:49-41:01)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why should forex traders study the underlying futures contract?</div>
+                    <div class="flashcard-answer">"There are certain data points that you cannot get by looking at the foreign exchange market... foreign exchange doesn't give you volume it doesn't give you accurate volume like you can get volume from the underlying futures contract" (8:01-8:21)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What tool can help you visualize the 60-day cast forward period?</div>
+                    <div class="flashcard-answer">"You can literally go on your daily chart in mt4 and change your date 60 days forward to make a vertical line and that way as price starts to paint you'll know you're approaching that 60 day" (29:46-29:58)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do spikes of 10-20 pips above old highs occur?</div>
+                    <div class="flashcard-answer">"When it gets to that level then your broker then the central bank can do a wild spike and send it above 10 to 20 pips... 10 to 20 pips then becomes logical why they do those big spikes" (31:02-31:16)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens after a spike takes out stops above an old high?</div>
+                    <div class="flashcard-answer">"Intraday 20 and 10 and 20 pips above and over high then it stops rate many times rate at 20 pips or 10 pips and then rejects it goes the other way" (31:16-31:29)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the primary lesson about waiting for setups to develop?</div>
+                    <div class="flashcard-answer">"There's a submission to time that's required... you have to learn to wait for these things to unfold the impatience that the market presents us an opportunity to experience is overwhelming sometimes" (2:16-2:53)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What chart divisions help identify quarterly shifts visually?</div>
+                    <div class="flashcard-answer">"It's really easy if you just divide your your daily chart into uh quarters like put one put a line on march put a line on uh june and september december and just keep doing that your your eye will go right to where these uh quarterly shifts are happening" (16:19-16:35)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do quarterly shifts always occur exactly on the quarter months?</div>
+                    <div class="flashcard-answer">"They're not going to always occur on those months there's a little bit of gray area which is the reason why we have a look back and cast forward" (16:35-16:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do after today's teaching according to ICT?</div>
+                    <div class="flashcard-answer">"I want you to spend your time this evening okay and even tomorrow while we're not doing any live session go back through your charts and don't just look at the australian dollar look at every currency pair look at every commodity look at individual stocks look at indices" (25:54-26:12)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What will you discover by studying IPDA ranges across multiple markets?</div>
+                    <div class="flashcard-answer">"You'll see quickly by studying this it will become quickly clear that there's no randomness to it there's a specific pattern that this thing does all the time" (26:12-26:20)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you use IPDA ranges to gain directional bias?</div>
+                    <div class="flashcard-answer">"You look for evidences that that institutional order flow is going that direction then you know where it's going it gives you directional bias because of the higher time frame nature of this daily chart and weekly and monthly" (33:57-34:11)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Add keyboard support for flashcards
+        document.querySelectorAll('.flashcard').forEach(card => {
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.classList.toggle('revealed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

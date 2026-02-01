@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elements Of A Trade Setup - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-entries-management.html">Return to Category</a>
+        <a href="ICT_BIBLE__TRADE_CONDITIONS_SETUP_PROGRESSIONS__2026-02-01.html">Next Chapter</a>
+        <a href="index.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Elements Of A Trade Setup</h1>
+        <p>ICT Mentorship Core Content - Month 1</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#framework">Framework</a>
+        <a href="#expansion">Expansion</a>
+        <a href="#retracement">Retracement</a>
+        <a href="#reversal">Reversal</a>
+        <a href="#consolidation">Consolidation</a>
+        <a href="#algo">Interbank Algo</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"when we refer to elements to a trade setup there's really just two primary concerns and one is obviously context or framework surrounding the idea in other words what makes the idea favorable for a trade"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"it's not just simply well my indicator tells me this or my support and resistance level tells me that there has to be something that builds a reason to want to do this trade"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="framework">
+            <h2>Framework & Context</h2>
+
+            <h3>Two Primary Characteristics</h3>
+            <blockquote class="quote">
+                <p><em>"understanding these two characteristics together will give you a greater understanding of market efficiency Paradigm how the smart money interprets price and how they influence the general populace or the speculative uninformed money"</em></p>
+            </blockquote>
+
+            <h3>Four Specific Principles (Market Conditions)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">1. EXPANSION</span>
+                </div>
+                <p><em>"either the Market's going to be expanding running away in other words trending"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">2. RETRACEMENT</span>
+                </div>
+                <p><em>"a retracement or pullback"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3. REVERSAL</span>
+                </div>
+                <p><em>"altogether reversal"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">4. CONSOLIDATION</span>
+                </div>
+                <p><em>"and obviously when the Market's doing nothing it's consolidating but really we all learned in the market maker series there's really no such thing is the market doing nothing in consolidation exactly accumulating orders"</em></p>
+            </div>
+
+            <h3>Four ICT Tools (Reference Points)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">1. ORDER BLOCKS</span>
+                </div>
+                <p>Specific reference points in institutional order flow</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">2. FAIR VALUE GAPS & LIQUIDITY VOIDS</span>
+                </div>
+                <p>Specific reference points in institutional order flow</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3. LIQUIDITY POOLS & STOP RUNS</span>
+                </div>
+                <p>Specific reference points in institutional order flow</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">4. EQUILIBRIUM</span>
+                </div>
+                <p>Specific reference points in institutional order flow</p>
+            </div>
+
+            <h3>Market Reading Process</h3>
+            <blockquote class="quote">
+                <p><em>"it only takes a second or two to look at the marketplace determine okay what characteristic are we trading in so that way you can build a context or framework on how you're going to approach the marketplace"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"sometimes you'll have right away an issue where you can say I'm not going to do anything because the Market's consolidating I am going to be waiting the other three conditions are going to be providing you an opportunity to take action"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="algo">
+            <h2>Interbank Price Delivery Algorithm</h2>
+
+            <blockquote class="quote">
+                <p><em>"the interbank price delivery algorithm or what I always refer to as the algo or interbank algo is the actual basically artificial intelligence it's a price engine that when we receive our price for our currencies it's actually 90% done by electronic algorithms so it's all computer-based now"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"it used to be open outcry in the pits but there's no longer an auction Market it's all AI and it's based on the principles I've been teaching for about seven years now"</em></p>
+            </blockquote>
+
+            <h3>Market Flow Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"all Market start from a consolidation and move into an expansion that means there's an Impulse move or an Impulse price swing after that impulse swing okay either it goes back to a consolidation again or it goes to a retracement when the retracement happens it goes back down into another level of expansion or after the expansion it can go to a reversal pattern after the reversal pattern it'll see another retracement then back to potentially consolidation"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" font-weight="bold" text-anchor="middle">Interbank Algo Flow Pattern</text>
+
+                <!-- Consolidation Box 1 -->
+                <rect x="50" y="120" width="80" height="60" fill="none" stroke="#9898a8" stroke-width="2"/>
+                <text x="90" y="155" fill="#e8e8ed" font-size="14" text-anchor="middle">Consolidation</text>
+
+                <!-- Arrow to Expansion -->
+                <line x1="130" y1="150" x2="180" y2="150" stroke="#2ed573" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+                <!-- Expansion -->
+                <rect x="180" y="120" width="80" height="60" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <text x="220" y="155" fill="#2ed573" font-size="14" text-anchor="middle">Expansion</text>
+
+                <!-- Arrow to Retracement -->
+                <line x1="260" y1="150" x2="310" y2="150" stroke="#ff4757" stroke-width="2" marker-end="url(#arrowred)"/>
+
+                <!-- Retracement -->
+                <rect x="310" y="120" width="80" height="60" fill="none" stroke="#ff4757" stroke-width="2"/>
+                <text x="350" y="155" fill="#ff4757" font-size="14" text-anchor="middle">Retracement</text>
+
+                <!-- Arrow to Reversal -->
+                <line x1="390" y1="150" x2="440" y2="150" stroke="#ffa502" stroke-width="2" marker-end="url(#arroworange)"/>
+
+                <!-- Reversal -->
+                <rect x="440" y="120" width="80" height="60" fill="none" stroke="#ffa502" stroke-width="2"/>
+                <text x="480" y="155" fill="#ffa502" font-size="14" text-anchor="middle">Reversal</text>
+
+                <!-- Arrow back to Consolidation -->
+                <line x1="520" y1="150" x2="570" y2="150" stroke="#9898a8" stroke-width="2" marker-end="url(#arrowgray)"/>
+
+                <!-- Consolidation Box 2 -->
+                <rect x="570" y="120" width="80" height="60" fill="none" stroke="#9898a8" stroke-width="2"/>
+                <text x="610" y="155" fill="#e8e8ed" font-size="14" text-anchor="middle">Consolidation</text>
+
+                <!-- Note -->
+                <text x="400" y="250" fill="#9898a8" font-size="12" text-anchor="middle">These four conditions interchange throughout price movement</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#2ed573" />
+                    </marker>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ff4757" />
+                    </marker>
+                    <marker id="arroworange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ffa502" />
+                    </marker>
+                    <marker id="arrowgray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#9898a8" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"these four conditions they interchange throughout the ups and downs and ebbs and flow of the marketplace you're only going to get one of these four conditions"</em></p>
+            </blockquote>
+
+            <h3>Starting Point</h3>
+            <blockquote class="quote">
+                <p><em>"the consolidation begins with everything all the moves that take place in the marketplace start from a measure of consolidation because that's where the markets are building orders"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the market maker keeps Market in a tight range or a defined range until there's enough money on both sides of the upper and lower end of the range that's being defined by the consolidation whichever one has the highest amount of money to be absorbed that's the direction it's going to move in"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="expansion">
+            <h2>Expansion</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"expansion is when price moves quickly from a level of equilibrium"</em></p>
+            </blockquote>
+
+            <h3>Coupled ICT Tool</h3>
+            <blockquote class="quote">
+                <p><em>"expansion couples directly with the tool of an order block"</em></p>
+            </blockquote>
+
+            <h3>Importance</h3>
+            <blockquote class="quote">
+                <p><em>"when price leaves a level quickly this indicates a willingness on the part of the market makers to reveal their intended repricing model"</em></p>
+            </blockquote>
+
+            <h3>Trading Logic</h3>
+            <blockquote class="quote">
+                <p><em>"if we're in a consolidation okay or a point of equilibrium if price were to move up quickly that would give us an indication of looking for a bullish order block we don't want to chase price we're going to wait for price to come back down into the order block"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"where is that going to occur well what do we look for in price the order block that the market makers leave near or at the equilibrium price point"</em></p>
+            </blockquote>
+
+            <h3>Visual Example</h3>
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" font-weight="bold" text-anchor="middle">Expansion From Equilibrium - Bullish Order Block</text>
+
+                <!-- Consolidation zone -->
+                <rect x="100" y="200" width="200" height="150" fill="#1a1a24" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="200" y="190" fill="#9898a8" font-size="12" text-anchor="middle">Consolidation</text>
+
+                <!-- Equilibrium line -->
+                <line x1="100" y1="275" x2="700" y2="275" stroke="#ffa502" stroke-width="2" stroke-dasharray="8,4"/>
+                <text x="720" y="280" fill="#ffa502" font-size="12">Equilibrium</text>
+
+                <!-- Down candle (order block) -->
+                <rect x="280" y="250" width="30" height="50" fill="#ff4757" stroke="#ff4757" stroke-width="1"/>
+                <line x1="295" y1="240" x2="295" y2="250" stroke="#ff4757" stroke-width="2"/>
+                <line x1="295" y1="300" x2="295" y2="310" stroke="#ff4757" stroke-width="2"/>
+                <text x="295" y="330" fill="#ff4757" font-size="11" text-anchor="middle">Down Candle</text>
+                <text x="295" y="345" fill="#ffa502" font-size="11" text-anchor="middle">(Bullish Order Block)</text>
+
+                <!-- Expansion move up -->
+                <path d="M 320 275 L 340 220 L 360 210 L 380 180 L 400 160 L 420 140 L 440 120"
+                      fill="none" stroke="#2ed573" stroke-width="3"/>
+                <rect x="420" y="110" width="40" height="40" fill="#2ed573" fill-opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="440" y="95" fill="#2ed573" font-size="12" text-anchor="middle">Impulse Move</text>
+                <text x="440" y="108" fill="#2ed573" font-size="11" text-anchor="middle">Away From</text>
+                <text x="440" y="120" fill="#2ed573" font-size="11" text-anchor="middle">Equilibrium</text>
+
+                <!-- Retracement back to order block -->
+                <path d="M 460 135 L 480 160 L 500 200 L 520 240 L 540 260"
+                      fill="none" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="540" y="230" fill="#ff4757" font-size="11" text-anchor="middle">Price Comes</text>
+                <text x="540" y="245" fill="#ff4757" font-size="11" text-anchor="middle">Back Down</text>
+
+                <!-- Entry point -->
+                <circle cx="540" cy="270" r="8" fill="none" stroke="#ffa502" stroke-width="3"/>
+                <text x="560" y="275" fill="#ffa502" font-size="12" font-weight="bold">BUY</text>
+
+                <!-- Expansion continuation -->
+                <path d="M 560 270 L 580 220 L 600 180 L 620 140 L 640 100 L 660 80"
+                      fill="none" stroke="#2ed573" stroke-width="3"/>
+                <text x="670" y="85" fill="#2ed573" font-size="12" font-weight="bold">100+ Pips</text>
+
+                <!-- Annotations -->
+                <text x="400" y="470" fill="#9898a8" font-size="11" text-anchor="middle">Quote: "when price comes back down into that and hits it that's where we would be buying"</text>
+            </svg>
+
+            <h3>Pattern Description</h3>
+            <blockquote class="quote">
+                <p><em>"as you can see here there's a consolidation and the blue shaded area very clear defined consolidation it's got a clear discernable high and low and the equilibrium price point is directly in the middle of the high and the low end of that range"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"you can simply take the Fibonacci tool that you have in all your platforms lay the Fib from the high and the low in the general consolidation find that midpoint"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"eventually the market will move outside of the consolidation you can see that impulse move in that tan shaded box it moves away from the equilibrium price point and then all we have to do is go back to the down candle right before that up move that down candle or Black Candle I'm drawing a small little segment off of that's the bullish order block"</em></p>
+            </blockquote>
+
+            <h3>Entry & Result</h3>
+            <blockquote class="quote">
+                <p><em>"when the price comes back down into that and hits it that's where we would be buying and then obviously you can see it hits that level and expands to the upside over 100 Pips just by using that simple principle"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"it repeats itself all the time it's in price action all the time"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="retracement">
+            <h2>Retracement</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"retracement is when price moves back inside the recently created price range"</em></p>
+            </blockquote>
+
+            <h3>Coupled ICT Tool</h3>
+            <blockquote class="quote">
+                <p><em>"when we're thinking retracement the goto is for ICT tools we're looking for liquidity gaps and liquidity voids"</em></p>
+            </blockquote>
+
+            <h3>Importance</h3>
+            <blockquote class="quote">
+                <p><em>"when price returns inside a recent price range this indicates a willingness on the part of the market makers to reprice to levels not efficiently traded for fair value"</em></p>
+            </blockquote>
+
+            <h3>Trading Logic</h3>
+            <blockquote class="quote">
+                <p><em>"when we look for price when we see run ups real quick and run downs in price in other words real quick rises up or real quick rallies down in price many times that range that's created will want to come back in and close that in"</em></p>
+            </blockquote>
+
+            <h3>Visual Example</h3>
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" font-weight="bold" text-anchor="middle">Retracement - Liquidity Void</text>
+
+                <!-- Starting price level -->
+                <line x1="100" y1="200" x2="300" y2="200" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Quick sudden drop (creating void) -->
+                <rect x="300" y="200" width="20" height="150" fill="#ff4757" fill-opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="240" y="275" fill="#ff4757" font-size="12" text-anchor="middle">Quick Sudden</text>
+                <text x="240" y="290" fill="#ff4757" font-size="12" text-anchor="middle">Movement</text>
+                <text x="240" y="305" fill="#ff4757" font-size="12" text-anchor="middle">(Liquidity Void)</text>
+
+                <!-- Arrow pointing to void -->
+                <line x1="260" y1="275" x2="295" y2="275" stroke="#ffa502" stroke-width="2" marker-end="url(#arroworange2)"/>
+
+                <!-- Price at bottom -->
+                <line x1="320" y1="350" x2="450" y2="350" stroke="#9898a8" stroke-width="2"/>
+                <text x="385" y="380" fill="#9898a8" font-size="12" text-anchor="middle">Price Drops Aggressively</text>
+
+                <!-- Retracement back up to fill void -->
+                <path d="M 450 350 L 480 320 L 510 280 L 540 240 L 570 210"
+                      fill="none" stroke="#2ed573" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="600" y="280" fill="#2ed573" font-size="12">Price Comes</text>
+                <text x="600" y="295" fill="#2ed573" font-size="12">Back Up To Fill</text>
+                <text x="600" y="310" fill="#2ed573" font-size="12">Liquidity Void</text>
+
+                <!-- Fill zone highlight -->
+                <rect x="560" y="200" width="30" height="150" fill="#ffa502" fill-opacity="0.2" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+
+                <!-- After fill, resume down -->
+                <path d="M 580 210 L 600 240 L 620 280 L 640 320 L 660 360"
+                      fill="none" stroke="#ff4757" stroke-width="3"/>
+                <text x="670" y="340" fill="#ff4757" font-size="12">Resumes</text>
+                <text x="670" y="355" fill="#ff4757" font-size="12">Going Lower</text>
+
+                <!-- Annotations -->
+                <text x="400" y="430" fill="#9898a8" font-size="11" text-anchor="middle">Quote: "we'll wait for it to come all way back up to it and fill in the liquidity void once it hits it then it'll probably resume going lower"</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arroworange2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ffa502" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Pattern Description</h3>
+            <blockquote class="quote">
+                <p><em>"as the market drops aggressively like that there's going to be Pockets where the price wasn't actually delivered on every available price level at that in that range it moved too quickly it skipped or it created gaps"</em></p>
+            </blockquote>
+
+            <h3>Trading Strategy</h3>
+            <blockquote class="quote">
+                <p><em>"what we'll do is is we'll wait as a Trader we won't chase price we'll wait and say okay there's going to be either an indication that get long and try to fill in that range or we can wait for it to come all way back up to it and fill in the liquidity void once it hits it then it'll probably resume going lower and that's what we're looking for in terms of liquidity void"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="reversal">
+            <h2>Reversal</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"the reversal is when price moves the opposite direction current Direction has taken in"</em></p>
+            </blockquote>
+
+            <h3>Coupled ICT Tool</h3>
+            <blockquote class="quote">
+                <p><em>"if we are looking for reversals we're directly coupling that with an ICT tool of liquidity pools"</em></p>
+            </blockquote>
+
+            <h3>Importance</h3>
+            <blockquote class="quote">
+                <p><em>"when the price reverses Direction it indicates the market makers have ran level of stops and a significant move should unfold in the New Direction"</em></p>
+            </blockquote>
+
+            <h3>What To Look For</h3>
+            <blockquote class="quote">
+                <p><em>"what do we look for in price the liquidity pools just above an old high and just below an old low"</em></p>
+            </blockquote>
+
+            <h3>Visual Example</h3>
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" font-weight="bold" text-anchor="middle">Reversal - Liquidity Pools (Stop Runs)</text>
+
+                <!-- Price movement creating highs and lows -->
+                <path d="M 50 250 L 100 200 L 150 220 L 200 150 L 250 180 L 300 120"
+                      fill="none" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Old High 1 -->
+                <circle cx="200" cy="150" r="5" fill="#2ed573"/>
+                <line x1="200" y1="150" x2="200" y2="120" stroke="#2ed573" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="200" y="110" fill="#2ed573" font-size="11" text-anchor="middle">Old High</text>
+
+                <!-- Stops above old high (X marker) -->
+                <text x="200" y="95" fill="#ff4757" font-size="20" font-weight="bold" text-anchor="middle">X</text>
+                <text x="200" y="85" fill="#ff4757" font-size="10" text-anchor="middle">Stops</text>
+
+                <!-- Price runs above high -->
+                <path d="M 300 120 L 350 100 L 370 135"
+                      fill="none" stroke="#2ed573" stroke-width="2"/>
+                <rect x="345" y="90" width="30" height="15" fill="#ffa502" fill-opacity="0.3" stroke="#ffa502" stroke-width="1"/>
+                <text x="410" y="100" fill="#ffa502" font-size="10">Runs stops just</text>
+                <text x="410" y="112" fill="#ffa502" font-size="10">above old high</text>
+
+                <!-- Reversal down -->
+                <path d="M 370 135 L 400 180 L 430 220 L 460 270"
+                      fill="none" stroke="#ff4757" stroke-width="3"/>
+                <text x="480" y="220" fill="#ff4757" font-size="12" font-weight="bold">Reversal</text>
+                <text x="480" y="235" fill="#ff4757" font-size="12" font-weight="bold">Down</text>
+
+                <!-- Second example - below old low -->
+                <path d="M 50 350 L 100 320 L 150 340 L 200 300 L 250 330 L 300 290"
+                      fill="none" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Old Low -->
+                <circle cx="200" cy="340" r="5" fill="#ff4757"/>
+                <line x1="200" y1="340" x2="200" y2="370" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="200" y="385" fill="#ff4757" font-size="11" text-anchor="middle">Old Low</text>
+
+                <!-- Stops below old low (X marker) -->
+                <text x="200" y="405" fill="#2ed573" font-size="20" font-weight="bold" text-anchor="middle">X</text>
+                <text x="200" y="420" fill="#2ed573" font-size="10" text-anchor="middle">Stops</text>
+
+                <!-- Price runs below low -->
+                <path d="M 300 290 L 350 310 L 370 350 L 380 360"
+                      fill="none" stroke="#ff4757" stroke-width="2"/>
+                <rect x="365" y="355" width="30" height="15" fill="#ffa502" fill-opacity="0.3" stroke="#ffa502" stroke-width="1"/>
+                <text x="420" y="362" fill="#ffa502" font-size="10">Runs stops just</text>
+                <text x="420" y="374" fill="#ffa502" font-size="10">below old low</text>
+
+                <!-- Reversal up -->
+                <path d="M 380 360 L 410 330 L 440 300 L 470 270"
+                      fill="none" stroke="#2ed573" stroke-width="3"/>
+                <text x="490" y="300" fill="#2ed573" font-size="12" font-weight="bold">Reversal</text>
+                <text x="490" y="315" fill="#2ed573" font-size="12" font-weight="bold">Up</text>
+            </svg>
+
+            <h3>Pattern Description</h3>
+            <blockquote class="quote">
+                <p><em>"every X indicates where stops would be and the market goes just above those levels and rejects and goes the other way or goes just below those levels where there's an X and rejects and goes the other way"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="consolidation">
+            <h2>Consolidation</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"consolidation is when price moves inside a clear trading range and shows no willingness to move significantly higher or lower"</em></p>
+            </blockquote>
+
+            <h3>Coupled ICT Tool</h3>
+            <blockquote class="quote">
+                <p><em>"whenever we're referring to consolidation we're directly relating that to an ICT tool of equilibrium"</em></p>
+            </blockquote>
+
+            <h3>Importance</h3>
+            <blockquote class="quote">
+                <p><em>"when price consolidates it indicates the market makers are allowing orders to build on both sides of the market expect a new expansion near term"</em></p>
+            </blockquote>
+
+            <h3>What To Look For</h3>
+            <blockquote class="quote">
+                <p><em>"we're waiting for the impulse move or impulse swing in price away from the equilibrium price level that is found exactly in the halfway point of the consolidation range"</em></p>
+            </blockquote>
+
+            <h3>Visual Example</h3>
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" font-weight="bold" text-anchor="middle">Consolidation - Equilibrium</text>
+
+                <!-- Consolidation range box -->
+                <rect x="100" y="150" width="250" height="150" fill="none" stroke="#9898a8" stroke-width="2"/>
+                <text x="225" y="130" fill="#9898a8" font-size="12" text-anchor="middle">Clear Trading Range</text>
+
+                <!-- High of range -->
+                <line x1="80" y1="150" x2="370" y2="150" stroke="#2ed573" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="60" y="155" fill="#2ed573" font-size="11" text-anchor="end">High</text>
+
+                <!-- Low of range -->
+                <line x1="80" y1="300" x2="370" y2="300" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="60" y="305" fill="#ff4757" font-size="11" text-anchor="end">Low</text>
+
+                <!-- Equilibrium line (50%) -->
+                <line x1="80" y1="225" x2="700" y2="225" stroke="#ffa502" stroke-width="3"/>
+                <text x="60" y="230" fill="#ffa502" font-size="12" font-weight="bold" text-anchor="end">EQ</text>
+                <text x="720" y="230" fill="#ffa502" font-size="11">Equilibrium (Halfway Point)</text>
+
+                <!-- Price action inside consolidation -->
+                <path d="M 120 220 L 140 180 L 160 200 L 180 170 L 200 190 L 220 280 L 240 260 L 260 270 L 280 190 L 300 210 L 320 180"
+                      fill="none" stroke="#9898a8" stroke-width="2" opacity="0.6"/>
+
+                <!-- Expansion impulse move -->
+                <path d="M 350 225 L 380 200 L 410 170 L 440 130 L 470 100 L 500 80"
+                      fill="none" stroke="#2ed573" stroke-width="4"/>
+                <rect x="460" y="70" width="80" height="40" fill="#2ed573" fill-opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="500" y="55" fill="#2ed573" font-size="13" font-weight="bold" text-anchor="middle">Impulse Move</text>
+                <text x="500" y="90" fill="#2ed573" font-size="12" text-anchor="middle">Away From</text>
+                <text x="500" y="105" fill="#2ed573" font-size="12" text-anchor="middle">Equilibrium</text>
+
+                <!-- Retracement to equilibrium -->
+                <path d="M 500 80 L 530 120 L 560 160 L 590 200 L 610 220"
+                      fill="none" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="640" y="180" fill="#ff4757" font-size="11">Comes back to</text>
+                <text x="640" y="195" fill="#ff4757" font-size="11">Equilibrium</text>
+
+                <!-- Entry point -->
+                <circle cx="610" cy="225" r="10" fill="none" stroke="#ffa502" stroke-width="3"/>
+
+                <!-- Second expansion -->
+                <path d="M 620 225 L 650 180 L 680 140 L 710 100"
+                      fill="none" stroke="#2ed573" stroke-width="4"/>
+                <text x="720" y="105" fill="#2ed573" font-size="12" font-weight="bold">Expansion</text>
+
+                <!-- Note -->
+                <text x="400" y="430" fill="#9898a8" font-size="11" text-anchor="middle">Quote: "price moves out in an expansive manner and then comes right back down to the equilibrium price point and then expands to the outside"</text>
+            </svg>
+
+            <h3>Pattern Description</h3>
+            <blockquote class="quote">
+                <p><em>"we see here where we've identified a range defined specifically by the bodies of the candles not the Wicks as you can see price moves out in an expansive Manner and then comes right back down to the equilibrium price point and then expands to the outside"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two primary concerns when referring to elements of a trade setup?</div>
+                    <div class="flashcard-answer">"when we refer to elements to a trade setup there's really just two primary concerns and one is obviously context or framework surrounding the idea in other words what makes the idea favorable for a trade"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the four specific market conditions/principles?</div>
+                    <div class="flashcard-answer">"either the Market's going to be expanding running away in other words trending a retracement or pullback altogether reversal and obviously when the Market's doing nothing it's consolidating"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is expansion?</div>
+                    <div class="flashcard-answer">"expansion is when price moves quickly from a level of equilibrium"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What ICT tool couples with expansion?</div>
+                    <div class="flashcard-answer">"expansion couples directly with the tool of an order block"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does expansion indicate?</div>
+                    <div class="flashcard-answer">"when price leaves a level quickly this indicates a willingness on the part of the market makers to reveal their intended repricing model"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a retracement?</div>
+                    <div class="flashcard-answer">"retracement is when price moves back inside the recently created price range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What ICT tool do we look for during retracements?</div>
+                    <div class="flashcard-answer">"when we're thinking retracement the goto is for ICT tools we're looking for liquidity gaps and liquidity voids"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a retracement indicate?</div>
+                    <div class="flashcard-answer">"when price returns inside a recent price range this indicates a willingness on the part of the market makers to reprice to levels not efficiently traded for fair value"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a reversal?</div>
+                    <div class="flashcard-answer">"the reversal is when price moves the opposite direction current Direction has taken in"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a reversal indicate?</div>
+                    <div class="flashcard-answer">"when the price reverses Direction it indicates the market makers have ran level of stops and a significant move should unfold in the New Direction"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where do we look for liquidity pools in reversals?</div>
+                    <div class="flashcard-answer">"what do we look for in price the liquidity pools just above an old high and just below an old low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is consolidation?</div>
+                    <div class="flashcard-answer">"consolidation is when price moves inside a clear trading range and shows no willingness to move significantly higher or lower"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does consolidation indicate?</div>
+                    <div class="flashcard-answer">"when price consolidates it indicates the market makers are allowing orders to build on both sides of the market expect a new expansion near term"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where do all market moves start from?</div>
+                    <div class="flashcard-answer">"all Market start from a consolidation and move into an expansion that means there's an Impulse move or an Impulse price swing"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does consolidation occur?</div>
+                    <div class="flashcard-answer">"the consolidation begins with everything all the moves that take place in the marketplace start from a measure of consolidation because that's where the markets are building orders"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the interbank price delivery algorithm?</div>
+                    <div class="flashcard-answer">"the interbank price delivery algorithm or what I always refer to as the algo or interbank algo is the actual basically artificial intelligence it's a price engine that when we receive our price for our currencies it's actually 90% done by electronic algorithms so it's all computer-based now"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many setups do you need to be consistent?</div>
+                    <div class="flashcard-answer">"it only takes one setup you need know what context or framework you're going to trade in couple that with an ICT tool and then wait for those conditions"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How quickly can you determine market characteristics?</div>
+                    <div class="flashcard-answer">"it only takes a second or two to look at the marketplace determine okay what characteristic are we trading in so that way you can build a context or framework on how you're going to approach the marketplace"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

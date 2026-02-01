@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essentials to ICT Day Trading - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .time-slot {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .time-slot strong {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-bull);
+            font-size: 1.1rem;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .case-study {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-bull);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .case-study h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--accent-bull);
+            margin-bottom: 1rem;
+        }
+
+        .stat-highlight {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+            border-left: 4px solid var(--accent-bull);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ict_SMC.html">Next Chapter</a>
+        <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Essentials to ICT Day Trading</h1>
+        <p>"Our aim is to capitalize on the movement that exists in a 24-hour trading period"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#daily-range">Daily Range</a>
+        <a href="#time-of-day">Time of Day</a>
+        <a href="#day-of-week">Day of Week</a>
+        <a href="#sunday-filter">Sunday Filter</a>
+        <a href="#weekly-framework">Weekly Framework</a>
+        <a href="#case-studies">Case Studies</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition & Core Goal</h2>
+            <blockquote class="quote">
+                <p><em>"The aim is to capitalize on the movement existing in a single day now this makes this type of trading the hardest and it's why most analysts and Technical gurus if you will that like to talk on CNBC or in the higher time frame World they'll scoff at day trading they'll say that it's not likely that anyone could be profitable trading this time frame but as you'll learn in this month it's very very precise"</em></p>
+            </blockquote>
+
+            <h3>Not Everyday Trading</h3>
+            <blockquote class="quote">
+                <p><em>"It's important just because the name again I've said this many times is day trading it does not mean or equate to Everyday trading so not all dates are going to be ideal for day trading"</em></p>
+            </blockquote>
+
+            <h3>Typical Setups Per Day</h3>
+            <blockquote class="quote">
+                <p><em>"Generally there are two setups per trading day on average"</em></p>
+            </blockquote>
+
+            <h3>Days to Avoid</h3>
+            <blockquote class="quote">
+                <p><em>"FOMC days and non-farm payroll days keep us on the sidelines and they are basically a no setup day"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="daily-range">
+            <h2>Daily Range Target</h2>
+            <blockquote class="quote">
+                <p><em>"The daily range is the goal for us as the day trader in other words our expectation is to capitalize on at least 65 to 70 percent of the daily range that means we're going to leave a little bit on the table possibly near the high or the low of the day but we're trying to get the lions portion of the move that comprises the daily range or daily candle"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Daily Range Target: 65-70%</text>
+
+                <!-- Daily Candle -->
+                <line x1="400" y1="80" x2="400" y2="260" stroke="#e8e8ed" stroke-width="2"/>
+                <rect x="360" y="100" width="80" height="140" fill="none" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- High label -->
+                <text x="500" y="90" fill="#e8e8ed" font-size="14">High of Day</text>
+                <line x1="480" y1="85" x2="400" y2="85" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+
+                <!-- Low label -->
+                <text x="500" y="270" fill="#e8e8ed" font-size="14">Low of Day</text>
+                <line x1="480" y1="265" x2="400" y2="265" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+
+                <!-- Target Zone -->
+                <rect x="360" y="120" width="80" height="100" fill="#2ed573" fill-opacity="0.3"/>
+                <text x="200" y="175" fill="#2ed573" font-size="16" font-weight="bold">65-70% Target Zone</text>
+                <line x1="290" y1="170" x2="360" y2="170" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Left off table zones -->
+                <text x="200" y="110" fill="#ff4757" font-size="12">Leave on table</text>
+                <text x="200" y="250" fill="#ff4757" font-size="12">Leave on table</text>
+            </svg>
+
+            <h3>Average Daily Range Calculation</h3>
+            <blockquote class="quote">
+                <p><em>"Typically the daily range will be close to the last five days average daily range and I'll go into detail about that and how we can arrive at that figure but generally what we're looking for is a range that is equivalent to the last five days averaged across in other words what's the most Pips it's moved in the last five days averaged and then that's going to be our expected daily range"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Expected Daily Range</span>
+                </div>
+                <p><em>"There's going to be times where I'm going to teach you where average daily range can be actually doubled or even expected to be more than doubled in a single day"</em></p>
+            </div>
+
+            <h3>Directional Bias Foundation</h3>
+            <blockquote class="quote">
+                <p><em>"Directional bias frames a large portion of all day trade setups that means we're gonna be looking for directional plays primarily so we're going to have a preconceived idea going into the week looking for specific criterias to link ourselves with institutional order flow"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The ideal scenario is to day trade in the direction of the weekly time frame"</em></p>
+            </blockquote>
+
+            <h3>Higher Time Frame Confirmation</h3>
+            <blockquote class="quote">
+                <p><em>"The more higher time frame ideas that you can find to support the day trade this is going to increase the odds and therefore make it better for you"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="time-of-day">
+            <h2>Time of Day Kill Zones</h2>
+            <blockquote class="quote">
+                <p><em>"The most important is time of day. Time of day for day trading is absolutely Paramount just because we are day trading doesn't mean that you can just sit down any old time and say okay I'm going to buy the Euro here and therefore I'm going to be profitable"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"There are no set brokerage operating hours but there are time windows that we have to work within so while I don't trade in zones in price I do trade in zones and time so you have to be flexible with time and demand specifics in price that means we're demanding specific things that occur in a window of time so the flexibility resides in time not price"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"When I refer to a time here it's going to be relative to what time it is in New York"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="500" y="30" fill="#ffa502" font-size="22" text-anchor="middle" font-weight="bold">ICT Kill Zones - New York Time</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="100" x2="950" y2="100" stroke="#e8e8ed" stroke-width="3"/>
+
+                <!-- London Open Kill Zone -->
+                <rect x="80" y="70" width="200" height="60" fill="#2ed573" fill-opacity="0.3" stroke="#2ed573" stroke-width="2"/>
+                <text x="180" y="95" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">LONDON OPEN</text>
+                <text x="180" y="115" fill="#e8e8ed" font-size="14" text-anchor="middle">1:00 AM - 5:00 AM</text>
+                <text x="180" y="155" fill="#9898a8" font-size="12" text-anchor="middle">Hot Spot: 2:00 AM - 4:00 AM</text>
+
+                <!-- London Lunch -->
+                <rect x="300" y="70" width="120" height="60" fill="#ff4757" fill-opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="360" y="95" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">LONDON LUNCH</text>
+                <text x="360" y="115" fill="#e8e8ed" font-size="12" text-anchor="middle">5:00 AM - 7:00 AM</text>
+
+                <!-- New York Open -->
+                <rect x="440" y="70" width="200" height="60" fill="#2ed573" fill-opacity="0.3" stroke="#2ed573" stroke-width="2"/>
+                <text x="540" y="95" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">NEW YORK OPEN</text>
+                <text x="540" y="115" fill="#e8e8ed" font-size="14" text-anchor="middle">8:00 AM - 12:00 PM</text>
+                <text x="540" y="155" fill="#9898a8" font-size="12" text-anchor="middle">CME Open: 8:20 AM</text>
+
+                <!-- London Close -->
+                <rect x="660" y="70" width="120" height="60" fill="#ffa502" fill-opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <text x="720" y="95" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">LONDON CLOSE</text>
+                <text x="720" y="115" fill="#e8e8ed" font-size="12" text-anchor="middle">2:00 PM - 3:00 PM</text>
+
+                <!-- Asian Session -->
+                <rect x="800" y="70" width="120" height="60" fill="#9898a8" fill-opacity="0.3" stroke="#9898a8" stroke-width="2"/>
+                <text x="860" y="95" fill="#9898a8" font-size="14" text-anchor="middle" font-weight="bold">ASIAN OPEN</text>
+                <text x="860" y="115" fill="#e8e8ed" font-size="12" text-anchor="middle">8:00 PM</text>
+
+                <!-- Notes -->
+                <text x="500" y="200" fill="#e8e8ed" font-size="14" text-anchor="middle">All times in New York Local Time</text>
+            </svg>
+
+            <h3>London Session Open</h3>
+            <div class="time-slot">
+                <p><strong>Time Window: 1:00 AM - 5:00 AM New York Time</strong></p>
+                <p><em>"Typically London the hot spot for the higher low the form for the day is usually between two o'clock in the morning and four o'clock in the morning New York time"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"The way I overcome that is I look at my London open Kill Zone beginning at 1am New York time and ending at 5 am New York time so it gives me that window of four hours where it allows literally nothing to escape me"</em></p>
+            </blockquote>
+
+            <h3>New York Session Open</h3>
+            <div class="time-slot">
+                <p><strong>Primary Trading Window</strong></p>
+                <p><em>"New York session open now this is primarily the easiest one to work with. New York primarily is really really good"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"The only time that you would avoid New York is if the London session puts in 80 percent of the average daily range and there's going to be very few times that it does that but generally unless the daily range is almost entirely completed in the last five days average daily range is what I'm referring to that measurement if it's met or exceeded in London that is when you want to move to the sidelines and don't even consider trading New York"</em></p>
+            </blockquote>
+
+            <h3>London Close</h3>
+            <div class="time-slot">
+                <p><strong>Time Window: 2:00 PM - 3:00 PM (Bond Market Close)</strong></p>
+                <p><em>"We're looking at is the two o'clock hour and specifically the three o'clock which is the close of the bond market that to me is the close of the New York session"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"London close is the time of day where we look to really Bank our positions and there are times when if the market is in a reversal intraday but it goes down into a logical level of support or trades up into a electrical level resistance that may be the very moment in time that a reversal occurs"</em></p>
+            </blockquote>
+
+            <h3>London Lunch</h3>
+            <div class="time-slot">
+                <p><strong>Time Window: 5:00 AM - 7:00 AM New York Time</strong></p>
+                <p><em>"This is generally between 5 am to 7:00 am that time window is when the market goes pretty much quiet and It prepares for the next leg either in the direction that London creates or a reversal"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"London after 5 P am New York time you generally want to just anticipate a mode of transition retracement or consolidation"</em></p>
+            </blockquote>
+
+            <h3>Asian Session Open</h3>
+            <div class="time-slot">
+                <p><strong>Time: 8:00 PM New York Time</strong></p>
+                <p><em>"Asian session open this is primarily 8 PM my time in New York we're looking for very small little setups that takes place in this time of day but many times during the Aussie overlap into Asia you can actually get the daily lower high formed in the Asian session open for like the Yen pairs Aussie and kiwi those types of pairs can generally surprise the traitor by forming a special or important if you will high or low at that time of day when you would normally expect it in the London session"</em></p>
+            </div>
+        </section>
+
+        <section id="day-of-week">
+            <h2>Day of Week Characteristics</h2>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="22" text-anchor="middle" font-weight="bold">Weekly Trading Profile</text>
+
+                <!-- Days boxes -->
+                <!-- Sunday -->
+                <rect x="50" y="80" width="120" height="100" fill="#9898a8" fill-opacity="0.2" stroke="#9898a8" stroke-width="2"/>
+                <text x="110" y="110" fill="#9898a8" font-size="16" text-anchor="middle" font-weight="bold">SUNDAY</text>
+                <text x="110" y="135" fill="#e8e8ed" font-size="12" text-anchor="middle">Small Range</text>
+                <text x="110" y="155" fill="#e8e8ed" font-size="11" text-anchor="middle">Opening Price</text>
+                <text x="110" y="170" fill="#e8e8ed" font-size="11" text-anchor="middle">Filter Reference</text>
+
+                <!-- Monday -->
+                <rect x="190" y="80" width="120" height="100" fill="#ffa502" fill-opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="250" y="110" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">MONDAY</text>
+                <text x="250" y="135" fill="#e8e8ed" font-size="12" text-anchor="middle">Generally Small</text>
+                <text x="250" y="155" fill="#e8e8ed" font-size="10" text-anchor="middle">Big range = Week</text>
+                <text x="250" y="170" fill="#e8e8ed" font-size="10" text-anchor="middle">High/Low potential</text>
+
+                <!-- Tuesday -->
+                <rect x="330" y="80" width="120" height="100" fill="#2ed573" fill-opacity="0.3" stroke="#2ed573" stroke-width="3"/>
+                <text x="390" y="110" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">TUESDAY</text>
+                <text x="390" y="135" fill="#2ed573" font-size="14" text-anchor="middle">77% PROBABILITY</text>
+                <text x="390" y="155" fill="#e8e8ed" font-size="11" text-anchor="middle">Bullish: Low of Week</text>
+                <text x="390" y="170" fill="#e8e8ed" font-size="11" text-anchor="middle">Bearish: High of Week</text>
+
+                <!-- Wednesday -->
+                <rect x="470" y="80" width="120" height="100" fill="#2ed573" fill-opacity="0.3" stroke="#2ed573" stroke-width="3"/>
+                <text x="530" y="110" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">WEDNESDAY</text>
+                <text x="530" y="135" fill="#2ed573" font-size="12" text-anchor="middle">IDEAL DAY</text>
+                <text x="530" y="155" fill="#e8e8ed" font-size="11" text-anchor="middle">Midweek data</text>
+                <text x="530" y="170" fill="#e8e8ed" font-size="11" text-anchor="middle">available</text>
+
+                <!-- Thursday -->
+                <rect x="610" y="80" width="120" height="100" fill="#ffa502" fill-opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="670" y="110" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">THURSDAY</text>
+                <text x="670" y="135" fill="#e8e8ed" font-size="12" text-anchor="middle">Ideal but caution</text>
+                <text x="670" y="155" fill="#e8e8ed" font-size="10" text-anchor="middle">Weekly range often</text>
+                <text x="670" y="170" fill="#e8e8ed" font-size="10" text-anchor="middle">capped by NY session</text>
+
+                <!-- Friday -->
+                <rect x="750" y="80" width="120" height="100" fill="#ff4757" fill-opacity="0.2" stroke="#ff4757" stroke-width="2"/>
+                <text x="810" y="110" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">FRIDAY</text>
+                <text x="810" y="135" fill="#e8e8ed" font-size="12" text-anchor="middle">Typically Small</text>
+                <text x="810" y="155" fill="#e8e8ed" font-size="10" text-anchor="middle">Unless PD array</text>
+                <text x="810" y="170" fill="#e8e8ed" font-size="10" text-anchor="middle">not yet hit</text>
+
+                <!-- Legend -->
+                <text x="450" y="230" fill="#e8e8ed" font-size="14" text-anchor="middle" font-style="italic">Color: Green = Best Days | Orange = Caution | Red = Typically Avoid | Gray = Reference Only</text>
+            </svg>
+
+            <h3>Sunday</h3>
+            <blockquote class="quote">
+                <p><em>"Sunday generally we opt out because the daily range is simply too too small it's only a couple hours but there are some things that we need to know about Sunday"</em></p>
+            </blockquote>
+
+            <h3>Monday</h3>
+            <blockquote class="quote">
+                <p><em>"Monday and generally this can create a small range typically. If it's a really large range and it comes right out the gate Direction wise and you understand where you're at in terms of the the PD arrays if we're trading up into a premium right from the jump of the new week and Monday becomes a high range or large range day and it trades into a premium PD array that can many times be the high of the week"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Generally Mondays are going to be a small range day unless that type of scenario unfolds or the opposite would be if Monday has a big range day and trading down and it goes into a PD array that's a discount on the daily chart then we can anticipate Monday becoming the lowest low of the week"</em></p>
+            </blockquote>
+
+            <h3>Tuesday - High Probability Day</h3>
+            <div class="stat-highlight">
+                <p><strong>77% LIKELIHOOD STATISTIC</strong></p>
+                <p><em>"Tuesday usually is a good day to trade. In terms of specifics of one shot one kill usually on bullish weeks Tuesday has a 77 likelihood of creating the low of the week in London and therefore it creates a high probability scenario to be a day trader on Tuesdays and reverse is said for when the markets are bearish if you have a 70 likelihood that Tuesday's limit open will create the high of the week so generally Tuesdays are really good days to trade for day trades"</em></p>
+            </div>
+
+            <h3>Wednesday - Ideal Day</h3>
+            <blockquote class="quote">
+                <p><em>"Wednesday are really ideal scenarios because what you'll see is you have Sunday if you use those candles in your platform Monday and Tuesday or if you don't have Sunday you have Monday and Tuesday behind you and it gives you some insight as we're going to share in this teaching to help frame confidence around trading Wednesday with a particular mindset going into London and New York so generally ideal day trading is seen on Wednesday because you have some data midweek"</em></p>
+            </blockquote>
+
+            <h3>Thursday - Weekly Range Cap</h3>
+            <blockquote class="quote">
+                <p><em>"Thursday again is generally ideal scenario but you gotta be careful Thursdays can reverse. Usually the weekly range is again capped by Thursday's New York session so be mindful that if we do get a good day trade in in Thursday's London open it may fizzle out and actually reverse the week during the Thursday New York or London close scenario"</em></p>
+            </blockquote>
+
+            <h3>Friday</h3>
+            <blockquote class="quote">
+                <p><em>"Friday is typically a small range as we close a week but if there are objectives that haven't been met by Thursday in terms of the PD arrays you could see a surprise expansion on Friday running into that PD array so it's kind of like a toss-up it depends on what we've seen in the weekly range if Thursday has met the daily PD array whether it be premium or discount that we've traded for in terms of a Target for the weekly range as a whole if that's been met by Thursday chances are Friday's going to be a really quiet day if it has not been met Friday can generally sometimes surprise us and have a big large range day"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="sunday-filter">
+            <h2>Sunday's Opening Price Filter</h2>
+            <blockquote class="quote">
+                <p><em>"On Sunday we determine the new trading week's opening price now this will Aid Us in intra week with day trade directional buys to work with"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"I already know some of you are thinking and panicking oh no you know I don't use Sunday candles my broker doesn't use Sunday data no problem just use your opening on Monday it's not that big of a deal it's still going to come to the same consensus anyway to just relax it's not going to be that much of a disparity"</em></p>
+            </blockquote>
+
+            <h3>How to Mark the Filter</h3>
+            <blockquote class="quote">
+                <p><em>"We're going to note this Sunday opening and we're going to note it and draw it out in time all the way through our 60 Minute or one hour chart all the way up to Thursday"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"We take that opening range price from Sunday and we draw it out on our hourly chart and we draw it all the way until Thursday now why is it Thursday well because your profile say on Thursday you could see a reversal unfold for the week"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="500" y="30" fill="#ffa502" font-size="22" text-anchor="middle" font-weight="bold">Sunday Opening Price Filter - Bearish Week</text>
+
+                <!-- Sunday Opening Line -->
+                <line x1="100" y1="200" x2="900" y2="200" stroke="#ffa502" stroke-width="3" stroke-dasharray="8,4"/>
+                <text x="920" y="205" fill="#ffa502" font-size="14" font-weight="bold">Sunday Open</text>
+
+                <!-- Premium PD Array above -->
+                <rect x="100" y="100" width="150" height="40" fill="#ff4757" fill-opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="175" y="125" fill="#ff4757" font-size="13" text-anchor="middle">Premium PD Array</text>
+
+                <!-- Price action path - bearish scenario -->
+                <path d="M 100 200 L 200 150 L 300 190 L 400 210 L 500 280 L 600 320 L 700 360 L 800 380"
+                      fill="none" stroke="#e8e8ed" stroke-width="3"/>
+
+                <!-- Judas Swing annotation -->
+                <text x="200" y="140" fill="#2ed573" font-size="12">Judas Swing Above</text>
+                <line x1="200" y1="145" x2="200" y2="150" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Trading below line -->
+                <text x="500" y="300" fill="#e8e8ed" font-size="13">Price Below = Sell Short Daily</text>
+
+                <!-- Discount PD Array below -->
+                <rect x="650" y="400" width="150" height="40" fill="#2ed573" fill-opacity="0.3" stroke="#2ed573" stroke-width="2"/>
+                <text x="725" y="425" fill="#2ed573" font-size="13" text-anchor="middle">Discount PD Array</text>
+                <text x="725" y="460" fill="#ff4757" font-size="11" text-anchor="middle">Caution: Potential Reversal</text>
+
+                <!-- Day markers -->
+                <text x="100" y="520" fill="#9898a8" font-size="12">SUN</text>
+                <text x="250" y="520" fill="#9898a8" font-size="12">MON</text>
+                <text x="400" y="520" fill="#9898a8" font-size="12">TUE</text>
+                <text x="550" y="520" fill="#9898a8" font-size="12">WED</text>
+                <text x="700" y="520" fill="#ffa502" font-size="12" font-weight="bold">THU</text>
+                <text x="850" y="520" fill="#9898a8" font-size="12">FRI</text>
+
+                <!-- Thursday line -->
+                <line x1="700" y1="50" x2="700" y2="500" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+            </svg>
+
+            <h3>Bearish Weekly Directional Bias</h3>
+            <blockquote class="quote">
+                <p><em>"We look for price to trade Above This level generally early in the week during bearish weekly directional bias in other words we're expecting price to trade down away from a PD array that's a premium okay we've seen price move up into a premium it's already traded it has already fulfilled a premium level so therefore we're expecting expansion on the downside and we see the opening price and then price starts to trade up Sunday and going into Monday trades above it so therefore we're seeing a little bit of a Judas swing that's the criteria we're looking for and then throughout the rest of the week as long as price is lower than this Sunday opening price each day of the week we look to sell short in all of our day trades"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">BEARISH FILTER RULE</span>
+                </div>
+                <p><em>"As long as we are trading below the Sunday's opening price we're looking to sell short every single day in London and continuation in New York but this is only true in this case while we're looking for cell days every day of the week while we're below the Sunday opening price that's true only until we trade to a higher time frame discount PD array that has us on caution and we may see an intro week reversal if that happens otherwise we continuously take day trades short in London and continuations in New York"</em></p>
+            </div>
+
+            <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="500" y="30" fill="#ffa502" font-size="22" text-anchor="middle" font-weight="bold">Sunday Opening Price Filter - Bullish Week</text>
+
+                <!-- Sunday Opening Line -->
+                <line x1="100" y1="350" x2="900" y2="350" stroke="#ffa502" stroke-width="3" stroke-dasharray="8,4"/>
+                <text x="920" y="355" fill="#ffa502" font-size="14" font-weight="bold">Sunday Open</text>
+
+                <!-- Discount PD Array below -->
+                <rect x="100" y="450" width="150" height="40" fill="#2ed573" fill-opacity="0.3" stroke="#2ed573" stroke-width="2"/>
+                <text x="175" y="475" fill="#2ed573" font-size="13" text-anchor="middle">Discount PD Array</text>
+
+                <!-- Price action path - bullish scenario -->
+                <path d="M 100 350 L 200 400 L 300 360 L 400 340 L 500 270 L 600 230 L 700 190 L 800 170"
+                      fill="none" stroke="#e8e8ed" stroke-width="3"/>
+
+                <!-- Judas Swing annotation -->
+                <text x="200" y="420" fill="#ff4757" font-size="12">Judas Swing Below</text>
+                <line x1="200" y1="400" x2="200" y2="410" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Trading above line -->
+                <text x="500" y="250" fill="#e8e8ed" font-size="13">Price Above = Buy Long Daily</text>
+
+                <!-- Premium PD Array above -->
+                <rect x="650" y="110" width="150" height="40" fill="#ff4757" fill-opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="725" y="135" fill="#ff4757" font-size="13" text-anchor="middle">Premium PD Array</text>
+                <text x="725" y="100" fill="#ff4757" font-size="11" text-anchor="middle">Caution: Potential Reversal</text>
+
+                <!-- Day markers -->
+                <text x="100" y="540" fill="#9898a8" font-size="12">SUN</text>
+                <text x="250" y="540" fill="#9898a8" font-size="12">MON</text>
+                <text x="400" y="540" fill="#9898a8" font-size="12">TUE</text>
+                <text x="550" y="540" fill="#9898a8" font-size="12">WED</text>
+                <text x="700" y="540" fill="#ffa502" font-size="12" font-weight="bold">THU</text>
+                <text x="850" y="540" fill="#9898a8" font-size="12">FRI</text>
+
+                <!-- Thursday line -->
+                <line x1="700" y1="50" x2="700" y2="520" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+            </svg>
+
+            <h3>Bullish Weekly Directional Bias</h3>
+            <blockquote class="quote">
+                <p><em>"We look for price to trade below this level early in the week during bullish weekly directional bias in other words if price is trading at a higher time frame discount PD array whether it be a monthly weekly and daily there's suggestions that you know the prices really oversold institutionally speaking not because of indicators but in relative terms if we expect something to to be bullish on a daily chart that's really the only thing we really need if the daily is at a discount and we're trading at a discount PD array price is suggesting higher prices institutional order flow suggesting higher prices we've gone to forecast the weekly candle to close higher than it opens on Sunday"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">BULLISH FILTER RULE</span>
+                </div>
+                <p><em>"As long as price is higher than this Sunday opening price each day of the week we look to buy long in all of our day trades that means we're looking for the low the form in London and a continuation by in New York and we continuously hold this idea throughout the week until a higher time frame PD array in the form of a premium is traded to then we would expect a potential intra-week reversal"</em></p>
+            </div>
+
+            <h3>Thursday Reversal Detection</h3>
+            <blockquote class="quote">
+                <p><em>"If price were to trade back above the opening price on Sunday during Thursday's Trading we've probably turned the corner we've had a major intro week reversal and that many times indicates a longer term One-Shot one kill bullish"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we started bullish for the week and then traded down Thursday through that Sunday's opening price that registers a potential weekly reversal so therefore we can get in sync the very next day on Friday selling short or the next week our scenario would go into that new week going short rate from jump on Monday Tuesday and Wednesday looking for the high of the week to form"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="weekly-framework">
+            <h2>Weekly Range Framework</h2>
+            <blockquote class="quote">
+                <p><em>"What we look for is on Sunday we determine the new trading week's opening price now this will Aid Us in intra week with day trade directional buys to work with"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="22" text-anchor="middle" font-weight="bold">Weekly Range Framework - Power Three</text>
+
+                <!-- Bullish Weekly Candle -->
+                <text x="200" y="80" fill="#2ed573" font-size="18" text-anchor="middle" font-weight="bold">BULLISH WEEK</text>
+                <line x1="200" y1="120" x2="200" y2="380" stroke="#e8e8ed" stroke-width="2"/>
+                <rect x="170" y="160" width="60" height="180" fill="none" stroke="#2ed573" stroke-width="3"/>
+
+                <text x="200" y="110" fill="#2ed573" font-size="12" text-anchor="middle">Friday Close (High)</text>
+                <text x="200" y="400" fill="#2ed573" font-size="12" text-anchor="middle">Sunday Open (Low)</text>
+
+                <!-- Range annotation -->
+                <line x1="250" y1="160" x2="250" y2="340" stroke="#ffa502" stroke-width="2"/>
+                <text x="320" y="250" fill="#ffa502" font-size="14" font-weight="bold">WEEKLY RANGE</text>
+                <text x="320" y="270" fill="#e8e8ed" font-size="12">Open to Close</text>
+
+                <!-- Bearish Weekly Candle -->
+                <text x="650" y="80" fill="#ff4757" font-size="18" text-anchor="middle" font-weight="bold">BEARISH WEEK</text>
+                <line x1="650" y1="120" x2="650" y2="380" stroke="#e8e8ed" stroke-width="2"/>
+                <rect x="620" y="160" width="60" height="180" fill="#ff4757" fill-opacity="0.5" stroke="#ff4757" stroke-width="3"/>
+
+                <text x="650" y="110" fill="#ff4757" font-size="12" text-anchor="middle">Sunday Open (High)</text>
+                <text x="650" y="400" fill="#ff4757" font-size="12" text-anchor="middle">Friday Close (Low)</text>
+
+                <!-- Range annotation -->
+                <line x1="700" y1="160" x2="700" y2="340" stroke="#ffa502" stroke-width="2"/>
+                <text x="770" y="250" fill="#ffa502" font-size="14" font-weight="bold">WEEKLY RANGE</text>
+                <text x="770" y="270" fill="#e8e8ed" font-size="12">Open to Close</text>
+
+                <!-- Bottom note -->
+                <text x="450" y="450" fill="#e8e8ed" font-size="14" text-anchor="middle" font-style="italic">Open at one end - Close at opposing end = Range Expansion</text>
+            </svg>
+
+            <h3>Power Three Relationship</h3>
+            <blockquote class="quote">
+                <p><em>"I want you to focus primarily at this chart and think about power three I've gone through my free tutorials you understand what power three is but I want you to look at these candles and remind yourself that the weekly range candles that are large have the opening price and closing price at opposing ends of the Candlestick range"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"This is important because it's teaching you to focus and anticipate range expansion range expansion on a weekly chart is a gold mine as long as you know what the most likely probable Direction is on the weekly candle that we're forming right now"</em></p>
+            </blockquote>
+
+            <h3>Weekly Range Expectation</h3>
+            <blockquote class="quote">
+                <p><em>"What we're looking for is that a little bit of movement below the opening price when we're primarily bullish and then we're going to be looking for expansion throughout the rest of the week until Friday's close all the way between the open and close that's your range that you're working within"</em></p>
+            </blockquote>
+
+            <h3>Daily Setup Count</h3>
+            <blockquote class="quote">
+                <p><em>"We're looking for day trades throughout the week Monday through Friday we have five opportunities and if we're going to be fair about it we generally have basically nine setups that are pretty much solid we generally don't rush a London setup on Monday but if you're absolutely aggressive you can be looking for setups on Monday especially if you have a big range starting right out of the gate on Sunday going into Monday Frankfurt"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="case-studies">
+            <h2>Three Case Studies</h2>
+            <p>British Pound USD - Three consecutive weeks demonstrating Sunday Opening Price Filter application with PD arrays</p>
+
+            <div class="case-study">
+                <h4>Case Study 1: Week of Recording - Bearish Weekly Bias</h4>
+                <h3>Setup Context</h3>
+                <blockquote class="quote">
+                    <p><em>"We have a daily rejection block premium PD array and we have a old low discount PD array"</em></p>
+                </blockquote>
+
+                <h3>Weekly Profile</h3>
+                <blockquote class="quote">
+                    <p><em>"You can see all of the days for this particular week are noted and our opening prices forecasted throughout the week until Thursday Thursday has a delineation so you can see the separation amongst all the other days Monday Tuesday Wednesday and then Friday you can see that we had that daily rejection block premium PD array traded to and above the opening price on Sunday and price started trading softer right away on Monday trading lower"</em></p>
+                </blockquote>
+
+                <h3>Tuesday-Wednesday Consolidation</h3>
+                <blockquote class="quote">
+                    <p><em>"On Tuesday okay we had Pro sell off right after the transition from Monday into Tuesday it sold off then went in consolidation in a consolidation continued all the way into the London open for Wednesday and then price rallied again now think about what's happened here on Wednesday Tuesday and Wednesday price had traded down into a fair value Gap so we had Gap support"</em></p>
+                </blockquote>
+
+                <blockquote class="quote">
+                    <p><em>"Price traded down and found support and couldn't find its way below 124.30 Tuesday and Wednesday finally it rallied up creating another consolidation and then Thursday it trades up intraday creating a high that's higher than the consolidation that was formed in Wednesday then it was rejected and then we sold off on non-farm payroll on Friday"</em></p>
+                </blockquote>
+
+                <h3>Trading Execution</h3>
+                <blockquote class="quote">
+                    <p><em>"The general consensus is that we were looking for cells below that opening price on Sunday because it had traded into the daily rejection block PD array in a premium basis this is the reason why I gave you short objectives of 12420, 123.75 and then 123.10. 12310 didn't get traded to but 123.75 did and we had a low of the week of 123.65 and that's 10 Pips below the low that formed for this old low discount PD array"</em></p>
+                </blockquote>
+
+                <div class="stat-highlight">
+                    <p><strong>Price Levels:</strong></p>
+                    <ul>
+                        <li>Consolidation Support: 124.30</li>
+                        <li>Target 1: 124.20</li>
+                        <li>Target 2: 123.75 ✓ (Hit)</li>
+                        <li>Target 3: 123.10 (Not hit)</li>
+                        <li>Actual Low of Week: 123.65 (10 pips below old low discount PD array)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <h4>Case Study 2: Previous Week - Discount PD Array Reversal</h4>
+                <h3>Setup Context</h3>
+                <blockquote class="quote">
+                    <p><em>"We have a daily rejection block premium PD array and we have a bullish order block low discount PD array"</em></p>
+                </blockquote>
+
+                <h3>Monday-Tuesday Action</h3>
+                <blockquote class="quote">
+                    <p><em>"You can see the opening price on Sunday and right away price shoots out the gate on Monday trades up aggressively trades higher and then sells off again in London on Tuesday and then trades down through that opening price"</em></p>
+                </blockquote>
+
+                <h3>Wednesday Reversal - Critical Learning</h3>
+                <blockquote class="quote">
+                    <p><em>"The Mantra would be okay we're below the selling point of Sunday's opening price so therefore I should be looking to sell short because we're below Sunday's opening price no the reason why is because we traded down into a fair value Gap relative to the daily chart and we have that daily discount bullish order block see how it stopped it dead in its tracks so while we're still below the opening price and we hit a PD array in a discount contrarian scale in order we're looking at something that would be opposing our expectations on Lower pricing if we're at a discount on The Daily if it hits that we have to look at what that PD array is is it premium or or discount in this case it's discount so therefore it's going to offer support we cannot be a seller in this particular setup we anticipate what unfolding it's a reversal"</em></p>
+                </blockquote>
+
+                <h3>Wednesday Low Formation</h3>
+                <blockquote class="quote">
+                    <p><em>"We have Wednesday's profile Wednesday reversal or low of the week form and then we can change gears and forget the Sunday's opening price and we're going to focus primarily on the weekly profile and we transition from that now we're going to incorporate the weekly profile of Wednesday low of the week so you can see the low forming at that PDA rate discount on a daily basis with the order Block in London on Wednesday it trades down"</em></p>
+                </blockquote>
+
+                <h3>Thursday-Friday Continuation</h3>
+                <blockquote class="quote">
+                    <p><em>"On Thursday it trades down into that fair value a gap also a discount PD array and then expands up above the opening price that's seen on Sunday and then on Friday it opens and trades down again into a bullish order block that was seen on Thursdays trading and then it expands up against once more closing in the liquidity void formed on Tuesday's Trading"</em></p>
+                </blockquote>
+
+                <div class="stat-highlight">
+                    <p><strong>Key Level: 125.50</strong> (Tuesday liquidity void / fair value gap close)</p>
+                </div>
+
+                <h3>Critical Teaching Point</h3>
+                <blockquote class="quote">
+                    <p><em>"You can see how it's just simply not watch a video from ICT and there it is it's as simple as that you have to blend some things and look at what would be barriers what are what are the barriers or speed bumps to you getting to what you think price is going to do"</em></p>
+                </blockquote>
+            </div>
+
+            <div class="case-study">
+                <h4>Case Study 3: Two Weeks Prior - Bullish Weekly Profile</h4>
+                <h3>Setup Context</h3>
+                <blockquote class="quote">
+                    <p><em>"We have the bullish order block low discount PD array and we have an old high or equal highs premium PD array"</em></p>
+                </blockquote>
+
+                <h3>Monday-Tuesday Low Formation</h3>
+                <blockquote class="quote">
+                    <p><em>"We have the opening price on this particular week's Sunday's opening and price trades right from the opening it goes up a little bit on Monday and trades down right away into the bullish order block low discount PD array and then rallies away from that and then we have one more attempt to go lower on Tuesday trades down into it Tuesday and then expands up so now Tuesday we've traded above Sunday's opening we are at a discount on The Daily so therefore we have our scenario expecting the weekly range or candle to close higher than it opened on Sunday"</em></p>
+                </blockquote>
+
+                <h3>Daily Trading Framework</h3>
+                <blockquote class="quote">
+                    <p><em>"Our Mantra is every day we're looking for an open decline low of the day buy it in London in New York we're looking for retracement into the range that was created from London's low to the high formed prior to 8 20 8 30 am in that in that realm we're looking for that CME opening which is 8 20 am New York time when that occurs generally that's going to be the setup in New York and so usually a continuation therefore and we're going to be looking for an expansion continuing on the up move"</em></p>
+                </blockquote>
+
+                <h3>Thursday Weekly Range Cap</h3>
+                <blockquote class="quote">
+                    <p><em>"We have the criteria met with a discount PD array on The Daily being met will Monday's Trading if we trade above Sunday's opening price on Tuesday so therefore Wednesday Thursday we're looking for openings in London to trade down by at a logical discount PD array in its lower time frame hourly chart and look what happens on Friday the criteria says that Friday can be a quiet day and the weekly range can be capped by Thursday's trading in New York and you see that happens here"</em></p>
+                </blockquote>
+
+                <h3>Premium PD Array Not Hit</h3>
+                <blockquote class="quote">
+                    <p><em>"Notice also because we did not hit the old high or equal High premium PD array that particular week on the 24th of march on Sunday we opened up rallying right away and it makes a run for what the daily PD array equal highs once it hit those equal highs then on Tuesday we see the week that we just talked about it creates that failure swing around that 125-90 level creating the high of the week on Tuesday so there's that overlap of PD arrays that caused the previous examples weekly High the form on Monday and Tuesday"</em></p>
+                </blockquote>
+
+                <div class="stat-highlight">
+                    <p><strong>Key Level: 125.90</strong> (Equal highs / failure swing creating weekly high)</p>
+                </div>
+            </div>
+
+            <h3>Integration Summary</h3>
+            <blockquote class="quote">
+                <p><em>"You have to blend some things but incorporating the Sunday's opening price and blending it with PD arrays from a discount and premium basis on a daily chart you can frame out what the weekly range will be this assists you also with one shot one kill but more importantly it helps us frame whether we're going to be a buyer or seller each day as a day trader and if that condition is really there"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It's important that it's simply you don't look at the opening price on Sunday and therefore it's above or below so I'm going to just do that no you have to incorporate the PD arrays and again this is the reason why it's not just simply watch a video and do it you have to study you have to have these things on your chart know what they are identify them label them on your chart and when it's traded to you anticipate specific things to unfold ipta will move from one PD array to the next from a discount to a premium from a premium to a discount and knowing what they are on a daily chart will help you build and framework for your weekly candle forecasting"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review Flashcards</h2>
+            <p>Click each card to reveal the answer (all answers are direct quotes from the transcript)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the primary goal for ICT day trading in terms of daily range capture?</div>
+                    <div class="flashcard-answer">"Our expectation is to capitalize on at least 65 to 70 percent of the daily range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do we calculate the expected daily range?</div>
+                    <div class="flashcard-answer">"Typically the daily range will be close to the last five days average daily range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many setups are there per trading day on average?</div>
+                    <div class="flashcard-answer">"Generally there are two setups per trading day on average"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal directional bias for day trading?</div>
+                    <div class="flashcard-answer">"The ideal scenario is to day trade in the direction of the weekly time frame"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What days should we avoid trading?</div>
+                    <div class="flashcard-answer">"FOMC days and non-farm payroll days keep us on the sidelines and they are basically a no setup day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London Open Kill Zone time window?</div>
+                    <div class="flashcard-answer">"I look at my London open Kill Zone beginning at 1am New York time and ending at 5 am New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the hot spot time for London session high or low?</div>
+                    <div class="flashcard-answer">"Typically London the hot spot for the higher low the form for the day is usually between two o'clock in the morning and four o'clock in the morning New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should we avoid trading New York session?</div>
+                    <div class="flashcard-answer">"The only time that you would avoid New York is if the London session puts in 80 percent of the average daily range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London Lunch time window?</div>
+                    <div class="flashcard-answer">"This is generally between 5 am to 7:00 am that time window is when the market goes pretty much quiet"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time is London Close / Bond Market Close?</div>
+                    <div class="flashcard-answer">"The two o'clock hour and specifically the three o'clock which is the close of the bond market that to me is the close of the New York session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is Tuesday's probability for creating low of the week on bullish weeks?</div>
+                    <div class="flashcard-answer">"Usually on bullish weeks Tuesday has a 77 likelihood of creating the low of the week in London"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is Tuesday's probability for creating high of the week on bearish weeks?</div>
+                    <div class="flashcard-answer">"When the markets are bearish if you have a 70 likelihood that Tuesday's limit open will create the high of the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is Wednesday considered an ideal day for day trading?</div>
+                    <div class="flashcard-answer">"Generally ideal day trading is seen on Wednesday because you have some data midweek"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When is the weekly range typically capped?</div>
+                    <div class="flashcard-answer">"Usually the weekly range is again capped by Thursday's New York session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do we do with Sunday's opening price?</div>
+                    <div class="flashcard-answer">"We're going to note this Sunday opening and we're going to note it and draw it out in time all the way through our 60 Minute or one hour chart all the way up to Thursday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What if your broker doesn't provide Sunday candles?</div>
+                    <div class="flashcard-answer">"I don't use Sunday candles my broker doesn't use Sunday data no problem just use your opening on Monday it's not that big of a deal"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">For bearish weeks, what do we look for with Sunday's opening price?</div>
+                    <div class="flashcard-answer">"We look for price to trade Above This level generally early in the week during bearish weekly directional bias... we're seeing a little bit of a Judas swing that's the criteria we're looking for and then throughout the rest of the week as long as price is lower than this Sunday opening price each day of the week we look to sell short in all of our day trades"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What stops the bearish Sunday filter from being valid?</div>
+                    <div class="flashcard-answer">"That's true only until we trade to a higher time frame discount PD array that has us on caution and we may see an intro week reversal"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">For bullish weeks, where should price be relative to Sunday's opening?</div>
+                    <div class="flashcard-answer">"As long as price is higher than this Sunday opening price each day of the week we look to buy long in all of our day trades"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does trading through Sunday's opening on Thursday indicate?</div>
+                    <div class="flashcard-answer">"If price were to trade back above the opening price on Sunday during Thursday's Trading we've probably turned the corner we've had a major intro week reversal"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What characterizes large weekly range candles?</div>
+                    <div class="flashcard-answer">"The weekly range candles that are large have the opening price and closing price at opposing ends of the Candlestick range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the typical Monday scenario unless a large range occurs?</div>
+                    <div class="flashcard-answer">"Generally Mondays are going to be a small range day unless that type of scenario unfolds"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens if Monday is a large range day trading into premium?</div>
+                    <div class="flashcard-answer">"If Monday becomes a high range or large range day and it trades into a premium PD array that can many times be the high of the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the typical Friday characteristic?</div>
+                    <div class="flashcard-answer">"Friday is typically a small range as we close a week but if there are objectives that haven't been met by Thursday in terms of the PD arrays you could see a surprise expansion on Friday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do we trade in zones in price or time?</div>
+                    <div class="flashcard-answer">"While I don't trade in zones in price I do trade in zones and time so you have to be flexible with time and demand specifics in price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time is the CME opening in New York?</div>
+                    <div class="flashcard-answer">"We're looking for that CME opening which is 8 20 am New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many solid setups exist per week?</div>
+                    <div class="flashcard-answer">"If we're going to be fair about it we generally have basically nine setups that are pretty much solid"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must we blend with Sunday's opening price?</div>
+                    <div class="flashcard-answer">"Incorporating the Sunday's opening price and blending it with PD arrays from a discount and premium basis on a daily chart you can frame out what the weekly range will be"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does IPTA seek in price?</div>
+                    <div class="flashcard-answer">"IPTA will be seeking new levels in price for liquidity that's the role of the interbank price delivery algorithm it seeks to move price to an area of new liquidity"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How far back do we look for PD arrays on the daily chart?</div>
+                    <div class="flashcard-answer">"Looking at monthly weekly and daily PD arrays in the last 20 40 and 60 trading days"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

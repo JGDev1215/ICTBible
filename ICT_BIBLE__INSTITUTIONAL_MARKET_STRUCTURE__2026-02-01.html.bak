@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Market Structure - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ICT_BIBLE__INSTITUTIONAL_ORDER_FLOW__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Institutional Market Structure</h1>
+        <p>"The analysis of correlated assets with a relationship to inversely correlated assets"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#purpose">Purpose</a>
+        <a href="#smt">SMT Divergence</a>
+        <a href="#symmetrical">Symmetrical Conditions</a>
+        <a href="#non-symmetrical">Non-Symmetrical Conditions</a>
+        <a href="#case-studies">Case Studies</a>
+        <a href="#application">Practical Application</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"institutional market structure. It's the analysis of correlated assets with a relationship to inversely correlated assets"</em> (0:40-0:50)</p>
+            </blockquote>
+
+            <h3>Identifying Institutional Market Structure in Forex</h3>
+            <blockquote class="quote">
+                <p><em>"we compare every price swing in the dollar index with the foreign currency that we trade"</em> (1:24-1:28)</p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"every price swing should be studied to determine if market symmetry confirms it"</em> (1:11-1:13)</p>
+            </blockquote>
+        </section>
+
+        <section id="purpose">
+            <h2>Purpose & Context</h2>
+            <blockquote class="quote">
+                <p><em>"the purpose is to determine what the smart money is accumulating or distributing"</em> (0:54-0:58)</p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"now currencies are the easiest to analyze with institutional market structure and we utilize the dollar index"</em> (1:01-1:07)</p>
+            </blockquote>
+        </section>
+
+        <section id="smt">
+            <h2>SMT Divergence</h2>
+            <h3>What is SMT?</h3>
+            <blockquote class="quote">
+                <p><em>"us dollar index smt divergence now smt stands for smart money toll or smart money technique"</em> (2:14-2:23)</p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we're going to be looking for a divergence between closely correlated or inversely correlated assets"</em> (2:25-2:29)</p>
+            </blockquote>
+
+            <h3>SMT Expectation Framework</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Dollar Index Trades Higher</span>
+                </div>
+                <p><em>"as the us dollar index trades higher we reasonably expect a lower price swing in foreign currency pairs"</em> (1:32-1:37)</p>
+                <p style="margin-top: 1rem;"><em>"if the us dollar index or a foreign currency pair fails to move symmetrically smart money is actively trading"</em> (1:40-1:46)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Dollar Index Trades Lower</span>
+                </div>
+                <p><em>"as u.s dollar index trades lower we reasonably expect a higher price swing in foreign currency pairs"</em> (1:49-1:54)</p>
+                <p style="margin-top: 1rem;"><em>"if the us dollar index or foreign currency fails to move symmetrically again smart money is actively trading"</em> (1:57-2:01)</p>
+            </div>
+        </section>
+
+        <section id="symmetrical">
+            <h2>Symmetrical Market Conditions</h2>
+
+            <h3>Dollar Index Lower Low = Foreign Currency Higher High</h3>
+            <blockquote class="quote">
+                <p><em>"in a symmetrical market condition when the dollar index makes a lower low foreign currencies we expect that to make a higher high"</em> (2:43-2:53)</p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Symmetrical Condition: DXY Lower Low</text>
+
+                <!-- Dollar Index (Red Line) -->
+                <line x1="50" y1="200" x2="750" y2="200" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="30" y="205" fill="#e8e8ed" font-size="12">DXY</text>
+
+                <!-- DXY making lower lows -->
+                <polyline points="100,180 200,150 300,160 400,130" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="150" r="6" fill="#ff4757"/>
+                <circle cx="400" cy="130" r="6" fill="#ff4757"/>
+                <text x="200" y="170" fill="#ff4757" font-size="14" text-anchor="middle">Low</text>
+                <text x="400" y="115" fill="#ff4757" font-size="14" text-anchor="middle">Lower Low</text>
+
+                <!-- Foreign Currency (Green Line) -->
+                <line x1="50" y1="320" x2="750" y2="320" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="15" y="325" fill="#e8e8ed" font-size="12">Foreign</text>
+
+                <!-- Foreign currency making higher highs -->
+                <polyline points="100,340 200,310 300,320 400,290" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="310" r="6" fill="#2ed573"/>
+                <circle cx="400" cy="290" r="6" fill="#2ed573"/>
+                <text x="200" y="300" fill="#2ed573" font-size="14" text-anchor="middle">High</text>
+                <text x="400" y="280" fill="#2ed573" font-size="14" text-anchor="middle">Higher High</text>
+
+                <!-- Symmetry indicator -->
+                <line x1="200" y1="150" x2="200" y2="310" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <line x1="400" y1="130" x2="400" y2="290" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="300" y="230" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">SYMMETRICAL</text>
+            </svg>
+
+            <h3>What This Means</h3>
+            <blockquote class="quote">
+                <p><em>"when we see this this confirms current price action and the underlying trend is likely to continue"</em> (2:55-2:59)</p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"now the idea of stalking reversal patterns in this condition is not highly probable in fact you want to avoid it all together"</em> (3:00-3:08)</p>
+            </blockquote>
+
+            <h3>Dollar Index Higher High = Foreign Currency Lower Low</h3>
+            <blockquote class="quote">
+                <p><em>"now when the dollar index makes a higher high and the foreign currency makes a lower low this too confirms current price action and the underlying trend is likely to continue"</em> (4:19-4:33)</p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Symmetrical Condition: DXY Higher High</text>
+
+                <!-- Dollar Index (Red Line) -->
+                <line x1="50" y1="200" x2="750" y2="200" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="30" y="205" fill="#e8e8ed" font-size="12">DXY</text>
+
+                <!-- DXY making higher highs -->
+                <polyline points="100,220 200,190 300,200 400,170" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="190" r="6" fill="#ff4757"/>
+                <circle cx="400" cy="170" r="6" fill="#ff4757"/>
+                <text x="200" y="180" fill="#ff4757" font-size="14" text-anchor="middle">High</text>
+                <text x="400" y="160" fill="#ff4757" font-size="14" text-anchor="middle">Higher High</text>
+
+                <!-- Foreign Currency (Green Line) -->
+                <line x1="50" y1="320" x2="750" y2="320" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="15" y="325" fill="#e8e8ed" font-size="12">Foreign</text>
+
+                <!-- Foreign currency making lower lows -->
+                <polyline points="100,300 200,330 300,320 400,350" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="330" r="6" fill="#2ed573"/>
+                <circle cx="400" cy="350" r="6" fill="#2ed573"/>
+                <text x="200" y="350" fill="#2ed573" font-size="14" text-anchor="middle">Low</text>
+                <text x="400" y="370" fill="#2ed573" font-size="14" text-anchor="middle">Lower Low</text>
+
+                <!-- Symmetry indicator -->
+                <line x1="200" y1="190" x2="200" y2="330" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <line x1="400" y1="170" x2="400" y2="350" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="300" y="260" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">SYMMETRICAL</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"again like we just said about the other slide the idea of stalking reversal patterns in this condition is not high probability and it should be avoided"</em> (4:34-4:44)</p>
+            </blockquote>
+        </section>
+
+        <section id="non-symmetrical">
+            <h2>Non-Symmetrical Market Conditions</h2>
+
+            <h3>Dollar Index Lower Low + Foreign Currency Fails Higher High</h3>
+            <blockquote class="quote">
+                <p><em>"when the dollar index makes a lower low in the foreign currency fails to trade higher than a previous high this is us dollar index smt or usdx smt"</em> (5:16-5:28)</p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Non-Symmetrical: USDX SMT Bullish</text>
+
+                <!-- Dollar Index (Red Line) -->
+                <line x1="50" y1="200" x2="750" y2="200" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="30" y="205" fill="#e8e8ed" font-size="12">DXY</text>
+
+                <!-- DXY making lower low -->
+                <polyline points="100,180 200,150 300,160 400,130" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="150" r="6" fill="#ff4757"/>
+                <circle cx="400" cy="130" r="6" fill="#ff4757"/>
+                <text x="200" y="170" fill="#ff4757" font-size="14" text-anchor="middle">Low</text>
+                <text x="400" y="115" fill="#ff4757" font-size="14" text-anchor="middle">Lower Low</text>
+
+                <!-- Foreign Currency (Green Line) -->
+                <line x1="50" y1="320" x2="750" y2="320" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="15" y="325" fill="#e8e8ed" font-size="12">Foreign</text>
+
+                <!-- Foreign currency FAILS to make higher high (makes lower high) -->
+                <polyline points="100,340 200,310 300,320 400,315" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="310" r="6" fill="#2ed573"/>
+                <circle cx="400" cy="315" r="6" fill="#ff4757"/>
+                <text x="200" y="300" fill="#2ed573" font-size="14" text-anchor="middle">High</text>
+                <text x="400" y="335" fill="#ff4757" font-size="14" text-anchor="middle">FAILS Higher High</text>
+
+                <!-- Divergence indicator -->
+                <line x1="200" y1="150" x2="200" y2="310" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <line x1="400" y1="130" x2="400" y2="315" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="300" y="230" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">NON-SYMMETRICAL</text>
+                <text x="300" y="255" fill="#ffa502" font-size="14" text-anchor="middle">USDX SMT</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"this does not confirm current price action and the underlying trend is likely not to continue however the idea of stalking reversal patterns in this condition is high probability and could reasonably be considered"</em> (5:34-5:45)</p>
+            </blockquote>
+
+            <h3>Dollar Index Fails Higher High + Foreign Currency Lower Low</h3>
+            <blockquote class="quote">
+                <p><em>"when the dollar index fails to make a higher high while foreign currencies make a lower low"</em> (6:18-6:26)</p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Non-Symmetrical: USDX SMT Bearish</text>
+
+                <!-- Dollar Index (Red Line) -->
+                <line x1="50" y1="200" x2="750" y2="200" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="30" y="205" fill="#e8e8ed" font-size="12">DXY</text>
+
+                <!-- DXY FAILS to make higher high (makes lower high) -->
+                <polyline points="100,220 200,190 300,200 400,195" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="190" r="6" fill="#ff4757"/>
+                <circle cx="400" cy="195" r="6" fill="#ff4757"/>
+                <text x="200" y="180" fill="#ff4757" font-size="14" text-anchor="middle">High</text>
+                <text x="400" y="185" fill="#ff4757" font-size="14" text-anchor="middle">FAILS Higher High</text>
+
+                <!-- Foreign Currency (Green Line) -->
+                <line x1="50" y1="320" x2="750" y2="320" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="15" y="325" fill="#e8e8ed" font-size="12">Foreign</text>
+
+                <!-- Foreign currency making lower low -->
+                <polyline points="100,300 200,330 300,320 400,350" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <circle cx="200" cy="330" r="6" fill="#2ed573"/>
+                <circle cx="400" cy="350" r="6" fill="#2ed573"/>
+                <text x="200" y="350" fill="#2ed573" font-size="14" text-anchor="middle">Low</text>
+                <text x="400" y="370" fill="#2ed573" font-size="14" text-anchor="middle">Lower Low</text>
+
+                <!-- Divergence indicator -->
+                <line x1="200" y1="190" x2="200" y2="330" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <line x1="400" y1="195" x2="400" y2="350" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="300" y="260" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">NON-SYMMETRICAL</text>
+                <text x="300" y="285" fill="#ffa502" font-size="14" text-anchor="middle">USDX SMT</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"the idea of stalking reversal patterns in this condition is high probability and could reasonably be considered"</em> (7:07-7:11)</p>
+            </blockquote>
+
+            <h3>Market Psychology Behind Non-Symmetrical Conditions</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Why Dollar Lower Low Matters</span>
+                </div>
+                <p><em>"that lower low on foreign currencies is indicating that the dollar index is most likely going down below a previous low to do what wipe out the sell stops accumulate new buying and the rally should ensue in a dollar"</em> (5:48-6:00)</p>
+                <p style="margin-top: 1rem;"><em>"if the dollar is going to rally that means it's going to be downward pressure in foreign currencies and it's already shown itself in the form of weakness by having a failure swing in the foreign currency making a lower high"</em> (6:00-6:11)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Why Dollar Fails Higher High Matters</span>
+                </div>
+                <p><em>"this is showing the dollar index is failing to make a higher high that means there's underlying weakness"</em> (6:32-6:40)</p>
+                <p style="margin-top: 1rem;"><em>"and there's a lower low seen in foreign currency pairs they're going down below a previous low to accumulate all the sell stops on foreign currency pairs then they'll rally the market higher the dollar index will sell off which would support foreign currency long positions"</em> (6:40-6:57)</p>
+            </div>
+        </section>
+
+        <section id="case-studies">
+            <h2>Case Studies</h2>
+
+            <h3>Case Study 1: GBP/USD June 2016</h3>
+            <blockquote class="quote">
+                <p><em>"we're looking at a daily chart of the british pound usd or as we call it the cable and notice the highs in here okay we have a higher high formed in pound dollar this is around the end of april going into mid-june of 2016"</em> (7:30-7:50)</p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">The SMT Divergence Observed</span>
+                </div>
+                <p><em>"we have a higher high forming in the middle part of june 2016 by itself at the time when it was rallying up i'm sure it probably looked very positive and bullish to everyone but if that's the case if there is a symmetrical market condition that should be seen with what in terms of the dollar it should be seen with a lower low"</em> (8:05-8:26)</p>
+                <p style="margin-top: 1rem;"><em>"do we see a lower low form in the dollar index no that's it usdx smt bullish divergence"</em> (8:30-8:38)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Market Interpretation</span>
+                </div>
+                <p><em>"that means what we're seeing underlying strength in the dollar index and even though this looks bullish on the british pound it's really just taking the buy stops above the 4760 level once those stops are ran out the market does in fact tank"</em> (8:38-8:54)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Smart Money Insight</span>
+                </div>
+                <p><em>"the underlying strength in the dollar index allows us to look at that 93 80 to 94 big figure this down candle in here that may become a future bullish order block that we could trade at once this void is closed in we know that there's underlying strength in the dollar index because there was an unwillingness to see that lower low form as we saw the higher high form and cable"</em> (8:57-9:21)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retail vs Smart Money</span>
+                </div>
+                <p><em>"so we're gonna be cognizant of that but nonetheless we're looking for institutional market structure so this looks like by all indications when the market was rallying up retail traders and less informed traders would see that as a bullish breakout but it's not seen with the dollar index having a lower low"</em> (9:46-10:02)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">What Was Being Accumulated</span>
+                </div>
+                <p><em>"the higher low formed on the dollar index that should have created a lower low as the cable made a higher high and it didn't what is that actually giving us it's giving us a great insight about what is being accumulated the dollar index is being accumulated on the long side otherwise it would have been permitted to go lower"</em> (10:10-10:28)</p>
+            </div>
+
+            <h3>Case Study 2: GBP/USD August 2016</h3>
+            <blockquote class="quote">
+                <p><em>"so now we're going to turn our attention to the latter portion of august 2016 to the first week of september and you can see that the cable made a higher high"</em> (11:39-11:53)</p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">SMT Pattern Repeats</span>
+                </div>
+                <p><em>"this low on the dollar index here did not see another lower low so as the cable was pressing higher rallying this dollar index should have seen a lower low it did not do that what that indicates is again dollar based strength in other words the dollar index is being accumulated on the long side"</em> (12:15-12:42)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Distribution at Highs</span>
+                </div>
+                <p><em>"the cable is being distributed now it's being distributed above an old high here but look to the left again above this old high here as well"</em> (12:44-12:52)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Buy Stops Purpose</span>
+                </div>
+                <p><em>"what type of stops reside above an old high buy stops why would they want to take the market to a buy stop because they want that buy stop to execute at the market to buy at the market they're going to sell their long positions they accumulated here and they accumulated here they can sell those longs at a higher price to willing buyers up here"</em> (13:06-13:24)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">The False Breakout Mechanism</span>
+                </div>
+                <p><em>"this is being distributed it's being distributed at an old high while the accumulation is seen in strength because the dollar can't go lower now think if the dollar doesn't go lower it's because it can't go lower because of pricing it's being kept while the premium is being built into the pound dollar"</em> (13:26-13:47)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retail vs Smart Money Perspective</span>
+                </div>
+                <p><em>"so retail chases this run like this and false breakout while smart money looks at failure swings and the lows when you see what would otherwise look like strength and breakouts on the upside in foreign currencies always double check them with the dollar index if you don't see that then you know that the the false breakout on the upside in the foreign currency market it's all sucker play that's retail candy land"</em> (13:49-14:10)</p>
+            </div>
+        </section>
+
+        <section id="application">
+            <h2>Practical Application</h2>
+
+            <h3>Long-Term Perspective</h3>
+            <blockquote class="quote">
+                <p><em>"when we look at identifying institutional market structure what we're basically doing is we're weighing the underlying strength of the buying and the selling at respective highs and lows in the dollar index versus foreign currencies now if you pick one particular currency pair and you identify areas like this expressing a daily chart it gives you a long-term perspective"</em> (19:15-19:39)</p>
+            </blockquote>
+
+            <h3>Trading Framework</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">For Short-Term Traders</span>
+                </div>
+                <p><em>"where you can be focused primarily on being short that means if you are a short-term trader you could be looking to sell short at every 60-minute or 4-hour bare shorter block"</em> (19:39-19:49)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">For Day Traders</span>
+                </div>
+                <p><em>"or you could be a day trader selling it above the opening price above the midnight candle in new york and you just capture all those types of moves going lower"</em> (19:50-20:00)</p>
+            </div>
+
+            <h3>Trading Context Benefit</h3>
+            <blockquote class="quote">
+                <p><em>"so it gives you an ideal context to work within and gives you a framework it doesn't give you ambiguity it gives you a very specific frame of mindset going in knowing that if this is a daily chart and we're seeing underlying strength in the dollar and we're seeing potential distribution in british pound usd most likely we're going to see lower prices on cable so that way we can be a buyer on dollar based currencies or a seller on foreign currencies that it's paired up with the dollar index"</em> (20:02-20:30)</p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is institutional market structure?</div>
+                    <div class="flashcard-answer">"it's the analysis of correlated assets with a relationship to inversely correlated assets" (0:45-0:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the purpose of analyzing institutional market structure?</div>
+                    <div class="flashcard-answer">"the purpose is to determine what the smart money is accumulating or distributing" (0:54-0:58)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does SMT stand for?</div>
+                    <div class="flashcard-answer">"smt stands for smart money toll or smart money technique" (2:16-2:23)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are we looking for with SMT divergence?</div>
+                    <div class="flashcard-answer">"we're going to be looking for a divergence between closely correlated or inversely correlated assets" (2:25-2:29)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do we identify institutional market structure in forex?</div>
+                    <div class="flashcard-answer">"we compare every price swing in the dollar index with the foreign currency that we trade" (1:24-1:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should we expect when the dollar index trades higher?</div>
+                    <div class="flashcard-answer">"as the us dollar index trades higher we reasonably expect a lower price swing in foreign currency pairs" (1:32-1:37)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should we expect when the dollar index trades lower?</div>
+                    <div class="flashcard-answer">"as u.s dollar index trades lower we reasonably expect a higher price swing in foreign currency pairs" (1:49-1:54)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a symmetrical market condition confirm?</div>
+                    <div class="flashcard-answer">"when we see this this confirms current price action and the underlying trend is likely to continue" (2:55-2:59)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should we trade reversals in symmetrical conditions?</div>
+                    <div class="flashcard-answer">"now the idea of stalking reversal patterns in this condition is not highly probable in fact you want to avoid it all together" (3:00-3:08)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a USDX SMT condition?</div>
+                    <div class="flashcard-answer">"when the dollar index makes a lower low in the foreign currency fails to trade higher than a previous high this is us dollar index smt or usdx smt" (5:16-5:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a non-symmetrical condition indicate?</div>
+                    <div class="flashcard-answer">"this does not confirm current price action and the underlying trend is likely not to continue" (5:34-5:38)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should we trade reversals in non-symmetrical conditions?</div>
+                    <div class="flashcard-answer">"the idea of stalking reversal patterns in this condition is high probability and could reasonably be considered" (5:41-5:45)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does the dollar go down to make a lower low in non-symmetrical conditions?</div>
+                    <div class="flashcard-answer">"the dollar index is most likely going down below a previous low to do what wipe out the sell stops accumulate new buying and the rally should ensue in a dollar" (5:51-6:00)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a failure to make a higher high in DXY indicate?</div>
+                    <div class="flashcard-answer">"this is showing the dollar index is failing to make a higher high that means there's underlying weakness" (6:32-6:40)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do foreign currencies make lower lows in non-symmetrical bearish conditions?</div>
+                    <div class="flashcard-answer">"they're going down below a previous low to accumulate all the sell stops on foreign currency pairs then they'll rally the market higher" (6:44-6:51)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does it mean when DXY is unwilling to make a lower low?</div>
+                    <div class="flashcard-answer">"the dollar index is being accumulated on the long side otherwise it would have been permitted to go lower" (10:20-10:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why would smart money take price above an old high in a foreign currency?</div>
+                    <div class="flashcard-answer">"they're going to sell their long positions they accumulated here and they accumulated here they can sell those longs at a higher price to willing buyers up here" (13:16-13:24)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What type of stops reside above an old high?</div>
+                    <div class="flashcard-answer">"what type of stops reside above an old high buy stops" (13:06-13:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should retail traders do when they see breakouts in foreign currencies?</div>
+                    <div class="flashcard-answer">"when you see what would otherwise look like strength and breakouts on the upside in foreign currencies always double check them with the dollar index" (13:57-14:03)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a false breakout in foreign currencies described as?</div>
+                    <div class="flashcard-answer">"the false breakout on the upside in the foreign currency market it's all sucker play that's retail candy land" (14:05-14:10)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What perspective does daily chart analysis provide?</div>
+                    <div class="flashcard-answer">"if you pick one particular currency pair and you identify areas like this expressing a daily chart it gives you a long-term perspective" (19:31-19:39)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How can short-term traders use institutional market structure?</div>
+                    <div class="flashcard-answer">"if you are a short-term trader you could be looking to sell short at every 60-minute or 4-hour bare shorter block" (19:41-19:49)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How can day traders use institutional market structure?</div>
+                    <div class="flashcard-answer">"you could be a day trader selling it above the opening price above the midnight candle in new york and you just capture all those types of moves going lower" (19:50-20:00)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What benefit does institutional market structure provide traders?</div>
+                    <div class="flashcard-answer">"it gives you an ideal context to work within and gives you a framework it doesn't give you ambiguity it gives you a very specific frame of mindset" (20:02-20:08)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should every price swing be studied?</div>
+                    <div class="flashcard-answer">"every price swing should be studied to determine if market symmetry confirms it" (1:11-1:13)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What indicates smart money is actively trading?</div>
+                    <div class="flashcard-answer">"if the us dollar index or a foreign currency pair fails to move symmetrically smart money is actively trading" (1:40-1:46)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why can't the dollar go lower when being accumulated?</div>
+                    <div class="flashcard-answer">"if the dollar doesn't go lower it's because it can't go lower because of pricing it's being kept while the premium is being built into the pound dollar" (13:35-13:47)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What currencies are easiest to analyze with institutional market structure?</div>
+                    <div class="flashcard-answer">"now currencies are the easiest to analyze with institutional market structure and we utilize the dollar index" (1:01-1:07)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

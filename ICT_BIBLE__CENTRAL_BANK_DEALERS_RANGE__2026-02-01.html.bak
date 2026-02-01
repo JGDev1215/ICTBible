@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central Bank Dealers Range - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .warning-box {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid var(--accent-bear);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: rgba(46, 213, 115, 0.1);
+            border-left: 4px solid var(--accent-bull);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="ICT_BIBLE__LONDON_KILLZONE__2026-02-01.html">Next Chapter</a>
+        <a href="ict-orderblock-lecture.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Central Bank Dealers Range</h1>
+        <p>A specific time of the day range used to project the high or low of the day with standard deviations</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#time">Time Period</a>
+        <a href="#range-criteria">Range Criteria</a>
+        <a href="#standard-deviations">Standard Deviations</a>
+        <a href="#projections">Projection Rules</a>
+        <a href="#bodies-vs-wicks">Bodies vs Wicks</a>
+        <a href="#purpose">Main Purpose</a>
+        <a href="#context">Trading Context</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"Central Bank dealers range is a specific time of the day"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if there's a range that we have deemed a specific important range in price once we determine that, that range height from high to low based on two different types of parameters which we'll go over, that measurement of price range in terms of Pips can be reproduced or replicated if you will in the form of a standard deviation"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="time">
+            <h2>Time Period</h2>
+            <blockquote class="quote">
+                <p><em>"the time period that frames the Central Bank dealers range is 2 P.M to 8 PM New York time"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">CRITICAL: New York Time Reference</span>
+                </div>
+                <p><em>"between 2 pm and 8 PM New York time regardless of where you live globally you need to find where your price charts indicate what would be seen as the candle that starts the 2PM and 8 PM times in New York time"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"like everything else I always teach find out what New York time is where you're at geographically and then find out what that looks like in your platform for your charts and delineate that with a vertical line with 2 pm New York and 8 PM New York"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Timeline -->
+                <line x1="50" y1="150" x2="850" y2="150" stroke="#9898a8" stroke-width="3"/>
+
+                <!-- Start marker -->
+                <line x1="150" y1="120" x2="150" y2="180" stroke="#2ed573" stroke-width="4"/>
+                <text x="150" y="110" fill="#2ed573" font-size="16" font-weight="bold" text-anchor="middle">2 PM</text>
+                <text x="150" y="205" fill="#e8e8ed" font-size="14" text-anchor="middle">New York Time</text>
+
+                <!-- End marker -->
+                <line x1="750" y1="120" x2="750" y2="180" stroke="#ff4757" stroke-width="4"/>
+                <text x="750" y="110" fill="#ff4757" font-size="16" font-weight="bold" text-anchor="middle">8 PM</text>
+                <text x="750" y="205" fill="#e8e8ed" font-size="14" text-anchor="middle">New York Time</text>
+
+                <!-- Range indicator -->
+                <rect x="150" y="130" width="600" height="40" fill="rgba(255, 165, 2, 0.2)" stroke="#ffa502" stroke-width="2"/>
+                <text x="450" y="155" fill="#ffa502" font-size="18" font-weight="bold" text-anchor="middle">Central Bank Dealers Range</text>
+
+                <!-- Title -->
+                <text x="450" y="40" fill="#ffa502" font-size="22" font-weight="bold" text-anchor="middle">6-Hour Time Window</text>
+            </svg>
+        </section>
+
+        <section id="range-criteria">
+            <h2>Range Criteria</h2>
+
+            <div class="success-box">
+                <h3>Ideal Range Size</h3>
+                <p><em>"the ideal range is less than 40 Pips preferably the range should be no more than 20 to 30 Pips in total range high to low"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"between those two time windows the highest high and the lowest low ideally should be less than 40 Pips preferably 20 to 30 Pips total"</em></p>
+            </blockquote>
+
+            <div class="warning-box">
+                <h3>Range Too Large</h3>
+                <p><em>"range is larger than 30 Pips can tend to be unfruitful for projections"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"this particular trading day we have to allow the market to do whatever it wants to do if we're going to scalp that's another thing but for day trading we can't use this criteria because it's too large of a central bank dealer's range"</em></p>
+            </blockquote>
+
+            <h3>Why 20-30 Pips is Ideal</h3>
+            <blockquote class="quote">
+                <p><em>"if the average daily range of the candle for the daily chart that you're trading is typically around 100 Pips a site now they're not always 100 Pips but I like to use as a ballpark figure general rule of thumb if we have a hundred Pips one third of that is around 33 Pips so that's why I give about 20 to 30 Pips ideal scenario uh it won't you want to be less than 40 Pips for that reason"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="standard-deviations">
+            <h2>Standard Deviations</h2>
+
+            <blockquote class="quote">
+                <p><em>"one standard deviation above and below would be the same range added to the high the Central Bank dealer's range and one standard deviation is the same range that makes the Central Bank dealer's range and total range in terms of Pips and we subtract that range from the Central Bank dealer's range low and that would give us one standard deviation above it and one standard deviation below it"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"that range would be added to the high of the first standard deviation and subtract it from the low of the first standard deviation below giving us the second standard deviation and this would go one replicating that Central Bank dealer's range with standard deviations one two three and four"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Central Bank Dealers Range -->
+                <rect x="300" y="250" width="200" height="80" fill="rgba(255, 165, 2, 0.3)" stroke="#ffa502" stroke-width="3"/>
+                <text x="400" y="295" fill="#ffa502" font-size="14" font-weight="bold" text-anchor="middle">Central Bank</text>
+                <text x="400" y="312" fill="#ffa502" font-size="14" font-weight="bold" text-anchor="middle">Dealers Range</text>
+
+                <!-- First Standard Deviation Above -->
+                <rect x="300" y="150" width="200" height="80" fill="rgba(255, 165, 2, 0.15)" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="400" y="195" fill="#2ed573" font-size="13" font-weight="bold" text-anchor="middle">1 SD Above</text>
+
+                <!-- Second Standard Deviation Above -->
+                <rect x="300" y="50" width="200" height="80" fill="rgba(255, 165, 2, 0.1)" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="400" y="95" fill="#2ed573" font-size="13" font-weight="bold" text-anchor="middle">2 SD Above</text>
+
+                <!-- First Standard Deviation Below -->
+                <rect x="300" y="350" width="200" height="80" fill="rgba(255, 165, 2, 0.15)" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="400" y="395" fill="#ff4757" font-size="13" font-weight="bold" text-anchor="middle">1 SD Below</text>
+
+                <!-- Second Standard Deviation Below -->
+                <rect x="300" y="450" width="200" height="80" fill="rgba(255, 165, 2, 0.1)" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="400" y="495" fill="#ff4757" font-size="13" font-weight="bold" text-anchor="middle">2 SD Below</text>
+
+                <!-- Range indicators -->
+                <line x1="520" y1="290" x2="580" y2="290" stroke="#ffa502" stroke-width="2"/>
+                <line x1="580" y1="250" x2="580" y2="330" stroke="#ffa502" stroke-width="2"/>
+                <text x="600" y="295" fill="#ffa502" font-size="12">Range in Pips</text>
+
+                <!-- Title -->
+                <text x="400" y="25" fill="#ffa502" font-size="20" font-weight="bold" text-anchor="middle">Standard Deviation Structure</text>
+            </svg>
+        </section>
+
+        <section id="projections">
+            <h2>Projection Rules</h2>
+
+            <h3>Sell Days (Bearish)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Typical Sell Days</span>
+                </div>
+                <p><em>"typically most sell days will create the high of the day from the Central Bank dealers range up to three standard deviations"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Ideal Sell Days</span>
+                </div>
+                <p><em>"ideally sell dates create the high of a day no more than two standard deviations above the Central Bank dealers range many times just one standard deviation"</em></p>
+            </div>
+
+            <h3>Buy Days (Bullish)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Typical Buy Days</span>
+                </div>
+                <p><em>"most buy days will create the low of the day from the Central Bank dealers range down to the third standard deviation"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Ideal Buy Days</span>
+                </div>
+                <p><em>"ideal by days will create the low of the day no less than two standard deviations below the central thing deals range and ideally many times you'll see it just go one standard deviation below the Central Bank dealer's range creating the low of the day"</em></p>
+            </div>
+
+            <h3>Four Standard Deviations</h3>
+            <div class="warning-box">
+                <p><em>"four standard deviations above for a high today is going to be on the heels of a very high impact news event for the session in London"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"same thing is said on by days if it trades down to four standard deviations usually it's going to be very high impactful news or price can come down or go up to the fourth standard deviation to create a New York session Market reversal profile"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" font-weight="bold" text-anchor="middle">Projection Examples</text>
+
+                <!-- Sell Day Example (Left) -->
+                <text x="225" y="60" fill="#ff4757" font-size="16" font-weight="bold" text-anchor="middle">SELL DAY</text>
+
+                <!-- CBDR -->
+                <rect x="150" y="250" width="150" height="50" fill="rgba(255, 165, 2, 0.3)" stroke="#ffa502" stroke-width="2"/>
+                <text x="225" y="280" fill="#ffa502" font-size="11" text-anchor="middle">CBDR</text>
+
+                <!-- 1 SD Above -->
+                <rect x="150" y="180" width="150" height="50" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="225" y="210" fill="#ff4757" font-size="11" text-anchor="middle">1 SD (Ideal High)</text>
+
+                <!-- 2 SD Above -->
+                <rect x="150" y="110" width="150" height="50" fill="rgba(255, 71, 87, 0.15)" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="225" y="140" fill="#ff4757" font-size="11" text-anchor="middle">2 SD (Typical High)</text>
+
+                <!-- Arrow pointing to high -->
+                <path d="M 225 100 L 225 85" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <polygon points="225,80 220,90 230,90" fill="#ff4757"/>
+
+                <!-- Buy Day Example (Right) -->
+                <text x="675" y="60" fill="#2ed573" font-size="16" font-weight="bold" text-anchor="middle">BUY DAY</text>
+
+                <!-- CBDR -->
+                <rect x="600" y="250" width="150" height="50" fill="rgba(255, 165, 2, 0.3)" stroke="#ffa502" stroke-width="2"/>
+                <text x="675" y="280" fill="#ffa502" font-size="11" text-anchor="middle">CBDR</text>
+
+                <!-- 1 SD Below -->
+                <rect x="600" y="320" width="150" height="50" fill="rgba(46, 213, 115, 0.2)" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="675" y="350" fill="#2ed573" font-size="11" text-anchor="middle">1 SD (Ideal Low)</text>
+
+                <!-- 2 SD Below -->
+                <rect x="600" y="390" width="150" height="50" fill="rgba(46, 213, 115, 0.15)" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="675" y="420" fill="#2ed573" font-size="11" text-anchor="middle">2 SD (Typical Low)</text>
+
+                <!-- Arrow pointing to low -->
+                <path d="M 675 450 L 675 465" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <polygon points="675,470 670,460 680,460" fill="#2ed573"/>
+            </svg>
+        </section>
+
+        <section id="bodies-vs-wicks">
+            <h2>Bodies vs Wicks</h2>
+
+            <blockquote class="quote">
+                <p><em>"the range in Pips by calibration from high to low or using the wicks or alternatively we can use the range in the highest body and the lowest body as well whatever the highest closing or open price is and we have the lowest close or open is in between 8 pm and 2 pm New York time"</em></p>
+            </blockquote>
+
+            <h3>Preference for Bodies</h3>
+            <blockquote class="quote">
+                <p><em>"I will have to admit to you I like to use the bodies predominantly because the Wicks are always going to show erroneous price because of your dealing spread through your broker everyone's going to have a disparity between their high and their low on every candle it's never going to agree"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"so what I use is the bulk of the trading which is the body that in my opinion and there's no real Tennessee of y'all end-all answer for this but my uh studies over the last two decades is if we focus primarily on the bodies of the candles we're going to get more closer to what smart money is doing in relative terms than if we use just the Wix"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"now we can get a lot of feedback in terms of what retail is doing if we study Wix but if we study the bodies of the candles and we frame our ranges with that we'll get more clear pictures about what the institutional accumulation distribution ranges are going to be when we use the Central Bank deals range"</em></p>
+            </blockquote>
+
+            <div class="success-box">
+                <h3>Important Note</h3>
+                <p><em>"just because I like using the bodies and I think it's got the most Advantage we still have to look at the ranges with the Wicks included okay"</em></p>
+            </div>
+        </section>
+
+        <section id="purpose">
+            <h2>Main Purpose</h2>
+
+            <blockquote class="quote">
+                <p><em>"the Central Bank dealer's range strength is aiding in the low of the day or high of the day selection"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"that's the most important thing as a day trader we can focus on if we can look for the highest probable high or low of the data form"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the Central Bank dealers range main focus is to help you find the high or low of the day in respective bullish repair stays"</em></p>
+            </blockquote>
+
+            <h3>When Low Forms (Bullish Days)</h3>
+            <blockquote class="quote">
+                <p><em>"in terms of when markets are bullish we're looking for the low of the data form predominantly in the London session so where is that low most likely going to occur and is it going to be on a day that's highly favorable for that event to unfold"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if we're looking for one shot one kill in a bullish week we're going to be looking primarily for low of the day in London each day Tuesday Wednesday and Thursday preferably those days but it could occur on Monday as well"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="context">
+            <h2>Trading Context</h2>
+
+            <h3>Need for Directional Bias</h3>
+            <blockquote class="quote">
+                <p><em>"obviously we need to know directional bias for this to be any of any assistance to us so it has to be used in conjunction"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we have to have a bias what do we think price is going to do is price going to go higher or lower over the next two or three days what's the price most likely going to do over the course of this present week or next week is going to go higher is it going to go lower"</em></p>
+            </blockquote>
+
+            <h3>Questions to Ask</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Seasonal Context</span>
+                </div>
+                <p><em>"where are we at seasonally are we looking for bullish prices or lower prices"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Quarterly Context</span>
+                </div>
+                <p><em>"where are we at quarterly are we in a quarterly shift that is underway that's still unfolding with bullish prices with premium PD arrays that haven't been met yet"</em></p>
+            </div>
+
+            <h3>Building the Picture</h3>
+            <blockquote class="quote">
+                <p><em>"if that's the case then we could be looking for scenarios to look for Buys so we're looking at discount PD arrays we're looking at reasons to suggest buying in a discount range so our PDA array Matrix is going to help us look for reasons to build ideas that are bullish"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if we look for those ideas with the Central Bank dealers range in conjunction with those it'll help us narrow down with time of day London and open it'll help us frame ideal entry point"</em></p>
+            </blockquote>
+
+            <h3>Bearish Example</h3>
+            <blockquote class="quote">
+                <p><em>"so if we look at the daily chart and we see price trading up at a premium PD array and markets are bearish we're looking for lower prices for one shot one kill scenario looking for a lower close week we could be looking for one two or three standard deviations moved higher"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"when the Central Bank dealer trains is around 20 to 30 Pips ideally and if we get that projection up into London we have a great deal of advantage on our side that we're probably going to get the high of the day in the London session"</em></p>
+            </blockquote>
+
+            <h3>Confluence Factors</h3>
+            <blockquote class="quote">
+                <p><em>"now you add that also with your expectation of seasonal Tendencies all of those things start coming together and draw a closer picture to what institutional order flow is and how ipta moves price"</em></p>
+            </blockquote>
+
+            <h3>Not Every Day</h3>
+            <blockquote class="quote">
+                <p><em>"remember I said many times over the last seven years teaching Forex online that I don't trade every single day and even in this mentorship you've seen that it's not productive to try to trade every single trading day"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"but there are times we're going to learn that there are highest probabilities for a condition to be met for that higher load of form in London when we have these conditions we can go in with reasonable expectation that we have a good chance more than most days that the high or low will form in London and we can get a ballpark idea where that lower high should form"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the time period that frames the Central Bank dealers range?</div>
+                    <div class="flashcard-answer">"the time period that frames the Central Bank dealers range is 2 P.M to 8 PM New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal range size for Central Bank dealers range?</div>
+                    <div class="flashcard-answer">"the ideal range is less than 40 Pips preferably the range should be no more than 20 to 30 Pips in total range high to low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the main purpose of Central Bank dealers range?</div>
+                    <div class="flashcard-answer">"the Central Bank dealer's range strength is aiding in the low of the day or high of the day selection"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many standard deviations do most sell days create for the high of the day?</div>
+                    <div class="flashcard-answer">"typically most sell days will create the high of the day from the Central Bank dealers range up to three standard deviations"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many standard deviations do ideal sell days create?</div>
+                    <div class="flashcard-answer">"ideally sell dates create the high of a day no more than two standard deviations above the Central Bank dealers range many times just one standard deviation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many standard deviations do most buy days create for the low of the day?</div>
+                    <div class="flashcard-answer">"most buy days will create the low of the day from the Central Bank dealers range down to the third standard deviation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does ICT prefer using bodies over wicks for the range?</div>
+                    <div class="flashcard-answer">"if we focus primarily on the bodies of the candles we're going to get more closer to what smart money is doing in relative terms than if we use just the Wix"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does price typically reach four standard deviations?</div>
+                    <div class="flashcard-answer">"four standard deviations above for a high today is going to be on the heels of a very high impact news event for the session in London"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens if the range is larger than 30 pips?</div>
+                    <div class="flashcard-answer">"range is larger than 30 Pips can tend to be unfruitful for projections"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must be known for Central Bank dealers range to be useful?</div>
+                    <div class="flashcard-answer">"obviously we need to know directional bias for this to be any of any assistance to us so it has to be used in conjunction"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When looking for bullish weeks, which days are preferred for low of the day in London?</div>
+                    <div class="flashcard-answer">"if we're looking for one shot one kill in a bullish week we're going to be looking primarily for low of the day in London each day Tuesday Wednesday and Thursday preferably those days but it could occur on Monday as well"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is 20-30 pips the ideal range size?</div>
+                    <div class="flashcard-answer">"if we have a hundred Pips one third of that is around 33 Pips so that's why I give about 20 to 30 Pips ideal scenario"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

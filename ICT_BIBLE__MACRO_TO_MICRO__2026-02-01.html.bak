@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Economic To Micro Technical - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Macro Economic To Micro Technical</h1>
+        <p>Using interest rate markets to determine long-term currency direction</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#timeframe">Time Frame</a>
+        <a href="#instruments">Instruments</a>
+        <a href="#relationships">Relationships</a>
+        <a href="#divergence">Divergence</a>
+        <a href="#quarterly">Quarterly Shift</a>
+        <a href="#application">Application</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"it's a macro perspective so in other words it's not a day trading perspective it's not something that's going to be forcing you to look at 15-minute charts not even an hourly chart not even a four hour chart okay we're gonna be looking at daily charts only"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"when i look at the marketplace and i'm looking for a long-term macro view i'm looking for an insight that would give me a three to six month outlook on where currencies may be heading in what direction"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"what i require is a visual interpretation of that data and what i subscribe to is the bond market will tell me that if i can read price action in the bond market"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="timeframe">
+            <h2>Time Frame & Outlook</h2>
+            <blockquote class="quote">
+                <p><em>"long-term to me is three to six months it may not be long-term for you but it is for me"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">MACRO TO MICRO APPROACH</span>
+                </div>
+                <p><em>"so again it's a macro perspective using macroeconomic principles interest rates okay and then utilizing that down to a micro technical"</em></p>
+            </div>
+        </section>
+
+        <section id="instruments">
+            <h2>Interest Rate Instruments</h2>
+
+            <h3>30-Year Treasury Bond</h3>
+            <blockquote class="quote">
+                <p><em>"one of the things i use for that is interest rates and the way we find interest rates the way i do it is i'm looking at the bond market the 30-year treasury market will give me the insights i need for interest rates on a intermediate to long-term basis"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"now the 30 treasury bond is uh the benchmark for what we have in the us as our mortgage rate"</em></p>
+            </blockquote>
+
+            <h3>10-Year Note</h3>
+            <blockquote class="quote">
+                <p><em>"there is another interest rate asset uh market that i look at which is the 10-year"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if i'm going to understand the interest rate market it just stands to reason if as long as i know the bond market in the 10-year note i'll know everything i need to know"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="relationships">
+            <h2>Bond Market & Dollar Relationships</h2>
+
+            <h3>Bond Market Rising = Interest Rates Lowering</h3>
+            <blockquote class="quote">
+                <p><em>"as the bond market rallies that's a lowering of interest rates"</em></p>
+            </blockquote>
+
+            <h3>Bond Market Falling = Interest Rates Rising</h3>
+            <blockquote class="quote">
+                <p><em>"when it drops down in the futures market for the bond market that is an increase in interest rates"</em></p>
+            </blockquote>
+
+            <h3>Interest Rates Rising = Dollar Strengthens</h3>
+            <blockquote class="quote">
+                <p><em>"if interest rates are going to go higher that's going to allow the dollar index to go higher"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"an increase in interest rates is going to see a aggressive pouring in of funds to buy up the dollar"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bond Market & Dollar Index Relationship</text>
+
+                <!-- Left side - Bond Market -->
+                <text x="150" y="80" fill="#e8e8ed" font-size="16" text-anchor="middle">BOND MARKET</text>
+
+                <!-- Up arrow for bond rally -->
+                <line x1="150" y1="100" x2="150" y2="150" stroke="#2ed573" stroke-width="3"/>
+                <polygon points="150,100 145,110 155,110" fill="#2ed573"/>
+                <text x="150" y="130" fill="#2ed573" font-size="14" text-anchor="middle">Rallies</text>
+
+                <text x="150" y="170" fill="#9898a8" font-size="14" text-anchor="middle">=</text>
+                <text x="150" y="190" fill="#ff4757" font-size="14" text-anchor="middle">Interest Rates Lower</text>
+
+                <!-- Down arrow for bond decline -->
+                <line x1="150" y1="230" x2="150" y2="280" stroke="#ff4757" stroke-width="3"/>
+                <polygon points="150,280 145,270 155,270" fill="#ff4757"/>
+                <text x="150" y="260" fill="#ff4757" font-size="14" text-anchor="middle">Drops</text>
+
+                <text x="150" y="300" fill="#9898a8" font-size="14" text-anchor="middle">=</text>
+                <text x="150" y="320" fill="#2ed573" font-size="14" text-anchor="middle">Interest Rates Higher</text>
+
+                <!-- Center arrows showing relationship -->
+                <line x1="250" y1="200" x2="350" y2="200" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <polygon points="350,200 340,195 340,205" fill="#ffa502"/>
+
+                <!-- Right side - Dollar Index -->
+                <text x="550" y="80" fill="#e8e8ed" font-size="16" text-anchor="middle">DOLLAR INDEX</text>
+
+                <!-- Down arrow for dollar decline (from bond rally) -->
+                <line x1="550" y1="150" x2="550" y2="100" stroke="#ff4757" stroke-width="3"/>
+                <polygon points="550,150 545,140 555,140" fill="#ff4757"/>
+                <text x="550" y="130" fill="#ff4757" font-size="14" text-anchor="middle">Weakens</text>
+
+                <text x="550" y="170" fill="#9898a8" font-size="14" text-anchor="middle">(Lower Rates)</text>
+
+                <!-- Up arrow for dollar rally (from bond decline) -->
+                <line x1="550" y1="230" x2="550" y2="280" stroke="#2ed573" stroke-width="3"/>
+                <polygon points="550,230 545,240 555,240" fill="#2ed573"/>
+                <text x="550" y="260" fill="#2ed573" font-size="14" text-anchor="middle">Strengthens</text>
+
+                <text x="550" y="300" fill="#9898a8" font-size="14" text-anchor="middle">(Higher Rates)</text>
+
+                <!-- Bottom key insight -->
+                <rect x="50" y="340" width="700" height="50" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="8"/>
+                <text x="400" y="370" fill="#ffa502" font-size="15" text-anchor="middle">Bond Market Drop = Interest Rates Rise = Dollar Rally</text>
+            </svg>
+        </section>
+
+        <section id="divergence">
+            <h2>SMT Divergence Between Bond Market & Dollar Index</h2>
+
+            <blockquote class="quote">
+                <p><em>"in lesson five of this month's teaching i taught you the smt divergence relative to the dollar index and foreign currencies that same idea is applied here but for an interest rate divergence in other words we're looking at how the bond market interacts with the dollar index"</em></p>
+            </blockquote>
+
+            <h3>The Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"in the last week of june we have the dollar index making a low and the market failed to make a lower low at the same time that the bond market was making a higher high"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">DIVERGENCE SIGNAL</span>
+                </div>
+                <p><em>"this underlying change in trend is seen in the dollar index with the failure to make a lower low at the same time the bond market made a higher high"</em></p>
+            </div>
+
+            <h3>10-Year vs 30-Year Divergence</h3>
+            <blockquote class="quote">
+                <p><em>"i want you to take a look at the smt divergence that we have in these two charts"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"take a look at the tenure note here making a higher high here at the same time 30-year made a lower bond market took off lower"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we saw this higher high form in 10-year while we saw a lower high or smt divergence in the 30 year and then immediately we saw another decline in both 10-year and 30-year which is an increase in interest rates"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="quarterly">
+            <h2>Quarterly Shift Concept</h2>
+
+            <blockquote class="quote">
+                <p><em>"every three every three to four months there is a quarterly shift that takes place and what i mean by that is whatever trend or whatever market condition is prevalent for right now in three to four months time there's usually a shift okay there's either a reversal or it's an extended period of consolidation and then a future resumption of the trend or again you know a reversal"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"every three or four months i'm looking for a change in direction because i believe there is a cordless shift that takes place in the marketplace"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">QUARTERLY SHIFT TIMELINE</span>
+                </div>
+                <p><em>"around every three to four months there's going to be this shift that takes"</em></p>
+            </div>
+        </section>
+
+        <section id="application">
+            <h2>Practical Application</h2>
+
+            <h3>What To Look For</h3>
+            <blockquote class="quote">
+                <p><em>"so right away we know that there should be an accelerated buy or a rally in the second week of september and the last week of september for the dollar"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we can take all this information okay and from the month of september start looking for a reason to be a buyer for all the dollar based currencies that start with the dollar first in their name we would be going along those pairs"</em></p>
+            </blockquote>
+
+            <h3>Dollar Pairs (USD First)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">WHEN DOLLAR STRENGTHENS</span>
+                </div>
+                <ul>
+                    <li><em>"dollar cad"</em> - Look to go long</li>
+                    <li><em>"dollar swissy"</em> - Look to go long</li>
+                    <li><em>"dollar yen"</em> - Look to go long</li>
+                </ul>
+            </div>
+
+            <h3>Foreign Currency Pairs (USD Second)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">WHEN DOLLAR STRENGTHENS</span>
+                </div>
+                <ul>
+                    <li>Euro - Look to go short (sell-off expected)</li>
+                    <li>British Pound - Look to go short (sell-off expected)</li>
+                    <li>Aussie Dollar - Look to go short (sell-off expected)</li>
+                    <li>New Zealand Dollar - Look to go short (sell-off expected)</li>
+                </ul>
+            </div>
+
+            <h3>Order Blocks In Context</h3>
+            <blockquote class="quote">
+                <p><em>"which means now we have the dollar index pulling back into a down candle which is a bullish order block so we can expect to see prices may move higher on the dollar which will do what send the bond market lower"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"when we see this rally up it's returning back to an up candle which is a bearish order block and it sells off again"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time frame does this macro to micro approach target?</div>
+                    <div class="flashcard-answer">"long-term to me is three to six months it may not be long-term for you but it is for me"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a rising bond market indicate about interest rates?</div>
+                    <div class="flashcard-answer">"as the bond market rallies that's a lowering of interest rates"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a dropping bond market indicate about interest rates?</div>
+                    <div class="flashcard-answer">"when it drops down in the futures market for the bond market that is an increase in interest rates"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens to the dollar when interest rates increase?</div>
+                    <div class="flashcard-answer">"if interest rates are going to go higher that's going to allow the dollar index to go higher"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What two instruments does ICT use to read interest rates?</div>
+                    <div class="flashcard-answer">"if i'm going to understand the interest rate market it just stands to reason if as long as i know the bond market in the 10-year note i'll know everything i need to know"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How often does a quarterly shift occur?</div>
+                    <div class="flashcard-answer">"every three every three to four months there is a quarterly shift that takes place"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What SMT concept is applied to bond markets and the dollar index?</div>
+                    <div class="flashcard-answer">"in lesson five of this month's teaching i taught you the smt divergence relative to the dollar index and foreign currencies that same idea is applied here but for an interest rate divergence"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What chart timeframe is used for this analysis?</div>
+                    <div class="flashcard-answer">"we're gonna be looking at daily charts only"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What divergence pattern signals an underlying trend change?</div>
+                    <div class="flashcard-answer">"this underlying change in trend is seen in the dollar index with the failure to make a lower low at the same time the bond market made a higher high"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does ICT prefer this approach over fundamental reports?</div>
+                    <div class="flashcard-answer">"what i require is a visual interpretation of that data and what i subscribe to is the bond market will tell me that if i can read price action in the bond market"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the 30-year treasury bond a benchmark for?</div>
+                    <div class="flashcard-answer">"now the 30 treasury bond is uh the benchmark for what we have in the us as our mortgage rate"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when interest rates increase according to ICT?</div>
+                    <div class="flashcard-answer">"an increase in interest rates is going to see a aggressive pouring in of funds to buy up the dollar"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

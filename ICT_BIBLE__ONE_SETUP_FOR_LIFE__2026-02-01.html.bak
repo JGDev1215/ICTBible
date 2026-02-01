@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Trading Setup For Life - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .time-window {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-price-action.html">Return to Category</a>
+        <a href="category-price-action.html">Next Chapter</a>
+        <a href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>One Trading Setup For Life</h1>
+        <p>"I'm teaching you how to find your own setups but specifically when and where they form"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#liquidity">Liquidity</a>
+        <a href="#pm-session">PM Session</a>
+        <a href="#london">London Session</a>
+        <a href="#opening-range">Opening Range</a>
+        <a href="#lunch">New York Lunch</a>
+        <a href="#am-session">AM Session</a>
+        <a href="#framework">Framework</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"we're doing a little bit of a lecture here on some important information about finding setups... it's not limited to any one particular asset class so it's kind of like remove all of the uncertainty of where you're supposed to be looking in the charts"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"I'm teaching you how to find your own setups but specifically when and where they form that's the part that is always a constant that's the thing that a lot of new Traders and those that are struggling as a break even Trader lose sight of it's a matter of knowing what to look for and when"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"it incorporates Market profiling and that is not Market profile in the sense that we're using like vwap and things like that we're talking about schematics things that I've taught and have shared publicly on this YouTube channel"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="liquidity">
+            <h2>Draw on Liquidity</h2>
+            <blockquote class="quote">
+                <p><em>"draw on liquidity okay it's the sole purpose of price delivery"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"when I teach smart money concepts by the way when you hear SMC it's my Concepts okay when I talked about it and first started teaching it I referred to them as smart money Concepts"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"when we look at liquidity there's a specific range in mind when I'm looking at my charts"</em></p>
+            </blockquote>
+
+            <h3>Price Movement Rules</h3>
+            <blockquote class="quote">
+                <p><em>"price only goes up to take buy side or buy stops or it goes up to an inefficiency above market price that's the only two reasons that price goes up period end of story"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"it's going down for inefficiency below market price or it's going down for sell side liquidity period end a story that is it"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"if it's not doing one of those two things it's going sideways"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="pm-session">
+            <h2>PM Session Ranges</h2>
+
+            <div class="time-window">
+                1:30 PM to 4:00 PM New York Local Time
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"PM session ranges okay and this is always going to be referred to in terms of previous day okay so previous day we are going to be referring to the 1:30 p.m. to 400 pm time window and this is always in New York local time"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"I want you to set your trading view chart to New York local time I say this as much as I can in all my lectures"</em></p>
+            </blockquote>
+
+            <h3>Chart Settings</h3>
+            <blockquote class="quote">
+                <p><em>"when I talk about these areas in the marketplace... PM session ranges you're looking for the highest high and the lowest low between 1:30 p.m. and 4 P.M now is there any ambiguity there no it's very simple succinct right to the point"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"when we look at PM session ranges it is always referred to in regular trading hours"</em></p>
+            </blockquote>
+
+            <h3>Bullish Scenario</h3>
+            <blockquote class="quote">
+                <p><em>"if you are bullish okay and we are trading in close proximity to that range... if we're bullish and the market drops down below PM session lows... there's sell side liquidity"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if we're bullish we'd like to see side taken why because that means that smart money would accumulate those side liquidity and absorb it for their buy side so they're going to treat that sell side as counterparty to their smart money buying so they're accumulating in the Judith swing the drop down here just goes into this area here where the liquidity is"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we definitely want to be looking at previous day's PM session not just any old high and low the high and the low is between 1:30 and 4:00 New York local time that's the PM session that range the highs and the lows there's liquidity above and below it"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="london">
+            <h2>London Session Raid</h2>
+
+            <div class="time-window">
+                2:00 AM to 5:00 AM New York Local Time
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"if it's not that I'm looking at the London session raid that means I'm going to be looking at the range between 2 o'clock in the morning and 5:00 in the morning New York local time now again tell me is that complicated no simple"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"so in your charts you want to be annotating what those levels are"</em></p>
+            </blockquote>
+
+            <h3>Chart Settings</h3>
+            <blockquote class="quote">
+                <p><em>"notice am I showing you regular trading hours or electronic trading hours electronic trading hours so that way you're going to be able to see the overnight trading if you have it toggled to regular trading hours you won't see this information folks it will be hidden from you"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"London session buy side liquidity we're seeing that raid up into it here and then where's the low in that remember 2 o' to 5 o' in the morning New York local time that's not ambiguous what is the range the highest high and the lowest low"</em></p>
+            </blockquote>
+
+            <h3>Trading After Raid</h3>
+            <blockquote class="quote">
+                <p><em>"if we rated the buy side and we did it on a run that's a Judas we anticipate that as a false run higher and then we're going to see does it shift lower"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"you can use the 2022 model you can use a breaker bearish breaker you can use the ICT optimal trade entry in here from this low to that high is a fair value gap this is a shift in Market structure below this low right there that's your 2022 model or optimal trade entry"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="opening-range">
+            <h2>Opening Range Gap</h2>
+
+            <div class="time-window">
+                9:30 AM Opening Bell (First 30 Minutes)
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"opening range gaps okay opening range gaps are a specific event that takes place when you're utilizing regular trading hours"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"where we stop trading for the regular trading hours and where we start trading again at 9:30 is opening bell that's what you're seeing okay that separation that is my opening range Gap"</em></p>
+            </blockquote>
+
+            <h3>Opening Range vs Opening Range Gap</h3>
+            <blockquote class="quote">
+                <p><em>"whenever you hear me say an opening range Gap not to be confused with opening range opening range is the first 30 minutes"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"when I say opening range that is the first 30 minutes after the opening bill at 9:30 so specifically it's 9:30 a.m. New York local time to 10:00 a.m. New York local time not ambiguous folks very very specific"</em></p>
+            </blockquote>
+
+            <h3>Gap Behavior</h3>
+            <blockquote class="quote">
+                <p><em>"this opening range Gap is where we stop trading using regular trading hours and where we open up at 9:30 if there is a gap lower at 9:30 you will see this Gap here"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"it doesn't mean it wants to run up there immediately okay and this is what I watch a lot of YouTubers that understand there are gaps I didn't invent a gap but I did codify some things around how to use that Gap"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if I'm going to refer to the opening range Gap and we get a gap lower like this I'm filtering out all of overnight price that's it now is that ambiguous is that complicated no"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="lunch">
+            <h2>New York Lunch Raid</h2>
+
+            <div class="time-window">
+                12:00 PM to 1:30 PM New York Local Time
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"SO a New York launch raid between noon New York local time to 1:30 p.m. but ICT you just said it's an hour long noon to 1:30"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"1:30 starts the PM session that's when the algorithm can start doing its macro a macro is a short order of instructions that will create an event in price delivery"</em></p>
+            </blockquote>
+
+            <h3>Defining the Range</h3>
+            <blockquote class="quote">
+                <p><em>"your focus needs to be on the highest high and the lowest low I'm showing you the highest high in 12 to 1:00 because there's nothing higher than the high here the low formed here between 12:00 and 1:30 that's the lowest low here"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the session high and session low for lunch hour well I guess it's really technically 90 minutes isn't it"</em></p>
+            </blockquote>
+
+            <h3>Algorithm Behavior</h3>
+            <blockquote class="quote">
+                <p><em>"the market starts its run at 130 completely random now you're probably watching this video and you've never seen anything else by me or never listened to Twitter spaces that I've done and you don't know that I've said that time at 1:30"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"there's an algorithm that controls price and there's a macro that begins at 1:30 that sets the tone and pace for the 2 o'clock to 3:00 Silver Bullet"</em></p>
+            </blockquote>
+
+            <h3>Trading Strategy</h3>
+            <blockquote class="quote">
+                <p><em>"if you're expecting price to be bullish and it's not done anything in the morning Pal's talking uh there's a afternoon event that's expected like fomc something to that effect you avoid the morning session let everybody else Chase everybody else's opinion"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we want to see when we're bullish the market drop down and take out the New York lunch lows even if it's going to reverse you can trade that"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"wait for a shift in Market structure fair value Gap"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="am-session">
+            <h2>AM Session Ranges</h2>
+
+            <div class="time-window">
+                9:30 AM to 12:00 PM New York Local Time
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"am session ranges 9:30 in the morning to noon"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"right away we are considering this in the afternoon so we can always refer to it in the same trading day"</em></p>
+            </blockquote>
+
+            <h3>When to Use AM Session Range</h3>
+            <blockquote class="quote">
+                <p><em>"if I'm not going to look at the PM session range remember I'm taking you through very specific pools of liquidity I'm going to look past the PM session well why would I do that because we're already trading below it over here so would I refer to it for sell side no we're already below it"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if I'm bearish what am I looking for what low am I looking for which draw on liquidity am I looking for in this regard I'm using the am session side liquidity"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"even though I'm showing you down here the electronic trading hours I'm doing this for the sake of showing you an understanding that whether your chart is on regular trading hours or electronic trading hours and I'm looking at previous daily range or if I want to trade below yesterday's lows what low am I looking at the PM session low or the am session low very very specific not ambiguous"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="framework">
+            <h2>Complete Framework</h2>
+
+            <h3>Step-by-Step Routine</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">1. Check PM Session Range</span>
+                </div>
+                <p><em>"I look at PM session range if it's not a factor or it's not to be considered because we're not in in close proximity to that range because we could be significantly higher or lower around 9:30"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">2. Check London Session Raid</span>
+                </div>
+                <p><em>"what am I looking for then if I'm not close to PM session previous PM session 1:30 p.m. to 4pm range at the time of 9:30 at the opening bell and I'm watching that next 30 minutes which is the opening range what am I going to look for then next if it's not that I'm looking at the London session raid"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3. Opening Range Observation</span>
+                </div>
+                <p><em>"we have to wait for 30 minutes because there's going to either be a run higher or lower or it may consolidate and then we'll have to wait for the 10:00 displacement and then you can look for a silver bullet between 10:00 and 11:"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">4. Lunch Hour Evaluation</span>
+                </div>
+                <p><em>"you could use a run into the lunch macro which we won't talk about tonight but I promise you I will be teaching those things"</em></p>
+            </div>
+
+            <h3>Chart Setup Requirements</h3>
+            <blockquote class="quote">
+                <p><em>"this toggle from rth to electronic trading hours ET okay one or the other is going to be utilized if we're going to be looking for PM session ranges it's always going to be into previous day the time window"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the algorithm once we start trading regular trading session hours the next day it's going to refer back to these specific times and what liquidity exists above and below it"</em></p>
+            </blockquote>
+
+            <h3>Time and Price</h3>
+            <blockquote class="quote">
+                <p><em>"the algorithm runs on time time is the first Factor what am I showing you here tonight very specific Windows of time and what to reference it in terms of liquidity"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the right way is understanding why price delivers the way it does and it does on a basis of time and price there's a time that it operates and it's reaching for a very specific price I've already taught you the time elements and tonight I've taught you the price elements time and price between those two you will always have a setup for life"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the PM session time window?</div>
+                    <div class="flashcard-answer">"1:30 p.m. to 400 pm time window and this is always in New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What chart setting do you use for PM session ranges?</div>
+                    <div class="flashcard-answer">"when we look at PM session ranges it is always referred to in regular trading hours"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London session raid time window?</div>
+                    <div class="flashcard-answer">"the range between 2 o'clock in the morning and 5:00 in the morning New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What chart setting do you use for London session?</div>
+                    <div class="flashcard-answer">"electronic trading hours so that way you're going to be able to see the overnight trading if you have it toggled to regular trading hours you won't see this information"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the opening range time window?</div>
+                    <div class="flashcard-answer">"9:30 a.m. New York local time to 10:00 a.m. New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the New York lunch time window?</div>
+                    <div class="flashcard-answer">"between noon New York local time to 1:30 p.m."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the AM session time window?</div>
+                    <div class="flashcard-answer">"9:30 in the morning to noon"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the only two reasons price goes up?</div>
+                    <div class="flashcard-answer">"price only goes up to take buy side or buy stops or it goes up to an inefficiency above market price that's the only two reasons that price goes up period end of story"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the only two reasons price goes down?</div>
+                    <div class="flashcard-answer">"it's going down for inefficiency below market price or it's going down for sell side liquidity period end a story"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens at 1:30 PM?</div>
+                    <div class="flashcard-answer">"1:30 starts the PM session that's when the algorithm can start doing its macro a macro is a short order of instructions that will create an event in price delivery"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the purpose of draw on liquidity?</div>
+                    <div class="flashcard-answer">"draw on liquidity okay it's the sole purpose of price delivery"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when you're bullish and PM session lows are taken?</div>
+                    <div class="flashcard-answer">"if we're bullish we'd like to see side taken why because that means that smart money would accumulate those side liquidity and absorb it for their buy side"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should you wait for PM session trading?</div>
+                    <div class="flashcard-answer">"if you're expecting price to be bullish and it's not done anything in the morning Pal's talking uh there's a afternoon event that's expected like fomc something to that effect you avoid the morning session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the macro that begins at 1:30?</div>
+                    <div class="flashcard-answer">"there's an algorithm that controls price and there's a macro that begins at 1:30 that sets the tone and pace for the 2 o'clock to 3:00 Silver Bullet"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What defines a Judas swing in London session?</div>
+                    <div class="flashcard-answer">"if we rated the buy side and we did it on a run that's a Judas we anticipate that as a false run higher"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What two elements give you a setup for life?</div>
+                    <div class="flashcard-answer">"I've already taught you the time elements and tonight I've taught you the price elements time and price between those two you will always have a setup for life"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

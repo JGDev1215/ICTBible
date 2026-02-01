@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT London Killzone - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="ICT_BIBLE__NEW_YORK_KILLZONE__2026-02-01.html">Next Chapter</a>
+        <a href="ict-orderblock-lecture.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>ICT London Open Killzone</h1>
+        <p>The most important time frame of the 24-hour banking cycle</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#time">Key Times</a>
+        <a href="#characteristics">Characteristics</a>
+        <a href="#profile">Session Profile</a>
+        <a href="#bias">Directional Bias</a>
+        <a href="#power3">Power 3 Pattern</a>
+        <a href="#volume">Volume</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition & Importance</h2>
+            <blockquote class="quote">
+                <p><em>"The London open is typically a time where I like to trade because it gives me a lot of opportunities and its magnitude is a lot more favorable for a short-term trader"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The London open frequently sets up an optimal trade entry pattern that can offer 25 to 50 pips for a scalp"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"This is one of those topics where it's a very vast subject so I'm introducing you slowly into one of the most important time frames of the 24-hour banking cycle"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="time">
+            <h2>Key Times to Monitor</h2>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">ICT London Killzone Window</span>
+                </div>
+                <p><em>"The key times to monitor are 2:00 a.m. to 5:00 a.m. New York time"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Determine whatever time it is in your area relative to what it is in New York time okay and physically wait for 2:00 a.m. to be in New York and then calibrate that with your broker and your local time and always a clock for New York and you'll know exactly what I'm referring to in terms of time"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The ideal ICT London kill zone for your learning is going to be 2 a.m. to 5 a.m. and it's relative to New York time"</em></p>
+            </blockquote>
+
+            <h3>Extended London Session</h3>
+            <blockquote class="quote">
+                <p><em>"The London trading session actually extends beyond the 5 a.m. hour to 7 a.m. New York time"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The London session technically extends even beyond seven o'clock in the morning up into ten to eleven o'clock in the morning New York time okay so basically it's three o'clock in the morning New York time to 11:00 a.m. to noon all relative to New York time"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"There's an overlap of New York and London trading"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="characteristics">
+            <h2>London Session Characteristics</h2>
+
+            <h3>High or Low of the Day Formation</h3>
+            <blockquote class="quote">
+                <p><em>"London open generally has the highest probability of creating the high or the low of the day"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"This is one of the biggest wealth in my career it was the biggest discovery because it helps me determine where when I'm bearish the actual high of the day is going to form"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If I can do that with a reasonable measure of accuracy or consistency just imagine if you could get three to four opportunities where you can get the high or very close to the high today and ride the majority of the daily range if you could do that a few times a month you can do exceptionally well as an FX trader"</em></p>
+            </blockquote>
+
+            <h3>Bullish Market Conditions</h3>
+            <blockquote class="quote">
+                <p><em>"London session typically creates the low of the day when the market is primarily bullish"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"When the market is bullish the tendency is for the market to trade down creating the low of the day in the London open ICT killzone"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"When the market is poised to trade higher on a daily timeframe we can focus on the London session to post a low of the trading day"</em></p>
+            </blockquote>
+
+            <h3>Bearish Market Conditions</h3>
+            <blockquote class="quote">
+                <p><em>"London session typically creates the high of the day when bearish"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If the daily is poised to trade lower we can focus on the London session to post the high of the trading day"</em></p>
+            </blockquote>
+
+            <h3>Volatility & Risk</h3>
+            <blockquote class="quote">
+                <p><em>"It comes with it a great deal of responsibility in terms of knowing what the higher time frames are doing a lot of economic calendar releases come out overnight and they can be very volatile"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If you don't know what you're doing you can get really hurt quick in the London session because it can be extremely volatile and it can be like a lightning bolt okay if you're caught on the wrong side of the marketplace"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If there's a high impact event that's out during that timeframe you can get mowed over rather quickly and if you don't use stop-loss orders that session is going to treat you very cruelly in the form of taking money from you"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"London can be extremely one-sided and once it takes off it's pretty relentless it doesn't really give you a chance to get off the hook"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="profile">
+            <h2>Trading Profile & Directional Movement</h2>
+
+            <blockquote class="quote">
+                <p><em>"The price action during the London session sees the highest probability of a large directional move in the 24 hour day"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we were to look at the entire 24 hour market and pick a beginning point and file it around the entire world and where it began it'll end so we have 24 hours of time if we were to measure the volume or how much action if you wanted to call it any other word its its layman's terms the most bang for your buck is going to be in the London open"</em></p>
+            </blockquote>
+
+            <h3>Trending Environment</h3>
+            <blockquote class="quote">
+                <p><em>"If we have a market that is let's say in a strong trending environment you want to be really focusing in on London because London will give you at the highest probability of a low-risk entry price point"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we have a trending model like this chances are we could see a rather quiet New York session"</em></p>
+            </blockquote>
+
+            <h3>London Lunch Period</h3>
+            <blockquote class="quote">
+                <p><em>"Five o'clock in the morning New York time to seven o'clock in the morning New York time which is classically like a London lunch the period where it can go quiet it can have minor little retracements"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"I don't like to see any type of entry between five o'clock and seven o'clock in the morning New York time because it can tend to wait for the New York open"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="bias">
+            <h2>Directional Bias & Optimal Trade Entry</h2>
+
+            <h3>Using Higher Timeframe for Bias</h3>
+            <blockquote class="quote">
+                <p><em>"I'm just looking at in terms of where we are in the higher time frame and this could be a point of interest for a breakdown"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Once we have a bearish candle like this and we're inside the area of optimal trade entry for sell or we would be deemed as a potential sell the very next candle we want to study that"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Why should the daily bias be bearish because it's been going bullish here while we traded into an area of optimal trade entry and we got one candle showing a willingness to reject and go lower"</em></p>
+            </blockquote>
+
+            <h3>Bearish Setup Example</h3>
+            <blockquote class="quote">
+                <p><em>"We do not worry about that we want to see it rally up into London open it starts this area right here it's dropping here we want we don't want to see that we want to see price rally up that's where we'll sell"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"We have equal highs in here okay about 10 pips above this short-term high that gives us the high of the day at the same time we would reasonably expect to see London open create the high today"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"You open and then rally above we can look to be a seller there after it takes equal highs out"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"We have candle by stop liquidity pool okay runs up knocks the stops out and then trades aggressively lower creates the low of the day it comes off a low thing trades at or near below"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="power3">
+            <h2>Micro Power 3 Formation</h2>
+
+            <blockquote class="quote">
+                <p><em>"We have a micro power 3 formation in here so we have the open the rally up the expansion low off the low closes"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Prices fractal folks we can anticipate seeing duplicate patterns that are seen on higher time frames on a lower timeframe"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we understand it's a daily range if it's a bearish market profile or for looking for lower prices the opening on the daily range or the daily bar it's going to be at or near the high of the day the high is going to be very limited in terms of how much it goes above the opening price and then the largest portion of the range is going to be between the open and the close and the close is going to be near the low of the day"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Micro Power 3 Formation - Bearish Profile</text>
+
+                <!-- Time axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Time markers -->
+                <text x="150" y="470" fill="#9898a8" font-size="14" text-anchor="middle">2:00 AM</text>
+                <text x="400" y="470" fill="#9898a8" font-size="14" text-anchor="middle">London Killzone</text>
+                <text x="650" y="470" fill="#9898a8" font-size="14" text-anchor="middle">5:00 AM</text>
+
+                <!-- Vertical time markers -->
+                <line x1="150" y1="440" x2="150" y2="460" stroke="#9898a8" stroke-width="2"/>
+                <line x1="650" y1="440" x2="650" y2="460" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Price action path -->
+                <!-- Open -->
+                <circle cx="150" cy="150" r="6" fill="#ffa502"/>
+                <text x="150" y="130" fill="#e8e8ed" font-size="14" text-anchor="middle" font-weight="bold">Open</text>
+
+                <!-- Rally up (limited move above open) -->
+                <line x1="150" y1="150" x2="280" y2="120" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="280" cy="120" r="6" fill="#ff4757"/>
+                <text x="280" y="100" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Rally Up</text>
+                <text x="280" y="85" fill="#9898a8" font-size="12" text-anchor="middle">(High of Day)</text>
+
+                <!-- Expansion low (largest portion of range) -->
+                <line x1="280" y1="120" x2="520" y2="380" stroke="#ff4757" stroke-width="4"/>
+                <circle cx="520" cy="380" r="6" fill="#ff4757"/>
+                <text x="520" y="405" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Expansion Low</text>
+                <text x="520" y="420" fill="#9898a8" font-size="12" text-anchor="middle">(Low of Day)</text>
+
+                <!-- Off the low -->
+                <line x1="520" y1="380" x2="650" y2="350" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="650" cy="350" r="6" fill="#ffa502"/>
+                <text x="650" y="330" fill="#e8e8ed" font-size="14" text-anchor="middle" font-weight="bold">Close</text>
+                <text x="650" y="315" fill="#9898a8" font-size="12" text-anchor="middle">(Near Low)</text>
+
+                <!-- Range annotations -->
+                <line x1="70" y1="120" x2="70" y2="150" stroke="#9898a8" stroke-width="1" stroke-dasharray="4"/>
+                <text x="30" y="140" fill="#9898a8" font-size="12" text-anchor="middle">Limited</text>
+
+                <line x1="70" y1="150" x2="70" y2="380" stroke="#ffa502" stroke-width="2"/>
+                <text x="30" y="260" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Largest</text>
+                <text x="30" y="280" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Range</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"This whole candle right here this is what it looks like in a open high/low close for a daily"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="volume">
+            <h2>Volume & Order Execution</h2>
+
+            <blockquote class="quote">
+                <p><em>"The London session sees the highest volume of order execution than any other trading session"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="assets">
+            <h2>Universal Application</h2>
+
+            <h3>Ideal Currency Pairs</h3>
+            <blockquote class="quote">
+                <p><em>"The euro dollar and the British Pound pairs are ideal for this time of day and that's why I've elected to trade those two pairs"</em></p>
+            </blockquote>
+
+            <h3>Other Asset Classes</h3>
+            <blockquote class="quote">
+                <p><em>"It doesn't limit itself to just forex this same phenomenon occurs in other assets"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"I have students of mine that swear by this working in that asset as well it works in commodities it works in bonds it works in just about everything that trades electronically overnight"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"You can anticipate things like this to occur in index trading so if you're trading for instance the dax the ftse or the sp500 or dow or Nasdaq futures contracts overnight trading you can see the same phenomenon occur as well"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It really isn't limited to just Forex now because I taught it to the trading community they assumed that it was limited and only salient to Forex or foreign exchange I used this same concept as a commodity trader in early 90s"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It's not that we have an asset class that it can only function in with this type of trading or this type of price action it's completely Universal and that's pretty powerful"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer from the transcript</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the key times to monitor for the ICT London Killzone?</div>
+                    <div class="flashcard-answer">"The key times to monitor are 2:00 a.m. to 5:00 a.m. New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does London Open typically create?</div>
+                    <div class="flashcard-answer">"London open generally has the highest probability of creating the high or the low of the day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does London create the low of the day?</div>
+                    <div class="flashcard-answer">"London session typically creates the low of the day when the market is primarily bullish"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does London create the high of the day?</div>
+                    <div class="flashcard-answer">"London session typically creates the high of the day when bearish"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many pips can the optimal trade entry pattern offer?</div>
+                    <div class="flashcard-answer">"The London open frequently sets up an optimal trade entry pattern that can offer 25 to 50 pips for a scalp"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Which session sees the highest volume of order execution?</div>
+                    <div class="flashcard-answer">"The London session sees the highest volume of order execution than any other trading session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London lunch period time?</div>
+                    <div class="flashcard-answer">"Five o'clock in the morning New York time to seven o'clock in the morning New York time which is classically like a London lunch"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Which pairs are ideal for London trading?</div>
+                    <div class="flashcard-answer">"The euro dollar and the British Pound pairs are ideal for this time of day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What type of move does London see in the 24-hour day?</div>
+                    <div class="flashcard-answer">"The price action during the London session sees the highest probability of a large directional move in the 24 hour day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Is the London Killzone concept limited to Forex?</div>
+                    <div class="flashcard-answer">"It's not that we have an asset class that it can only function in with this type of trading or this type of price action it's completely Universal"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when London is in a trending model?</div>
+                    <div class="flashcard-answer">"If we have a trending model like this chances are we could see a rather quiet New York session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why avoid entries between 5 AM and 7 AM New York time?</div>
+                    <div class="flashcard-answer">"I don't like to see any type of entry between five o'clock and seven o'clock in the morning New York time because it can tend to wait for the New York open"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

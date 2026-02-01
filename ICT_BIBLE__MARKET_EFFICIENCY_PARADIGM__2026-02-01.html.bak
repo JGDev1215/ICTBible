@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Efficiency Paradigm & Price Delivery Algorithm - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ICT_BIBLE__INSTITUTIONAL_MARKET_STRUCTURE__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Market Efficiency Paradigm & Price Delivery Algorithm</h1>
+        <p>ICT Mentorship Core Content - Month 1 - How Market Makers Condition The Market</p>
+    </header>
+
+    <nav>
+        <a href="#paradigm">Market Efficiency</a>
+        <a href="#smart-money">Smart Money Reality</a>
+        <a href="#algorithm">Price Delivery Algorithm</a>
+        <a href="#daily-range">Daily Range Structure</a>
+        <a href="#process">Price Process Rules</a>
+        <a href="#study">Study & Review</a>
+    </nav>
+
+    <main>
+        <section id="paradigm">
+            <h2>The Market Efficiency Paradigm</h2>
+
+            <blockquote class="quote">
+                <p><em>"This is the market efficiency Paradigm and what this generally is depicting or what I was trying to communicate by drawing it out is we as new Traders are collectively part of this larger hole over here of uninformed money"</em> <span class="timestamp">(0:38)</span></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Large circle - Uninformed Money -->
+                <circle cx="550" cy="200" r="150" fill="none" stroke="#ff4757" stroke-width="3"/>
+                <text x="550" y="100" fill="#ff4757" font-size="20" font-weight="bold" text-anchor="middle">UNINFORMED MONEY</text>
+                <text x="550" y="130" fill="#e8e8ed" font-size="14" text-anchor="middle">Retail Traders</text>
+                <text x="550" y="150" fill="#e8e8ed" font-size="14" text-anchor="middle">Social Media</text>
+                <text x="550" y="170" fill="#e8e8ed" font-size="14" text-anchor="middle">Gurus & Teachers</text>
+                <text x="550" y="190" fill="#e8e8ed" font-size="14" text-anchor="middle">Indicators & Tools</text>
+                <text x="550" y="210" fill="#e8e8ed" font-size="14" text-anchor="middle">Supply & Demand Facade</text>
+
+                <!-- Small circle - Smart Money -->
+                <circle cx="200" cy="200" r="80" fill="none" stroke="#2ed573" stroke-width="3"/>
+                <text x="200" y="170" fill="#2ed573" font-size="20" font-weight="bold" text-anchor="middle">SMART MONEY</text>
+                <text x="200" y="195" fill="#e8e8ed" font-size="14" text-anchor="middle">Banks</text>
+                <text x="200" y="215" fill="#e8e8ed" font-size="14" text-anchor="middle">Liquidity Providers</text>
+                <text x="200" y="235" fill="#e8e8ed" font-size="14" text-anchor="middle">Quiet Operation</text>
+
+                <!-- Arrow showing drive relationship -->
+                <path d="M 280 200 L 400 200" stroke="#ffa502" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <text x="340" y="190" fill="#ffa502" font-size="14" text-anchor="middle">DRIVES</text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502"/>
+                    </marker>
+                </defs>
+
+                <!-- Labels -->
+                <text x="200" y="310" fill="#2ed573" font-size="16" text-anchor="middle">THE DRIVE SHAFT</text>
+                <text x="550" y="380" fill="#ff4757" font-size="16" text-anchor="middle">THE HERD</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"This huge populous of trading people or Traders community in the retail realm is really not that big but we are led to believe that we are huge and it we are given this this idea of ourselves that we're Giants we push price around and we don't"</em> <span class="timestamp">(4:13)</span></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It's this small little group of Traders okay they're the ones that influence this entire mechanism that we call the markets this small little group of Traders is actually the drive shaft"</em> <span class="timestamp">(4:43)</span></p>
+            </blockquote>
+        </section>
+
+        <section id="smart-money">
+            <h2>Smart Money Reality</h2>
+
+            <h3>Who Controls Price</h3>
+            <blockquote class="quote">
+                <p><em>"The bank's Drive price whether you want to accept it or not that's what's going on and the sooner you get to that understanding and expectation of what it is that's going on in price it's not for your well-being it's for the bank's well-being it's their business they are the liquidity provider"</em> <span class="timestamp">(6:03)</span></p>
+            </blockquote>
+
+            <h3>The Facade of Retail Concepts</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Supply and Demand Facade</span>
+                </div>
+                <p><em>"That's the facade of supply and demand that's the facade of trend lines driving price when it touches it that's the facade of moving average crossovers causing price go up or down that's the facade that's perpetuated and we are led to believe that that's exactly what takes place"</em> <span class="timestamp">(1:55)</span></p>
+            </div>
+
+            <h3>AI and Algorithmic Control</h3>
+            <blockquote class="quote">
+                <p><em>"They're absolutely controlled it's an AI it's artificially intelligence and it's you are not trading against a person anymore it's a computer program that delivers price and it knows human behavior because it's the same way it's been always fear and greed"</em> <span class="timestamp">(10:09)</span></p>
+            </blockquote>
+
+            <h3>The Paradigm Shift Required</h3>
+            <blockquote class="quote">
+                <p><em>"There has to be a paradigm shift see if you're over here thinking that it's the group of traders that is online talking amongst themselves as a whole they are the ones that make price go up and down because of they buying and selling interest because the supply and demand factors around them that's what pushes price around that's a facade and I'm here to tell you that you need to put that to bed now"</em> <span class="timestamp">(5:12)</span></p>
+            </blockquote>
+        </section>
+
+        <section id="algorithm">
+            <h2>The Interbank Price Delivery Algorithm</h2>
+
+            <h3>Core Definition</h3>
+            <blockquote class="quote">
+                <p><em>"The daily range structure can be really broken down and simplified with it starts with a price equilibrium that's Asian range then there's a manipulation and that's always going to come by way of some news event some news driver either at the time of the manipulation or just before it that's the Judah swing"</em> <span class="timestamp">(15:04)</span></p>
+            </blockquote>
+
+            <h3>The Algorithm Sequence</h3>
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" font-weight="bold" text-anchor="middle">INTERBANK PRICE DELIVERY ALGORITHM</text>
+
+                <!-- Step 1: Consolidation -->
+                <rect x="50" y="60" width="150" height="80" fill="none" stroke="#9898a8" stroke-width="2" rx="8"/>
+                <text x="125" y="95" fill="#e8e8ed" font-size="16" font-weight="bold" text-anchor="middle">CONSOLIDATION</text>
+                <text x="125" y="120" fill="#9898a8" font-size="12" text-anchor="middle">Orders building up</text>
+
+                <!-- Arrow 1 -->
+                <path d="M 200 100 L 250 100" stroke="#ffa502" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="225" y="90" fill="#ffa502" font-size="12" text-anchor="middle">ALWAYS</text>
+
+                <!-- Step 2: Expansion -->
+                <rect x="250" y="60" width="150" height="80" fill="none" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="325" y="95" fill="#e8e8ed" font-size="16" font-weight="bold" text-anchor="middle">EXPANSION</text>
+                <text x="325" y="120" fill="#9898a8" font-size="12" text-anchor="middle">Impulse move</text>
+
+                <!-- Split arrows from Expansion -->
+                <path d="M 400 100 L 450 170" stroke="#ffa502" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="430" y="130" fill="#ffa502" font-size="12" text-anchor="middle">OR</text>
+
+                <path d="M 400 100 L 450 250" stroke="#ffa502" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="430" y="180" fill="#ffa502" font-size="12" text-anchor="middle">OR</text>
+
+                <!-- Step 3a: Retracement -->
+                <rect x="450" y="140" width="150" height="80" fill="none" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="525" y="175" fill="#e8e8ed" font-size="16" font-weight="bold" text-anchor="middle">RETRACEMENT</text>
+                <text x="525" y="200" fill="#9898a8" font-size="12" text-anchor="middle">Back to order block</text>
+
+                <!-- Step 3b: Reversal -->
+                <rect x="450" y="260" width="150" height="80" fill="none" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="525" y="295" fill="#e8e8ed" font-size="16" font-weight="bold" text-anchor="middle">REVERSAL</text>
+                <text x="525" y="320" fill="#9898a8" font-size="12" text-anchor="middle">Direction change</text>
+
+                <!-- After Retracement - Another Expansion -->
+                <path d="M 600 180 L 650 180" stroke="#ffa502" stroke-width="2" marker-end="url(#arrow)"/>
+                <rect x="650" y="140" width="150" height="80" fill="none" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="725" y="175" fill="#e8e8ed" font-size="16" font-weight="bold" text-anchor="middle">EXPANSION</text>
+                <text x="725" y="200" fill="#9898a8" font-size="12" text-anchor="middle">Same direction</text>
+
+                <!-- After Reversal - Another Expansion -->
+                <path d="M 600 300 L 650 300" stroke="#ffa502" stroke-width="2" marker-end="url(#arrow)"/>
+                <rect x="650" y="260" width="150" height="80" fill="none" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="725" y="295" fill="#e8e8ed" font-size="16" font-weight="bold" text-anchor="middle">EXPANSION</text>
+                <text x="725" y="320" fill="#9898a8" font-size="12" text-anchor="middle">Opposite direction</text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502"/>
+                    </marker>
+                </defs>
+
+                <!-- Rules box -->
+                <rect x="50" y="380" width="800" height="100" fill="none" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="450" y="410" fill="#ff4757" font-size="16" font-weight="bold" text-anchor="middle">CRITICAL RULES</text>
+                <text x="450" y="435" fill="#e8e8ed" font-size="13" text-anchor="middle">NEVER: Consolidation → Retracement</text>
+                <text x="450" y="455" fill="#e8e8ed" font-size="13" text-anchor="middle">NEVER: Consolidation → Reversal</text>
+                <text x="450" y="475" fill="#e8e8ed" font-size="13" text-anchor="middle">ALWAYS: Consolidation → Expansion → (Retracement OR Reversal)</text>
+            </svg>
+
+            <h3>Algorithm Rules</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">The Impossible Sequences</span>
+                </div>
+                <p><em>"The main thing is I want you to understand is is it never goes consolidation retracement it never does consolidation reversal it's always consolidation expansion and then from expansion it goes either retracement or reversal"</em> <span class="timestamp">(18:35)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Expansion First, Always</span>
+                </div>
+                <p><em>"Nothing can happen until consolidation consolidation is when the Market's quiet why why is that important because that's when the orders are building up in the marketplace the market makers will allow orders to build up above and below the range the next stage is always expansion"</em> <span class="timestamp">(17:26)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">The Choice After Expansion</span>
+                </div>
+                <p><em>"Once we're in the expansion stage okay then you have a choice it can retrace come back to the order blocket just left behind and then recapitalize that and then make another leg up or down relative to the direction it's moved or once it's moved into expansion it can reverse"</em> <span class="timestamp">(18:09)</span></p>
+            </div>
+        </section>
+
+        <section id="daily-range">
+            <h2>Daily Range Structure</h2>
+
+            <h3>Time-Based Framework</h3>
+            <blockquote class="quote">
+                <p><em>"Every day starts with consolidation Asian range after midnight there's a manipulation that takes place that's expansion it's coming in form of a Judah swing what is it doing it's making the higher low in London that's the London swing for a reversal that's a run on stops"</em> <span class="timestamp">(13:57)</span></p>
+            </blockquote>
+
+            <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="500" y="30" fill="#ffa502" font-size="20" font-weight="bold" text-anchor="middle">DAILY RANGE STRUCTURE</text>
+
+                <!-- Time axis -->
+                <line x1="50" y1="500" x2="950" y2="500" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Time labels -->
+                <text x="100" y="530" fill="#9898a8" font-size="12" text-anchor="middle">Asian</text>
+                <text x="250" y="530" fill="#9898a8" font-size="12" text-anchor="middle">Midnight</text>
+                <text x="400" y="530" fill="#9898a8" font-size="12" text-anchor="middle">London</text>
+                <text x="550" y="530" fill="#9898a8" font-size="12" text-anchor="middle">5:00 AM</text>
+                <text x="700" y="530" fill="#9898a8" font-size="12" text-anchor="middle">8:30 AM</text>
+                <text x="850" y="530" fill="#9898a8" font-size="12" text-anchor="middle">London Close</text>
+
+                <!-- Asian Consolidation -->
+                <rect x="70" y="400" width="100" height="60" fill="none" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="120" y="370" fill="#e8e8ed" font-size="14" text-anchor="middle">CONSOLIDATION</text>
+                <text x="120" y="390" fill="#9898a8" font-size="11" text-anchor="middle">Asian Range</text>
+
+                <!-- Manipulation/Judas Swing -->
+                <path d="M 170 430 L 200 480 L 250 420" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="210" y="510" fill="#ff4757" font-size="14" text-anchor="middle">MANIPULATION</text>
+                <text x="210" y="525" fill="#ff4757" font-size="11" text-anchor="middle">Judas Swing</text>
+
+                <!-- Range Expansion - London -->
+                <path d="M 250 420 L 300 350 L 400 300" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <text x="325" y="280" fill="#2ed573" font-size="14" text-anchor="middle">EXPANSION</text>
+                <text x="325" y="295" fill="#2ed573" font-size="11" text-anchor="middle">London Reversal</text>
+
+                <!-- Consolidation 5-8 AM -->
+                <rect x="500" y="280" width="100" height="50" fill="none" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="550" y="260" fill="#e8e8ed" font-size="14" text-anchor="middle">CONSOLIDATION</text>
+                <text x="550" y="275" fill="#9898a8" font-size="11" text-anchor="middle">5-8 AM window</text>
+
+                <!-- Retracement 8-8:30 -->
+                <path d="M 600 305 L 650 340" stroke="#ffa502" stroke-width="3" fill="none"/>
+                <text x="625" y="360" fill="#ffa502" font-size="14" text-anchor="middle">RETRACEMENT</text>
+                <text x="625" y="375" fill="#ffa502" font-size="11" text-anchor="middle">8:00-8:30 AM</text>
+
+                <!-- Expansion - New York -->
+                <path d="M 650 340 L 700 250 L 800 200" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <text x="725" y="180" fill="#2ed573" font-size="14" text-anchor="middle">EXPANSION</text>
+                <text x="725" y="195" fill="#2ed573" font-size="11" text-anchor="middle">New York Session</text>
+
+                <!-- Reversal - London Close -->
+                <path d="M 800 200 L 850 280" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="825" y="240" fill="#ff4757" font-size="14" text-anchor="middle">REVERSAL</text>
+                <text x="825" y="255" fill="#ff4757" font-size="11" text-anchor="middle">London Close</text>
+
+                <!-- Final Consolidation -->
+                <rect x="870" y="280" width="70" height="50" fill="none" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="905" y="260" fill="#e8e8ed" font-size="14" text-anchor="middle">CONSOLIDATION</text>
+                <text x="905" y="275" fill="#9898a8" font-size="11" text-anchor="middle">Rest of day</text>
+
+                <!-- Quote box -->
+                <rect x="50" y="60" width="900" height="80" fill="rgba(26, 26, 36, 0.8)" stroke="#ffa502" stroke-width="1" rx="8"/>
+                <text x="500" y="85" fill="#e8e8ed" font-size="13" text-anchor="middle" style="font-style: italic;">
+                    "The general structure is consolidation in Asia expansion reverse in London
+                </text>
+                <text x="500" y="105" fill="#e8e8ed" font-size="13" text-anchor="middle" style="font-style: italic;">
+                    make a higher low of the day then expand small consolidation in New York
+                </text>
+                <text x="500" y="125" fill="#e8e8ed" font-size="13" text-anchor="middle" style="font-style: italic;">
+                    retrace between 8:00 and 8:30 in the morning New York time another expansion move reverse back to consolidation"
+                </text>
+            </svg>
+
+            <h3>Daily Range on Buy Day</h3>
+            <blockquote class="quote">
+                <p><em>"We're going to use the perspective it's a buy day that means that Asia the Asian range had a small consolidation and then right after midnight New York time there's a drop down in price that's the manipulation making the false move for the low there's a range expansion then it goes into to the reversal that's classic London open scenario where it shoots down runs the stops and then what happens it expands again"</em> <span class="timestamp">(15:43)</span></p>
+            </blockquote>
+
+            <h3>Key Time Windows</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">5:00 AM to 8:00 AM Consolidation</span>
+                </div>
+                <p><em>"Between 5:00 in the morning to 8:00 in the morning in that time window the market will go back into consolidation then it'll have a retracement between 8:00 and 8:30 in the morning New York time"</em> <span class="timestamp">(16:16)</span></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">London Close Reversal</span>
+                </div>
+                <p><em>"The range will expand and make the rest of the day going up into 10:00 or 11:00 in the morning New York time where it will have a reversal again that's London close then the market will go into consolidation ending true day"</em> <span class="timestamp">(16:34)</span></p>
+            </div>
+        </section>
+
+        <section id="process">
+            <h2>Price Process Rules</h2>
+
+            <h3>The Generic Systematic Process</h3>
+            <blockquote class="quote">
+                <p><em>"When you understand this algorithm the way it moves and way it operates it's very generic it's very systematic it has only a few options to go to and they're time sensitive they're day sensitive okay they're intermarket related"</em> <span class="timestamp">(19:13)</span></p>
+            </blockquote>
+
+            <h3>Weekly Range Application</h3>
+            <blockquote class="quote">
+                <p><em>"That same thing happens with a weekly range the weekly range is the same thing Sunday's open consolidation then there's an expansion move in Monday then what there's a reversal on Tuesday or or Monday and then what there's another expansion move then it goes back in consolidation midweek and then it's either going to do what it's going to reverse or it's going to retrace"</em> <span class="timestamp">(24:04)</span></p>
+            </blockquote>
+
+            <h3>Identifying the Next Move</h3>
+            <blockquote class="quote">
+                <p><em>"When you get to the the level of month 8 and month nine in the mentorship you're going to be so strong at knowing what the next thing's going to happen in your in your price that you're studying you'll know all these four things okay there's only certain processes that have to take place in a certain order"</em> <span class="timestamp">(20:12)</span></p>
+            </blockquote>
+
+            <h3>Repeating Characteristics</h3>
+            <blockquote class="quote">
+                <p><em>"We have a way of looking at these things and applying these Concepts to time of the day and repeating characteristics"</em> <span class="timestamp">(14:48)</span></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"When you have higher time frame directional premise understood and then you look at this price delivery algo it's so easy to know what the price is going to do every single day"</em> <span class="timestamp">(21:46)</span></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Who really drives price in the markets?</div>
+                    <div class="flashcard-answer">"The bank's Drive price whether you want to accept it or not that's what's going on... they are the liquidity provider" (6:03)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Market Efficiency Paradigm showing us?</div>
+                    <div class="flashcard-answer">"We as new Traders are collectively part of this larger hole over here of uninformed money... this small little group of Traders is actually the drive shaft" (0:38, 4:52)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is controlling price movement today?</div>
+                    <div class="flashcard-answer">"It's an AI it's artificially intelligence and it's you are not trading against a person anymore it's a computer program that delivers price and it knows human behavior because it's the same way it's been always fear and greed" (10:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the first stage that all price movement must start with?</div>
+                    <div class="flashcard-answer">"Nothing can happen until consolidation... that's when the orders are building up in the marketplace the market makers will allow orders to build up above and below the range the next stage is always expansion" (17:26)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Can price go from consolidation directly to retracement?</div>
+                    <div class="flashcard-answer">"It never goes consolidation retracement it never does consolidation reversal it's always consolidation expansion" (18:35)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two options after an expansion move?</div>
+                    <div class="flashcard-answer">"Once we're in the expansion stage okay then you have a choice it can retrace come back to the order blocket just left behind... or once it's moved into expansion it can reverse" (18:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens in the Asian session to start each day?</div>
+                    <div class="flashcard-answer">"Every day starts with consolidation Asian range after midnight there's a manipulation that takes place that's expansion it's coming in form of a Judah swing" (13:57)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revised')">
+                    <div class="flashcard-question">What is the Judas swing?</div>
+                    <div class="flashcard-answer">"There's a manipulation and that's always going to come by way of some news event some news driver either at the time of the manipulation or just before it that's the Judah swing" (15:14)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens during the 5:00 AM to 8:00 AM window?</div>
+                    <div class="flashcard-answer">"Between 5:00 in the morning to 8:00 in the morning in that time window the market will go back into consolidation then it'll have a retracement between 8:00 and 8:30 in the morning New York time" (16:16)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London close reversal?</div>
+                    <div class="flashcard-answer">"The range will expand and make the rest of the day going up into 10:00 or 11:00 in the morning New York time where it will have a reversal again that's London close then the market will go into consolidation" (16:34)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How systematic is the price delivery algorithm?</div>
+                    <div class="flashcard-answer">"It's very generic it's very systematic it has only a few options to go to and they're time sensitive they're day sensitive okay they're intermarket related" (19:13)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does the weekly range follow the same structure as the daily range?</div>
+                    <div class="flashcard-answer">"That same thing happens with a weekly range the weekly range is the same thing Sunday's open consolidation then there's an expansion move in Monday then what there's a reversal on Tuesday or or Monday and then what there's another expansion move then it goes back in consolidation midweek" (24:04)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the facade that retail traders believe?</div>
+                    <div class="flashcard-answer">"That's the facade of supply and demand that's the facade of trend lines driving price when it touches it that's the facade of moving average crossovers causing price go up or down that's the facade that's perpetuated" (1:55)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What paradigm shift is required to trade like smart money?</div>
+                    <div class="flashcard-answer">"You need to leave this realm and this circle of people in their thought processes and transition and have a paradigm shift in your thought process about how the markets are efficient because they're not efficient for the speculators they're efficient for the smart money" (5:47)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is intraday study important for learning?</div>
+                    <div class="flashcard-answer">"I want you to give you immediate feedback and the way you get that is by using intraday study because you get a lot of feedback in intraday action that is applicable to longer term charts... with intraday it's like compressing years of data in just 30" (13:13)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

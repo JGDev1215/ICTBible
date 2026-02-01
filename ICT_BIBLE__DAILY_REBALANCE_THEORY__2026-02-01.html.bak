@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Rebalance Theory - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Daily Rebalance Theory</h1>
+        <p>Study the last 3 days the open the high the low and the close</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#prerequisites">Prerequisites</a>
+        <a href="#structure">Structure</a>
+        <a href="#framework">Framework</a>
+        <a href="#entry">Entry Rules</a>
+        <a href="#psychology">Psychology</a>
+        <a href="#rules">Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"study the last 3 days the open the high the low and the close in the last 3 days... go back to the previous day's low... if we open up and because we're below those relative equal lows on the daily chart and we're below this swing low also we're now you know in a deep discount"</em></p>
+                <span class="timestamp">(0:00-0:44)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"this rebalances all of that selloff on Monday it's been rebalanced... it's gone up to a logical level on that daily time frame that rebalances all of that selloff on Monday"</em></p>
+                <span class="timestamp">(5:22-5:29)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"on the daily candle it's a large down day so all of this movement here is big in terms of distribution on the downside this is a retracement back up into a logical level which is Friday's low"</em></p>
+                <span class="timestamp">(5:40-5:49)</span>
+            </div>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Context</h2>
+
+            <h3>Market Bias Requirement</h3>
+            <blockquote class="quote">
+                <p><em>"we don't try to pick bottoms okay we don't try to call the long-term lows while markets are bearish you don't need to do that"</em></p>
+                <span class="timestamp">(0:44-0:51)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"the bias is bearish we have not changed gear we're not trying to pick the bottom"</em></p>
+                <span class="timestamp">(2:56-2:59)</span>
+            </div>
+
+            <h3>Time Frame Requirements</h3>
+            <blockquote class="quote">
+                <p><em>"I taught that midnight starts to cross over to a new day at midnight... on Tuesday we start here the opening price is here"</em></p>
+                <span class="timestamp">(1:40-1:51)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"you have to understand what you're looking at relative to time and price when you do that it takes away all that confusion it provides more clarity"</em></p>
+                <span class="timestamp">(6:44-6:49)</span>
+            </div>
+
+            <h3>News Embargo Timing</h3>
+            <blockquote class="quote">
+                <p><em>"at 8:30 we're looking for what to happen the news embargo to lift that means that the algorithm will start seeking liquidity as early as that time frame now it might wait till 9:30"</em></p>
+                <span class="timestamp">(4:48-4:57)</span>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2>Structure & Pattern</h2>
+
+            <h3>Three-Day Lookback</h3>
+            <blockquote class="quote">
+                <p><em>"if this was Monday go back the last three days you go here here and here... go back to the previous day's low if you go back to the previous days low this is going to be important"</em></p>
+                <span class="timestamp">(0:11-0:31)</span>
+            </div>
+
+            <h3>Rebalancing Process</h3>
+            <blockquote class="quote">
+                <p><em>"it opened extended down and closed near the low it was rather large range day... go back to the previous day's low... the next trading day which is Tuesday if we open up... it rebalances the big drop on Monday"</em></p>
+                <span class="timestamp">(0:21-5:15)</span>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="500" fill="#1a1a24"/>
+
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Daily Rebalance Pattern</text>
+
+                <!-- Time labels -->
+                <text x="100" y="480" fill="#e8e8ed" font-size="14" text-anchor="middle">Friday</text>
+                <text x="300" y="480" fill="#e8e8ed" font-size="14" text-anchor="middle">Monday</text>
+                <text x="500" y="480" fill="#e8e8ed" font-size="14" text-anchor="middle">Tuesday</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="60" x2="50" y2="450" stroke="#9898a8" stroke-width="2"/>
+                <text x="30" y="100" fill="#9898a8" font-size="12">High</text>
+                <text x="30" y="450" fill="#9898a8" font-size="12">Low</text>
+
+                <!-- Friday's candle -->
+                <rect x="75" y="180" width="50" height="80" fill="none" stroke="#ff4757" stroke-width="2"/>
+                <line x1="100" y1="150" x2="100" y2="180" stroke="#ff4757" stroke-width="2"/>
+                <line x1="100" y1="260" x2="100" y2="290" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Friday Low line (reference) -->
+                <line x1="125" y1="290" x2="750" y2="290" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="650" y="280" fill="#ffa502" font-size="12">Friday's Low</text>
+
+                <!-- Monday's large bearish candle -->
+                <rect x="275" y="120" width="50" height="280" fill="#ff4757" opacity="0.7"/>
+                <line x1="300" y1="100" x2="300" y2="120" stroke="#ff4757" stroke-width="2"/>
+                <line x1="300" y1="400" x2="300" y2="430" stroke="#ff4757" stroke-width="2"/>
+                <text x="300" y="445" fill="#ff4757" font-size="12" text-anchor="middle">Large Range Day</text>
+
+                <!-- Arrow showing distribution -->
+                <path d="M 330 150 L 330 380" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowred)"/>
+                <text x="340" y="260" fill="#ff4757" font-size="12">Distribution</text>
+
+                <!-- Tuesday's rebalance -->
+                <rect x="475" y="240" width="50" height="30" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <line x1="500" y1="200" x2="500" y2="240" stroke="#2ed573" stroke-width="2"/>
+                <line x1="500" y1="270" x2="500" y2="310" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Rebalance arrow -->
+                <path d="M 325 430 Q 400 350, 475 285" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowgold)"/>
+                <text x="380" y="370" fill="#ffa502" font-size="12">Rebalances back to</text>
+                <text x="380" y="385" fill="#ffa502" font-size="12">Friday's Low</text>
+
+                <!-- Buy Side Liquidity label -->
+                <circle cx="500" cy="200" r="5" fill="#2ed573"/>
+                <text x="520" y="205" fill="#2ed573" font-size="12">Buy Side Liquidity</text>
+
+                <!-- Sell Side Liquidity label -->
+                <circle cx="300" cy="430" r="5" fill="#ff4757"/>
+                <text x="320" y="435" fill="#ff4757" font-size="12">Sell Side Liquidity</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ff4757"/>
+                    </marker>
+                    <marker id="arrowgold" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ffa502"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Liquidity Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"here is relative equal highs old low what's resting above relative equal highs buy side liquidity what's resting below an old low sell side liquidity the market runs above at 930 it hits that old low that red line here that old low it hits that there right at 930"</em></p>
+                <span class="timestamp">(2:15-2:35)</span>
+            </div>
+        </section>
+
+        <section id="framework">
+            <h2>Framework</h2>
+
+            <h3>A: Accumulation (8:30 Opening)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Power of Three - Accumulation Phase</span>
+                </div>
+                <p><em>"if you look at it from the lens of power three how I teach you the accumulation at 8:30 use the opening price that's down here draw that out in time"</em></p>
+                <span class="timestamp">(6:20-6:28)</span>
+            </div>
+
+            <h3>B: Manipulation (9:30)</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Manipulation Time - 9:30 AM</span>
+                </div>
+                <p><em>"at 9:30 a.m. the equity Market opens that's what this little manipulation is okay what is 9:30 that's when you expect this little type of a move but it begins at 8:30 so that hourlong interal we're expecting when we're bearish a run higher to set up shorts"</em></p>
+                <span class="timestamp">(7:17-7:33)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"that's that Judas swing that fake rally up... this whole area shaded here that's the Judith swing that's the fake rally in a down move that will be profitable for shorts"</em></p>
+                <span class="timestamp">(6:04-8:33)</span>
+            </div>
+
+            <h3>C: Distribution</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Distribution Phase</span>
+                </div>
+                <p><em>"then it creates the pattern that's in the mentorship fair value Gap Market structure shift then starts to show displacement and distribution to the downside attacking a discount array"</em></p>
+                <span class="timestamp">(6:32-6:42)</span>
+            </div>
+
+            <h3>Displacement Leg</h3>
+            <blockquote class="quote">
+                <p><em>"I want you to go into that range here this right here that is your displacement price swing that right there that's the leg on a 5 minute chart you strip that down and you start going from five 4 3 two and one until you find your fair value Gap"</em></p>
+                <span class="timestamp">(8:39-8:57)</span>
+            </div>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Rules</h2>
+
+            <h3>Time Frame Drill Down Process</h3>
+            <blockquote class="quote">
+                <p><em>"this price swing here you shade that while you're learning and then you start breaking that down into the lower time frames so right now we're on the 5-minute chart... we're just going to transition from the F minute chart down to the 4-minute Chart"</em></p>
+                <span class="timestamp">(8:57-9:11)</span>
+            </div>
+
+            <h3>Premium Requirement</h3>
+            <blockquote class="quote">
+                <p><em>"if you did that you were not following the rules because from this high down to that low this is equilibrium we need to get to a premium we don't want to sell in a discount that's not what we're doing here so we have to get to this level here 40 44 A2 or higher that's a premium based on that price swing"</em></p>
+                <span class="timestamp">(10:09-10:25)</span>
+            </div>
+
+            <h3>Fair Value Gap in Displacement Leg</h3>
+            <blockquote class="quote">
+                <p><em>"so you drop down into your two-minute chart okay do you see a fair value Gap in the two-minute chart lo and behold the Unicorn here's the fair value got small little inbalance right in here and we took out the short-term low"</em></p>
+                <span class="timestamp">(10:40-10:54)</span>
+            </div>
+
+            <h3>Entry Sequence</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Entry Conditions</span>
+                </div>
+                <p><em>"this movement lower creates that fair Bay Gap yes we have a short-term low taken out there okay this ENT on this fair value Gap"</em></p>
+                <span class="timestamp">(11:23-11:29)</span>
+            </div>
+
+            <h3>Stop Loss Placement</h3>
+            <blockquote class="quote">
+                <p><em>"where would your stop loss be it would have to be at least above the candle that creates the fair value Gap that's this one here so your stop will be above here"</em></p>
+                <span class="timestamp">(11:32-11:38)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"the rule is you want to use the candle that creates the fair value get that high just above that okay one tick two ticks above that that's sufficient enough if you are scared and you just want to use a nice handsome ample stop you would use a swing hot here"</em></p>
+                <span class="timestamp">(12:11-12:27)</span>
+            </div>
+        </section>
+
+        <section id="psychology">
+            <h2>Market Psychology</h2>
+
+            <h3>Smart Money vs Retail Logic</h3>
+            <blockquote class="quote">
+                <p><em>"when we're operating in a bearish bias what we're essentially saying is the Market's going to go up to a premium for one of two reasons R an old high or highs to take out buy side liquidity so that way smart money can counterparty with them with their short positions they're going to sell to those buy stops then seeking to buy cheaper sside liquidity"</em></p>
+                <span class="timestamp">(4:02-4:19)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"they're going to sell here at a high price and buy it back at a cheaper price the second pool liquidity is the sell side liquidity"</em></p>
+                <span class="timestamp">(4:25-4:32)</span>
+            </div>
+
+            <h3>Retail Trap</h3>
+            <blockquote class="quote">
+                <p><em>"it tricks people into thinking that it's made the low and it's going to keep going up when the only thing it has done is it's gone up to a logical level on that daily time frame that rebalances all of that selloff on Monday"</em></p>
+                <span class="timestamp">(5:15-5:26)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"retail Traders thinking it's created a low all the bullish diversion they would be seeing on their indicators and such they're they're screaming to buy and breakout artists are looking at this break here CU they think this is resistance broken now oh it's coming back down to it this is what is this resistance broken turn support right"</em></p>
+                <span class="timestamp">(9:26-9:43)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"retail is going to see that as it's breaking out it's going higher and they're going to want to buy it and Chase it and then they have their hinder Parts handed to them and then they just run the daily range against them to take out the cell side over here"</em></p>
+                <span class="timestamp">(8:12-8:24)</span>
+            </div>
+
+            <h3>Buy Side First, Then Distribution</h3>
+            <blockquote class="quote">
+                <p><em>"this is really important folks if we would have gone down and took the previous low out then ran up here that to me is not bearish this running above B liquidity here at 930 hitting that without having this low taken out that is bearish because it's within the context of the bias that we're looking for"</em></p>
+                <span class="timestamp">(3:39-3:59)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"it runs the buy side first with the bearish buyas then seeks a discount"</em></p>
+                <span class="timestamp">(4:32-4:37)</span>
+            </div>
+        </section>
+
+        <section id="rules">
+            <h2>Practical Rules</h2>
+
+            <h3>Stop Loss Management</h3>
+            <blockquote class="quote">
+                <p><em>"you cannot open a trade up like this and put a stop above here and watch it go down here and want to Trail your stop loss real tight you can't do that you have to hold with a certain measure of risk open initially when it opens the trade up"</em></p>
+                <span class="timestamp">(11:55-12:11)</span>
+            </div>
+
+            <h3>When to Move Stops</h3>
+            <blockquote class="quote">
+                <p><em>"when do you start moving your stop well you want to see a larger shift in structure when this low is taken out down here then you can move your stop down say it was up here then you can move it to here okay or maybe here why because it's already broke down so it's not going to go down here and come back up here"</em></p>
+                <span class="timestamp">(12:32-12:49)</span>
+            </div>
+
+            <h3>Accepting Wrong Trades</h3>
+            <blockquote class="quote">
+                <p><em>"I'm accepting the fact that probably going to be wrong if it stops me out but who cares if it does why would I have that opinion of not caring if it stops me out"</em></p>
+                <span class="timestamp">(12:57-13:03)</span>
+            </div>
+
+            <h3>No Bottom Picking</h3>
+            <blockquote class="quote">
+                <p><em>"we don't try to pick bottoms okay we don't try to call the long-term lows while markets are bearish you don't need to do that"</em></p>
+                <span class="timestamp">(0:44-0:51)</span>
+            </div>
+
+            <h3>Algorithm Timing</h3>
+            <blockquote class="quote">
+                <p><em>"midnight New York news embargo at 8:30 is lifted... this still the same logic relative equal Highs at 8:30 starts the algorithm what's it going to do it's going to run for a premium why because the bias is bearish"</em></p>
+                <span class="timestamp">(6:52-7:08)</span>
+            </div>
+
+            <h3>Bearish Entry Setup Requirements</h3>
+            <blockquote class="quote">
+                <p><em>"the short can form inside that hour or it could just provide the leg that sets up the framework that will eventually like I'm going to show you here provide you the setup"</em></p>
+                <span class="timestamp">(7:35-7:45)</span>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the core principle of Daily Rebalance Theory?</div>
+                    <div class="flashcard-answer">"study the last 3 days the open the high the low and the close in the last 3 days... go back to the previous day's low" (0:00-0:30)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a large bearish Monday candle rebalancing back to Friday's low indicate?</div>
+                    <div class="flashcard-answer">"it rebalances the big drop on Monday it tricks people into thinking that it's made the low and it's going to keep going up when the only thing it has done is it's gone up to a logical level on that daily time frame that rebalances all of that selloff on Monday" (5:15-5:26)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">In a bearish bias, which liquidity should be taken first?</div>
+                    <div class="flashcard-answer">"this is really important folks if we would have gone down and took the previous low out then ran up here that to me is not bearish this running above B liquidity here at 930 hitting that without having this low taken out that is bearish" (3:39-3:55)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens at 8:30 AM in relation to the algorithm?</div>
+                    <div class="flashcard-answer">"at 8:30 we're looking for what to happen the news embargo to lift that means that the algorithm will start seeking liquidity as early as that time frame" (4:48-4:55)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the 9:30 AM move called in this framework?</div>
+                    <div class="flashcard-answer">"at 9:30 a.m. the equity Market opens that's what this little manipulation is okay... that's that Judas swing that fake rally up" (7:17-6:04)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you find the fair value gap for entry?</div>
+                    <div class="flashcard-answer">"that is your displacement price swing that right there that's the leg on a 5 minute chart you strip that down and you start going from five 4 3 two and one until you find your fair value Gap" (8:43-8:55)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where must you enter when shorting in a bearish bias?</div>
+                    <div class="flashcard-answer">"we need to get to a premium we don't want to sell in a discount that's not what we're doing here so we have to get to this level here 40 44 A2 or higher that's a premium based on that price swing" (10:12-10:22)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should your stop loss be placed on a fair value gap entry?</div>
+                    <div class="flashcard-answer">"the rule is you want to use the candle that creates the fair value get that high just above that okay one tick two ticks above that that's sufficient enough" (12:11-12:19)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When can you move your stop loss down?</div>
+                    <div class="flashcard-answer">"you want to see a larger shift in structure when this low is taken out down here then you can move your stop down... why because it's already broke down so it's not going to go down here and come back up here" (12:35-12:49)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Power of Three framework in this context?</div>
+                    <div class="flashcard-answer">"the accumulation at 8:30 use the opening price... the rally should take place above that hits a logical level... then it creates the pattern... fair value Gap Market structure shift then starts to show displacement and distribution to the downside" (6:23-6:40)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

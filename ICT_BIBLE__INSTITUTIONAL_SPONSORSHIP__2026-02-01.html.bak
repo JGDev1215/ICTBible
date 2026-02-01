@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Sponsorship - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .source-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .card-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--accent-bull);
+        }
+
+        .card-badge.short {
+            color: var(--accent-bear);
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .criteria-list {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .criteria-list ol {
+            margin-left: 1.5rem;
+        }
+
+        .criteria-list li {
+            margin: 1rem 0;
+            padding-left: 0.5rem;
+        }
+
+        .note-box {
+            background: rgba(255, 165, 2, 0.1);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .note-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Institutional Sponsorship</h1>
+        <p>How to identify institutional sponsorship in setups</p>
+        <div class="source-info">
+            ICT Mentorship Core Content - Month 03 - Lesson 03
+        </div>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#long-setups">Long Setups</a>
+        <a href="#short-setups">Short Setups</a>
+        <a href="#framework">Framework</a>
+        <a href="#perspective">Market Maker Perspective</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <div class="timestamp">(0:22 - 0:34)</div>
+            <blockquote class="quote">
+                <p><em>"We're going to be dealing with specifically the institutional sponsorship and how to identify it in setups"</em></p>
+            </blockquote>
+
+            <p>This lesson focuses on identifying institutional sponsorship in both long and short trading setups. The concept is built around recognizing specific price action criteria that indicate institutional involvement in the market.</p>
+        </section>
+
+        <section id="long-setups">
+            <h2>Institutional Sponsorship in Long Setups</h2>
+
+            <h3>Key Identification Criteria</h3>
+            <div class="timestamp">(0:38 - 1:02)</div>
+            <blockquote class="quote">
+                <p><em>"Key to identifying institutional sponsorship and long setups is the notation of a higher time frame price displacement and that can come in the form of a reversal an expansion or a return to fair value"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Criterion 1: Higher Time Frame Price Displacement</span>
+                    <span class="card-badge">LONG</span>
+                </div>
+                <p><em>"Higher time frame price displacement and that can come in the form of a reversal an expansion or a return to fair value"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Criterion 2: Intermediate Term Imbalance and Price</span>
+                    <span class="card-badge">LONG</span>
+                </div>
+                <div class="timestamp">(1:02 - 1:20)</div>
+                <p><em>"Intermediate term imbalance and price now this is a move to discount or a sell side liquidity run in other words the price is going to actually retrace or it can begin by going below an old low to run out the cell stops"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Criterion 3: Short Term Buy Liquidity Above Marketplace</span>
+                    <span class="card-badge">LONG</span>
+                </div>
+                <div class="timestamp">(1:21 - 1:47)</div>
+                <p><em>"Once one of these two occurrences appear in your chart the next thing you'll be looking for is short term buy liquidity above the marketplace now this is going to be ideal for pairing long exits to sell to"</em></p>
+                <p style="margin-top: 1rem;"><em>"And obviously you're going to be looking specifically for time of day influence i.e london open for the low of the day or a new york session low formation"</em></p>
+            </div>
+
+            <div class="note-box">
+                <strong>Important Note (1:48 - 2:00)</strong>
+                <p><em>"It's important understanding that number one and number two are the criteria which sets up the expectation for institutional sponsorship then we see the actual institutional sponsorship come in by way of attacking the marketplace for the buy side liquidity that would be resting above the marketplace"</em></p>
+            </div>
+
+            <h3>The Three Criteria Structure</h3>
+            <div class="criteria-list">
+                <ol>
+                    <li><strong>Higher Time Frame Price Displacement</strong> (reversal, expansion, or return to fair value)</li>
+                    <li><strong>Intermediate Term Imbalance and Price</strong> (move to discount or sell side liquidity run)</li>
+                    <li><strong>Short Term Buy Liquidity Above Marketplace</strong> (ideal for pairing long exits, identified at specific times of day)</li>
+                </ol>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Institutional Sponsorship in Long Setups</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Zone 1: Sell Side Liquidity Run / Move to Discount -->
+                <rect x="80" y="250" width="150" height="80" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="155" y="295" fill="#ff4757" font-size="14" text-anchor="middle">Sell Side Liquidity Run</text>
+                <text x="155" y="315" fill="#ff4757" font-size="12" text-anchor="middle">(Move to Discount)</text>
+
+                <!-- Arrow showing price displacement -->
+                <path d="M 250 290 L 350 190" stroke="#ffa502" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                <text x="300" y="230" fill="#ffa502" font-size="12">Higher Time Frame</text>
+                <text x="300" y="245" fill="#ffa502" font-size="12">Price Displacement</text>
+
+                <!-- Zone 2: Short Term Buy Liquidity Above -->
+                <rect x="500" y="120" width="180" height="60" fill="none" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="590" y="145" fill="#2ed573" font-size="14" text-anchor="middle">Short Term Buy Liquidity</text>
+                <text x="590" y="165" fill="#2ed573" font-size="12" text-anchor="middle">(Long Exit Target)</text>
+
+                <!-- Arrow to buy liquidity -->
+                <path d="M 370 180 L 490 150" stroke="#2ed573" stroke-width="3" fill="none" marker-end="url(#arrowhead-green)"/>
+                <text x="430" y="155" fill="#2ed573" font-size="11">Attack Buy Side</text>
+                <text x="430" y="168" fill="#2ed573" font-size="11">Liquidity</text>
+
+                <!-- Time labels -->
+                <text x="155" y="370" fill="#9898a8" font-size="11">London Open Low /</text>
+                <text x="155" y="385" fill="#9898a8" font-size="11">NY Session Low</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502" />
+                    </marker>
+                    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#2ed573" />
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="short-setups">
+            <h2>Institutional Sponsorship in Short Setups</h2>
+
+            <div class="timestamp">(3:22 - 3:27)</div>
+            <blockquote class="quote">
+                <p><em>"And obviously the opposite would be for institutional sponsorship in short setups"</em></p>
+            </blockquote>
+
+            <h3>Key Identification Criteria</h3>
+            <div class="timestamp">(3:29 - 3:43)</div>
+            <blockquote class="quote">
+                <p><em>"We were looking for again much in the same way we saw for the long setups it's in reverse higher time frame price displacement and that's going to come by way of a reversal or expansion or a return to fair value"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Criterion 1: Higher Time Frame Price Displacement</span>
+                    <span class="card-badge short">SHORT</span>
+                </div>
+                <p><em>"Higher time frame price displacement and that's going to come by way of a reversal or expansion or a return to fair value"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Criterion 2: Intermediate Term Imbalance and Price</span>
+                    <span class="card-badge short">SHORT</span>
+                </div>
+                <div class="timestamp">(3:43 - 3:53)</div>
+                <p><em>"And an intermediate term in balance and price that's seeing price move to a premium or moving towards the buy side liquidity make a run on the buy stops"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Criterion 3: Short Term Sell Liquidity Below Marketplace</span>
+                    <span class="card-badge short">SHORT</span>
+                </div>
+                <div class="timestamp">(3:55 - 4:10)</div>
+                <p><em>"And then short term sell liquidity below the marketplace this is going to be ideal for pairing short exits to cover and obviously those sell stops we're going to be buying those from the counterparties in the marketplace"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Time of Day Influence</span>
+                    <span class="card-badge short">SHORT</span>
+                </div>
+                <div class="timestamp">(4:11 - 4:20)</div>
+                <p><em>"And just like we did with the long setups we would be looking for time of day influence i.e london open high of day or new york high formation"</em></p>
+            </div>
+
+            <h3>The Three Criteria Structure</h3>
+            <div class="criteria-list">
+                <ol>
+                    <li><strong>Higher Time Frame Price Displacement</strong> (reversal, expansion, or return to fair value)</li>
+                    <li><strong>Intermediate Term Imbalance and Price</strong> (move to premium or buy side liquidity run)</li>
+                    <li><strong>Short Term Sell Liquidity Below Marketplace</strong> (ideal for pairing short exits, identified at specific times of day)</li>
+                </ol>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Institutional Sponsorship in Short Setups</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Zone 1: Buy Side Liquidity Run / Move to Premium -->
+                <rect x="80" y="100" width="150" height="80" fill="none" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="155" y="135" fill="#2ed573" font-size="14" text-anchor="middle">Buy Side Liquidity Run</text>
+                <text x="155" y="155" fill="#2ed573" font-size="12" text-anchor="middle">(Move to Premium)</text>
+
+                <!-- Arrow showing price displacement -->
+                <path d="M 250 140 L 350 240" stroke="#ffa502" stroke-width="3" fill="none" marker-end="url(#arrowhead-down)"/>
+                <text x="300" y="180" fill="#ffa502" font-size="12">Higher Time Frame</text>
+                <text x="300" y="195" fill="#ffa502" font-size="12">Price Displacement</text>
+
+                <!-- Zone 2: Short Term Sell Liquidity Below -->
+                <rect x="500" y="260" width="180" height="60" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="590" y="285" fill="#ff4757" font-size="14" text-anchor="middle">Short Term Sell Liquidity</text>
+                <text x="590" y="305" fill="#ff4757" font-size="12" text-anchor="middle">(Short Exit Target)</text>
+
+                <!-- Arrow to sell liquidity -->
+                <path d="M 370 250 L 490 280" stroke="#ff4757" stroke-width="3" fill="none" marker-end="url(#arrowhead-red)"/>
+                <text x="430" y="260" fill="#ff4757" font-size="11">Attack Sell Side</text>
+                <text x="430" y="273" fill="#ff4757" font-size="11">Liquidity</text>
+
+                <!-- Time labels -->
+                <text x="155" y="370" fill="#9898a8" font-size="11">London Open High /</text>
+                <text x="155" y="385" fill="#9898a8" font-size="11">NY High Formation</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowhead-down" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502" />
+                    </marker>
+                    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ff4757" />
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="framework">
+            <h2>Framework & Criteria</h2>
+
+            <div class="timestamp">(1:48 - 2:00)</div>
+            <blockquote class="quote">
+                <p><em>"It's important understanding that number one and number two are the criteria which sets up the expectation for institutional sponsorship then we see the actual institutional sponsorship come in by way of attacking the marketplace for the buy side liquidity that would be resting above the marketplace"</em></p>
+            </blockquote>
+
+            <h3>The Setup vs. The Execution</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Setup Criteria (1 & 2)</span>
+                </div>
+                <ul>
+                    <li><em>"Number one and number two are the criteria which sets up the expectation for institutional sponsorship"</em></li>
+                    <li>Criterion 1: Higher time frame price displacement</li>
+                    <li>Criterion 2: Intermediate term imbalance and price</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Actual Institutional Sponsorship (3)</span>
+                </div>
+                <ul>
+                    <li><em>"Then we see the actual institutional sponsorship come in by way of attacking the marketplace"</em></li>
+                    <li>For longs: Attacking buy side liquidity above</li>
+                    <li>For shorts: Attacking sell side liquidity below</li>
+                </ul>
+            </div>
+
+            <h3>Time of Day Influence</h3>
+            <div class="timestamp">(3:07 - 3:19)</div>
+            <blockquote class="quote">
+                <p><em>"And obviously you'll see these characteristics come to fruition by studying the time of day influence now obviously you're not just studying it eventually you're going to be actually treating in the marketplace at these specific times of the day long and open new york session london closed and sometimes asia"</em></p>
+            </blockquote>
+
+            <div class="criteria-list">
+                <p><strong>Key Trading Times Mentioned:</strong></p>
+                <ul>
+                    <li>London Open</li>
+                    <li>New York Session</li>
+                    <li>London Closed</li>
+                    <li>Sometimes Asia</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="perspective">
+            <h2>Market Maker Perspective</h2>
+
+            <div class="timestamp">(2:00 - 2:42)</div>
+            <blockquote class="quote">
+                <p><em>"In other words we have buy stops typically above old highs when we're when we're short uh the assumption is and again i teach the role playing model that gives us the perspective of a market maker so you have to have that market maker perspective on price"</em></p>
+            </blockquote>
+
+            <h3>The Role Playing Model</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Market Maker Perspective on Selling</span>
+                </div>
+                <div class="timestamp">(2:26 - 2:37)</div>
+                <p><em>"So we look to sell high but we have to find buyers that are willing to buy higher from us"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Identifying Counterparties</span>
+                </div>
+                <div class="timestamp">(2:33 - 2:55)</div>
+                <p><em>"So the criteria is we have to look for short-term buy liquidity above the marketplace now it's going to be layered by stops throughout the marketplace because it's there's all kinds of trading that goes on it's long-term sling trade short-term day trading scalping"</em></p>
+            </div>
+
+            <div class="note-box">
+                <strong>Higher Time Frame Analysis Required</strong>
+                <div class="timestamp">(2:50 - 3:01)</div>
+                <p><em>"But you have to look at the higher time frame for that short term buy liquidity to give us a framework to see if there is in fact institutional sponsorship in your setup"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the key to identifying institutional sponsorship in long setups?</div>
+                    <div class="flashcard-answer">"Key to identifying institutional sponsorship and long setups is the notation of a higher time frame price displacement and that can come in the form of a reversal an expansion or a return to fair value"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does intermediate term imbalance and price mean in long setups?</div>
+                    <div class="flashcard-answer">"This is a move to discount or a sell side liquidity run in other words the price is going to actually retrace or it can begin by going below an old low to run out the cell stops"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are you looking for after the first two criteria appear in long setups?</div>
+                    <div class="flashcard-answer">"Once one of these two occurrences appear in your chart the next thing you'll be looking for is short term buy liquidity above the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do criteria 1 and 2 accomplish?</div>
+                    <div class="flashcard-answer">"Number one and number two are the criteria which sets up the expectation for institutional sponsorship"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does actual institutional sponsorship manifest?</div>
+                    <div class="flashcard-answer">"Then we see the actual institutional sponsorship come in by way of attacking the marketplace for the buy side liquidity that would be resting above the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What perspective should you have when analyzing price?</div>
+                    <div class="flashcard-answer">"I teach the role playing model that gives us the perspective of a market maker so you have to have that market maker perspective on price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">From a market maker perspective, what must you find when looking to sell?</div>
+                    <div class="flashcard-answer">"We look to sell high but we have to find buyers that are willing to buy higher from us"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is there liquidity layered throughout the marketplace?</div>
+                    <div class="flashcard-answer">"It's going to be layered by stops throughout the marketplace because it's there's all kinds of trading that goes on it's long-term sling trade short-term day trading scalping"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time frame must you analyze for buy liquidity in long setups?</div>
+                    <div class="flashcard-answer">"You have to look at the higher time frame for that short term buy liquidity to give us a framework to see if there is in fact institutional sponsorship in your setup"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What times of day should you focus on for these setups?</div>
+                    <div class="flashcard-answer">"Eventually you're going to be actually treating in the marketplace at these specific times of the day long and open new york session london closed and sometimes asia"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">For long setups, what time of day influences should you look for?</div>
+                    <div class="flashcard-answer">"London open for the low of the day or a new york session low formation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">For short setups, what time of day influences should you look for?</div>
+                    <div class="flashcard-answer">"London open high of day or new york high formation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">In short setups, where does intermediate term imbalance move price?</div>
+                    <div class="flashcard-answer">"An intermediate term in balance and price that's seeing price move to a premium or moving towards the buy side liquidity make a run on the buy stops"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">In short setups, what is short term sell liquidity used for?</div>
+                    <div class="flashcard-answer">"Short term sell liquidity below the marketplace this is going to be ideal for pairing short exits to cover and obviously those sell stops we're going to be buying those from the counterparties in the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the relationship between long and short setup criteria?</div>
+                    <div class="flashcard-answer">"We were looking for again much in the same way we saw for the long setups it's in reverse"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

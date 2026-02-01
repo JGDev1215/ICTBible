@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Market Reversals & Turtle Soups - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .quote .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .reversal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .reversal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trading Market Reversals & Turtle Soups</h1>
+        <p>Eight reversals that can be effectively traded with consistency</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#previous-day">Previous Day</a>
+        <a href="#intra-week">Intra-Week</a>
+        <a href="#intermediate">Intermediate</a>
+        <a href="#new-york">New York</a>
+        <a href="#london-close">London Close</a>
+        <a href="#turtle-soup">Turtle Soup</a>
+        <a href="#judas">Judas Swings</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <blockquote class="quote">
+                <p><em>"I'm going to cover the eight reversals that I think that can be effectively traded with consistency"</em></p>
+                <span class="timestamp">0:00-0:05</span>
+            </div>
+
+            <h3>The Eight Reversal Types</h3>
+            <ol>
+                <li>Trading Previous Day Highs</li>
+                <li>Trading Previous Day Lows</li>
+                <li>Intra-Week Highs</li>
+                <li>Intra-Week Lows</li>
+                <li>Intermediate Term Highs</li>
+                <li>Intermediate Term Lows</li>
+                <li>New York Session Reversals</li>
+                <li>London Close Reversals</li>
+            </ol>
+        </section>
+
+        <section id="previous-day">
+            <h2>1 & 2: Trading Previous Day Highs & Lows</h2>
+
+            <h3>Previous Day Highs - Bearish Reversal</h3>
+            <blockquote class="quote">
+                <p><em>"we're looking for opportunities where the market will blow out the previous high or previous day high specifically raid the buy stops and then reverse and trade lower"</em></p>
+                <span class="timestamp">0:09-0:21</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"there's certain criteria that I like to look for there are instances that will lead you to seeing opportunities by rating the previous day's lows sell stops and rating the previous day's high for buy stops not every previous day's high or low is the same in terms of an opportunity"</em></p>
+                <span class="timestamp">0:17-0:33</span>
+            </div>
+
+            <h3>Criteria & Banking Levels</h3>
+            <blockquote class="quote">
+                <p><em>"when I'm looking at the previous day's High there's buy stops above that previous day's High there's banking levels there's intraday algorithms that go up to those previous day highs and down to those previous days lows to seek liquidity that would be resting below or above it respectively"</em></p>
+                <span class="timestamp">0:33-0:46</span>
+            </div>
+
+            <h3>Crown Jewel: Expansion Swings</h3>
+            <blockquote class="quote">
+                <p><em>"this is the kind of like the crown jewel of this particular teaching during expansion swings there are smaller retracements that typically create opportunities where the previous day's low is rated then price rallies higher in opposing expansion swings there are retracements that create opportunities where the previous day's high is rated than price declines"</em></p>
+                <span class="timestamp">5:56-6:11</span>
+            </div>
+
+            <h3>Always Refer to Last 3 Days</h3>
+            <blockquote class="quote">
+                <p><em>"every single trading day you should always refer to how price traded today after the close in relationship to the previous day's range did we work the daily high or the daily low of the previous day or the day prior to it or the day prior to it so what you're doing is you're always referring to the last 3 days counting today as one day"</em></p>
+                <span class="timestamp">5:25-5:39</span>
+            </div>
+
+            <h3>Previous Day Low - Bullish Reversal with Fair Value Gap</h3>
+            <blockquote class="quote">
+                <p><em>"when I'm looking to trade the previous day's low and I'm anticipating higher prices in this example you can see price was moving higher as a part of a larger expansion swing and during a normal retracement lower into a fair value Gap price finds buyers under the previous day's low"</em></p>
+                <span class="timestamp">6:29-6:40</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"what you're looking for is a move down below the previous day low and also into a discount array like in this case it's a fair value Gap price trades under the previous day's low that's where you're going to find buyers the Market's going to come in with a great deal of institutional sponsorship and they'll send price higher intraday"</em></p>
+                <span class="timestamp">7:11-7:27</span>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Previous Day Low - Bullish Reversal in Expansion Swing</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Expansion swing higher -->
+                <path d="M 100 350 L 150 280 L 200 240 L 250 180 L 300 150"
+                      stroke="#2ed573" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                <text x="320" y="145" fill="#2ed573" font-size="14">Larger Expansion Swing</text>
+
+                <!-- Previous day candles -->
+                <rect x="280" y="170" width="15" height="60" fill="#2ed573" opacity="0.7"/>
+                <line x1="287.5" y1="155" x2="287.5" y2="230" stroke="#2ed573" stroke-width="2"/>
+                <text x="260" y="250" fill="#e8e8ed" font-size="12">Previous Day</text>
+
+                <!-- Previous day low line -->
+                <line x1="100" y1="230" x2="600" y2="230" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="620" y="235" fill="#ff4757" font-size="14">Previous Day Low</text>
+
+                <!-- Fair Value Gap -->
+                <rect x="380" y="250" width="60" height="40" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="350" y="310" fill="#ffa502" font-size="14">Fair Value Gap</text>
+                <text x="350" y="325" fill="#ffa502" font-size="12">(Discount Array)</text>
+
+                <!-- Retracement down -->
+                <path d="M 300 150 L 330 180 L 360 200 L 390 245"
+                      stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="310" y="175" fill="#ff4757" font-size="12">Retracement</text>
+
+                <!-- Raid below previous day low -->
+                <rect x="390" y="245" width="12" height="25" fill="#ff4757"/>
+                <line x1="396" y1="240" x2="396" y2="270" stroke="#ff4757" stroke-width="2"/>
+                <text x="360" y="290" fill="#ff4757" font-size="13" font-weight="bold">Raid Below PDL</text>
+
+                <!-- Reversal candle in FVG -->
+                <rect x="420" y="255" width="15" height="30" fill="#2ed573"/>
+                <line x1="427.5" y1="250" x2="427.5" y2="285" stroke="#2ed573" stroke-width="2"/>
+                <text x="405" y="345" fill="#2ed573" font-size="12">Close in FVG</text>
+
+                <!-- Rally higher -->
+                <path d="M 435 260 L 470 220 L 510 170 L 550 140"
+                      stroke="#2ed573" stroke-width="4" fill="none"/>
+                <text x="560" y="145" fill="#2ed573" font-size="14" font-weight="bold">Institutional Sponsorship</text>
+                <text x="560" y="160" fill="#2ed573" font-size="14" font-weight="bold">Price Rallies Higher</text>
+
+                <!-- Annotations -->
+                <text x="400" y="420" fill="#e8e8ed" font-size="13" text-anchor="middle">
+                    "price finds buyers under the previous day's low" (6:38-6:40)
+                </text>
+            </svg>
+
+            <h3>Previous Day High - Bearish Reversal with Premium Array</h3>
+            <blockquote class="quote">
+                <p><em>"trading previous day highs I like to look for reasons to see price move up into a short-term premium array and then having and like we see in this example here price was moving lower as part of a larger expansion swing during a normal retracement higher after a fair value Gap was filled notice the Gap has already been filled but after that Gap has been filled price finds sellers above a previous day's high"</em></p>
+                <span class="timestamp">7:27-7:47</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"this candle here trades above its previous candle when price trades above that previous day's High the market finds Sellers and you can be a seller that day"</em></p>
+                <span class="timestamp">7:47-7:54</span>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Previous Day High - Bearish Reversal in Expansion Swing</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Expansion swing lower -->
+                <path d="M 100 150 L 150 200 L 200 240 L 250 290 L 300 330"
+                      stroke="#ff4757" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                <text x="320" y="335" fill="#ff4757" font-size="14">Larger Expansion Swing</text>
+
+                <!-- Previous day candles -->
+                <rect x="280" y="240" width="15" height="60" fill="#ff4757" opacity="0.7"/>
+                <line x1="287.5" y1="220" x2="287.5" y2="300" stroke="#ff4757" stroke-width="2"/>
+                <text x="260" y="210" fill="#e8e8ed" font-size="12">Previous Day</text>
+
+                <!-- Previous day high line -->
+                <line x1="100" y1="220" x2="600" y2="220" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="610" y="225" fill="#2ed573" font-size="14">Previous Day High</text>
+
+                <!-- Fair Value Gap (already filled) -->
+                <rect x="360" y="180" width="60" height="35" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="330" y="165" fill="#ffa502" font-size="14">Fair Value Gap</text>
+                <text x="340" y="180" fill="#ffa502" font-size="12">(Premium Array - Filled)</text>
+
+                <!-- Retracement up -->
+                <path d="M 300 330 L 330 290 L 360 250 L 390 200"
+                      stroke="#2ed573" stroke-width="3" fill="none"/>
+                <text x="310" y="310" fill="#2ed573" font-size="12">Retracement</text>
+
+                <!-- Raid above previous day high -->
+                <rect x="390" y="190" width="12" height="25" fill="#2ed573"/>
+                <line x1="396" y1="185" x2="396" y2="215" stroke="#2ed573" stroke-width="2"/>
+                <text x="360" y="175" fill="#2ed573" font-size="13" font-weight="bold">Raid Above PDH</text>
+
+                <!-- Reversal candle -->
+                <rect x="420" y="195" width="15" height="30" fill="#ff4757"/>
+                <line x1="427.5" y1="190" x2="427.5" y2="225" stroke="#ff4757" stroke-width="2"/>
+                <text x="405" y="240" fill="#ff4757" font-size="12">Finds Sellers</text>
+
+                <!-- Decline lower -->
+                <path d="M 435 210 L 470 260 L 510 310 L 550 350"
+                      stroke="#ff4757" stroke-width="4" fill="none"/>
+                <text x="560" y="355" fill="#ff4757" font-size="14" font-weight="bold">Price Declines</text>
+
+                <!-- Annotations -->
+                <text x="400" y="420" fill="#e8e8ed" font-size="13" text-anchor="middle">
+                    "price finds sellers above a previous day's high" (7:44-7:47)
+                </text>
+            </svg>
+        </section>
+
+        <section id="intra-week">
+            <h2>3 & 4: Intra-Week Highs & Lows</h2>
+
+            <h3>Intra-Week High - Definition</h3>
+            <blockquote class="quote">
+                <p><em>"the intra week high where the market trades above the highest high it's made for the week so far raids the buy stops and then reverses"</em></p>
+                <span class="timestamp">0:58-1:04</span>
+            </div>
+
+            <h3>Coupled with Higher Time Frame Premium Array</h3>
+            <blockquote class="quote">
+                <p><em>"what I like to do is look for scenarios where the market has already been trading for instance higher for a period of time and we have yet to meet a premium array that eventually gets traded up to say maybe on a Tuesday or Wednesday or Thursday and it hits that on that particular day but it also does it on the heels of running out a previous in week high"</em></p>
+                <span class="timestamp">1:17-1:33</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"once that higher time frame premium array is traded to it's coupled with buy stops that will be resting above for instance Tuesday's highs"</em></p>
+                <span class="timestamp">1:46-1:53</span>
+            </div>
+
+            <h3>Tuesday False High Blown Out Wednesday</h3>
+            <blockquote class="quote">
+                <p><em>"many many times Tuesday can create a false decline or false high and then Wednesday will come up here and blow it out and then that's the high of the week"</em></p>
+                <span class="timestamp">1:56-2:03</span>
+            </div>
+
+            <h3>Equal Highs - "Candy Land"</h3>
+            <blockquote class="quote">
+                <p><em>"when we look for equal highs we know that that is like Candy Land as we call it it's very easy to see that retails going to have their buy stops resting just above that and any rate above it 10 or 20 Pips above it will scoop up those buy stops"</em></p>
+                <span class="timestamp">8:16-8:24</span>
+            </div>
+
+            <h3>Blending with New York Reversal</h3>
+            <blockquote class="quote">
+                <p><em>"we have a Tuesday high and in Wednesday had a slightly lower high but it's basically equal highs we know there's going to be buy stops above that so on Thursday price rallies above it at that time it could also be seen as a New York reversal so you're blending a couple different things"</em></p>
+                <span class="timestamp">8:37-8:50</span>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Intra-Week High - Equal Highs "Candy Land"</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Monday -->
+                <rect x="100" y="280" width="20" height="60" fill="#2ed573" opacity="0.5"/>
+                <line x1="110" y1="260" x2="110" y2="340" stroke="#2ed573" stroke-width="2"/>
+                <text x="95" y="420" fill="#e8e8ed" font-size="14">MON</text>
+
+                <!-- Tuesday - High -->
+                <rect x="180" y="200" width="20" height="80" fill="#2ed573" opacity="0.7"/>
+                <line x1="190" y1="180" x2="190" y2="280" stroke="#2ed573" stroke-width="2"/>
+                <text x="175" y="420" fill="#e8e8ed" font-size="14">TUE</text>
+                <text x="150" y="165" fill="#ffa502" font-size="13">Tuesday High</text>
+
+                <!-- Wednesday - Equal High (slightly lower) -->
+                <rect x="260" y="205" width="20" height="75" fill="#2ed573" opacity="0.7"/>
+                <line x1="270" y1="185" x2="270" y2="280" stroke="#2ed573" stroke-width="2"/>
+                <text x="255" y="420" fill="#e8e8ed" font-size="14">WED</text>
+                <text x="230" y="170" fill="#ffa502" font-size="13">Slightly Lower</text>
+
+                <!-- Equal highs line -->
+                <line x1="150" y1="180" x2="320" y2="185" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="340" y="190" fill="#ffa502" font-size="14" font-weight="bold">Equal Highs</text>
+
+                <!-- Buy stops area -->
+                <rect x="150" y="150" width="170" height="25" fill="#2ed573" opacity="0.15" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="180" y="140" fill="#2ed573" font-size="13">Buy Stops 10-20 pips above</text>
+
+                <!-- Thursday - Raid and Reversal -->
+                <rect x="340" y="140" width="20" height="50" fill="#ff4757"/>
+                <line x1="350" y1="125" x2="350" y2="190" stroke="#ff4757" stroke-width="3"/>
+                <text x="335" y="420" fill="#e8e8ed" font-size="14">THU</text>
+
+                <!-- Raid annotation -->
+                <path d="M 350 130 L 370 110" stroke="#ff4757" stroke-width="2" fill="none"/>
+                <text x="375" y="110" fill="#ff4757" font-size="14" font-weight="bold">Raids Buy Stops</text>
+
+                <!-- Higher time frame premium array -->
+                <rect x="320" y="120" width="80" height="40" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="280" y="105" fill="#ffa502" font-size="13">Higher Time Frame</text>
+                <text x="295" y="120" fill="#ffa502" font-size="13">Premium Array</text>
+
+                <!-- Reversal down -->
+                <path d="M 350 150 L 380 200 L 420 260 L 460 310"
+                      stroke="#ff4757" stroke-width="4" fill="none"/>
+                <text x="470" y="315" fill="#ff4757" font-size="14" font-weight="bold">Reversal - High of Week</text>
+
+                <!-- Annotations -->
+                <text x="400" y="435" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "like Candy Land... retail's buy stops... 10 or 20 Pips above it" (8:16-8:24)
+                </text>
+            </svg>
+
+            <h3>Intra-Week Low - Definition</h3>
+            <blockquote class="quote">
+                <p><em>"the lowest low on the week be violated on the downside and the sell stops be rated and the market reverses"</em></p>
+                <span class="timestamp">2:07-2:13</span>
+            </div>
+
+            <h3>Blending with Previous Week's Range</h3>
+            <blockquote class="quote">
+                <p><em>"you have equal lows on the previous Friday and on Monday so those two equal lows are traded down through on Tuesday violating that old low so you have an intra week low that can be Blended in with the previous week's range as well especially if the reversal occurs on a Monday or Tuesday"</em></p>
+                <span class="timestamp">9:06-9:24</span>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Intra-Week Low - Equal Lows Across Weeks</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="50" x2="750" y2="50" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Week separator -->
+                <line x1="280" y1="40" x2="280" y2="400" stroke="#9898a8" stroke-width="2" stroke-dasharray="10,5"/>
+                <text x="150" y="25" fill="#9898a8" font-size="14">PREVIOUS WEEK</text>
+                <text x="420" y="25" fill="#9898a8" font-size="14">CURRENT WEEK</text>
+
+                <!-- Previous Friday - Low -->
+                <rect x="200" y="200" width="20" height="80" fill="#ff4757" opacity="0.7"/>
+                <line x1="210" y1="180" x2="210" y2="280" stroke="#ff4757" stroke-width="2"/>
+                <text x="195" y="70" fill="#e8e8ed" font-size="14">FRI</text>
+                <text x="165" y="295" fill="#ffa502" font-size="13">Previous Friday Low</text>
+
+                <!-- Monday - Equal Low -->
+                <rect x="320" y="205" width="20" height="75" fill="#ff4757" opacity="0.7"/>
+                <line x1="330" y1="185" x2="330" y2="280" stroke="#ff4757" stroke-width="2"/>
+                <text x="315" y="70" fill="#e8e8ed" font-size="14">MON</text>
+                <text x="295" y="300" fill="#ffa502" font-size="13">Monday Low</text>
+
+                <!-- Equal lows line -->
+                <line x1="180" y1="280" x2="380" y2="282" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="390" y="287" fill="#ffa502" font-size="14" font-weight="bold">Equal Lows</text>
+
+                <!-- Sell stops area -->
+                <rect x="180" y="285" width="200" height="25" fill="#ff4757" opacity="0.15" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="200" y="330" fill="#ff4757" font-size="13">Sell Stops Below Equal Lows</text>
+
+                <!-- Tuesday - Raid and Reversal -->
+                <rect x="400" y="270" width="20" height="50" fill="#2ed573"/>
+                <line x1="410" y1="265" x2="410" y2="320" stroke="#2ed573" stroke-width="3"/>
+                <text x="395" y="70" fill="#e8e8ed" font-size="14">TUE</text>
+
+                <!-- Raid annotation -->
+                <path d="M 410 310 L 430 340" stroke="#2ed573" stroke-width="2" fill="none"/>
+                <text x="435" y="350" fill="#2ed573" font-size="14" font-weight="bold">Raids Sell Stops</text>
+                <text x="435" y="365" fill="#2ed573" font-size="14" font-weight="bold">Violates Old Low</text>
+
+                <!-- Discount array -->
+                <rect x="380" y="290" width="80" height="40" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="350" y="345" fill="#2ed573" font-size="13">Discount Array</text>
+
+                <!-- Reversal up -->
+                <path d="M 410 280 L 450 220 L 490 160 L 530 100"
+                      stroke="#2ed573" stroke-width="4" fill="none"/>
+                <text x="540" y="105" fill="#2ed573" font-size="14" font-weight="bold">Market Reverses Higher</text>
+
+                <!-- Annotations -->
+                <text x="400" y="420" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "equal lows... traded down through on Tuesday... intra week low blended with previous week's range" (9:06-9:24)
+                </text>
+            </svg>
+        </section>
+
+        <section id="intermediate">
+            <h2>5 & 6: Intermediate Term Highs & Lows</h2>
+
+            <h3>Definition - Longer Time Frame</h3>
+            <blockquote class="quote">
+                <p><em>"intermediate term highs now this is going to be a little bit longer term it may be a high of the previous week or a week before it so it's going back a little bit more in terms of time"</em></p>
+                <span class="timestamp">2:13-2:23</span>
+            </div>
+
+            <h3>Run Above Old High, Raid Buy Stops</h3>
+            <blockquote class="quote">
+                <p><em>"what we would be looking for is a run above an old high basically and those by stats that would be resting above that old high they would be rated and the market reverses"</em></p>
+                <span class="timestamp">2:23-2:31</span>
+            </div>
+
+            <h3>Storyline Required - Context Critical</h3>
+            <blockquote class="quote">
+                <p><em>"this can be a little bit tricky because the old highs and old buy stops that would be resting there or just above it you have to look at the the context of the marketplace at the time what's the storyline behind why price would be permitted to trade above that intermediate term High yes they're looking to take those buy stots but there's a storyline behind it is it pairing up those orders to go into an exit of Longs or is it going up there to engineer liquidity to put people on the wrong side of the marketplace and then go lower"</em></p>
+                <span class="timestamp">2:31-2:57</span>
+            </div>
+
+            <h3>Ideal in Consolidation/Range-Bound Markets</h3>
+            <blockquote class="quote">
+                <p><em>"in this chart here you can see price is trading in a large validation and the periods when the market is not trending One Direction they offer ideal conditions you know for shorting above an old high and buying below an old low from a previous week or longer in time"</em></p>
+                <span class="timestamp">9:26-9:38</span>
+            </div>
+
+            <h3>Old Highs/Lows Are "Gold Mines"</h3>
+            <blockquote class="quote">
+                <p><em>"old lows and old highs like that they're gold mines because think about who would be having their stop losses below or above those reference points the whales those large f fund Traders when they have their orders in those markets they're going to be placed around these higher time frame highs and lows so if the market trades back to them they're gunning those stops"</em></p>
+                <span class="timestamp">9:49-10:07</span>
+            </div>
+
+            <h3>More Reversal Opportunities Without Directional Trend</h3>
+            <blockquote class="quote">
+                <p><em>"when the market lacks directional Trend and one-sidedness those conditions they offer more opportunities to trade like this"</em></p>
+                <span class="timestamp">10:08-10:14</span>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Intermediate Term Highs/Lows in Consolidation</text>
+
+                <!-- Consolidation range boundaries -->
+                <line x1="80" y1="150" x2="720" y2="150" stroke="#ffa502" stroke-width="2" stroke-dasharray="10,5"/>
+                <line x1="80" y1="380" x2="720" y2="380" stroke="#ffa502" stroke-width="2" stroke-dasharray="10,5"/>
+                <text x="30" y="155" fill="#ffa502" font-size="14">Range High</text>
+                <text x="30" y="385" fill="#ffa502" font-size="14">Range Low</text>
+
+                <!-- Week 1 - Creates high -->
+                <rect x="120" y="240" width="18" height="70" fill="#2ed573" opacity="0.5"/>
+                <line x1="129" y1="200" x2="129" y2="310" stroke="#2ed573" stroke-width="2"/>
+                <text x="110" y="185" fill="#e8e8ed" font-size="12">Week 1 High</text>
+
+                <!-- Week 2 - Lower -->
+                <rect x="170" y="260" width="18" height="80" fill="#ff4757" opacity="0.5"/>
+                <line x1="179" y1="250" x2="179" y2="340" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Week 3 - Lower in range -->
+                <rect x="220" y="290" width="18" height="60" fill="#2ed573" opacity="0.5"/>
+                <line x1="229" y1="280" x2="229" y2="350" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Week 4 - Rallies to old high -->
+                <rect x="270" y="210" width="18" height="80" fill="#2ed573" opacity="0.7"/>
+                <line x1="279" y1="180" x2="279" y2="290" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Raid above Week 1 high -->
+                <line x1="100" y1="200" x2="320" y2="200" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="325" y="205" fill="#ff4757" font-size="13">Old High from Week 1</text>
+
+                <!-- Buy stops above -->
+                <rect x="100" y="165" width="220" height="30" fill="#2ed573" opacity="0.15" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="150" y="155" fill="#2ed573" font-size="12">Whale Fund Trader Stop Losses</text>
+
+                <!-- Raid spike -->
+                <line x1="279" y1="180" x2="279" y2="160" stroke="#ff4757" stroke-width="4"/>
+                <circle cx="279" cy="160" r="5" fill="#ff4757"/>
+                <text x="285" y="163" fill="#ff4757" font-size="13" font-weight="bold">RAID</text>
+
+                <!-- Reversal down -->
+                <path d="M 279 180 L 310 250 L 350 310 L 390 350"
+                      stroke="#ff4757" stroke-width="4" fill="none"/>
+                <text x="400" y="355" fill="#ff4757" font-size="14" font-weight="bold">Reversal</text>
+
+                <!-- Week 5 - Creates low -->
+                <rect x="390" y="300" width="18" height="50" fill="#ff4757" opacity="0.7"/>
+                <line x1="399" y1="290" x2="399" y2="350" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Week 6-7 - Higher in range -->
+                <rect x="440" y="250" width="18" height="70" fill="#2ed573" opacity="0.5"/>
+                <line x1="449" y1="230" x2="449" y2="320" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="490" y="220" width="18" height="90" fill="#ff4757" opacity="0.5"/>
+                <line x1="499" y1="210" x2="499" y2="310" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Week 8 - Declines to old low -->
+                <rect x="540" y="300" width="18" height="60" fill="#ff4757" opacity="0.7"/>
+                <line x1="549" y1="290" x2="549" y2="360" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- Old low line -->
+                <line x1="370" y1="350" x2="590" y2="350" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="595" y="355" fill="#2ed573" font-size="13">Old Low from Week 5</text>
+
+                <!-- Sell stops below -->
+                <rect x="370" y="355" width="220" height="30" fill="#ff4757" opacity="0.15" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="410" y="405" fill="#ff4757" font-size="12">Whale Fund Trader Stop Losses</text>
+
+                <!-- Raid spike down -->
+                <line x1="549" y1="360" x2="549" y2="385" stroke="#2ed573" stroke-width="4"/>
+                <circle cx="549" cy="385" r="5" fill="#2ed573"/>
+                <text x="555" y="390" fill="#2ed573" font-size="13" font-weight="bold">RAID</text>
+
+                <!-- Reversal up -->
+                <path d="M 549 360 L 580 300 L 620 240 L 660 200"
+                      stroke="#2ed573" stroke-width="4" fill="none"/>
+                <text x="670" y="205" fill="#2ed573" font-size="14" font-weight="bold">Reversal</text>
+
+                <!-- Annotations -->
+                <text x="400" y="440" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "when the market is not trending... ideal conditions for shorting above an old high" (9:27-9:34)
+                </text>
+                <text x="400" y="460" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "old lows and old highs... they're gold mines... whales... large fund Traders... gunning those stops" (9:49-10:07)
+                </text>
+            </svg>
+        </section>
+
+        <section id="new-york">
+            <h2>7: New York Session Reversals</h2>
+
+            <h3>Default: New York is Continuation</h3>
+            <blockquote class="quote">
+                <p><em>"when we look at New York session generally it's a continuation the characteristic of New York I like the view first and foremost is it's a continuation generally of what was already established in London if London was a bullish rallying making the low of the day that means I'm going to be in first looking for signs that there's a continuation on that move going higher from New York's open going into London's close"</em></p>
+                <span class="timestamp">3:00-3:20</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"time of day highs or lows formed in London the opposite end of the range and London close forms New York is generally continuation rarely will it become a reversal in New York"</em></p>
+                <span class="timestamp">5:09-5:17</span>
+            </div>
+
+            <h3>Reversal Conditions: Higher Time Frame Premium/Discount Array</h3>
+            <blockquote class="quote">
+                <p><em>"there are instances where that if London created a low of the day or what would be initial low of the day it rallies up and goes into New York but then New York reverses and goes lower and then you end up having a lower close on the day that occurs when the markets trade into a higher time frame premium array in this case as I was outlining"</em></p>
+                <span class="timestamp">3:22-3:38</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"or the reverses scene if London starts trading lower creates the high of the day then New York creates the low of the day reverses and ends up closing higher on the day"</em></p>
+                <span class="timestamp">3:39-3:47</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"times when it reaches its higher time frame PD that's when you anticipate that New York session becoming a catalyst for reversal"</em></p>
+                <span class="timestamp">5:19-5:24</span>
+            </div>
+
+            <h3>Weekly Templates Determine Likelihood</h3>
+            <blockquote class="quote">
+                <p><em>"when we look for New York session reversals obviously the first remind yourself is that the weekly templates that I provided in earlier teachings this is going to provide you the basis for studying current market structure and then also learning to anticipate what the New York session is going to do in terms of continuation or reversal"</em></p>
+                <span class="timestamp">11:07-11:23</span>
+            </div>
+
+            <h3>Most Likely at Discount Array on Higher Time Frame</h3>
+            <blockquote class="quote">
+                <p><em>"in simple terms when we see price trade down into a discount array on a higher time frame chart and it does it at the time New York opens that is when the most likely chance of a market reversal occurring in New York session is going to be seen"</em></p>
+                <span class="timestamp">11:29-11:43</span>
+            </div>
+
+            <h3>Default to Continuation Unless at Premium/Discount</h3>
+            <blockquote class="quote">
+                <p><em>"unless the New York session opens up at a premium array on the higher time frame or discount array on the higher time frame New York will always be expected to be a continuation of what was seen in London"</em></p>
+                <span class="timestamp">11:43-11:54</span>
+            </div>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">New York Session Reversal at Higher Time Frame Premium Array</text>
+
+                <!-- Time axis -->
+                <line x1="50" y1="450" x2="850" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Session markers -->
+                <line x1="150" y1="440" x2="150" y2="460" stroke="#9898a8" stroke-width="2"/>
+                <text x="120" y="475" fill="#9898a8" font-size="14">London Open</text>
+
+                <line x1="450" y1="440" x2="450" y2="460" stroke="#ffa502" stroke-width="3"/>
+                <text x="410" y="475" fill="#ffa502" font-size="14" font-weight="bold">NY Open</text>
+
+                <line x1="700" y1="440" x2="700" y2="460" stroke="#9898a8" stroke-width="2"/>
+                <text x="660" y="475" fill="#9898a8" font-size="14">London Close</text>
+
+                <!-- Higher time frame premium array -->
+                <rect x="380" y="120" width="180" height="60" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="3"/>
+                <text x="420" y="100" fill="#ffa502" font-size="15" font-weight="bold">Higher Time Frame</text>
+                <text x="430" y="117" fill="#ffa502" font-size="15" font-weight="bold">Premium Array</text>
+
+                <!-- London session - rallies up -->
+                <path d="M 150 400 L 200 350 L 250 280 L 300 220 L 350 170 L 400 150"
+                      stroke="#2ed573" stroke-width="4" fill="none"/>
+                <text x="160" y="410" fill="#2ed573" font-size="13">London rallies</text>
+                <text x="160" y="425" fill="#2ed573" font-size="13">Creates Low of Day</text>
+
+                <!-- New York open at premium -->
+                <circle cx="450" cy="150" r="8" fill="#ffa502" stroke="#ffa502" stroke-width="3"/>
+                <text x="460" y="145" fill="#ffa502" font-size="13" font-weight="bold">NY Opens at</text>
+                <text x="460" y="160" fill="#ffa502" font-size="13" font-weight="bold">Premium Array</text>
+
+                <!-- New York reversal - lower close -->
+                <path d="M 450 150 L 500 210 L 550 270 L 600 320 L 650 360 L 700 380"
+                      stroke="#ff4757" stroke-width="5" fill="none"/>
+                <text x="710" y="360" fill="#ff4757" font-size="14" font-weight="bold">NY Reverses</text>
+                <text x="710" y="380" fill="#ff4757" font-size="14" font-weight="bold">Lower Close</text>
+
+                <!-- Annotations -->
+                <text x="450" y="490" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "London created a low... rallies up... New York reverses and goes lower... lower close on the day"
+                </text>
+                <text x="450" y="505" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "occurs when the markets trade into a higher time frame premium array" (3:22-3:38)
+                </text>
+            </svg>
+
+            <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">New York Session Reversal at Higher Time Frame Discount Array</text>
+
+                <!-- Time axis -->
+                <line x1="50" y1="50" x2="850" y2="50" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Session markers -->
+                <line x1="150" y1="40" x2="150" y2="60" stroke="#9898a8" stroke-width="2"/>
+                <text x="120" y="30" fill="#9898a8" font-size="14">London Open</text>
+
+                <line x1="450" y1="40" x2="450" y2="60" stroke="#ffa502" stroke-width="3"/>
+                <text x="410" y="30" fill="#ffa502" font-size="14" font-weight="bold">NY Open</text>
+
+                <line x1="700" y1="40" x2="700" y2="60" stroke="#9898a8" stroke-width="2"/>
+                <text x="660" y="30" fill="#9898a8" font-size="14">London Close</text>
+
+                <!-- Higher time frame discount array -->
+                <rect x="380" y="330" width="180" height="60" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="3"/>
+                <text x="420" y="410" fill="#2ed573" font-size="15" font-weight="bold">Higher Time Frame</text>
+                <text x="430" y="427" fill="#2ed573" font-size="15" font-weight="bold">Discount Array</text>
+
+                <!-- London session - declines -->
+                <path d="M 150 100 L 200 150 L 250 210 L 300 270 L 350 320 L 400 350"
+                      stroke="#ff4757" stroke-width="4" fill="none"/>
+                <text x="160" y="95" fill="#ff4757" font-size="13">London declines</text>
+                <text x="160" y="110" fill="#ff4757" font-size="13">Creates High of Day</text>
+
+                <!-- New York open at discount -->
+                <circle cx="450" cy="350" r="8" fill="#2ed573" stroke="#2ed573" stroke-width="3"/>
+                <text x="460" y="345" fill="#2ed573" font-size="13" font-weight="bold">NY Opens at</text>
+                <text x="460" y="360" fill="#2ed573" font-size="13" font-weight="bold">Discount Array</text>
+
+                <!-- New York reversal - higher close -->
+                <path d="M 450 350 L 500 300 L 550 240 L 600 190 L 650 150 L 700 120"
+                      stroke="#2ed573" stroke-width="5" fill="none"/>
+                <text x="710" y="135" fill="#2ed573" font-size="14" font-weight="bold">NY Reverses</text>
+                <text x="710" y="155" fill="#2ed573" font-size="14" font-weight="bold">Higher Close</text>
+
+                <!-- Annotations -->
+                <text x="450" y="470" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "London creates the high of the day then New York creates the low of the day reverses and ends up closing higher" (3:39-3:47)
+                </text>
+                <text x="450" y="490" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "most likely chance... when price trade down into a discount array... at the time New York opens" (11:31-11:41)
+                </text>
+            </svg>
+        </section>
+
+        <section id="london-close">
+            <h2>8: London Close Reversals</h2>
+
+            <h3>Two Types of London Close Reversals</h3>
+            <blockquote class="quote">
+                <p><em>"London close everything I just mentioned for New York session reversals applies to London close but also intraday obviously on large range days"</em></p>
+                <span class="timestamp">3:47-3:55</span>
+            </div>
+
+            <h3>Type 1: Intraday Scalp on Large Range Days</h3>
+            <blockquote class="quote">
+                <p><em>"when we have a 5day average daily range that's exceeded when we get into 10:00 at 11:00 in the morning New York time you can anticipate a London close reversal for an intraday scalp where price will want to come back a certain measure of that range"</em></p>
+                <span class="timestamp">3:55-4:07</span>
+            </div>
+
+            <h3>Requirement: 125% to 130% of ADR</h3>
+            <blockquote class="quote">
+                <p><em>"I like to only do it when the average daily range of the last 5 days has been exceeded at least 1 and a/4 to 1 and 13% in other words if it's 100 Pips ADR I want to see 125 Pips or 130 Pips like that or more"</em></p>
+                <span class="timestamp">4:15-4:28</span>
+            </div>
+
+            <h3>20% Retracement of Total Daily Range</h3>
+            <blockquote class="quote">
+                <p><em>"London clothes can be used for intraday reversals on large range days for scalps the large range day that exceeds its 5-day average daily range tend to retrace about 20% of its total daily range at 10:00 in the morning to noon New York time"</em></p>
+                <span class="timestamp">11:57-12:09</span>
+            </div>
+
+            <h3>Must Be Explosive One-Sided Move</h3>
+            <blockquote class="quote">
+                <p><em>"I don't like to do that type of trade when the range is smaller than the last 5 days average daily range or if it wasn't really explosive the better trades are when the market has a real big extrapolation one-sided and it moves a lot real quick then in London Clos you generally get a lot of profit taking on an intraday basis and you can see some retracement of that total daily range"</em></p>
+                <span class="timestamp">4:38-4:56</span>
+            </div>
+
+            <svg viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">London Close Reversal - 20% Retracement on Large Range Day</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="100" x2="50" y2="500" stroke="#9898a8" stroke-width="2"/>
+                <text x="20" y="300" fill="#9898a8" font-size="14" transform="rotate(-90 20 300)">Price</text>
+
+                <!-- Time axis -->
+                <line x1="50" y1="500" x2="850" y2="500" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Session markers -->
+                <line x1="150" y1="490" x2="150" y2="510" stroke="#9898a8" stroke-width="2"/>
+                <text x="115" y="525" fill="#9898a8" font-size="13">London Open</text>
+
+                <line x1="450" y1="490" x2="450" y2="510" stroke="#ffa502" stroke-width="2"/>
+                <text x="420" y="525" fill="#ffa502" font-size="13">NY Open</text>
+
+                <line x1="650" y1="490" x2="650" y2="510" stroke="#ff4757" stroke-width="3"/>
+                <text x="600" y="525" fill="#ff4757" font-size="13" font-weight="bold">10 AM - 12 PM</text>
+                <text x="600" y="540" fill="#ff4757" font-size="13" font-weight="bold">London Close</text>
+
+                <!-- Day's low -->
+                <line x1="140" y1="450" x2="160" y2="450" stroke="#2ed573" stroke-width="2"/>
+                <text x="60" y="455" fill="#2ed573" font-size="13">Low of Day</text>
+
+                <!-- Explosive one-sided rally -->
+                <path d="M 150 450 L 200 380 L 250 310 L 300 240 L 350 180 L 400 140 L 450 120 L 500 110 L 550 105 L 600 102"
+                      stroke="#2ed573" stroke-width="5" fill="none"/>
+                <text x="300" y="200" fill="#2ed573" font-size="14" font-weight="bold">Explosive One-Sided</text>
+                <text x="300" y="218" fill="#2ed573" font-size="14" font-weight="bold">Rally</text>
+
+                <!-- Day's high -->
+                <line x1="590" y1="102" x2="710" y2="102" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="720" y="107" fill="#ff4757" font-size="13" font-weight="bold">High of Day</text>
+
+                <!-- Total range measurement -->
+                <line x1="70" y1="102" x2="70" y2="450" stroke="#ffa502" stroke-width="2"/>
+                <line x1="65" y1="102" x2="75" y2="102" stroke="#ffa502" stroke-width="2"/>
+                <line x1="65" y1="450" x2="75" y2="450" stroke="#ffa502" stroke-width="2"/>
+                <text x="80" y="280" fill="#ffa502" font-size="13" font-weight="bold">Total Range</text>
+                <text x="80" y="295" fill="#ffa502" font-size="13" font-weight="bold">125-130% ADR</text>
+
+                <!-- 20% retracement zone -->
+                <rect x="600" y="102" width="150" height="70" fill="#ff4757" opacity="0.15" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="720" y="130" fill="#ff4757" font-size="14" font-weight="bold">20% of Range</text>
+                <text x="720" y="145" fill="#ff4757" font-size="14" font-weight="bold">Retracement</text>
+
+                <!-- London close retracement -->
+                <path d="M 600 105 L 630 125 L 660 145 L 690 160 L 720 168"
+                      stroke="#ff4757" stroke-width="5" fill="none"/>
+                <text x="730" y="173" fill="#ff4757" font-size="13" font-weight="bold">Profit Taking</text>
+                <text x="730" y="188" fill="#ff4757" font-size="13" font-weight="bold">Intraday Scalp</text>
+
+                <!-- Annotations -->
+                <text x="450" y="560" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "ADR exceeded at least 1.25 to 1.3x... explosive... retrace about 20% of total daily range at 10 AM to noon" (4:17-4:28, 12:05-12:09)
+                </text>
+            </svg>
+
+            <h3>Type 2: Secondary Swipe After New York Reversal</h3>
+            <blockquote class="quote">
+                <p><em>"there are times when you anticipate the New York session causing the reversal and then later on London will go back to that higher time frame PD and blow out the stops on the New York session as you see here in this example so always be mindful that even if you're expecting the New York reversal London can come back"</em></p>
+                <span class="timestamp">12:23-12:39</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"in London open you expect a high the form it creates a high it trades down 30 40 Pips aggressively and then it comes back one more time knock those stops out and then it sells off well when we're expecting New York session reversals the London close can be that second swipe"</em></p>
+                <span class="timestamp">12:41-12:54</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"for those the individuals that are really on the right side of the marketplace and they're buying the reversals in New York or selling the reversals in New York London clothes can many times go up there one more time or down there below to knock out those stops for those people that were right anticipating the New York session reversal"</em></p>
+                <span class="timestamp">12:54-13:06</span>
+            </div>
+
+            <h3>Re-Entry Opportunity - "Wicked Low Pricing"</h3>
+            <blockquote class="quote">
+                <p><em>"if you see that occur step right in air again and buy it below the New York low if you're looking for a bullish New York session reversal if it comes down again in in London I'll step right back in there again and buy it again and many times you'll get really wicked low pricing and it quickly moves away the other way"</em></p>
+                <span class="timestamp">13:06-13:22</span>
+            </div>
+
+            <svg viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">London Close Secondary Swipe After NY Reversal</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="100" x2="50" y2="500" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Time axis -->
+                <line x1="50" y1="500" x2="850" y2="500" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Session markers -->
+                <line x1="150" y1="490" x2="150" y2="510" stroke="#9898a8" stroke-width="2"/>
+                <text x="115" y="525" fill="#9898a8" font-size="13">London Open</text>
+
+                <line x1="400" y1="490" x2="400" y2="510" stroke="#ffa502" stroke-width="2"/>
+                <text x="370" y="525" fill="#ffa502" font-size="13">NY Open</text>
+
+                <line x1="650" y1="490" x2="650" y2="510" stroke="#ff4757" stroke-width="3"/>
+                <text x="600" y="525" fill="#ff4757" font-size="13" font-weight="bold">London Close</text>
+
+                <!-- Higher time frame premium array -->
+                <rect x="150" y="150" width="300" height="60" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="230" y="135" fill="#ffa502" font-size="14">Higher Time Frame Premium Array</text>
+
+                <!-- London rallies to premium -->
+                <path d="M 150 430 L 200 360 L 250 280 L 300 220 L 350 180"
+                      stroke="#2ed573" stroke-width="4" fill="none"/>
+                <text x="160" y="440" fill="#2ed573" font-size="13">London Rallies</text>
+
+                <!-- NY open and reversal -->
+                <circle cx="400" cy="185" r="6" fill="#ffa502"/>
+                <text x="410" y="180" fill="#ffa502" font-size="13">NY Opens at Premium</text>
+
+                <path d="M 400 185 L 440 240 L 480 300 L 520 360 L 560 400"
+                      stroke="#ff4757" stroke-width="5" fill="none"/>
+                <text x="520" y="380" fill="#ff4757" font-size="14" font-weight="bold">NY Reversal</text>
+                <text x="520" y="395" fill="#ff4757" font-size="14" font-weight="bold">(Correct Trade)</text>
+
+                <!-- NY low -->
+                <line x1="550" y1="400" x2="750" y2="400" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="760" y="405" fill="#2ed573" font-size="13">NY Low</text>
+
+                <!-- London close - second swipe down -->
+                <path d="M 560 400 L 600 380 L 650 350 L 680 340"
+                      stroke="#2ed573" stroke-width="4" fill="none"/>
+
+                <path d="M 680 340 L 700 380 L 720 420"
+                      stroke="#ff4757" stroke-width="5" fill="none"/>
+                <text x="665" y="450" fill="#ff4757" font-size="14" font-weight="bold">London Close</text>
+                <text x="665" y="465" fill="#ff4757" font-size="14" font-weight="bold">Second Swipe</text>
+
+                <!-- Raid spike below NY low -->
+                <line x1="720" y1="420" x2="720" y2="445" stroke="#ff4757" stroke-width="4"/>
+                <circle cx="720" cy="445" r="7" fill="#ff4757" stroke="#ffa502" stroke-width="2"/>
+                <text x="660" y="480" fill="#ff4757" font-size="13" font-weight="bold">Knocks Out Stops</text>
+                <text x="655" y="495" fill="#ff4757" font-size="13" font-weight="bold">Below NY Low</text>
+
+                <!-- Re-entry and rally -->
+                <path d="M 720 440 L 750 380 L 780 310 L 810 240"
+                      stroke="#2ed573" stroke-width="6" fill="none"/>
+                <text x="790" y="230" fill="#2ed573" font-size="15" font-weight="bold">Wicked Low Pricing</text>
+                <text x="790" y="248" fill="#2ed573" font-size="15" font-weight="bold">Quickly Moves Away</text>
+
+                <!-- Re-entry marker -->
+                <circle cx="720" cy="440" r="8" fill="#2ed573" stroke="#ffa502" stroke-width="3"/>
+                <text x="665" y="518" fill="#2ed573" font-size="13" font-weight="bold">RE-ENTRY</text>
+
+                <!-- Annotations -->
+                <text x="450" y="545" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "London close can be that second swipe... knock out those stops for those people that were right" (12:51-13:03)
+                </text>
+            </svg>
+        </section>
+
+        <section id="turtle-soup">
+            <h2>Turtle Soup Core Concept</h2>
+
+            <h3>False Break Above Old High or Below Old Low</h3>
+            <blockquote class="quote">
+                <p><em>"it's the concept of turtle soup which is a false break above an old high or false break below an old low but it's one step further than that"</em></p>
+                <span class="timestamp">6:11-6:20</span>
+            </div>
+
+            <h3>Context: Expansion Swings</h3>
+            <blockquote class="quote">
+                <p><em>"during expansion swings there are smaller retracements that typically create opportunities where the previous day's low is rated then price rallies higher in opposing expansion swings there are retracements that create opportunities where the previous day's high is rated than price declines"</em></p>
+                <span class="timestamp">5:59-6:11</span>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Turtle Soup - False Break Concept</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Bullish Turtle Soup Example -->
+                <text x="200" y="60" fill="#2ed573" font-size="16" font-weight="bold">Bullish Turtle Soup</text>
+
+                <!-- Old low -->
+                <line x1="100" y1="280" x2="350" y2="280" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="360" y="285" fill="#ff4757" font-size="13">Old Low (Previous Day)</text>
+
+                <!-- Price consolidation -->
+                <rect x="120" y="230" width="15" height="45" fill="#2ed573" opacity="0.5"/>
+                <rect x="160" y="240" width="15" height="40" fill="#ff4757" opacity="0.5"/>
+                <rect x="200" y="245" width="15" height="35" fill="#2ed573" opacity="0.5"/>
+
+                <!-- False break below -->
+                <rect x="240" y="270" width="12" height="30" fill="#ff4757"/>
+                <line x1="246" y1="265" x2="246" y2="300" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="246" cy="300" r="5" fill="#ff4757"/>
+                <text x="210" y="320" fill="#ff4757" font-size="13" font-weight="bold">False Break</text>
+
+                <!-- Reversal and rally -->
+                <path d="M 246 275 L 270 250 L 300 210 L 330 170"
+                      stroke="#2ed573" stroke-width="5" fill="none"/>
+                <text x="335" y="175" fill="#2ed573" font-size="14" font-weight="bold">Reversal Higher</text>
+
+                <!-- Bearish Turtle Soup Example -->
+                <text x="550" y="60" fill="#ff4757" font-size="16" font-weight="bold">Bearish Turtle Soup</text>
+
+                <!-- Old high -->
+                <line x1="450" y1="120" x2="700" y2="120" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="710" y="125" fill="#2ed573" font-size="13">Old High (Previous Day)</text>
+
+                <!-- Price consolidation -->
+                <rect x="470" y="150" width="15" height="45" fill="#ff4757" opacity="0.5"/>
+                <rect x="510" y="145" width="15" height="40" fill="#2ed573" opacity="0.5"/>
+                <rect x="550" y="140" width="15" height="35" fill="#ff4757" opacity="0.5"/>
+
+                <!-- False break above -->
+                <rect x="590" y="90" width="12" height="30" fill="#2ed573"/>
+                <line x1="596" y1="85" x2="596" y2="120" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="596" cy="85" r="5" fill="#2ed573"/>
+                <text x="560" y="75" fill="#2ed573" font-size="13" font-weight="bold">False Break</text>
+
+                <!-- Reversal and decline -->
+                <path d="M 596 105 L 620 130 L 650 170 L 680 210"
+                      stroke="#ff4757" stroke-width="5" fill="none"/>
+                <text x="685" y="215" fill="#ff4757" font-size="14" font-weight="bold">Reversal Lower</text>
+
+                <!-- Annotation -->
+                <text x="400" y="380" fill="#e8e8ed" font-size="13" text-anchor="middle">
+                    "false break above an old high or false break below an old low but it's one step further" (6:14-6:20)
+                </text>
+            </svg>
+        </section>
+
+        <section id="judas">
+            <h2>Judas Swing Connections</h2>
+
+            <blockquote class="quote">
+                <p><em>"these reversal concepts are large in scale with intermediate based ideas as what I'm descri describing here but it also is minute to the point where we can reduce it to the London open for Judas the CME open for the New York Judas and Asia it has its Judas at 8:00 and then New York time or zmt Z GMT and then you have it also in London close on days that create London clo reversals"</em></p>
+                <span class="timestamp">10:43-11:06</span>
+            </div>
+
+            <h3>London Open Judas Swing</h3>
+            <blockquote class="quote">
+                <p><em>"the Judah swing when we're looking for Bears moves it's going to be rallying higher what we're doing is trying to time that intraday reversal"</em></p>
+                <span class="timestamp">10:36-10:43</span>
+            </div>
+
+            <h3>Four Judas Swing Timing Windows</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">London Open Judas</span>
+                </div>
+                <p><em>"the London open for Judas"</em> (10:51)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">CME Open (New York) Judas</span>
+                </div>
+                <p><em>"the CME open for the New York Judas"</em> (10:53-10:56)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Asia Judas</span>
+                </div>
+                <p><em>"Asia it has its Judas at 8:00 and then New York time or zmt Z GMT"</em> (10:56-11:02)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">London Close Judas</span>
+                </div>
+                <p><em>"you have it also in London close on days that create London clo reversals"</em> (11:02-11:06)</p>
+            </div>
+
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Judas Swing Timing - Four Session Windows</text>
+
+                <!-- 24-hour timeline -->
+                <line x1="50" y1="200" x2="850" y2="200" stroke="#9898a8" stroke-width="3"/>
+
+                <!-- Time markers -->
+                <text x="50" y="230" fill="#9898a8" font-size="12">12 AM</text>
+                <text x="250" y="230" fill="#9898a8" font-size="12">6 AM</text>
+                <text x="450" y="230" fill="#9898a8" font-size="12">12 PM</text>
+                <text x="650" y="230" fill="#9898a8" font-size="12">6 PM</text>
+                <text x="830" y="230" fill="#9898a8" font-size="12">12 AM</text>
+
+                <!-- Asia Judas -->
+                <rect x="620" y="100" width="100" height="80" fill="#ffa502" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <text x="635" y="80" fill="#ffa502" font-size="14" font-weight="bold">Asia Judas</text>
+                <text x="630" y="135" fill="#e8e8ed" font-size="13">8:00 PM NY</text>
+                <text x="630" y="153" fill="#e8e8ed" font-size="13">Midnight GMT</text>
+                <line x1="670" y1="180" x2="670" y2="195" stroke="#ffa502" stroke-width="3"/>
+
+                <!-- London Open Judas -->
+                <rect x="220" y="100" width="100" height="80" fill="#2ed573" opacity="0.3" stroke="#2ed573" stroke-width="2"/>
+                <text x="215" y="80" fill="#2ed573" font-size="14" font-weight="bold">London Open</text>
+                <text x="230" y="95" fill="#2ed573" font-size="14" font-weight="bold">Judas</text>
+                <text x="240" y="145" fill="#e8e8ed" font-size="13">London Open</text>
+                <line x1="270" y1="180" x2="270" y2="195" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- CME Open (NY) Judas -->
+                <rect x="380" y="100" width="100" height="80" fill="#ff4757" opacity="0.3" stroke="#ff4757" stroke-width="2"/>
+                <text x="390" y="80" fill="#ff4757" font-size="14" font-weight="bold">CME Open</text>
+                <text x="385" y="95" fill="#ff4757" font-size="14" font-weight="bold">(NY) Judas</text>
+                <text x="405" y="145" fill="#e8e8ed" font-size="13">NY Open</text>
+                <line x1="430" y1="180" x2="430" y2="195" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- London Close Judas -->
+                <rect x="480" y="260" width="120" height="80" fill="#ffa502" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <text x="485" y="250" fill="#ffa502" font-size="14" font-weight="bold">London Close</text>
+                <text x="510" y="265" fill="#ffa502" font-size="14" font-weight="bold">Judas</text>
+                <text x="485" y="295" fill="#e8e8ed" font-size="13">On reversal days</text>
+                <text x="490" y="315" fill="#e8e8ed" font-size="13">10 AM - 12 PM NY</text>
+                <line x1="540" y1="260" x2="540" y2="205" stroke="#ffa502" stroke-width="3"/>
+
+                <!-- Annotations -->
+                <text x="450" y="370" fill="#e8e8ed" font-size="12" text-anchor="middle">
+                    "reversal concepts... minute to the point where we can reduce it to... Judas [swings]" (10:45-10:51)
+                </text>
+            </svg>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct transcript quotes with timestamps)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the eight reversal types that can be effectively traded with consistency?</div>
+                    <div class="flashcard-answer">"the eight reversals that I think that can be effectively traded with consistency" are: (1) Trading previous days highs, (2) Trading previous days lows, (3) Intra week high, (4) Intra week low, (5) Intermediate term highs, (6) Intermediate term lows, (7) New York session reversals, (8) London close reversals (0:00-0:05, full list from transcript)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the criteria for trading previous day highs and lows?</div>
+                    <div class="flashcard-answer">"when I'm looking at the previous day's High there's buy stops above that previous day's High there's banking levels there's intraday algorithms that go up to those previous day highs and down to those previous days lows to seek liquidity that would be resting below or above it respectively" (0:33-0:46)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the "crown jewel" of the previous day high/low teaching?</div>
+                    <div class="flashcard-answer">"this is the kind of like the crown jewel of this particular teaching during expansion swings there are smaller retracements that typically create opportunities where the previous day's low is rated then price rallies higher in opposing expansion swings there are retracements that create opportunities where the previous day's high is rated than price declines" (5:56-6:11)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many days should you always refer to when looking at previous day highs/lows?</div>
+                    <div class="flashcard-answer">"every single trading day you should always refer to how price traded today after the close in relationship to the previous day's range did we work the daily high or the daily low of the previous day or the day prior to it or the day prior to it so what you're doing is you're always referring to the last 3 days counting today as one day" (5:25-5:39)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must be paired with a previous day high raid for a bearish reversal?</div>
+                    <div class="flashcard-answer">"trading previous day highs I like to look for reasons to see price move up into a short-term premium array... after that Gap has been filled price finds sellers above a previous day's high... when price trades above that previous day's High the market finds Sellers and you can be a seller that day" (7:27-7:54)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must be present for a bullish reversal below the previous day low?</div>
+                    <div class="flashcard-answer">"what you're looking for is a move down below the previous day low and also into a discount array like in this case it's a fair value Gap price trades under the previous day's low that's where you're going to find buyers the Market's going to come in with a great deal of institutional sponsorship and they'll send price higher intraday" (7:11-7:27)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an intra-week high reversal?</div>
+                    <div class="flashcard-answer">"the intra week high where the market trades above the highest high it's made for the week so far raids the buy stops and then reverses" (0:58-1:04)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What Tuesday/Wednesday pattern creates a false high?</div>
+                    <div class="flashcard-answer">"many many times Tuesday can create a false decline or false high and then Wednesday will come up here and blow it out and then that's the high of the week" (1:56-2:03)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why are equal highs called "Candy Land"?</div>
+                    <div class="flashcard-answer">"when we look for equal highs we know that that is like Candy Land as we call it it's very easy to see that retails going to have their buy stops resting just above that and any rate above it 10 or 20 Pips above it will scoop up those buy stops" (8:16-8:24)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Can intra-week reversals blend with other reversal types?</div>
+                    <div class="flashcard-answer">"we have a Tuesday high and in Wednesday had a slightly lower high but it's basically equal highs we know there's going to be buy stops above that so on Thursday price rallies above it at that time it could also be seen as a New York reversal so you're blending a couple different things" (8:37-8:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What defines an intermediate term high or low?</div>
+                    <div class="flashcard-answer">"intermediate term highs now this is going to be a little bit longer term it may be a high of the previous week or a week before it so it's going back a little bit more in terms of time" (2:13-2:23)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is required to understand intermediate term reversals?</div>
+                    <div class="flashcard-answer">"you have to look at the the context of the marketplace at the time what's the storyline behind why price would be permitted to trade above that intermediate term High yes they're looking to take those buy stots but there's a storyline behind it is it pairing up those orders to go into an exit of Longs or is it going up there to engineer liquidity to put people on the wrong side of the marketplace and then go lower" (2:38-2:57)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When do intermediate term reversals offer ideal conditions?</div>
+                    <div class="flashcard-answer">"in this chart here you can see price is trading in a large validation and the periods when the market is not trending One Direction they offer ideal conditions you know for shorting above an old high and buying below an old low from a previous week or longer in time" (9:26-9:38)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why are old highs and lows called "gold mines"?</div>
+                    <div class="flashcard-answer">"old lows and old highs like that they're gold mines because think about who would be having their stop losses below or above those reference points the whales those large f fund Traders when they have their orders in those markets they're going to be placed around these higher time frame highs and lows so if the market trades back to them they're gunning those stops" (9:49-10:07)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the default characteristic of the New York session?</div>
+                    <div class="flashcard-answer">"when we look at New York session generally it's a continuation the characteristic of New York I like the view first and foremost is it's a continuation generally of what was already established in London" (3:02-3:10)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does New York reverse instead of continue from London?</div>
+                    <div class="flashcard-answer">"if London created a low of the day or what would be initial low of the day it rallies up and goes into New York but then New York reverses and goes lower and then you end up having a lower close on the day that occurs when the markets trade into a higher time frame premium array" (3:22-3:38)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What determines whether New York will reverse or continue?</div>
+                    <div class="flashcard-answer">"the weekly templates that I provided in earlier teachings this is going to provide you the basis for studying current market structure and then also learning to anticipate what the New York session is going to do in terms of continuation or reversal" (11:11-11:23)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When is the most likely chance for a New York reversal?</div>
+                    <div class="flashcard-answer">"in simple terms when we see price trade down into a discount array on a higher time frame chart and it does it at the time New York opens that is when the most likely chance of a market reversal occurring in New York session is going to be seen" (11:29-11:43)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two types of London close reversals?</div>
+                    <div class="flashcard-answer">"London close everything I just mentioned for New York session reversals applies to London close but also intraday obviously on large range days" - Type 1: intraday scalp on large range days, Type 2: longer term reversal like New York (3:47-3:55)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ADR requirement for London close intraday scalps?</div>
+                    <div class="flashcard-answer">"I like to only do it when the average daily range of the last 5 days has been exceeded at least 1 and a/4 to 1 and 13% in other words if it's 100 Pips ADR I want to see 125 Pips or 130 Pips like that or more" (4:15-4:28)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What percentage of the total daily range does London close retrace?</div>
+                    <div class="flashcard-answer">"the large range day that exceeds its 5-day average daily range tend to retrace about 20% of its total daily range at 10:00 in the morning to noon New York time" (12:02-12:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What type of market move is required for London close scalps?</div>
+                    <div class="flashcard-answer">"I don't like to do that type of trade when the range is smaller than the last 5 days average daily range or if it wasn't really explosive the better trades are when the market has a real big extrapolation one-sided and it moves a lot real quick" (4:38-4:49)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London close "second swipe" pattern?</div>
+                    <div class="flashcard-answer">"when we're expecting New York session reversals the London close can be that second swipe for those the individuals that are really on the right side of the marketplace and they're buying the reversals in New York or selling the reversals in New York London clothes can many times go up there one more time or down there below to knock out those stops" (12:49-13:03)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What opportunity does the London close secondary swipe create?</div>
+                    <div class="flashcard-answer">"if you see that occur step right in air again and buy it below the New York low if you're looking for a bullish New York session reversal if it comes down again in in London I'll step right back in there again and buy it again and many times you'll get really wicked low pricing and it quickly moves away the other way" (13:06-13:22)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the core concept of turtle soup?</div>
+                    <div class="flashcard-answer">"it's the concept of turtle soup which is a false break above an old high or false break below an old low but it's one step further than that" (6:11-6:20)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the four Judas swing timing windows?</div>
+                    <div class="flashcard-answer">"we can reduce it to the London open for Judas the CME open for the New York Judas and Asia it has its Judas at 8:00 and then New York time or zmt Z GMT and then you have it also in London close on days that create London clo reversals" (10:49-11:06)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do reversal concepts scale from large to minute?</div>
+                    <div class="flashcard-answer">"these reversal concepts are large in scale with intermediate based ideas as what I'm descri describing here but it also is minute to the point where we can reduce it to the London open for Judas the CME open for the New York Judas" (10:43-10:53)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friday's Asian Range for Monday's Trading - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Friday's Asian Range for Monday's Trading</h1>
+        <p>The algorithm is going to look at Friday's Asian range on Mondays</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Core Concept</a>
+        <a href="#time">Time Definition</a>
+        <a href="#breaker">Bearish Breaker</a>
+        <a href="#projection">Asian Range Projection</a>
+        <a href="#bias">Bias Requirement</a>
+        <a href="#time-element">Time vs Price</a>
+        <a href="#rules">Trading Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Core Concept - Monday's Asian Range</h2>
+
+            <blockquote class="quote">
+                <p><em>"the idea of the Asian range not being utilized on Mondays themselves in other words the Asian range that you would determine on Monday's data in my school of thought we do not consider that and the reason why is the algorithm is actually going to look at Friday's Asian range on Mondays we refer to Friday's Asian range"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"on Mondays we do not refer to Asian range it's not important it's not crucial it's not required to find decision you use the previous Friday"</em></p>
+            </blockquote>
+
+            <h3>Why I Don't Like Trading Mondays</h3>
+
+            <blockquote class="quote">
+                <p><em>"this is one of the reasons why I don't like to trade on Mondays but it doesn't mean I won't trade on Mondays it just means one of the things that has to be in play and it has to fit otherwise I won't trade one a Monday"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"this is why I Don't Like Mondays Mondays tend to create the precursor to the weekly range"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="time">
+            <h2>Time Definition</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Asian Range Time</span>
+                </div>
+                <p><em>"the Asian range we can classify that as 700 p.m. to midnight New York time"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Friday's Asian Range for Monday</span>
+                </div>
+                <p><em>"Thursday 700 p.m. to midnight Friday Eastern Standard Time"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"we can take the Asian range that's on the previous week's Friday and utilize that to get projections on how far the market can build up into a specific level of resistance but it has to overlap with some other narrative"</em></p>
+            </blockquote>
+
+            <h3>Wicks vs Bodies</h3>
+
+            <blockquote class="quote">
+                <p><em>"I'm using the candles Wicks and tail to illustrate how the classic view of the Asian range is interpreted I do not always use the Wicks and Tails I like to use the bodies of the candles especially if they're very clear and discernible"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="breaker">
+            <h2>ICT Bearish Breaker</h2>
+
+            <blockquote class="quote">
+                <p><em>"the logic behind this is we want to look at the last down Clos candle prior to this run up that clears all the buy side liquidity if the market trades lower than this low this down closed candle becomes my ICT bearish breaker"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="500" fill="#1a1a24"/>
+
+                <!-- Grid lines -->
+                <line x1="0" y1="250" x2="800" y2="250" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+
+                <!-- Price action: Relative Equal Highs -->
+                <line x1="100" y1="150" x2="180" y2="150" stroke="#9898a8" stroke-width="2" stroke-dasharray="3,3"/>
+                <circle cx="100" cy="150" r="4" fill="#ff4757"/>
+                <circle cx="140" cy="150" r="4" fill="#ff4757"/>
+                <circle cx="180" cy="150" r="4" fill="#ff4757"/>
+                <text x="140" y="130" fill="#ff4757" font-size="14" text-anchor="middle">Relative Equal Highs</text>
+
+                <!-- Run on stops -->
+                <path d="M 180 150 L 220 120" stroke="#ffa502" stroke-width="3" fill="none"/>
+                <text x="220" y="100" fill="#ffa502" font-size="14">Run on stops</text>
+
+                <!-- Break lower -->
+                <path d="M 220 120 L 280 280" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="250" y="310" fill="#ff4757" font-size="14">Breaks lower</text>
+
+                <!-- Last down closed candle before run up -->
+                <rect x="150" y="200" width="20" height="60" fill="#ff4757" opacity="0.7"/>
+                <line x1="160" y1="180" x2="160" y2="270" stroke="#ff4757" stroke-width="2"/>
+                <text x="90" y="235" fill="#e8e8ed" font-size="13">Last down closed</text>
+                <text x="90" y="250" fill="#e8e8ed" font-size="13">candle prior to</text>
+                <text x="90" y="265" fill="#e8e8ed" font-size="13">run up</text>
+
+                <!-- Arrow pointing to the candle -->
+                <path d="M 140 240 L 150 230" stroke="#ffa502" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+
+                <!-- Run up that clears buy side liquidity -->
+                <path d="M 170 230 L 280 140" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <text x="230" y="170" fill="#2ed573" font-size="14">Run up clears</text>
+                <text x="230" y="185" fill="#2ed573" font-size="14">buy side liquidity</text>
+
+                <!-- Breaker zone -->
+                <rect x="350" y="200" width="30" height="60" fill="#ff4757" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <text x="300" y="295" fill="#ffa502" font-size="16" font-weight="bold">ICT Bearish Breaker</text>
+
+                <!-- Price trades back into breaker -->
+                <path d="M 280 140 L 320 180 L 365 220" stroke="#e8e8ed" stroke-width="2" fill="none"/>
+                <text x="320" y="210" fill="#e8e8ed" font-size="13">Trades into breaker</text>
+
+                <!-- Resistance effect -->
+                <path d="M 365 220 L 380 240 L 420 320" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="390" y="350" fill="#ff4757" font-size="14">Resistance effect</text>
+
+                <!-- Sensitivity annotation -->
+                <rect x="500" y="200" width="30" height="60" fill="#ff4757" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <circle cx="515" cy="215" r="3" fill="#ffa502"/>
+                <circle cx="515" cy="230" r="3" fill="#ffa502"/>
+                <circle cx="515" cy="245" r="3" fill="#ffa502"/>
+                <text x="540" y="230" fill="#e8e8ed" font-size="13">Multiple touches</text>
+                <text x="540" y="245" fill="#e8e8ed" font-size="13">inside range</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502"/>
+                    </marker>
+                </defs>
+
+                <!-- Title -->
+                <text x="400" y="40" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">ICT Bearish Breaker Formation</text>
+            </svg>
+
+            <h3>Breaker Sensitivity</h3>
+
+            <blockquote class="quote">
+                <p><em>"look at the sensitivity right in here notice it does not go just to the bottoms of these candles here and then trade lower it trades inside of this down closed candles range multiple times and then trades lower"</em></p>
+            </blockquote>
+
+            <h3>Mitigation Purpose</h3>
+
+            <blockquote class="quote">
+                <p><em>"when it moves away it comes back up it's trading inside of this to mitigate all of the long that were in here anyone that was long on a smart money level in other words Traders on an Institutional level that were along here that may have been caught off guard they can now mitigate those positions it's not that they're buying it to push it up that's not what takes place here okay that's not what goes on this is repricing and then this is mitigation"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"all of this is the purpose of pairing up liquidity buy side sell side"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="projection">
+            <h2>Asian Range Projection</h2>
+
+            <blockquote class="quote">
+                <p><em>"we have all of the Asian ranges stacked on top of one another and you can see it goes right to the top of that high end of the breaker that we used as our initial narrative so we have five Asian range projections on the upside that overlap exactly with a bearish ICT breaker"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="600" fill="#1a1a24"/>
+
+                <!-- Friday's Asian Range (base) -->
+                <rect x="100" y="400" width="150" height="80" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <text x="175" y="390" fill="#2ed573" font-size="14" text-anchor="middle">Friday Asian Range</text>
+                <text x="60" y="440" fill="#9898a8" font-size="12">High</text>
+                <text x="60" y="480" fill="#9898a8" font-size="12">Low</text>
+
+                <!-- Projected ranges stacked upward -->
+                <rect x="300" y="320" width="150" height="80" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="375" y="310" fill="#ffa502" font-size="13" text-anchor="middle">+1 Asian Range</text>
+
+                <rect x="300" y="240" width="150" height="80" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="375" y="230" fill="#ffa502" font-size="13" text-anchor="middle">+2 Asian Range</text>
+
+                <rect x="300" y="160" width="150" height="80" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="375" y="150" fill="#ffa502" font-size="13" text-anchor="middle">+3 Asian Range</text>
+
+                <rect x="300" y="80" width="150" height="80" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="375" y="70" fill="#ffa502" font-size="13" text-anchor="middle">+4 Asian Range</text>
+
+                <rect x="300" y="0" width="150" height="80" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="375" y="115" fill="#ffa502" font-size="13" text-anchor="middle">+5 Asian Range</text>
+
+                <!-- Bearish Breaker zone -->
+                <rect x="500" y="0" width="200" height="100" fill="#ff4757" opacity="0.2" stroke="#ff4757" stroke-width="3"/>
+                <text x="600" y="55" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">Bearish Breaker</text>
+
+                <!-- Overlap indication -->
+                <path d="M 450 40 L 500 50" stroke="#ffa502" stroke-width="3" marker-end="url(#arrowhead2)"/>
+                <text x="470" y="30" fill="#ffa502" font-size="14" font-weight="bold">Overlap</text>
+
+                <!-- Price action hitting the level -->
+                <path d="M 100 500 L 200 450 L 300 380 L 400 250 L 500 150 L 550 50" stroke="#e8e8ed" stroke-width="3" fill="none"/>
+                <circle cx="550" cy="50" r="6" fill="#ff4757"/>
+                <text x="560" y="55" fill="#ff4757" font-size="14">Price hits target</text>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502"/>
+                    </marker>
+                </defs>
+
+                <!-- Title -->
+                <text x="400" y="570" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Five Asian Range Projections Overlapping Bearish Breaker</text>
+            </svg>
+
+            <h3>Precision Example</h3>
+
+            <blockquote class="quote">
+                <p><em>"here's one Asian range below it the second Asian range below that and the third Asian range below that okay and this is all calculated on Friday's data now if you carry these levels out into the future you get the high here what's the high on this candle 1.19 06 and 0 pipets well it just happens to be the actual high of the day the Asian range low here for three ranges projected lower we have a range projection of 1.1 18009 pipets and we're off only by a very small degree in the form of 1.18 and three pipets so in this case I'm only off by six pipets"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"this is what I refer to as Swiss time piece precision"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="bias">
+            <h2>Bias Requirement</h2>
+
+            <blockquote class="quote">
+                <p><em>"the caveat to that is the Friday's Asian range is only useful if a bias is underway that means are we in a buy program or a sell program"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Buy Program</span>
+                </div>
+                <p><em>"buy program is simply we're in a bullish market and it's probably going to keep going higher"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Sell Program</span>
+                </div>
+                <p><em>"if we're in a sell program then that means that the Market's moving lower and it's probably going to continue moving lower"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"we would use the Asian range in a bare scenario we would project the Asian range lower to get potential overlapping with a key level"</em></p>
+            </blockquote>
+
+            <h3>Discernible Bias</h3>
+
+            <blockquote class="quote">
+                <p><em>"the algorithm uses is this range on the previous Friday when the bias is discernable in other words if we're bullish on the start of the week Euro should trade higher it doesn't mean it will absolutely do so it just means that we go in looking for things that line up to build evidence to structure a trade around a narrative that we anticipate"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="time-element">
+            <h2>Time vs Price - The Algorithm</h2>
+
+            <blockquote class="quote">
+                <p><em>"the first Factor that's most important when it comes to algorithmic trading is time there's specific things that happen at specific times and if they don't occur there is no setup doesn't matter what price is doing if the time element is not there and then price overlaps with it those two things have to agree but the first and foremost and most important is the time element"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the algorithm is going to remember and refer back to the previous week"</em></p>
+            </blockquote>
+
+            <h3>Time References from Examples</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3:30 PM - Euro Flash PMI</span>
+                </div>
+                <p><em>"the market sees the Euro flash PMI at 330 that's what this level is here okay so the low forms at 330 again back to the calendar at 3:30 we had good numbers coming out 57.9 versus the 56 it's modestly better but nonetheless it's better they pump it up and above Friday's High"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">9:45 AM - US Dollar Data</span>
+                </div>
+                <p><em>"one standard deviation on the Asian range from Friday's data at 945 this candle right there what is going on there well go back to the calendar at 9:45 the US dollar has 56.7 much more Improvement than what was forecasted at 52 and A2"</em></p>
+            </div>
+        </section>
+
+        <section id="rules">
+            <h2>Practical Trading Rules</h2>
+
+            <h3>Building a Narrative</h3>
+
+            <blockquote class="quote">
+                <p><em>"this idea of projecting the Asian range is higher it's a specific measurement the algorithm will reach for if if you were anticipating higher prices on Euro you could have used this scenario here to be a buyer on Friday of last week and using this idea as a Target and you would hold over the weekend if you were inclined to feel that confident about it"</em></p>
+            </blockquote>
+
+            <h3>Multiple Components Required</h3>
+
+            <blockquote class="quote">
+                <p><em>"we have several components here we have Market running up into on Monday to a bearish breaker and all of these Asian range overlapping so the algorithm uses is this range on the previous Friday when the bias is discernable"</em></p>
+            </blockquote>
+
+            <h3>Target Zones</h3>
+
+            <blockquote class="quote">
+                <p><em>"if it traded up to this level here which is the bearish breaker and all of these projected Asian ranges from the previous week that would be a Target or just before it gets to that level or maybe at the low end of the breaker that would be a Target"</em></p>
+            </blockquote>
+
+            <h3>Trade Management</h3>
+
+            <blockquote class="quote">
+                <p><em>"it hits it that's where you would scale out take profits or completely collapse your trade or if you are a contrarian Trader you can look at that as an idea that okay we do have sell side liquidity down here and Monday might happen to be a day where you have a little bit more retracement lower"</em></p>
+            </blockquote>
+
+            <h3>Displacement Recognition</h3>
+
+            <blockquote class="quote">
+                <p><em>"where is there a flurry of excitement right in here okay this is displacement so here's Sunday's data we're going to kind of like blur that out for a moment this is all Friday's trading so Friday's Trading where is the displacement in other words where is the market really trying to show a willingness to go higher"</em></p>
+            </blockquote>
+
+            <h3>Bullish Order Block</h3>
+
+            <blockquote class="quote">
+                <p><em>"your I goes right to this down closed candle prior to this run up because this displacement the algorithm starts to run higher and then it trades back lower into this turning point right here so we have this specific price level here it runs higher creates an imbalance it comes down rebalances that and trades right back into this bullish order block"</em></p>
+            </blockquote>
+
+            <h3>Optimal Trade Entry</h3>
+
+            <blockquote class="quote">
+                <p><em>"we have optimal trade entry here in the New York session"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"between getting in here on optimal trade entry with a bullish order block and getting out at the low into this range here on Monday today's trading that's a pretty decent price run for a short-term trade"</em></p>
+            </blockquote>
+
+            <h3>Contrarian Trading</h3>
+
+            <blockquote class="quote">
+                <p><em>"if you are a contrarian Trader and you know that Mondays tend to be a consolidation retracement that sets up a continuation of a longer term price move we could look at this area here as a short-term contrarian short"</em></p>
+            </blockquote>
+
+            <h3>Body Sensitivity</h3>
+
+            <blockquote class="quote">
+                <p><em>"look at the bodies of the candles here yes you have a small little tail here and a very small little tail on this one but it's going basically back into this candle when we're looking at Price the price is going to refer back to specific levels that are key in reference to specific elements of time"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What Asian range do we use on Mondays?</div>
+                    <div class="flashcard-answer">"the algorithm is actually going to look at Friday's Asian range on Mondays we refer to Friday's Asian range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the time window for the Asian range?</div>
+                    <div class="flashcard-answer">"the Asian range we can classify that as 700 p.m. to midnight New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What creates an ICT bearish breaker?</div>
+                    <div class="flashcard-answer">"we want to look at the last down Clos candle prior to this run up that clears all the buy side liquidity if the market trades lower than this low this down closed candle becomes my ICT bearish breaker"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the most important factor in algorithmic trading?</div>
+                    <div class="flashcard-answer">"the first Factor that's most important when it comes to algorithmic trading is time there's specific things that happen at specific times and if they don't occur there is no setup"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When is Friday's Asian range useful?</div>
+                    <div class="flashcard-answer">"the Friday's Asian range is only useful if a bias is underway that means are we in a buy program or a sell program"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a buy program?</div>
+                    <div class="flashcard-answer">"buy program is simply we're in a bullish market and it's probably going to keep going higher"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does the breaker show sensitivity?</div>
+                    <div class="flashcard-answer">"notice it does not go just to the bottoms of these candles here and then trade lower it trades inside of this down closed candles range multiple times and then trades lower"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the purpose of price trading back into the breaker?</div>
+                    <div class="flashcard-answer">"this is repricing and then this is mitigation so all of this is the purpose of pairing up liquidity buy side sell side"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why don't we use Monday's Asian range on Monday?</div>
+                    <div class="flashcard-answer">"on Mondays we do not refer to Asian range it's not important it's not crucial it's not required to find decision you use the previous Friday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is displacement?</div>
+                    <div class="flashcard-answer">"where is there a flurry of excitement right in here okay this is displacement"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How precise are Asian range projections?</div>
+                    <div class="flashcard-answer">"we're off only by a very small degree in the form of 1.18 and three pipets so in this case I'm only off by six pipets that's not bad"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do Mondays tend to create?</div>
+                    <div class="flashcard-answer">"Mondays tend to create the precursor to the weekly range"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
