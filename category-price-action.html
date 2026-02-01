@@ -92,35 +92,6 @@
             line-height: 1.6;
         }
 
-        .header-container {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .back-btn {
-            padding: 8px 16px;
-            margin-top: 4px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.15s ease;
-            white-space: nowrap;
-            display: inline-block;
-            font-weight: 500;
-        }
-
-        .back-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-dim);
-        }
-
         main {
             padding: 18px 24px 48px;
             max-width: 1100px;
@@ -179,64 +150,73 @@
     </div>
 
     <header>
-        <div class="header-container">
-            <div>
-                <div class="title">Price Action & PD Arrays</div>
-                <div class="subtitle">Structure, displacement, and price delivery arrays.</div>
-            </div>
-            <a href="index.html" class="back-btn">← Back</a>
-        </div>
+        <div class="title">Price Action & PD Arrays</div>
+        <div class="subtitle">Structure, displacement, and price delivery arrays.</div>
     </header>
 
     <main>
-        <div class="grid" id="categoryGrid"></div>
+        <div class="grid">
+            <div class="card">
+                <a href="ict-orderblock-lecture.html">Order Blocks Lecture</a>
+                <p>Dealing range, OTE & confluence factors</p>
+            </div>
+            <div class="card">
+                <a href="rejection-block-study.html">Rejection Blocks</a>
+                <p>False breakouts & accumulation/distribution</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">Order Blocks & Kill Zones</a>
+                <p>Kill zone timing & entry zones</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">Change in State of Delivery</a>
+                <p>Order block formation & buy programs</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">Reclaimed Order Block</a>
+                <p>Invalidation patterns & reversal signals</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__PROPULSION_BLOCK__2026-02-01.html">Propulsion Block</a>
+                <p>Explosive moves & displacement</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ADVANCED_BREAKER_THEORY__2026-02-01.html">Advanced Breaker Theory</a>
+                <p>Additional study topic</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MARKET_MAKER_MODELS__2026-02-01.html">Market Maker Models</a>
+                <p>AMD cycles & accumulation/distribution</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MARKET_MAKER_TRAP_HEAD_SHOULDERS__2026-02-01.html">Market Maker Trap: Head & Shoulders</a>
+                <p>Trap patterns & manipulation signatures</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__JUDAS_SWING__2026-02-01.html">Judas Swing</a>
+                <p>False directional moves & reversal traps</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__DOUBLE_TOPS_DOUBLE_BOTTOMS__2026-02-01.html">Double Tops & Bottoms</a>
+                <p>Measured moves & stop hunting</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__TRENDLINE_PHANTOMS__2026-02-01.html">Trendline Phantoms</a>
+                <p>Trendline liquidity & false breaks</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__DIVERGENCE_PHANTOMS__2026-02-01.html">Divergence Phantoms</a>
+                <p>Market maker traps & indicator manipulation</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">HTF PD Arrays & Hierarchy</a>
+                <p>Higher timeframe structure & price delivery sequencing</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ONE_SETUP_FOR_LIFE__2026-02-01.html">One Setup For Life</a>
+                <p>Additional study topic</p>
+            </div>
+        </div>
     </main>
-<script>
-        const categoryId = 'price-action';
-        const categoryGrid = document.getElementById('categoryGrid');
-        const newline = '
-';
-
-        async function loadTopics() {
-            const response = await fetch('data/topics.json');
-            if (!response.ok) {
-                throw new Error('Failed to load topics data');
-            }
-            return response.json();
-        }
-
-        function renderCategory(category, topicMap) {
-            if (!category) {
-                categoryGrid.innerHTML = '';
-                return;
-            }
-            const cards = (category.topics || []).map(page => {
-                const topic = topicMap.get(page);
-                if (!topic) {
-                    return '';
-                }
-                return (
-                    `            <div class="card">${newline}`
-                    + `                <a href="${topic.file}">${topic.title}</a>${newline}`
-                    + `                <p>${topic.desc}</p>${newline}`
-                    + `            </div>`
-                );
-            }).filter(Boolean).join(newline);
-            categoryGrid.innerHTML = cards;
-        }
-
-        async function initCategory() {
-            try {
-                const data = await loadTopics();
-                const topicMap = new Map(data.topics.map(topic => [topic.file, topic]));
-                const category = (data.categories || []).find(item => item.id === categoryId);
-                renderCategory(category, topicMap);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        initCategory();
-    </script>
 </body>
 </html>

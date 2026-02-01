@@ -92,35 +92,6 @@
             line-height: 1.6;
         }
 
-        .header-container {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .back-btn {
-            padding: 8px 16px;
-            margin-top: 4px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.15s ease;
-            white-space: nowrap;
-            display: inline-block;
-            font-weight: 500;
-        }
-
-        .back-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-dim);
-        }
-
         main {
             padding: 18px 24px 48px;
             max-width: 1100px;
@@ -179,64 +150,45 @@
     </div>
 
     <header>
-        <div class="header-container">
-            <div>
-                <div class="title">Liquidity, Fair Value & Imbalance</div>
-                <div class="subtitle">Where price seeks liquidity, balance, and inefficiencies.</div>
-            </div>
-            <a href="index.html" class="back-btn">← Back</a>
-        </div>
+        <div class="title">Liquidity, Fair Value & Imbalance</div>
+        <div class="subtitle">Where price seeks liquidity, balance, and inefficiencies.</div>
     </header>
 
     <main>
-        <div class="grid" id="categoryGrid"></div>
+        <div class="grid">
+            <div class="card">
+                <a href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Liquidity Pools</a>
+                <p>Buy side & sell side liquidity clustering</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__LIQUIDITY_VOIDS__2026-02-01.html">Liquidity Voids</a>
+                <p>Inefficient price delivery zones</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__LIQUIDITY_RUNS__2026-02-01.html">Liquidity Runs</a>
+                <p>Low & high resistance liquidity movement</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__FAIR_VALUE_GAP__2026-02-01.html">Fair Value Gap</a>
+                <p>FVG mechanics & identification rules</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__FAIR_VALUATION__2026-02-01.html">Fair Valuation</a>
+                <p>Premium, discount & equilibrium levels</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__VACUUM_BLOCK__2026-02-01.html">Vacuum Block</a>
+                <p>FVG magnets & attraction zones</p>
+            </div>
+            <div class="card">
+                <a href="ict_SIBIFVG.html">SIBI FVG</a>
+                <p>Imbalances vs FVGs & CISD validation</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__SELECTING_PRECISION_PRICE_OBJECTIVES__2026-02-01.html">Selecting Precision Price Objectives</a>
+                <p>Additional study topic</p>
+            </div>
+        </div>
     </main>
-<script>
-        const categoryId = 'liquidity-imbalance';
-        const categoryGrid = document.getElementById('categoryGrid');
-        const newline = '
-';
-
-        async function loadTopics() {
-            const response = await fetch('data/topics.json');
-            if (!response.ok) {
-                throw new Error('Failed to load topics data');
-            }
-            return response.json();
-        }
-
-        function renderCategory(category, topicMap) {
-            if (!category) {
-                categoryGrid.innerHTML = '';
-                return;
-            }
-            const cards = (category.topics || []).map(page => {
-                const topic = topicMap.get(page);
-                if (!topic) {
-                    return '';
-                }
-                return (
-                    `            <div class="card">${newline}`
-                    + `                <a href="${topic.file}">${topic.title}</a>${newline}`
-                    + `                <p>${topic.desc}</p>${newline}`
-                    + `            </div>`
-                );
-            }).filter(Boolean).join(newline);
-            categoryGrid.innerHTML = cards;
-        }
-
-        async function initCategory() {
-            try {
-                const data = await loadTopics();
-                const topicMap = new Map(data.topics.map(topic => [topic.file, topic]));
-                const category = (data.categories || []).find(item => item.id === categoryId);
-                renderCategory(category, topicMap);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        initCategory();
-    </script>
 </body>
 </html>

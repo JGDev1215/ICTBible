@@ -92,35 +92,6 @@
             line-height: 1.6;
         }
 
-        .header-container {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .back-btn {
-            padding: 8px 16px;
-            margin-top: 4px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.15s ease;
-            white-space: nowrap;
-            display: inline-block;
-            font-weight: 500;
-        }
-
-        .back-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-dim);
-        }
-
         main {
             padding: 18px 24px 48px;
             max-width: 1100px;
@@ -179,64 +150,57 @@
     </div>
 
     <header>
-        <div class="header-container">
-            <div>
-                <div class="title">Core Framework</div>
-                <div class="subtitle">Foundation blocks of the ICT model and market logic.</div>
-            </div>
-            <a href="index.html" class="back-btn">← Back</a>
-        </div>
+        <div class="title">Core Framework</div>
+        <div class="subtitle">Foundation blocks of the ICT model and market logic.</div>
     </header>
 
     <main>
-        <div class="grid" id="categoryGrid"></div>
+        <div class="grid">
+            <div class="card">
+                <a href="ICT_BIBLE__WHAT_TO_FOCUS_ON_RIGHT_NOW__2026-02-01.html">What To Focus On Right Now</a>
+                <p>Learning priorities & study path</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ESSENTIALS_TO_ICT_DAYTRADING__2026-02-01.html">Essentials to ICT Day Trading</a>
+                <p>Daily range targets, kill zones & Power Three</p>
+            </div>
+            <div class="card">
+                <a href="ict_SMC.html">Smart Money Concepts</a>
+                <p>Comprehensive SMC framework & institutional trading</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MARKET_EFFICIENCY_PARADIGM__2026-02-01.html">Market Efficiency Paradigm</a>
+                <p>Core framework for price delivery algorithms</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__INSTITUTIONAL_MARKET_STRUCTURE__2026-02-01.html">Institutional Market Structure</a>
+                <p>HTF structure & swing point analysis</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__INSTITUTIONAL_ORDER_FLOW__2026-02-01.html">Institutional Order Flow</a>
+                <p>Smart money footprints & order flow</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__INSTITUTIONAL_SPONSORSHIP__2026-02-01.html">Institutional Sponsorship</a>
+                <p>Identifying institutional backing & momentum</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">Macro to Micro</a>
+                <p>Multi-timeframe alignment & drill-down</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">Liquidity Concepts & Price Delivery</a>
+                <p>External/internal ranges & liquidity runs</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__IPDA_DATA_RANGES__2026-02-01.html">IPDA Data Ranges</a>
+                <p>Interbank Price Delivery Algorithm ranges</p>
+            </div>
+            <div class="card">
+                <a href="ict-interest-rate-effects.html">Interest Rate Effects</a>
+                <p>Treasury bonds & currency drivers</p>
+            </div>
+        </div>
     </main>
-<script>
-        const categoryId = 'core-framework';
-        const categoryGrid = document.getElementById('categoryGrid');
-        const newline = '
-';
-
-        async function loadTopics() {
-            const response = await fetch('data/topics.json');
-            if (!response.ok) {
-                throw new Error('Failed to load topics data');
-            }
-            return response.json();
-        }
-
-        function renderCategory(category, topicMap) {
-            if (!category) {
-                categoryGrid.innerHTML = '';
-                return;
-            }
-            const cards = (category.topics || []).map(page => {
-                const topic = topicMap.get(page);
-                if (!topic) {
-                    return '';
-                }
-                return (
-                    `            <div class="card">${newline}`
-                    + `                <a href="${topic.file}">${topic.title}</a>${newline}`
-                    + `                <p>${topic.desc}</p>${newline}`
-                    + `            </div>`
-                );
-            }).filter(Boolean).join(newline);
-            categoryGrid.innerHTML = cards;
-        }
-
-        async function initCategory() {
-            try {
-                const data = await loadTopics();
-                const topicMap = new Map(data.topics.map(topic => [topic.file, topic]));
-                const category = (data.categories || []).find(item => item.id === categoryId);
-                renderCategory(category, topicMap);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        initCategory();
-    </script>
 </body>
 </html>
