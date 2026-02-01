@@ -92,6 +92,35 @@
             line-height: 1.6;
         }
 
+        .header-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .back-btn {
+            padding: 8px 16px;
+            margin-top: 4px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
         main {
             padding: 18px 24px 48px;
             max-width: 1100px;
@@ -150,49 +179,64 @@
     </div>
 
     <header>
-        <div class="title">Time & Sessions</div>
-        <div class="subtitle">Session models, timing windows, and delivery ranges.</div>
+        <div class="header-container">
+            <div>
+                <div class="title">Time & Sessions</div>
+                <div class="subtitle">Session models, timing windows, and delivery ranges.</div>
+            </div>
+            <a href="index.html" class="back-btn">← Back</a>
+        </div>
     </header>
 
     <main>
-        <div class="grid">
-            <div class="card">
-                <a href="ICT_BIBLE__DEFINING_DAILY_RANGE__2026-02-01.html">Defining Daily Range</a>
-                <p>Asian, London, NY sessions & IPDA True Day</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__CENTRAL_BANK_DEALERS_RANGE__2026-02-01.html">Central Bank Dealers Range</a>
-                <p>2PM-8PM NY range & standard deviations</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__LONDON_KILLZONE__2026-02-01.html">London Killzone</a>
-                <p>London session timing & key setups</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__NEW_YORK_KILLZONE__2026-02-01.html">New York Killzone</a>
-                <p>NY session timing & key setups</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__OPENING_RANGE_THEORY__2026-02-01.html">Opening Range Theory</a>
-                <p>9:30-10:00 ET range & First Presented FVG logic</p>
-            </div>
-            <div class="card">
-                <a href="ict_opening_range_library.html">Opening Range & First FVG</a>
-                <p>Session opens & early FVG entry models</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__SILVER_BULLET_TIME_BASED_TRADING__2026-02-01.html">Silver Bullet Time-Based Trading</a>
-                <p>Specific time windows for high-probability setups</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__WHEN_TO_AVOID_LONDON_SESSION__2026-02-01.html">When To Avoid London Session</a>
-                <p>Session filtering & risk avoidance rules</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__2026_LIVE_JAN29_SMART_MONEY__2026-02-01.html">2026 Live: Jan 29</a>
-                <p>Trading inside the range & 3/4 rule</p>
-            </div>
-        </div>
+        <div class="grid" id="categoryGrid"></div>
     </main>
+<script>
+        const categoryId = 'time-sessions';
+        const categoryGrid = document.getElementById('categoryGrid');
+        const newline = '
+';
+
+        async function loadTopics() {
+            const response = await fetch('data/topics.json');
+            if (!response.ok) {
+                throw new Error('Failed to load topics data');
+            }
+            return response.json();
+        }
+
+        function renderCategory(category, topicMap) {
+            if (!category) {
+                categoryGrid.innerHTML = '';
+                return;
+            }
+            const cards = (category.topics || []).map(page => {
+                const topic = topicMap.get(page);
+                if (!topic) {
+                    return '';
+                }
+                return (
+                    `            <div class="card">${newline}`
+                    + `                <a href="${topic.file}">${topic.title}</a>${newline}`
+                    + `                <p>${topic.desc}</p>${newline}`
+                    + `            </div>`
+                );
+            }).filter(Boolean).join(newline);
+            categoryGrid.innerHTML = cards;
+        }
+
+        async function initCategory() {
+            try {
+                const data = await loadTopics();
+                const topicMap = new Map(data.topics.map(topic => [topic.file, topic]));
+                const category = (data.categories || []).find(item => item.id === categoryId);
+                renderCategory(category, topicMap);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        initCategory();
+    </script>
 </body>
 </html>

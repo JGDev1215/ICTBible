@@ -92,6 +92,35 @@
             line-height: 1.6;
         }
 
+        .header-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .back-btn {
+            padding: 8px 16px;
+            margin-top: 4px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
         main {
             padding: 18px 24px 48px;
             max-width: 1100px;
@@ -150,49 +179,64 @@
     </div>
 
     <header>
-        <div class="title">Entries & Trade Management</div>
-        <div class="subtitle">Setup construction, execution models, and management.</div>
+        <div class="header-container">
+            <div>
+                <div class="title">Entries & Trade Management</div>
+                <div class="subtitle">Setup construction, execution models, and management.</div>
+            </div>
+            <a href="index.html" class="back-btn">← Back</a>
+        </div>
     </header>
 
     <main>
-        <div class="grid">
-            <div class="card">
-                <a href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Impulse Swings & Market Protraction</a>
-                <p>Price movement mechanics & extensions</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__ELEMENTS_OF_TRADE_SETUP__2026-02-01.html">Elements of Trade Setup</a>
-                <p>Market conditions & ICT tool coupling</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__TRADE_CONDITIONS_SETUP_PROGRESSIONS__2026-02-01.html">Trade Conditions & Progressions</a>
-                <p>Setup development & market conditions</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__OTE_OPTIMAL_TRADE_ENTRY__2026-02-01.html">OTE - Optimal Trade Entry</a>
-                <p>Fibonacci retracement & sweet spot entries</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__LIMIT_ORDER_ENTRY_LONG_TERM__2026-02-01.html">Limit Order Entry</a>
-                <p>Strategic limit order placement</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__STOP_ENTRY_TECHNIQUES_LONG_TERM__2026-02-01.html">Stop Entry Techniques</a>
-                <p>Stop order strategies & momentum entries</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__POSITION_TRADE_MANAGEMENT__2026-02-01.html">Position Trade Management</a>
-                <p>Managing positions & scaling strategies</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__THE_NEXT_SETUP__2026-02-01.html">The Next Setup</a>
-                <p>Identifying upcoming trade opportunities</p>
-            </div>
-            <div class="card">
-                <a href="ICT_BIBLE__TIMEFRAME_SELECTION_DEFINING_SETUPS__2026-02-01.html">Timeframe Selection & Defining Setups</a>
-                <p>Choosing timeframes & setup criteria</p>
-            </div>
-        </div>
+        <div class="grid" id="categoryGrid"></div>
     </main>
+<script>
+        const categoryId = 'entries-management';
+        const categoryGrid = document.getElementById('categoryGrid');
+        const newline = '
+';
+
+        async function loadTopics() {
+            const response = await fetch('data/topics.json');
+            if (!response.ok) {
+                throw new Error('Failed to load topics data');
+            }
+            return response.json();
+        }
+
+        function renderCategory(category, topicMap) {
+            if (!category) {
+                categoryGrid.innerHTML = '';
+                return;
+            }
+            const cards = (category.topics || []).map(page => {
+                const topic = topicMap.get(page);
+                if (!topic) {
+                    return '';
+                }
+                return (
+                    `            <div class="card">${newline}`
+                    + `                <a href="${topic.file}">${topic.title}</a>${newline}`
+                    + `                <p>${topic.desc}</p>${newline}`
+                    + `            </div>`
+                );
+            }).filter(Boolean).join(newline);
+            categoryGrid.innerHTML = cards;
+        }
+
+        async function initCategory() {
+            try {
+                const data = await loadTopics();
+                const topicMap = new Map(data.topics.map(topic => [topic.file, topic]));
+                const category = (data.categories || []).find(item => item.id === categoryId);
+                renderCategory(category, topicMap);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        initCategory();
+    </script>
 </body>
 </html>
