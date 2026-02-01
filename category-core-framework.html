@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Knowledge Library - Core Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #08090c;
+            --bg-nav: #0d0f14;
+            --bg-nav-hover: #13161d;
+            --border: #1e2330;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8892a8;
+            --text-muted: #555d70;
+            --accent: #d4a855;
+            --accent-dim: rgba(212, 168, 85, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .global-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 18px;
+            background: var(--bg-nav);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(6px);
+        }
+        .global-brand {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .global-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .global-topbar a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        header {
+            padding: 28px 24px 10px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+
+        main {
+            padding: 18px 24px 48px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            background: var(--bg-nav);
+            transition: all 0.15s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            background: var(--bg-nav-hover);
+        }
+
+        .card a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 520px) {
+            .global-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="global-topbar">
+        <div class="global-brand">ICT Library</div>
+        <div class="global-links">
+            <a href="index.html">Library Home</a>
+            <a href="all-topics.html">Full Index</a>
+        </div>
+    </div>
+
+    <header>
+        <div class="title">Core Framework</div>
+        <div class="subtitle">Foundation blocks of the ICT model and market logic.</div>
+    </header>
+
+    <main>
+        <div class="grid">
+            <div class="card">
+                <a href="ICT_BIBLE__WHAT_TO_FOCUS_ON_RIGHT_NOW__2026-02-01.html">What To Focus On Right Now</a>
+                <p>Learning priorities & study path</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ESSENTIALS_TO_ICT_DAYTRADING__2026-02-01.html">Essentials to ICT Day Trading</a>
+                <p>Daily range targets, kill zones & Power Three</p>
+            </div>
+            <div class="card">
+                <a href="ict_SMC.html">Smart Money Concepts</a>
+                <p>Comprehensive SMC framework & institutional trading</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MARKET_EFFICIENCY_PARADIGM__2026-02-01.html">Market Efficiency Paradigm</a>
+                <p>Core framework for price delivery algorithms</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__INSTITUTIONAL_MARKET_STRUCTURE__2026-02-01.html">Institutional Market Structure</a>
+                <p>HTF structure & swing point analysis</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__INSTITUTIONAL_ORDER_FLOW__2026-02-01.html">Institutional Order Flow</a>
+                <p>Smart money footprints & order flow</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__INSTITUTIONAL_SPONSORSHIP__2026-02-01.html">Institutional Sponsorship</a>
+                <p>Identifying institutional backing & momentum</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">Macro to Micro</a>
+                <p>Multi-timeframe alignment & drill-down</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">Liquidity Concepts & Price Delivery</a>
+                <p>External/internal ranges & liquidity runs</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__IPDA_DATA_RANGES__2026-02-01.html">IPDA Data Ranges</a>
+                <p>Interbank Price Delivery Algorithm ranges</p>
+            </div>
+            <div class="card">
+                <a href="ict-interest-rate-effects.html">Interest Rate Effects</a>
+                <p>Treasury bonds & currency drivers</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -836,7 +836,11 @@
             <div class="welcome-desc">Select a topic from the sidebar or browse by category below.</div>
             <div class="welcome-actions">
                 <button class="welcome-btn primary" id="startFreshBtn">Start Learning</button>
-                <button class="welcome-btn" id="showBubblesBtn">Browse Categories</button>
+                <button class="welcome-btn" id="coreFrameworkBtn">Core Framework</button>
+                <button class="welcome-btn" id="liquidityBtn">Liquidity & Imbalance</button>
+                <button class="welcome-btn" id="timeSessionsBtn">Time & Sessions</button>
+                <button class="welcome-btn" id="priceActionBtn">Price Action & PD Arrays</button>
+                <button class="welcome-btn" id="entriesBtn">Entries & Management</button>
             </div>
             <div class="bubble-options" id="bubbleOptions" aria-live="polite"></div>
         </div>
@@ -856,6 +860,11 @@
         const selectTopicBtn = document.getElementById('selectTopicBtn');
         const openIndexBtn = document.getElementById('openIndexBtn');
         const startFreshBtn = document.getElementById('startFreshBtn');
+        const coreFrameworkBtn = document.getElementById('coreFrameworkBtn');
+        const liquidityBtn = document.getElementById('liquidityBtn');
+        const timeSessionsBtn = document.getElementById('timeSessionsBtn');
+        const priceActionBtn = document.getElementById('priceActionBtn');
+        const entriesBtn = document.getElementById('entriesBtn');
         const showBubblesBtn = document.getElementById('showBubblesBtn');
         const bubbleOptions = document.getElementById('bubbleOptions');
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -993,8 +1002,30 @@
             bubbleOptions.classList.remove('active');
         });
 
-        showBubblesBtn.addEventListener('click', () => {
-            bubbleOptions.classList.toggle('active');
+        if (showBubblesBtn) {
+            showBubblesBtn.addEventListener('click', () => {
+                bubbleOptions.classList.toggle('active');
+            });
+        }
+
+        coreFrameworkBtn.addEventListener('click', () => {
+            window.location.href = 'category-core-framework.html';
+        });
+
+        liquidityBtn.addEventListener('click', () => {
+            window.location.href = 'category-liquidity-imbalance.html';
+        });
+
+        timeSessionsBtn.addEventListener('click', () => {
+            window.location.href = 'category-time-sessions.html';
+        });
+
+        priceActionBtn.addEventListener('click', () => {
+            window.location.href = 'category-price-action.html';
+        });
+
+        entriesBtn.addEventListener('click', () => {
+            window.location.href = 'category-entries-management.html';
         });
 
         buildBubbleOptions();
