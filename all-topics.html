@@ -203,9 +203,66 @@
                 border-radius: 8px;
             }
         }
-    </style>
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 18px;
+            background: var(--topbar-bg, var(--bg-nav, var(--bg-secondary, #0d0f14)));
+            border-bottom: 1px solid var(--topbar-border, var(--border, var(--border-color, #1e2330)));
+            font-family: var(--topbar-font, inherit);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(6px);
+        }
+        .global-brand {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted, #8892a8);
+            font-weight: 600;
+        }
+        .global-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .global-topbar a {
+            color: var(--text-primary, #e4e8f0);
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--topbar-border, var(--border, var(--border-color, #1e2330)));
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: var(--topbar-accent, var(--accent, var(--accent-gold, var(--accent-cyan, #d4a855))));
+            color: var(--topbar-accent, var(--accent, var(--accent-gold, var(--accent-cyan, #d4a855))));
+            background: var(--topbar-accent-dim, rgba(212, 168, 85, 0.12));
+        }
+        @media (max-width: 520px) {
+            .global-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+</style>
 </head>
 <body>
+    <div class="global-topbar">
+        <div class="global-brand">ICT Library</div>
+        <div class="global-links">
+            <a href="index.html">Library Home</a>
+            <a href="all-topics.html">Full Index</a>
+        </div>
+    </div>
+
     <header>
         <div>
             <div class="title">ICT Knowledge Library</div>
@@ -219,55 +276,58 @@
         <div class="lead">A clean alphabetical list for fast scanning and direct access.</div>
 
         <div class="az-grid">
-            <a class="topic-link" href="ICT_BIBLE__2026_LIVE_JAN29_SMART_MONEY__2026-02-01.html">2026 Live: Jan 29 Smart Money</a>
+            <a class="topic-link" href="ict-interest-rate-effects.html">Ict-Interest-Rate-Effects</a>
+            <a class="topic-link" href="ict-orderblock-lecture.html">Ict-Orderblock-Lecture</a>
+            <a class="topic-link" href="ICT_BIBLE__2026_LIVE_JAN29_SMART_MONEY__2026-02-01.html">2026 Live Jan29 Smart Money</a>
+            <a class="topic-link" href="ICT_BIBLE__ADVANCED_BREAKER_THEORY__2026-02-01.html">Advanced Breaker Theory</a>
             <a class="topic-link" href="ICT_BIBLE__CENTRAL_BANK_DEALERS_RANGE__2026-02-01.html">Central Bank Dealers Range</a>
-            <a class="topic-link" href="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">Change in State of Delivery</a>
+            <a class="topic-link" href="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">Change In State Of Delivery</a>
             <a class="topic-link" href="ICT_BIBLE__DEFINING_DAILY_RANGE__2026-02-01.html">Defining Daily Range</a>
             <a class="topic-link" href="ICT_BIBLE__DIVERGENCE_PHANTOMS__2026-02-01.html">Divergence Phantoms</a>
-            <a class="topic-link" href="ICT_BIBLE__DOUBLE_TOPS_DOUBLE_BOTTOMS__2026-02-01.html">Double Tops & Bottoms</a>
-            <a class="topic-link" href="ICT_BIBLE__ELEMENTS_OF_TRADE_SETUP__2026-02-01.html">Elements of Trade Setup</a>
-            <a class="topic-link" href="ICT_BIBLE__ESSENTIALS_TO_ICT_DAYTRADING__2026-02-01.html">Essentials to ICT Day Trading</a>
+            <a class="topic-link" href="ICT_BIBLE__DOUBLE_TOPS_DOUBLE_BOTTOMS__2026-02-01.html">Double Tops Double Bottoms</a>
+            <a class="topic-link" href="ICT_BIBLE__ELEMENTS_OF_TRADE_SETUP__2026-02-01.html">Elements Of Trade Setup</a>
+            <a class="topic-link" href="ICT_BIBLE__ESSENTIALS_TO_ICT_DAYTRADING__2026-02-01.html">Essentials To Ict Daytrading</a>
             <a class="topic-link" href="ICT_BIBLE__FAIR_VALUATION__2026-02-01.html">Fair Valuation</a>
             <a class="topic-link" href="ICT_BIBLE__FAIR_VALUE_GAP__2026-02-01.html">Fair Value Gap</a>
-            <a class="topic-link" href="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">HTF Price Delivery Arrays & Hierarchy</a>
-            <a class="topic-link" href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Impulse Swings & Market Protraction</a>
+            <a class="topic-link" href="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">Htf Pd Arrays Hierarchy</a>
+            <a class="topic-link" href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Impulse Price Swings And Market Protraction</a>
             <a class="topic-link" href="ICT_BIBLE__INSTITUTIONAL_MARKET_STRUCTURE__2026-02-01.html">Institutional Market Structure</a>
             <a class="topic-link" href="ICT_BIBLE__INSTITUTIONAL_ORDER_FLOW__2026-02-01.html">Institutional Order Flow</a>
             <a class="topic-link" href="ICT_BIBLE__INSTITUTIONAL_SPONSORSHIP__2026-02-01.html">Institutional Sponsorship</a>
-            <a class="topic-link" href="ict-interest-rate-effects.html">Interest Rate Effects</a>
-            <a class="topic-link" href="ICT_BIBLE__IPDA_DATA_RANGES__2026-02-01.html">IPDA Data Ranges</a>
+            <a class="topic-link" href="ICT_BIBLE__IPDA_DATA_RANGES__2026-02-01.html">Ipda Data Ranges</a>
             <a class="topic-link" href="ICT_BIBLE__JUDAS_SWING__2026-02-01.html">Judas Swing</a>
-            <a class="topic-link" href="ICT_BIBLE__LIMIT_ORDER_ENTRY_LONG_TERM__2026-02-01.html">Limit Order Entry (Long Term)</a>
-            <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">Liquidity Concepts & Price Delivery</a>
+            <a class="topic-link" href="ICT_BIBLE__LIMIT_ORDER_ENTRY_LONG_TERM__2026-02-01.html">Limit Order Entry Long Term</a>
+            <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">Liquidity Concepts Price Delivery</a>
             <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_POOLS__2026-02-01.html">Liquidity Pools</a>
             <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_RUNS__2026-02-01.html">Liquidity Runs</a>
             <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_VOIDS__2026-02-01.html">Liquidity Voids</a>
             <a class="topic-link" href="ICT_BIBLE__LONDON_KILLZONE__2026-02-01.html">London Killzone</a>
-            <a class="topic-link" href="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">Macro to Micro</a>
+            <a class="topic-link" href="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">Macro To Micro</a>
             <a class="topic-link" href="ICT_BIBLE__MARKET_EFFICIENCY_PARADIGM__2026-02-01.html">Market Efficiency Paradigm</a>
             <a class="topic-link" href="ICT_BIBLE__MARKET_MAKER_MODELS__2026-02-01.html">Market Maker Models</a>
-            <a class="topic-link" href="ICT_BIBLE__MARKET_MAKER_TRAP_HEAD_SHOULDERS__2026-02-01.html">Market Maker Trap: Head & Shoulders</a>
+            <a class="topic-link" href="ICT_BIBLE__MARKET_MAKER_TRAP_HEAD_SHOULDERS__2026-02-01.html">Market Maker Trap Head Shoulders</a>
             <a class="topic-link" href="ICT_BIBLE__NEW_YORK_KILLZONE__2026-02-01.html">New York Killzone</a>
-            <a class="topic-link" href="ict-orderblock-lecture.html">Order Blocks Lecture</a>
-            <a class="topic-link" href="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">Order Blocks & Kill Zones</a>
-            <a class="topic-link" href="ict_opening_range_library.html">Opening Range & First FVG</a>
+            <a class="topic-link" href="ICT_BIBLE__ONE_SETUP_FOR_LIFE__2026-02-01.html">One Setup For Life</a>
             <a class="topic-link" href="ICT_BIBLE__OPENING_RANGE_THEORY__2026-02-01.html">Opening Range Theory</a>
-            <a class="topic-link" href="ICT_BIBLE__OTE_OPTIMAL_TRADE_ENTRY__2026-02-01.html">OTE - Optimal Trade Entry</a>
+            <a class="topic-link" href="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">Order Blocks Kill Zones</a>
+            <a class="topic-link" href="ICT_BIBLE__OTE_OPTIMAL_TRADE_ENTRY__2026-02-01.html">Ote Optimal Trade Entry</a>
             <a class="topic-link" href="ICT_BIBLE__POSITION_TRADE_MANAGEMENT__2026-02-01.html">Position Trade Management</a>
             <a class="topic-link" href="ICT_BIBLE__PROPULSION_BLOCK__2026-02-01.html">Propulsion Block</a>
-            <a class="topic-link" href="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">Reclaimed Order Block</a>
-            <a class="topic-link" href="rejection-block-study.html">Rejection Blocks</a>
-            <a class="topic-link" href="ict_SIBIFVG.html">SIBI FVG (Imbalances vs FVGs)</a>
-            <a class="topic-link" href="ICT_BIBLE__SILVER_BULLET_TIME_BASED_TRADING__2026-02-01.html">Silver Bullet Time-Based Trading</a>
-            <a class="topic-link" href="ict_SMC.html">Smart Money Concepts</a>
-            <a class="topic-link" href="ICT_BIBLE__STOP_ENTRY_TECHNIQUES_LONG_TERM__2026-02-01.html">Stop Entry Techniques (Long Term)</a>
+            <a class="topic-link" href="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">Reclaimed Orderblock</a>
+            <a class="topic-link" href="ICT_BIBLE__SELECTING_PRECISION_PRICE_OBJECTIVES__2026-02-01.html">Selecting Precision Price Objectives</a>
+            <a class="topic-link" href="ICT_BIBLE__SILVER_BULLET_TIME_BASED_TRADING__2026-02-01.html">Silver Bullet Time Based Trading</a>
+            <a class="topic-link" href="ICT_BIBLE__STOP_ENTRY_TECHNIQUES_LONG_TERM__2026-02-01.html">Stop Entry Techniques Long Term</a>
             <a class="topic-link" href="ICT_BIBLE__THE_NEXT_SETUP__2026-02-01.html">The Next Setup</a>
-            <a class="topic-link" href="ICT_BIBLE__TIMEFRAME_SELECTION_DEFINING_SETUPS__2026-02-01.html">Timeframe Selection & Defining Setups</a>
-            <a class="topic-link" href="ICT_BIBLE__TRADE_CONDITIONS_SETUP_PROGRESSIONS__2026-02-01.html">Trade Conditions & Setup Progressions</a>
+            <a class="topic-link" href="ICT_BIBLE__TIMEFRAME_SELECTION_DEFINING_SETUPS__2026-02-01.html">Timeframe Selection Defining Setups</a>
+            <a class="topic-link" href="ICT_BIBLE__TRADE_CONDITIONS_SETUP_PROGRESSIONS__2026-02-01.html">Trade Conditions Setup Progressions</a>
             <a class="topic-link" href="ICT_BIBLE__TRENDLINE_PHANTOMS__2026-02-01.html">Trendline Phantoms</a>
             <a class="topic-link" href="ICT_BIBLE__VACUUM_BLOCK__2026-02-01.html">Vacuum Block</a>
             <a class="topic-link" href="ICT_BIBLE__WHAT_TO_FOCUS_ON_RIGHT_NOW__2026-02-01.html">What To Focus On Right Now</a>
             <a class="topic-link" href="ICT_BIBLE__WHEN_TO_AVOID_LONDON_SESSION__2026-02-01.html">When To Avoid London Session</a>
+            <a class="topic-link" href="ict_opening_range_library.html">Ict Opening Range Library</a>
+            <a class="topic-link" href="ict_SIBIFVG.html">Ict Sibifvg</a>
+            <a class="topic-link" href="ict_SMC.html">Ict Smc</a>
+            <a class="topic-link" href="rejection-block-study.html">Rejection-Block-Study</a>
         </div>
 
         <div class="section-title">Browse by Category</div>
@@ -379,6 +439,54 @@
             <div class="category-title">Live Sessions</div>
             <div class="category-list">
                 <a class="topic-link" href="ICT_BIBLE__2026_LIVE_JAN29_SMART_MONEY__2026-02-01.html">2026 Live: Jan 29 Smart Money</a>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Additional Topics</div>
+            <div class="category-list">
+                <a class="topic-link" href="ICT_BIBLE__ADVANCED_BREAKER_THEORY__2026-02-01.html">Advanced Breaker Theory</a>
+                <a class="topic-link" href="ICT_BIBLE__CENTRAL_BANK_DEALERS_RANGE__2026-02-01.html">Central Bank Dealers Range</a>
+                <a class="topic-link" href="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">Change In State Of Delivery</a>
+                <a class="topic-link" href="ICT_BIBLE__DIVERGENCE_PHANTOMS__2026-02-01.html">Divergence Phantoms</a>
+                <a class="topic-link" href="ICT_BIBLE__ESSENTIALS_TO_ICT_DAYTRADING__2026-02-01.html">Essentials To Ict Daytrading</a>
+                <a class="topic-link" href="ICT_BIBLE__FAIR_VALUATION__2026-02-01.html">Fair Valuation</a>
+                <a class="topic-link" href="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">Htf Pd Arrays Hierarchy</a>
+                <a class="topic-link" href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Impulse Price Swings And Market Protraction</a>
+                <a class="topic-link" href="ICT_BIBLE__INSTITUTIONAL_MARKET_STRUCTURE__2026-02-01.html">Institutional Market Structure</a>
+                <a class="topic-link" href="ICT_BIBLE__INSTITUTIONAL_ORDER_FLOW__2026-02-01.html">Institutional Order Flow</a>
+                <a class="topic-link" href="ICT_BIBLE__INSTITUTIONAL_SPONSORSHIP__2026-02-01.html">Institutional Sponsorship</a>
+                <a class="topic-link" href="ICT_BIBLE__IPDA_DATA_RANGES__2026-02-01.html">Ipda Data Ranges</a>
+                <a class="topic-link" href="ICT_BIBLE__JUDAS_SWING__2026-02-01.html">Judas Swing</a>
+                <a class="topic-link" href="ICT_BIBLE__LIMIT_ORDER_ENTRY_LONG_TERM__2026-02-01.html">Limit Order Entry Long Term</a>
+                <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_CONCEPTS_PRICE_DELIVERY__2026-02-01.html">Liquidity Concepts Price Delivery</a>
+                <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_RUNS__2026-02-01.html">Liquidity Runs</a>
+                <a class="topic-link" href="ICT_BIBLE__LIQUIDITY_VOIDS__2026-02-01.html">Liquidity Voids</a>
+                <a class="topic-link" href="ICT_BIBLE__LONDON_KILLZONE__2026-02-01.html">London Killzone</a>
+                <a class="topic-link" href="ICT_BIBLE__MACRO_TO_MICRO__2026-02-01.html">Macro To Micro</a>
+                <a class="topic-link" href="ICT_BIBLE__MARKET_MAKER_MODELS__2026-02-01.html">Market Maker Models</a>
+                <a class="topic-link" href="ICT_BIBLE__MARKET_MAKER_TRAP_HEAD_SHOULDERS__2026-02-01.html">Market Maker Trap Head Shoulders</a>
+                <a class="topic-link" href="ICT_BIBLE__NEW_YORK_KILLZONE__2026-02-01.html">New York Killzone</a>
+                <a class="topic-link" href="ICT_BIBLE__ONE_SETUP_FOR_LIFE__2026-02-01.html">One Setup For Life</a>
+                <a class="topic-link" href="ICT_BIBLE__OPENING_RANGE_THEORY__2026-02-01.html">Opening Range Theory</a>
+                <a class="topic-link" href="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">Order Blocks Kill Zones</a>
+                <a class="topic-link" href="ICT_BIBLE__OTE_OPTIMAL_TRADE_ENTRY__2026-02-01.html">Ote Optimal Trade Entry</a>
+                <a class="topic-link" href="ICT_BIBLE__POSITION_TRADE_MANAGEMENT__2026-02-01.html">Position Trade Management</a>
+                <a class="topic-link" href="ICT_BIBLE__PROPULSION_BLOCK__2026-02-01.html">Propulsion Block</a>
+                <a class="topic-link" href="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">Reclaimed Orderblock</a>
+                <a class="topic-link" href="ICT_BIBLE__SELECTING_PRECISION_PRICE_OBJECTIVES__2026-02-01.html">Selecting Precision Price Objectives</a>
+                <a class="topic-link" href="ICT_BIBLE__SILVER_BULLET_TIME_BASED_TRADING__2026-02-01.html">Silver Bullet Time Based Trading</a>
+                <a class="topic-link" href="ICT_BIBLE__STOP_ENTRY_TECHNIQUES_LONG_TERM__2026-02-01.html">Stop Entry Techniques Long Term</a>
+                <a class="topic-link" href="ICT_BIBLE__THE_NEXT_SETUP__2026-02-01.html">The Next Setup</a>
+                <a class="topic-link" href="ICT_BIBLE__TIMEFRAME_SELECTION_DEFINING_SETUPS__2026-02-01.html">Timeframe Selection Defining Setups</a>
+                <a class="topic-link" href="ICT_BIBLE__TRADE_CONDITIONS_SETUP_PROGRESSIONS__2026-02-01.html">Trade Conditions Setup Progressions</a>
+                <a class="topic-link" href="ICT_BIBLE__TRENDLINE_PHANTOMS__2026-02-01.html">Trendline Phantoms</a>
+                <a class="topic-link" href="ICT_BIBLE__VACUUM_BLOCK__2026-02-01.html">Vacuum Block</a>
+                <a class="topic-link" href="ICT_BIBLE__WHEN_TO_AVOID_LONDON_SESSION__2026-02-01.html">When To Avoid London Session</a>
+                <a class="topic-link" href="ict_SIBIFVG.html">Ict Sibifvg</a>
+                <a class="topic-link" href="ict_SMC.html">Ict Smc</a>
+                <a class="topic-link" href="ict_opening_range_library.html">Ict Opening Range Library</a>
+                <a class="topic-link" href="rejection-block-study.html">Rejection-Block-Study</a>
             </div>
         </div>
     </main>

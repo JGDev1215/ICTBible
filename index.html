@@ -29,8 +29,15 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             display: flex;
+            flex-direction: column;
             height: 100vh;
             overflow: hidden;
+        }
+
+        .library-shell {
+            display: flex;
+            flex: 1;
+            min-height: 0;
         }
 
         /* Navigation Sidebar */
@@ -41,7 +48,7 @@
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
             transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
         }
 
@@ -55,7 +62,7 @@
         /* Toggle Button */
         .sidebar-toggle {
             position: fixed;
-            top: 16px;
+            top: 60px;
             left: 16px;
             z-index: 200;
             width: 36px;
@@ -251,6 +258,55 @@
             line-height: 1.5;
         }
 
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 18px;
+            background: var(--topbar-bg, var(--bg-nav, var(--bg-secondary, #0d0f14)));
+            border-bottom: 1px solid var(--topbar-border, var(--border, var(--border-color, #1e2330)));
+            font-family: var(--topbar-font, inherit);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(6px);
+        }
+        .global-brand {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted, #8892a8);
+            font-weight: 600;
+        }
+        .global-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .global-topbar a {
+            color: var(--text-primary, #e4e8f0);
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--topbar-border, var(--border, var(--border-color, #1e2330)));
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: var(--topbar-accent, var(--accent, var(--accent-gold, var(--accent-cyan, #d4a855))));
+            color: var(--topbar-accent, var(--accent, var(--accent-gold, var(--accent-cyan, #d4a855))));
+            background: var(--topbar-accent-dim, rgba(212, 168, 85, 0.12));
+        }
+        @media (max-width: 520px) {
+            .global-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
         .welcome-actions {
             margin-top: 20px;
             display: flex;
@@ -375,6 +431,7 @@
             }
             .sidebar-toggle {
                 left: 16px !important;
+                top: 60px;
             }
             .nav-sidebar.open ~ .content-area .sidebar-toggle {
                 left: 296px !important;
@@ -433,7 +490,7 @@
             }
             .sidebar-toggle {
                 left: 12px !important;
-                top: 12px;
+                top: 60px;
             }
             .nav-sidebar.open ~ .content-area .sidebar-toggle {
                 left: auto !important;
@@ -454,7 +511,16 @@
     </style>
 </head>
 <body>
-    <nav class="nav-sidebar">
+    <div class="global-topbar">
+        <div class="global-brand">ICT Library</div>
+        <div class="global-links">
+            <a href="index.html">Library Home</a>
+            <a href="all-topics.html">Full Index</a>
+        </div>
+    </div>
+
+    <div class="library-shell">
+        <nav class="nav-sidebar">
         <div class="nav-header">
             <div class="nav-title">ICT Knowledge Library</div>
             <div class="nav-subtitle">Smart Money Concepts</div>
@@ -734,6 +800,24 @@
                 <div class="nav-item-title">2026 Live: Jan 29</div>
                 <div class="nav-item-desc">Trading inside the range & 3/4 rule</div>
             </div>
+
+            <div class="nav-category">Additional Topics</div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__ADVANCED_BREAKER_THEORY__2026-02-01.html">
+                <div class="nav-item-title">Advanced Breaker Theory</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__ONE_SETUP_FOR_LIFE__2026-02-01.html">
+                <div class="nav-item-title">One Setup For Life</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
+            <div class="nav-item" data-page="ICT_BIBLE__SELECTING_PRECISION_PRICE_OBJECTIVES__2026-02-01.html">
+                <div class="nav-item-title">Selecting Precision Price Objectives</div>
+                <div class="nav-item-desc">Additional study topic</div>
+            </div>
+
         </div>
     </nav>
 
@@ -758,7 +842,8 @@
         </div>
 
         <iframe class="content-frame" id="contentFrame" style="display: none;"></iframe>
-    </main>
+        </main>
+    </div>
 
     <script>
         const navItems = document.querySelectorAll('.nav-item');

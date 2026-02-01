@@ -257,10 +257,46 @@
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
 </head>
 <body>
-    <header>
+    
+    <div class="global-topbar">
+        <div class="global-brand">ICT Library</div>
+        <div class="global-links">
+            <a href="index.html">Library Home</a>
+            <a href="all-topics.html">Full Index</a>
+        </div>
+    </div>
+<header>
         <h1>Macro Economic To Micro Technical</h1>
         <p>Using interest rate markets to determine long-term currency direction</p>
     </header>

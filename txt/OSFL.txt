@@ -1,0 +1,4713 @@
+Title: ICT Mentorship 2023 - One Trading Setup For Life
+
+(0:00) for
+
+(0:59) we're  going  to  folks  I  hope  everybody's
+
+(1:01) doing
+
+(1:02) well  so  tonight  we're  doing  a  little  bit
+
+(1:05) of  a  lecture  here  on  some  important
+
+(1:09) information  about  finding  setups  and  I
+
+(1:13) get  a  lot  of
+
+(1:14) questions  as  a  mentor  teaching  Forex  and
+
+(1:18) recently  index  Futures  and  the  things
+
+(1:21) I'm  going  to  talk  about  tonight  are  not
+
+(1:23) limited  to  any  one  particular  asset
+
+(1:26) class  so  it's  kind  of  like  remove  all  of
+
+(1:29) the
+
+(1:31) uncertainty  of  where  you're  supposed  to
+
+(1:34) be  looking  in  the  charts  when  am  I
+
+(1:36) supposed  to  be  utilizing  electronic
+
+(1:39) trading  hours  when  am  I  going  to  be
+
+(1:41) referring  to  regular  trading  hours  for
+
+(1:44) what  reason  uh  what  type  of  setups  form
+
+(1:48) when  and  that  way  it  allows  you  to  have
+
+(1:52) a  setup  for
+
+(1:54) life  now  some  of  you  may  have  thought
+
+(1:57) this  was  going  to  be  a  pattern  or  a  PD
+
+(2:00) array  lecture  it's  not  I'm  teaching  you
+
+(2:05) how  to  find  your  own  setups  but
+
+(2:08) specifically  when  and  where  they  form
+
+(2:11) that's  the  part  that  is  always  a
+
+(2:14) constant  that's  the  thing  that  a  lot  of
+
+(2:17) new  Traders  and  those  that  are
+
+(2:18) struggling  as  a  break  even  Trader  lose
+
+(2:20) sight  of  it's  a  matter  of  knowing  what
+
+(2:23) to  look  for  and
+
+(2:25) when  it  incorporates  Market  profiling
+
+(2:28) and  that  is  not  Market  profile  in  the
+
+(2:30) sense  that  we're  using  like  vwap  and
+
+(2:33) things  like  that  we're  talking  about
+
+(2:36) schematics  things  that  I've  taught  and
+
+(2:38) have  shared  publicly  on  this  YouTube
+
+(2:40) channel  you  can  find  that  information  in
+
+(2:43) the  core  content  where  I'm  dealing  with
+
+(2:46) specific  day
+
+(2:50) profiles  the  topic  would  be  under  the
+
+(2:52) day  trading
+
+(2:54) and  I  cover  a  lot  of  this  stuff  also
+
+(2:57) when  I'm  talking  about  specific  market
+
+(3:01) reviews
+
+(3:03) and  I  understand  that  many  of  you  you
+
+(3:07) may  be  new  okay  and  you  want  to  you  want
+
+(3:09) a  One  Two  Three  Easy  get  me  in  and  get
+
+(3:11) me  out  pattern  and  I've  already  produced
+
+(3:13) all  that  okay  it's  on  the  YouTube
+
+(3:15) channel  but  for  the  folks  that  really
+
+(3:18) want  to  find  a  lot  more  setups  or  not  be
+
+(3:22) limited  to  a  one  trick  pony  not  that
+
+(3:25) that's  a  bad  thing  because  the  2022
+
+(3:27) model  is  excellent
+
+(3:30) the  optimal  trade  entry  pattern  is
+
+(3:33) excellent  so  when  I  talk  about  these
+
+(3:36) areas  in  the  marketplace
+
+(3:38) tonight  and  I  promise  we  will  not  be
+
+(3:40) here  very  long  usually  when  I  say  this
+
+(3:43) on  Twitter  and  I  do  a  Twitter's  face  uh
+
+(3:45) we  go  for  hours  and  hours  it  doesn't
+
+(3:47) feel  like  hours  to  me  but  you  I  do  have
+
+(3:50) a  time  limit  tonight  so  I  have  to  get
+
+(3:52) through  this  and  because  of  that  I
+
+(3:55) presented  it  in  a  PowerPoint
+
+(3:57) presentation  so  it  helps  me  keep
+
+(4:00) my  focus  so  I  always  have  some  kind  of  a
+
+(4:02) monologue  coming  in  so  I  want  to  kind  of
+
+(4:05) set  the
+
+(4:07) expectations  for  everyone  that's  going
+
+(4:09) into  this  study  so  that  way  you  know
+
+(4:11) what  it  is  that  you're  going  to  be
+
+(4:11) trying  to  glean  from  it  what's  the
+
+(4:14) purpose  and  then  we'll  get  down  to  the
+
+(4:17) nitty-gritty  it'll  be  right  to  the  point
+
+(4:20) and  I'll  show  you  some  details  in  terms
+
+(4:22) of  executions  and
+
+(4:25) such  SO  algorithmic  trading  with  ICT
+
+(4:28) models  for  all  assets
+
+(4:30) and  again  the  premise  is  one  trade  setup
+
+(4:33) for
+
+(4:34) life
+
+(4:36) now  what  do  you  think  that  would
+
+(4:40) entail  something  that  would
+
+(4:42) repeat  over  and  over  again  it's  not
+
+(4:46) ambiguous  it's  very  specific  now  when
+
+(4:50) you  see  me  doing  my  trade
+
+(4:52) executions  uh  sometimes  they  look  too
+
+(4:55) good  to  be  true  and  sometimes  I'm
+
+(4:58) questioned  as  to  whether  or  not  I'm
+
+(4:59) using  using  something  that's  delayed  and
+
+(5:02) whatnot  and  today  I  had  a  little  bit  of
+
+(5:03) a  Clank  today  I've  shared  some  things
+
+(5:06) that  uh  my  wife  wasn't  expecting  me  to
+
+(5:08) spend  any  time  online  today  but  uh  I
+
+(5:12) felt  like  I  I  wanted  to  share  today  and
+
+(5:15) I  answered  a  couple  things  that  came  up
+
+(5:16) over  the  years  in  terms  of  doubts  or
+
+(5:20) concerns
+
+(5:23) and  I  I  really  want  you  to  think  about
+
+(5:25) the  lesson  tonight  that  we're  going  to
+
+(5:27) cover  and  think  about  how  your
+
+(5:30) setup  your  multiplier  the  PD  array  that
+
+(5:34) you  gravitate  to  most  it  may  be  the  fair
+
+(5:36) value  Gap  it  may  be  a  breaker  pattern  it
+
+(5:39) may  be  the  optimal  trade  entry  pattern
+
+(5:42) it  could  be  a  simple  order  block  it
+
+(5:45) could  be  a  turtle  soup  it  could  be  a
+
+(5:48) number  of  things  whatever  it  could  be
+
+(5:51) the  inversion  fair  value
+
+(5:53) Gap  whatever  that  PD  array  is  that  you
+
+(5:57) see  easily  in  the  chart  the  one  that  you
+
+(5:59) don't  have  to  look  too  hard  for  or
+
+(6:01) strain  your  eye  or  scour  through  the
+
+(6:04) candlesticks  to  find  it  the  one  that
+
+(6:05) just  simply  makes  sense  to  you  when  you
+
+(6:07) see  price  action  your  eye  goes  right  to
+
+(6:09) it  that  my  friends  is  the  One  You're
+
+(6:11) supposed  to  be  looking  at  that's  the  one
+
+(6:13) you  start  with  it  does  not  mean  that
+
+(6:14) it's  going  to  be  your  entire
+
+(6:16) career  it  just  means  that  that's  the  one
+
+(6:19) that  resonates  with  you  right  now  as  a
+
+(6:20) new  student  of  mine  and  then  you  grow
+
+(6:23) from  that  I  promise  you  when  you  learn
+
+(6:27) one  PD  array  and  how  to  use  use  the
+
+(6:29) information  I'm  going  to  share  tonight
+
+(6:31) it'll  be  so  much  easier  for  you  to  see
+
+(6:34) all  the  things  that  form  in  all  the  PD
+
+(6:37) arrays  that  I've  taught  and  will
+
+(6:39) teach  but  you  have  to  have  some  kind  of
+
+(6:41) a  a  baseline  to  grow  from  and  if  you're
+
+(6:44) rushing  through  it  or  trying  to  push  too
+
+(6:46) much  on
+
+(6:48) yourself  the  the  time  limits  that  you
+
+(6:50) place  on  yourself  for  learning  how  to  do
+
+(6:51) it  is  unrealistic  some  of  you  going  to
+
+(6:54) learn  sooner  than  others  and  others  are
+
+(6:56) going  to  require  more  time  I  can't  speed
+
+(6:59) that  up  for  you  you  you're  bringing  in
+
+(7:00) your  own  learning  curve  and  the  things
+
+(7:03) that  you're  going  to  worry  about  are
+
+(7:05) going  to  find  its  way  to  the  bin  as  you
+
+(7:08) learn  how  to  focus  on  the  things  I'm
+
+(7:10) teaching  you  and  not  anything  more  than
+
+(7:11) that  per
+
+(7:13) lesson
+
+(7:15) so  let's  get  into
+
+(7:23) it  all  right  so  draw  on  liquidity  okay
+
+(7:27) it's  the  sole  purpose  of  price  delivery
+
+(7:29) and  I  wish  to  thank  Patrick
+
+(7:31) weand  for  getting  this  screenshot  from
+
+(7:35) his  live  stream  today  I  needed  to  make  a
+
+(7:38) point  about  U  liquidity  and  the
+
+(7:41) resources  that  are  available  in  the
+
+(7:43) market  today  and  how  I'm  going  to  help
+
+(7:46) you  not  lean  On  Tools  like  this  now
+
+(7:52) admittedly  if  this  type  of  thing  was  in
+
+(7:54) existence  when  I  first  started  in  the
+
+(7:56) 90s  that's  the  1990s  by  the  way  not  the
+
+(7:59) 19  100s  as  my  youngest  son  always  he
+
+(8:01) says  makes  me  sound  like  I'm  really
+
+(8:03) really
+
+(8:04) old  but  uh  this  is  a  screenshot  of  the
+
+(8:07) book  map  okay  uh  I  am  not  a  affiliate
+
+(8:12) with  them  I'm  not  suggesting  that  you
+
+(8:13) should  subscribe  to  it  and  I'm  not
+
+(8:16) trying  to  kick  dirt  in  their  face  either
+
+(8:18) I'm  just  saying  that  the  primary
+
+(8:21) function  for  that
+
+(8:23) tool  can  be  made  redundant  with
+
+(8:25) tonight's  lesson  now  I  don't  want  you  to
+
+(8:28) take  my  word  for  it  you're  welcome  to
+
+(8:31) compare  and  contrast  and  then  see  if
+
+(8:34) there  is  any  validity  to  what  I'm  going
+
+(8:36) to  say  tonight  but  I  promise  you  you're
+
+(8:38) going  to  see  that  these  things  while
+
+(8:40) useful  to  a  new  student  to  a  new  Trader
+
+(8:43) they're  absolutely  wonderful  crutches
+
+(8:45) and  that's  not  to  be  demeaning  or  to
+
+(8:47) talk  down  to  it  because  believe  me  if  I
+
+(8:50) would  I  had  access  to  this  when  I  first
+
+(8:52) started  I  would  have  absolutely
+
+(8:54) subscribe  to  it  because  it  would  have
+
+(8:55) helped  me  learn  faster  the  whole  premise
+
+(8:59) of  liquidity  but  the  the  problem  is  with
+
+(9:01) a  tool  like
+
+(9:05) this  it  kind  of  like  brings  more
+
+(9:08) attention  to  levels  of  liquidity  that
+
+(9:10) are  not  so  pertinent  to  right  now  okay
+
+(9:13) or  what's  about  to  take  place  in  terms
+
+(9:15) of  a  narrative  and  price  action  okay  and
+
+(9:18) when  I  teach  smart  money
+
+(9:20) concepts  by  the  way  when  you  hear  SMC
+
+(9:23) it's  my  Concepts  okay  when  I  talked
+
+(9:25) about  it  and  first  started  teaching  it  I
+
+(9:26) referred  to  them  as  smart  money  Concepts
+
+(9:29) and
+
+(9:30) when  we  look  at
+
+(9:32) liquidity  there's  a  specific  range  in
+
+(9:36) mind  when  I'm  looking  at  my  charts  and  I
+
+(9:39) hear  or  see  people  in  comments  um  I've
+
+(9:43) watched  other  YouTubers  and  their
+
+(9:45) complaint  is  you  never  really  understand
+
+(9:47) why  ICT  is  picking  this  high  or  that  low
+
+(9:50) he's  hiding  it  from  you  that's  [ __ ]
+
+(9:53) tonight  I'm  going  to  show  you  that  that
+
+(9:55) has  never  been  the  case  I've  always  said
+
+(9:56) these  things  but  it's  always  tucked  in
+
+(9:58) during  the  discussion  the  boring  Parts
+
+(10:02) because  you're  not  trying  to  listen  it
+
+(10:04) goes  over  your  head  that's  why  when  you
+
+(10:06) go  back  and  look  at  old  videos  it's  been
+
+(10:07) there  the  whole  time  but  you're  looking
+
+(10:09) for  that  one  trick  pony  that  magic  trick
+
+(10:12) that  slight  of  hand  thing  is  going  to
+
+(10:13) let  you  go  out  on  social  media  and  look
+
+(10:14) like  a  rockstar  if  you  want  to  be  able
+
+(10:16) to  do  that  you  have  to  learn  like
+
+(10:18) tonight  this  is  a  lesson  that  gets  to
+
+(10:20) the  heart  of  the  matter  where  is  it  that
+
+(10:23) you  should  be  framing  your  focus  and
+
+(10:26) what  liquidity  what  specific  liquidity
+
+(10:29) does  ICT  refer
+
+(10:31) to  yes  we're  going  to  cover  that  and
+
+(10:34) you're  going  to  see  by  contrast  if  you
+
+(10:35) look  at  the  things  I'm  going  to  cover
+
+(10:37) tonight  and  utilize  it  with  this
+
+(10:39) resource  here  bookmap  I  don't  know  if
+
+(10:42) they  offer  a  free  trial  I  don't  know
+
+(10:44) that  at  all  but  there's  YouTubers  out
+
+(10:47) there  that  stream  and  kind  of  like  share
+
+(10:50) this  these  their  Affiliates  they  want
+
+(10:52) you  to  sign  out  with  them  I'm  not  saying
+
+(10:54) don't  use  it  I'm  not  saying  you  should
+
+(10:57) use  it  I'm  just  saying  that  for  folks
+
+(10:59) that  are  trying  to  do  this  without
+
+(11:00) having  extra  things  to  pay  for  or  look
+
+(11:04) at  you  can  take  the  information  tonight
+
+(11:06) and  compare  and  contrast  and  see  if  it
+
+(11:08) doesn't  really  get  to  the  heart  of  the
+
+(11:09) matter  in  terms  of  where  liquidity  is
+
+(11:11) should  be  focused  on  for  any  one  given
+
+(11:13) period
+
+(11:20) intraday  all  right  so  when  we  first
+
+(11:22) start  talking  about  liquidity  the
+
+(11:25) assumption  is  is  you're  a  day  trader
+
+(11:28) whether  you're  a  scalper
+
+(11:30) whether  you  are  a  session  Trader  a
+
+(11:33) intraday  day  trader  where  you're  trying
+
+(11:35) to  do  the  entire  daily  range  or  if
+
+(11:38) you're  just  a  short-term  Trader  or
+
+(11:40) you're  looking  to  time  the  market  for
+
+(11:42) your  longer  term  swing  trade  or  position
+
+(11:45) trade  all  of  that  is  encapsulated  in
+
+(11:48) tonight's  discussion  so  it's  not  a  just
+
+(11:51) an  intraday  chart  concept  you  can  use
+
+(11:55) these  Concepts  to  really  narrow  down  the
+
+(11:58) amount  of  risk  reduce  it  to  minuscule
+
+(12:02) amounts  it  doesn't  mean  it's  without
+
+(12:05) loss  doesn't  mean  that  you  will  have
+
+(12:06) winning  trades  all  the  time  it  just
+
+(12:08) means  that  if  you  understand  the
+
+(12:10) concepts  I'm  covering  tonight  you  will
+
+(12:12) have  the  ability  to  go  in  and  F  tune
+
+(12:15) your  risk  model  be  able  to  reduce  the
+
+(12:17) amount  of  risk  that's  associated  with
+
+(12:20) your  trades  and  also  time  the  market
+
+(12:24) know  where  the  Market's  going  to  go  to
+
+(12:25) next
+
+(12:27) okay  first  step  we're  going  to  talk
+
+(12:30) about  is  the  PM  session  ranges  okay  and
+
+(12:32) this  is  always  going  to  be  referred  to
+
+(12:34) in  terms  of  previous  day  okay  so
+
+(12:37) previous  day  we  are  going  to  be
+
+(12:39) referring  to  the  1:30  p.m.  to  400  pm
+
+(12:43) time  window  and  this  is  always  in  New
+
+(12:45) York  local
+
+(12:46) time  now  I'm  saying  that  because  I  want
+
+(12:49) you  to  set  your  trading  view  chart  to
+
+(12:52) New  York  local  time  I  say  this  as  much
+
+(12:55) as  I  can  in  all  my  lectures  because  I
+
+(12:58) get  confused  us  when  I  talk  to  people
+
+(13:00) around  the  world  and  you're  in  different
+
+(13:01) time  zones  and  I  have  made  mistakes  in
+
+(13:04) ter  in  terms  of  telling  them  what  their
+
+(13:07) conversion  would  be  so  to  eliminate  all
+
+(13:10) that  confusion  if  you  just  simply  set
+
+(13:11) your  charts  to  New  York  local  time  and
+
+(13:14) look  at  the  charts  that  way  all  the
+
+(13:16) confusion  goes  away  it's  very  simple  so
+
+(13:19) PM  session  ranges  you're  looking  for  the
+
+(13:21) highest  high  and  the  lowest  low  between
+
+(13:23) 1:30  p.m.  and  4  P.M
+
+(13:25) now  is  there  any  ambiguity  there
+
+(13:29) no  it's  very  simple  succinct  right  to
+
+(13:32) the  point  now  what  do  you  do  with  it  if
+
+(13:36) you  are
+
+(13:37) bullish  okay  and  we  are  trading  in  close
+
+(13:40) proximity  to  that  range  as  we  see
+
+(13:45) here  this  example  here  I'm  using  the
+
+(13:48) June  contract  before  rollover  took  place
+
+(13:50) at  the  time  of  this  recording  and  live
+
+(13:52) stream  we  are  looking  at  the  September
+
+(13:54) contract  for  the  indices  for  2023  but
+
+(13:57) I'm  showing  you  an  example  because  this
+
+(13:59) is  something  I  utilized  in  commentary
+
+(14:02) something  I  used  in  terms  of  my  own
+
+(14:03) analysis  and  executions  and  such  but  I
+
+(14:06) want  you  to  understand  that  when  we  look
+
+(14:09) at  PM  session  ranges  it  is  always
+
+(14:13) referred  to  in  regular  trading  hours
+
+(14:17) notice  this  down  here  in  the  lower  right
+
+(14:19) hand  corner  let's  make  the  chart  a
+
+(14:21) little  bit
+
+(14:23) bigger  so  down  here  in  the  right  hand
+
+(14:25) corner  the  rth  that's  regular  trading
+
+(14:28) hours  now  you  can  toggle  this  if  your
+
+(14:31) membership  permits  you  I  don't  know
+
+(14:35) what  uh  I  guess  uh  membership  is
+
+(14:39) required  for  trading  view  um  if  you're
+
+(14:43) absolutely  against  trading  view  then  I'm
+
+(14:44) sorry  you're  GNA  have  to  have  to  find
+
+(14:46) the  equivalent  and  I  don't  know  what
+
+(14:48) that  would  be  for  you  okay  I  chose
+
+(14:50) trading  view  because  my  community  said
+
+(14:51) go  to  trading  view  when  I  left  mt4  so
+
+(14:54) we're  all  here  now
+
+(14:57) and  I  don't  know  what  it's  going  to  cost
+
+(14:59) you  I  I  don't  have  an  affiliate  program
+
+(15:01) with  trading  view  I  get  no  money  for  it
+
+(15:02) if  you  subscribe  to  it  and  I  don't  know
+
+(15:04) what
+
+(15:05) the  amount  of  membership  would  be  to
+
+(15:09) allow  to  get  that  I  don't  know  okay  so
+
+(15:11) give  me  the  liberty  and  latitude  to  be
+
+(15:13) able  to  talk  freely  and  you're  going  to
+
+(15:15) have  to  work  that  on  your
+
+(15:17) own  but  this  toggle  from  rth  to
+
+(15:21) electronic  trading  hours  ET  okay  one  or
+
+(15:24) the  other  is  going  to  be  utilized  if
+
+(15:25) we're  going  to  be  looking  for  PM  session
+
+(15:28) ranges  it's  always  going  to  be  into
+
+(15:30) previous  day  the  time  window  the  amount
+
+(15:34) of  time  that  you're  looking  inside  of
+
+(15:37) what  price  range  what  high  are  you
+
+(15:39) looking  at  ICT  which  low  are  you  looking
+
+(15:41) at
+
+(15:41) ICT  regular  trading  hours  it  cuts  out
+
+(15:45) all  the  overnight
+
+(15:47) trading  the  algorithm  once  we  start
+
+(15:49) trading  regular  trading  session  hours
+
+(15:51) the  next  day  it's  going  to  refer  back  to
+
+(15:53) these  specific  times  and  what  liquidity
+
+(15:58) exists  above  and  below  it  so  if  we're
+
+(16:01) bullish  and  we're  trading  near  the
+
+(16:04) opening  in  this  little  orange  line  here
+
+(16:05) that's  going  to  be  in  every  slide  that
+
+(16:08) denotes  the  9:30  opening  bell  you  know
+
+(16:11) when  everybody's  on  CNBC  and  they  clap
+
+(16:14) their
+
+(16:14) hands  that's  when  the  opening  bell
+
+(16:18) occurs  for  the  stock  indices  and  stock
+
+(16:20) market  now  obviously  they're  trading  all
+
+(16:22) night  long  but  that  opening
+
+(16:25) window  starts  that  opening  range  for  the
+
+(16:28) next  30  30  minutes  where  will  that
+
+(16:31) usually  run  for  the  high  or  low  if
+
+(16:34) you're  bullish  and  we  take  out  the  PM
+
+(16:37) session  low  where  it's  going  to  be  selli
+
+(16:40) below  that  it's  wonderful  because  if
+
+(16:43) it's  bullish  and  we  have  a  higher  time
+
+(16:44) frame  premise  it's  expecting  the  market
+
+(16:46) to  go  higher  how  do  we  know  that  that's
+
+(16:48) what  I've  been  teaching  you  when  I  do  my
+
+(16:50) reviews  or  I  do  my  commentary  or  if  I'm
+
+(16:51) pointing  to  something  on  Twitter  if
+
+(16:54) you're  not  following  me  on  Twitter
+
+(16:55) you're  really  missing  out  because  I'm
+
+(16:57) doing  a  lot  of  information  there  and
+
+(16:59) like  real  short  succinct  manner  I'm
+
+(17:02) taking  your  attention  to  right  then  and
+
+(17:04) there  today  I  did  it  and  a  lot  of  people
+
+(17:07) actually  followed  it  and  it's  not  to  be
+
+(17:09) used  as  a  signal  service  but  I'm  calling
+
+(17:11) things  live  there  drawing  your  attention
+
+(17:13) to  it  so  that  way  you  can  study  it  real
+
+(17:14) time  but  if  you're  bullish  and  the
+
+(17:18) market  drops  down  below  P  PM  session
+
+(17:20) lows  notice  that  this  low  here  and  this
+
+(17:23) low  here  that's  encapsulated  inside  of
+
+(17:27) the
+
+(17:30) 1:30  to
+
+(17:31) 4:00  New  York  local
+
+(17:34) time  so  below  those  relative  equal  lows
+
+(17:36) there  sell  High  liquidity  it's  really
+
+(17:39) simple  it's  simple  isn't  it  when  when
+
+(17:43) you  go  through  the  process  of  listening
+
+(17:44) to  me  and  doing  the  things  I  tell  you  to
+
+(17:46) do  and  I  justify  why  you  should  do  all
+
+(17:48) these  things  that's  the  boring  part  the
+
+(17:50) folks  that  have  started  making  real
+
+(17:52) money  six  figures  payouts  okay  Doctor
+
+(17:57) salaries  and  a  month  or
+
+(18:00) less  that  stuff  comes  by  listening  and
+
+(18:04) practicing  and  going  into  their  charts
+
+(18:06) and  not  taking  my  word  for  it  but  going
+
+(18:08) in  and  seeing  if  the  things  I'm  saying
+
+(18:10) are  indeed
+
+(18:12) true  this  logic  if  we're  bullish  we'd
+
+(18:16) like  to  see  cide  taken  why  because  that
+
+(18:19) means  that  smart  money  would  accumulate
+
+(18:20) those  cide
+
+(18:22) liquidity  and  absorb  it  for  their  buy
+
+(18:26) side  so  they're  going  to  treat  that  sell
+
+(18:27) side  as  counterparty  to  their  smart
+
+(18:29) money  buying  so  they're  accumulating  in
+
+(18:32) the  Judith  swing  the  drop  down
+
+(18:35) here  just  goes  into  this  area  here  where
+
+(18:38) the  liquidity  is  so  we  definitely  want
+
+(18:40) to  be  looking  at  previous  day's
+
+(18:42) session  not  just  any  old  high  and
+
+(18:45) low  the  high  and  the  low  is  between  1:30
+
+(18:48) and  4:00  New  York  local  time  that's  the
+
+(18:50) PM  session  that  range  the  highs  and  the
+
+(18:55) lows  there's  liquidity  above  and  below
+
+(18:56) it  if  we're  looking  for  higher  prices  we
+
+(18:59) definitely  expect  it  to  be  running  to
+
+(19:01) the  buy  side  but  at  the  opening  we
+
+(19:03) expect  not  always  but  we  expect  we
+
+(19:06) anticipate  a  run  lower  that  Judah  swing
+
+(19:09) that  every  Tom  Dick  and  Harry  on  social
+
+(19:12) media  are  going  to  chase  that  they're
+
+(19:15) going  to  think  it's  breaking  to  new  lows
+
+(19:16) it's  going  to  keep  going  lower  no  no  no
+
+(19:20) no  it's  only  running  down  there  to  take
+
+(19:23) sellers  into  the  marketplace  and  they're
+
+(19:24) going  to  buy
+
+(19:26) them  and  then  the  market  runs  to  the  buy
+
+(19:29) side  now  you  could  be  a  Trader  that
+
+(19:31) simply  takes  this
+
+(19:32) order  here  as  a  long  as  a  turtle  suit
+
+(19:36) now
+
+(19:37) admittedly  this  takes  a  great  deal  of
+
+(19:40) conviction  it  probably  won't  be  the
+
+(19:42) first  thing  you  reach  for  learning  from
+
+(19:44) me  in  fact  it  took  a  lot  of  time  for  me
+
+(19:47) to  trust  that  idea  of  buying  below  old
+
+(19:50) lows  and  selling  above  old  highs  for
+
+(19:52) entries  not  targets  it's  easy  to  do  it
+
+(19:55) for  a  Target  but  it's  entirely  different
+
+(19:58) takes  an  entire  paradigm  shift  in  your
+
+(20:01) thinking  to  go  into  the  marketplace  and
+
+(20:03) anticipate  that  as  an
+
+(20:04) entry  but  it  can  be  done  and  it  takes
+
+(20:07) time  how  you  get  there  is  you  study  old
+
+(20:09) moves  like  this  and  you  Journal
+
+(20:12) them  but  your  model  could  simply  be  wait
+
+(20:15) for  the  sell  side  in  the  pre  previous  PM
+
+(20:17) session  range  if  you're  bullish  that's
+
+(20:19) your  buy  if  you're  going  in  that  means
+
+(20:20) that  you're  expecting  the  weekly  range
+
+(20:22) to  expand  higher  the  draw  on  liquidity
+
+(20:24) higher  on  the  weekly  uh  time  frame  we've
+
+(20:26) covered  all  that  stuff  in  the  prev
+
+(20:29) discussions  but  going  down  into
+
+(20:31) liquidity  like  this  when  we're  bullish
+
+(20:33) we  would  reasonably  expect  it  to  run  for
+
+(20:35) what  the  buy  side  where  what  buy  side
+
+(20:38) what  high  are  you  looking  at  ICT  that
+
+(20:40) one  right  there  why  because  it's  inside
+
+(20:43) the  range  between  130  and  4:00  how  pray
+
+(20:46) tell  is  that
+
+(20:48) complicated  it's  not  complicated  and
+
+(20:51) I've  taught  this  at  nauseum  over  and
+
+(20:54) over  and  over  again  but  you're  not
+
+(20:56) listening  so  I'm  taking  you  by  the  hand
+
+(20:59) tonight  right  through  the  charts  that
+
+(21:01) way  everything  is  perfectly  laid  out  for
+
+(21:04) you  you  have  absolutely  zero  excuses  you
+
+(21:07) have  no  excuses  now  to  know  what  I'm
+
+(21:10) anticipating  what  range  am  I  looking  at
+
+(21:13) I'm  not  hiding  it  from  you  folks  I  want
+
+(21:15) you  to  succeed  I  really  really  want  you
+
+(21:17) to
+
+(21:19) succeed  if  you  can't  learn  it  from
+
+(21:21) tonight's  lesson  I  don't  know  how  to  do
+
+(21:22) it  better  than  this
+
+(21:27) one  okay
+
+(21:30) going  further  into  the  day  now  we're
+
+(21:32) considering  a  a  full  24-hour  rotation
+
+(21:35) okay  so  over  the  course  of  24  hours  what
+
+(21:37) is  the  mind  of  ICT  what  are  the  inner
+
+(21:38) musings  of  inner  circle  Trader  I'm  going
+
+(21:42) through  the  process  of  going  through
+
+(21:43) this  very  routine  right  here  I  look  at
+
+(21:47) PM  session  range  if  it's  not  a  factor  or
+
+(21:51) it's  not  to  be  considered  because  we're
+
+(21:54) not  in  in  close  proximity  to  that  range
+
+(21:56) because  we  could  be  significantly  higher
+
+(21:57) or  lower  around  9:30  so  what  am  I
+
+(22:00) looking  for  then  if  I'm  not  close  to  PM
+
+(22:03) session  previous  PM  session  1:30  p.m.  to
+
+(22:07) 4m  range  at  the  time  of  9:30  at  the
+
+(22:10) opening  bell  and  I'm  watching  that  next
+
+(22:13) 30  minutes  which  is  the  opening
+
+(22:15) range  what  am  I  going  to  look  for  then
+
+(22:18) next  if  it's  not  that  I'm  looking  at  the
+
+(22:20) London  session  raid  that  means  I'm  going
+
+(22:23) to  be  looking  at  the  range  between  2
+
+(22:24) o'clock  in  the  morning  and  5:00  in  the
+
+(22:26) morning  New  York  local  time  now  again
+
+(22:30) tell  me  is  that
+
+(22:32) complicated  no  simple  so  in  your  charts
+
+(22:37) you  want  to  be  annotating  what  those
+
+(22:39) levels  are  now  you  can  do  it  like  this
+
+(22:42) here  where  I  have  actual  annotations
+
+(22:44) that  I  hand  draw  I  don't  have  a
+
+(22:47) indicator  thing  that  plots  them  for  me  I
+
+(22:50) prefer  the  high  touch  over  high-tech  it
+
+(22:52) means  I'm  putting  some  thought  into  it  I
+
+(22:55) get  closer  to  the  marketplace  by  doing
+
+(22:56) that  and  sharing  with
+
+(22:59) you  I  just  don't  trust  an  indicator  to
+
+(23:01) do  it  okay  so  I'm  an  old  guy  I'm  a
+
+(23:04) dinosaur  I'm  used  to  doing  everything  by
+
+(23:06) hand  anyway  and  believe  me  it  doesn't
+
+(23:08) take  that  long  to  tell  me  you  have  to
+
+(23:09) have  it  because  it  saves  time  it's  a  cop
+
+(23:12) out  you  just  are
+
+(23:13) lazy  nothing  wrong  with  lazy  I  mean  lazy
+
+(23:15) people  can  do  things  very  efficiently  if
+
+(23:17) they  if  they're  smart  but  let's  Zoom
+
+(23:19) this  in
+
+(23:23) here  all  right  so  London  session  raids
+
+(23:27) if  we  are  not  in  close  proximity  to  the
+
+(23:30) previous  PM  session  at  9:30  remember
+
+(23:34) this  orange  line  here  denotes  the  9:30
+
+(23:36) opening
+
+(23:38) bell  of  the  stock  market  so  where  are  we
+
+(23:42) at  in  terms  of  proximity  so  we're  we're
+
+(23:45) starting  the  trading  here  so  where  are
+
+(23:48) we  are  we  in  close  proximity  to  a  PM
+
+(23:52) session  higher
+
+(23:53) low  but  we  are  in  close  proximity  to
+
+(23:56) what  London  session  byy  side  we're
+
+(23:58) digging  into  that  so  all  of  this  can  be
+
+(24:00) viewed  pre  930  as  a  Judas
+
+(24:05) swing  now  notice  am  I  showing  you
+
+(24:08) regular  trading  hours  or  electronic
+
+(24:10) trading
+
+(24:12) hours  electronic  trading  hours  so  that
+
+(24:15) way  you're  going  to  be  able  to  see  the
+
+(24:16) overnight  trading  if  you  have  it  toggled
+
+(24:18) to  regular  trading  hours  you  won't  see
+
+(24:21) this  information  folks  it  will  be  hidden
+
+(24:23) from  you  which  is  one  of  the  conundrums
+
+(24:27) that  ret  Traders  fall  into  they  don't
+
+(24:29) know  either  how  to  toggle  electronic
+
+(24:32) trading  hours  or  regular  trading  hours
+
+(24:33) and  even  if  they  do  they  don't  know  what
+
+(24:35) to  do  with  the  information  it's  hidden
+
+(24:37) it's  in  plain  sight  but  it's  hidden  from
+
+(24:39) them  you  don't  have  that  excuse  anymore
+
+(24:41) tonight  so  London  session  buy  side
+
+(24:44) liquidity  we're  seeing  that  raid  up  into
+
+(24:46) it  here  and
+
+(24:49) then  where's  the  low  in  that  remember  2
+
+(24:52) o'  to  5  o'  in  the  morning  New  York  local
+
+(24:54) time  that's  not  ambiguous  what  is  the
+
+(24:57) range  the  highest  high  and  the  lowest
+
+(24:59) low  here  and
+
+(25:02) here  so  if  we  rated  the  buy  side  and  we
+
+(25:06) did  it  on  a  run  that's  a
+
+(25:09) Judas  we  anticipate  that  as  a  false  run
+
+(25:14) higher  and  then  we're  going  to  see  does
+
+(25:17) it  shift  lower  how  can  we  use  that
+
+(25:19) information  well  you  can  use  the  2022
+
+(25:22) model  you  can  use  a  breaker  bearish
+
+(25:26) breaker  you  can  use  the  ICT  optimal
+
+(25:28) trade
+
+(25:31) entry  in  here  from  this
+
+(25:34) low  to  that  high  is  a  fair  value  gy  this
+
+(25:38) is  a  shift  in  Market  structure  below
+
+(25:39) this  low  right  there  that's  your  2022
+
+(25:42) model  or  optimal  trade  entry  what  would
+
+(25:45) you  be  aiming
+
+(25:47) for  London  session  sside
+
+(25:54) liquidity  do  you  have  to  sit  through  a
+
+(25:56) retracement  yes
+
+(25:58) but  we'll  cover  that  because  that  in
+
+(26:01) itself  is
+
+(26:02) also  a  range  that  we  utilize
+
+(26:07) intraday  notice  what  I'm  taking  you
+
+(26:10) through  the  whole  routine  of  24  hours
+
+(26:13) where  are  we  at  open  open  is
+
+(26:18) 9:30  we  have  to  wait  for  30  minutes
+
+(26:20) because  there's  going  to  either  be  a  run
+
+(26:22) higher  or  lower  or  it  may  consolidate
+
+(26:25) and  then  we'll  have  to  wait  for  the
+
+(26:26) 10:00  displacement  and  then  you  can  look
+
+(26:28) for  a  silver  bullet  between  10:00  and
+
+(26:30) 11:  or  you  could  use  a  run
+
+(26:33) into  the  lunch  macro  which  we  won't  talk
+
+(26:35) about  tonight  but  I  promise  you  I  will
+
+(26:37) be  teaching  those  things  I  can't  do
+
+(26:39) everything  in  one
+
+(26:40) lesson  everything  line  upon  line  preset
+
+(26:44) upon  precept  it'll  be  taught  here  and
+
+(26:46) there  but  before  November  you'll  have
+
+(26:48) more  than  you'll  ever
+
+(26:50) need  so  we  have  two  ranges  we've
+
+(26:53) identified  here  for  defining  where
+
+(26:55) liquidity  is  let  me  go  back  to
+
+(26:57) discussion  of  that  book  map  application
+
+(27:00) or
+
+(27:01) software  I  want
+
+(27:03) you  if  you  have  AA  availability  to  do
+
+(27:07) this  look  at  what  bookmap  is  saying  when
+
+(27:11) we're
+
+(27:12) trading  like
+
+(27:15) here  tools  like  that  will  start  showing
+
+(27:18) you  lots  of  liquidity  if  they're
+
+(27:20) accurate  right  below  that
+
+(27:22) low  if  it
+
+(27:25) matches  if  it  matches  the  that  I'm
+
+(27:28) teaching  here  tonight  then  it's  valid
+
+(27:31) and  that's  where  the  market  will  draw
+
+(27:34) to  every  little  small  little  liquidity
+
+(27:37) above  the  marketplace  or  below  the
+
+(27:39) marketplace  is
+
+(27:41) irrelevant  when  I  say  I'm  looking  for  a
+
+(27:43) draw  on  liquidity  I'm  looking
+
+(27:46) predominantly  around  the  levels  I'm
+
+(27:48) teaching  you  today  so  think  about  how
+
+(27:50) many  times  I've  called  things  on  Twitter
+
+(27:52) live  and  how  many  times  they  were
+
+(27:55) wrong  what  three  times  Maybe
+
+(27:59) it  everything's  on  Twitter  it's  not
+
+(28:01) deleted  it's  not  edited  I  don't  do  any
+
+(28:02) of  that  stuff  but  all  of  you  300,000
+
+(28:05) plus  now  have  watched  me  take  your
+
+(28:08) attention  to  a  specific  price  point  and
+
+(28:10) then  the  market  ran  off  and  went  right
+
+(28:13) to  it  how  was  I  doing  it  it's  what  I'm
+
+(28:16) teaching  you  tonight  you  can  do  this
+
+(28:20) folks  now  there  are  going  to  be  times
+
+(28:23) when  you  look  at  the  market  and  it's  not
+
+(28:24) going  to  be  clear  to  you  if  you  don't
+
+(28:26) have  a  clear  depiction  of  what
+
+(28:28) should  be  taking  place  where  the  market
+
+(28:30) should  draw  to  because  there's  going  to
+
+(28:30) be  times  when  I'm  either  going  to  be  on
+
+(28:32) vacation  or  I'm  not  going  to  Tweet  or
+
+(28:33) I'm  not  going  to  talk  about  something
+
+(28:35) I'm  living  in  life  so  if  it's  not  clear
+
+(28:38) to  you  what  it's  reaching
+
+(28:40) for  don't  put  a  trade  on  study  it  and
+
+(28:44) that  experience  will  grow  over  time  and
+
+(28:46) you'll  get  better  at  doing  it  but  when
+
+(28:48) you're  journaling  I  want  you  to  go  into
+
+(28:50) your  charts  and  journal  like
+
+(28:52) this  this  should  be  part  of  your
+
+(28:55) journaling  if  you  don't  journal  and
+
+(28:58) don't  record  these  types  of  things  your
+
+(28:59) brain  and  your  subconscious  can't  retain
+
+(29:01) it  it  needs  to  be  trained  and
+
+(29:03) conditioned  that  way  it  activates  your
+
+(29:05) particular  activating  system  so  that  way
+
+(29:08) it  allows  your  mind  to  see  it  and  then
+
+(29:10) when  you're  looking  at  Price  action  live
+
+(29:11) it'll  be  like  oh  I  got  to  look  oh
+
+(29:12) there's  that  high  I'm  looking  at  there's
+
+(29:14) that  low  I'm  looking  at  notice  we're
+
+(29:16) cutting  through  candles  folks  it's  not
+
+(29:18) supply  and  demand  and  it's  not  white  off
+
+(29:21) I'm  sorry  I  wish  it  could  be  something  I
+
+(29:23) could  point  to  and  say  go  over  there  and
+
+(29:24) learn  that  but  it  isn't  anywhere  else
+
+(29:30) all  right  opening  range
+
+(29:32) gaps  okay  opening  range  gaps  are  a
+
+(29:38) specific  event  that  takes  place  when
+
+(29:40) you're  utilizing  regular  trading
+
+(29:43) hours  so  let's  zoom
+
+(29:47) in  so  down  here  in  trading  view  you  want
+
+(29:50) to  make  sure  you're  toggled  to  regular
+
+(29:52) trading  hours  by  doing  that  what  it'll
+
+(29:54) do  is  it'll  remove  all  the  overnight
+
+(29:55) trading  so  you  won't  see  anything  like
+
+(29:57) London  or  anything  like  that
+
+(29:59) where  we  stop  trading  for  the  r  of
+
+(30:02) trading  in  hours  and  where  we  start
+
+(30:05) trading
+
+(30:07) again  at  9:30  is  opening  bell  that's
+
+(30:10) what  you're  seeing  okay  that
+
+(30:13) separation  that  is  my  opening  range  Gap
+
+(30:16) so  whenever  you  hear  me  say  an  opening
+
+(30:18) range  Gap  not  to  be  confused  with
+
+(30:21) opening  range  opening  range  is  the  first
+
+(30:24) 30  minutes  I  will  have  a  specific
+
+(30:26) teaching  in  its  entire  all  by  itself  on
+
+(30:29) this  video  I  mean  on  this  channel  it'll
+
+(30:31) be  opening  range  lecture  but  when  I  say
+
+(30:33) opening  range  that  is  the  first  30
+
+(30:35) minutes  after  the  opening  bill  at  9:30
+
+(30:37) so  specifically  it's  9:30  a.m.  New  York
+
+(30:39) local  time  to  10:00  a.m.  New  York  local
+
+(30:41) time  not  ambiguous  as  it  folks  very  very
+
+(30:44) specific  this  opening  range  Gap  is  where
+
+(30:48) we  stop  trading  using  regular  trading
+
+(30:50) hours  and  where  we  open  up  at
+
+(30:53) 9:30  if  there  is  a  gap  lower  at  9:30
+
+(30:59) you  will  see  this  Gap  here  it's  being
+
+(31:01) shaded  with  this  little  Orange
+
+(31:06) Box  it  doesn't  mean  it  wants  to  run  up
+
+(31:09) there
+
+(31:10) immediately  okay  and  this  is  what  I
+
+(31:12) watch  a  lot  of  YouTubers  that  understand
+
+(31:14) there  are  gaps  I  didn't  invent  a  gap  but
+
+(31:16) I  did  cutify  some  things  around  how  to
+
+(31:19) use  that  Gap  and  I'll  teach  more  about
+
+(31:22) that  also  in  its  own  lesson  but  tonight
+
+(31:26) I  want  you  to  think  about  how  where  the
+
+(31:28) market  reaches
+
+(31:29) for
+
+(31:31) liquidity  where  it  reaches  for  that
+
+(31:34) liquidity  and  where  does  it  want  to  go
+
+(31:36) to  after  it  goes
+
+(31:38) there  this  low  over
+
+(31:40) here  right  in
+
+(31:42) here  that  low  is  occurring  in  the
+
+(31:46) morning  session  or  the  am  session
+
+(31:48) between  9:30  and  noon  so  what  would  be
+
+(31:52) residing  below  that  sell  stops  so  we
+
+(31:55) call  that  sells  side  liquidity  so  we  Gap
+
+(31:58) lower  and  then  run  into  that  liquidity
+
+(32:01) right  there  using  regular  trading  hours
+
+(32:05) now  if  you're  using  electronic  trading
+
+(32:07) hours  you
+
+(32:09) may  have  a  lower  low  overnight  and  then
+
+(32:13) in  words  between  these  two  price  points
+
+(32:15) here  where  we  closed  at  regular  trading
+
+(32:18) session  and  open  at  regular  trading
+
+(32:21) session  between  those  two  price  points
+
+(32:23) you  have  all  of  the  6:00  pm  to  9:30  in
+
+(32:26) the  morning  worth  of  trading  that  could
+
+(32:29) have  made  a  lower  low  here  I  don't
+
+(32:34) care  what  I  don't
+
+(32:38) care  if  I'm  going  to  refer  to  the
+
+(32:40) opening  range  Gap  and  we  get  a  gap  lower
+
+(32:43) like  this  I'm  filtering  out  all  of
+
+(32:46) overnight  price  that's
+
+(32:49) it  now  is  that
+
+(32:51) ambiguous  is  that
+
+(32:54) complicated  no  what  low  would  I  you
+
+(32:57) looking  at  well  on  regular  trading  hours
+
+(32:58) on  this  chart  that's  a  pretty  obvious
+
+(33:00) low  isn't  it  that's  the  stuff  I've  been
+
+(33:03) doing  on
+
+(33:04) Twitter  I'm  picking  the  right  highs  and
+
+(33:06) lows  folks  because  there's  a  method
+
+(33:08) behind  what  I'm  doing  I'm  not  inventing
+
+(33:10) it  as  I  go  I'm  not  going  off  on  a  whim
+
+(33:12) making  up  as  I  go  I've  been  doing  this
+
+(33:13) stuff  for  30  years  it's  the  same  stuff
+
+(33:16) all  the  time  it's  a  well-  written  well
+
+(33:19) read  novel  to  me  that's  why  I'm  so
+
+(33:22) consistent  that's  why  I'm  accurate  and
+
+(33:24) if  you  stick  to  these  rules  you  will
+
+(33:26) become  this  accurate  too  it's
+
+(33:28) transferable  you  should  be  excited  I
+
+(33:30) know  some  of  you  are  grinning  like  [ __ ]
+
+(33:32) right  now  you're  thinking  man  if  I  would
+
+(33:33) have  had  this  stuff  just  a  couple  months
+
+(33:35) ago  I  could  have  passed  my  funded
+
+(33:37) account  challenge  I  could  have  done  this
+
+(33:38) I  could  have  done  that  I  could  have
+
+(33:39) bought  a
+
+(33:40) boat  a  jet  ski  a  car  a  down  payment  on
+
+(33:44) the
+
+(33:45) house
+
+(33:47) M  but  you  have  to  go  one  step  at  a
+
+(33:50) time  now  the  opening  range  Gap  if  we  run
+
+(33:55) to  a  pool  quity  like  this
+
+(33:59) here  wouldn't  it  make  sense  since  we're
+
+(34:02) now  into  a  discount  and  inside  of
+
+(34:05) liquidity  below  old  lows  we're  in  cell
+
+(34:07) side  now  we've  already  moved  a  lot  from
+
+(34:10) the  previous  session  here
+
+(34:15) here  what  would  be
+
+(34:18) reasonable  well  look  at  the  economic
+
+(34:22) calendar  today  we  had  the  Fed  chair  pal
+
+(34:26) jaw  boning  at  10  10:00  in  the  morning  do
+
+(34:29) we  trade  around  pal  or  fed  share
+
+(34:33) testimonies  no  not  if  you're  new  not  if
+
+(34:37) you're  trying  to  keep  your  money  not  if
+
+(34:39) you  don't  want  to  be  a
+
+(34:42) gambler  you  wait  and  you  wait  for  what
+
+(34:46) the  PM  session  exactly  what  I  said  this
+
+(34:49) morning  on
+
+(34:50) Twitter  I  said  in  Twitter  I  said  today
+
+(34:53) and  tomorrow  Fed  chair  will  be
+
+(34:56) testifying  so  you  want  to
+
+(34:58) what  trading  the  afternoon  if  you're
+
+(35:01) going  to  trade  at  all  the  probabilities
+
+(35:02) are  going  to  be  high  in  your  favor  if
+
+(35:05) you  wait  till  the  afternoon  that  means
+
+(35:07) 1:30  in  the  afternoon  New  York  local
+
+(35:09) time  to  4:00
+
+(35:12) close  is  that
+
+(35:14) ambiguous  is  that
+
+(35:16) complicated
+
+(35:19) no  wouldn't  you  know  it  there's  a  low
+
+(35:21) here  it  forms  at  1:00  and  then  at  1:30
+
+(35:25) or  so  it  creates  another  low  here
+
+(35:28) H  that's  pretty
+
+(35:30) interesting  what  happens  after  that  low
+
+(35:33) forms  it  runs  right  on  up  into  that
+
+(35:36) opening  range  Gap  so  all  of  this  mess  in
+
+(35:41) here  every  Instagram  Trader  every
+
+(35:43) Twitter  hero  every  YouTube  Trader  live
+
+(35:47) streamer  they're  in  there  trying  to  look
+
+(35:48) for  patterns  when  there  is  nothing  to
+
+(35:52) trust  it's  going  to  be  running  around
+
+(35:54) going  a  muck  just  seeking  liquidity  and
+
+(35:58) it  will  frustrate
+
+(36:00) you  that's  the  reason  why  I  tell  you  to
+
+(36:02) focus  on  the  sweet  spots  in  the
+
+(36:04) marketplace  I  don't  care  about  retail
+
+(36:06) Rick  that's  going  to  come  after  the  fact
+
+(36:08) because  he's  not  going  to  tell  you  on
+
+(36:09) Twitter  when  I'm  tweeting  and  saying  oh
+
+(36:11) you  said  don't  do  this  I'm  GNA  go  in
+
+(36:12) here  I  trade  that  they  don't  ever  do
+
+(36:13) that  they'll  come  back  two  hours  later
+
+(36:16) and  they'll  say  look  what  I  did  over
+
+(36:19) here  so  stop  listening  to  those
+
+(36:22) neopit  the  logic  that  I'm  sharing  don't
+
+(36:25) take  my  word  for  it  go  into  the  charts
+
+(36:27) and  you  will  be  convinced  of  it  100%
+
+(36:30) guarantee  I  guarantee  you  you  will  see
+
+(36:33) this  logic
+
+(36:35) there  so  it  runs  up  into  the  opening
+
+(36:37) range  Gap
+
+(36:38) after  after  the  New  York  lunch  after  the
+
+(36:43) morning  session
+
+(36:46) chop  and  it  runs  to  a  log  logical  level
+
+(36:50) based  on  the  information  I'm  showing  you
+
+(36:52) here  see  in  the
+
+(36:55) morning  a  lot  of  folks  that  understand
+
+(36:57) this  Gap  exists  we're  looking  for  any
+
+(36:59) reason  to  run  right  up  there  then  no
+
+(37:02) they're  they're  not  going  to  see  it  why
+
+(37:03) because  they  don't  understand  time  the
+
+(37:05) algorithm  runs  on
+
+(37:08) time  it  Engineers  liquidity  in  the
+
+(37:10) morning  session  and  then  it  Engineers  it
+
+(37:13) going  into  lunch  and  then  it  runs  on
+
+(37:15) that
+
+(37:16) liquidity  why  would  they  want  to  do  that
+
+(37:19) we'll  talk  about
+
+(37:24) that  New  York  lunch  raid
+
+(37:29) now  in  the  old  days  and  I  was  trading
+
+(37:33) when  the  old  days  were  the  thing  before
+
+(37:35) electronic
+
+(37:36) trading  uh  we  had  open  out  cry  pits  and
+
+(37:39) when  you  called  into  the
+
+(37:41) broker  they  would  answer  the  phone  you
+
+(37:43) had  to  wait  for  them  to  answer  the  phone
+
+(37:44) by  the  way  and  then  get  transferred  to
+
+(37:46) the  trading  desk  that  you
+
+(37:49) are  seeing  the  account  managers  for  that
+
+(37:52) account  you  have  and  you  got  to  go
+
+(37:53) through  the  process  of  giving  them  your
+
+(37:55) account  number  and  then  your  PIN
+
+(37:57) and  then  you  got  to  give  them  your  order
+
+(38:01) they  repeat  the  order  the  whole  time  the
+
+(38:02) Market's
+
+(38:03) trading  then  they  ask  you  if  you  want  to
+
+(38:06) wait  for  your
+
+(38:08) fill  and  if  you  say  I'm  going  to  wait
+
+(38:10) for  my  fill  you're  put  on  hole  for  a
+
+(38:12) minute  or  two  then  they  come  back  and
+
+(38:14) they  tell  you  confirmation  number  and
+
+(38:15) where  you
+
+(38:16) filled  and  many  times  you're  upset
+
+(38:18) because  you  have  real
+
+(38:20) slippage  because  you're  all  spoiled  you
+
+(38:23) know  press  a  button  you're  in  there
+
+(38:25) right  and  the  open  out  cry  in  the  pits
+
+(38:30) would  have  a  lunch  hour  where  it  was
+
+(38:34) very  almost  like  a  routine  unless  it  was
+
+(38:36) a  big  trending
+
+(38:38) day  the  lunch  hour  between  noon  and  100
+
+(38:42) p.m.  New  York  local  time  would  generally
+
+(38:45) be  a  consolidation  now  the  way  we  could
+
+(38:48) use  that  back  then  and  I'm  going  to  show
+
+(38:50) you  how  I  use  it  now  but  for  historical
+
+(38:52) purposes  I'm  giving  you  a  reference  on
+
+(38:54) how  I  become  ICT
+
+(38:57) the  lunch
+
+(38:59) hour  many  times  was  a
+
+(39:02) reversal  and  whatever  took  place  in  the
+
+(39:04) morning  was  completely  reversed  on  and
+
+(39:06) then  if  it  was  a  trending  day  it  would
+
+(39:07) just  keep  on  going  and  it  would  repeat
+
+(39:09) whatever  the  morning  low  was  up  the
+
+(39:11) lunch  high  and  then  run  into  3:00  4:00
+
+(39:14) and  that  would  be  their  full  Daily  range
+
+(39:17) other  days  if  it  was  bullish  it  would  go
+
+(39:18) up  then  consolidate  during  the  12
+
+(39:21) o'clock  and  1  o'clock  in  the  afternoon
+
+(39:22) and  then  do  the  same  move  in  the
+
+(39:24) afternoon  between  2  o'clock  and  4:00
+
+(39:26) that  it  did  in  the  morning  session  but
+
+(39:28) it  would  do  it  in  half  the
+
+(39:30) time  so  it  was  a  measured  move  ABCD  type
+
+(39:33) of
+
+(39:35) profile  and  other  days  you  would  see
+
+(39:37) just  a  morning  move  and  then  consolidate
+
+(39:38) lunch  and  then  stay  Consolidated  the
+
+(39:40) rest  of  the
+
+(39:42) day  and  same  thing  if  it  was  a  bearish
+
+(39:44) day  it  would  create  the  morning  move
+
+(39:45) then  consolidate  in  lunch  and  do  nothing
+
+(39:48) extra  and  that  was  pretty  it  that  was
+
+(39:50) pretty  much  it  that  was  that  was  the
+
+(39:51) profiles  that  existed  back  then  now  you
+
+(39:55) might  be  thinking  well  that's  all  well
+
+(39:56) and  good  Michael  but  which  one  do  you
+
+(39:58) use  well  which  one  would  you  expect
+
+(40:00) based  on  the  economic  calendar  the  draw
+
+(40:02) on  liquidity  for  the  weekly  range  what
+
+(40:03) is  it  trying  to  do  where's  it  reaching
+
+(40:05) for  all  those  things  have  to  be  balanced
+
+(40:09) that  still  requires  you  and  your  study
+
+(40:12) to  get  to  that  degree  of  un  well
+
+(40:16) understanding  and  implementing  the
+
+(40:18) things  I'm  teaching  but  you  have  no
+
+(40:20) excuse  when  I'm  pointing  to  it  in
+
+(40:21) advance  I'm  taking  you  to  the  higher
+
+(40:22) time  frame  weekly  charts  I'm  telling  you
+
+(40:24) where  the  Market's  going  to  go  and  we
+
+(40:25) watch  it  daily  and  weekly  move  thousands
+
+(40:29) of
+
+(40:30) points  not  five  handles
+
+(40:33) thousands  hundreds  okay  so  it  gives  you
+
+(40:38) time  and  opportunity  to  get  in  sync  with
+
+(40:40) that  type  of  move  you  don't  have  to  have
+
+(40:42) the  lowest  low  and  the  highest
+
+(40:44) high  so  a  New  York  launch  raid  between
+
+(40:47) noon  New  York  local  time  to  1:30
+
+(40:51) p.m.  but  ICT  you  just  said  it's  an  hour
+
+(40:55) long  noon  to  1:30
+
+(40:58) and  there's  people  out  there  say  oh  the
+
+(40:59) market  doesn't  care  about  nobody's  going
+
+(41:00) to
+
+(41:03) lunch  uh  the
+
+(41:05) algorithm  doesn't  take  lunch  but  it  runs
+
+(41:07) on  that
+
+(41:08) liquidity  so  everything  that  was
+
+(41:12) utilized  since  the  dawn  of  Market
+
+(41:15) manipulation  when  the  powers  that
+
+(41:18) be  figured  out  that  they  could
+
+(41:21) just  run  a  numbers  game  and  everybody
+
+(41:24) thinks  it's  a  free  market  and  they  think
+
+(41:26) it's  and  selling  pressure  that  makes
+
+(41:28) these  markets  go  up  and  down  and  where
+
+(41:29) they
+
+(41:32) go  they  utilized  that  information  that
+
+(41:34) it  was  not  efficient  at  all  when  it  was
+
+(41:37) used  in  an  open
+
+(41:39) outcry  and  that
+
+(41:41) price  that  manipulation  that
+
+(41:45) engineering  of  Market
+
+(41:47) Direction  was  made  much  more  efficient
+
+(41:49) when  electronic  trading  took
+
+(41:52) over  so  nothing  has  changed  in  regards
+
+(41:56) to  Market  manipulation  in  Market  making
+
+(41:59) we're  not  talking  about  dealers  folks
+
+(42:01) okay  if  somebody's  out  there  saying  I'm
+
+(42:02) a  market  maker  I'm  a  former  Market  maker
+
+(42:04) you  are  not  a  market  maker  you  are  a
+
+(42:07) dealer  the  folks  that  are  in  control  of
+
+(42:09) price  where  it's  going  to  go  how  high
+
+(42:10) it's  going  to  go  how  low  it's  going  to
+
+(42:11) go  that's  who  I'm  talking  about  and  you
+
+(42:13) don't  see  them  they  don't  have  a
+
+(42:15) face  all  of  that's  been  changed  now  and
+
+(42:17) it's  algorithmic  it's  highly  efficient
+
+(42:20) they  never  get  sick  they  never  mess  up
+
+(42:24) because  it's  100%  electronic
+
+(42:27) it's  following  code  it's  following
+
+(42:31) instructions  period  it's  all  delivered
+
+(42:34) on
+
+(42:35) time  so  a
+
+(42:38) lunch  run  on  liquidity  a  raid  if  you
+
+(42:43) will  you  have  to  define  the  range
+
+(42:46) between  12:00  and
+
+(42:49) 1:30  but  you  said  it's  an  hour  long  1:30
+
+(42:53) starts  the  PM
+
+(42:54) session  that's  when  the  algorithm  can
+
+(42:56) start  doing  its  macro  a  macro  is  a  short
+
+(42:59) order  of  instructions  that  will  create
+
+(43:03) an  event  in  price
+
+(43:08) delivery  your  focus  needs  to  be  on  the
+
+(43:10) highest  high  and  the  lowest
+
+(43:13) low  I'm  showing  you  the  highest  high  in
+
+(43:18) 12  to  1:00  because  there's  nothing
+
+(43:21) higher  than  the  high
+
+(43:24) here  the  low  formed  here  between  12:00
+
+(43:29) and  1:30  that's  the  lowest  low  here  so
+
+(43:31) we  see  this  low  it  drops  down
+
+(43:35) there  if  we're  expecting  price  to  be
+
+(43:38) bullish  and  it's  not  done  anything  in
+
+(43:41) the  morning  Pal's  talking  uh  there's  a
+
+(43:45) afternoon  event  that's  expected  like
+
+(43:47) fomc  something  to  that  effect  you  avoid
+
+(43:51) the  morning  session  let  everybody  else
+
+(43:55) Chase  everybody  else's  opinion
+
+(43:58) and  ignorance  on  social  media
+
+(44:00) everybody's  looking  for  the  the  guy  with
+
+(44:02) the  hot  hand  the  guy  that's  doing  all
+
+(44:04) the  trades  the  guy  that  knows  or  the  gal
+
+(44:07) in  difference  to  the  ladies  that  do
+
+(44:09) trading  they're  looking  for  the  people
+
+(44:12) that  have  something  to  say  about  the
+
+(44:13) market  right  now  and  if  they've  been
+
+(44:14) right  in  the
+
+(44:15) past  well  damn  it  they're  going  to  be
+
+(44:17) right  today  let  me  follow  what  they're
+
+(44:20) doing  no  you  trailblaze  your  own  path
+
+(44:24) using  this  information  you  will  be
+
+(44:27) confident  that  you  have  no  requirement
+
+(44:30) to  be  in  anybody's  membership  or
+
+(44:32) audience  you'll  be  able  to  do  this  make
+
+(44:34) your  bread  and  then  go  live  your  life
+
+(44:36) and  do  whatever  you  want  to  do  not  be
+
+(44:37) chained  to  these  charts  not  looking  at
+
+(44:39) what  I'm  doing  on  Twitter  because  in
+
+(44:41) November  in  2023  that's
+
+(44:45) stops  you  have  to  do  all  these  things  on
+
+(44:47) your  own  and  that  should  not  be  scary  it
+
+(44:49) should  be  exciting  I'm  excited  for  you
+
+(44:53) but  the  session  high  and  session  low  for
+
+(44:55) lunch  hour
+
+(44:57) well  I  guess  it's  really  technically  90
+
+(44:58) minutes  isn't
+
+(45:00) it  did  he  said  90  minutes
+
+(45:05) whoops  the  low  here  we  can  see  it
+
+(45:08) running  down  taking  that  when  we're
+
+(45:10) expected  to  go  higher  what  do  you  think
+
+(45:13) exists  up  here  that's  not  being  noted  on
+
+(45:15) the
+
+(45:20) chart  we'll  get  back  to
+
+(45:23) that  the  market  starts  its  run  at  130
+
+(45:26) completely  random  now  you're  probably
+
+(45:28) watching  this  video  and  you've  never
+
+(45:30) seen  anything  else  by  me  or  never
+
+(45:31) listened  to  Twitter  spaces  that  I've
+
+(45:34) done  and  you  don't  know  that  I've  said
+
+(45:36) that  time  at  1:30  you  don't  know  that
+
+(45:39) I've  said  this  many  many  times  referring
+
+(45:43) about  the  New  York
+
+(45:45) lunch  and  how  there's  an  algorithm  that
+
+(45:48) controls  price  and  there's  a  macro  that
+
+(45:50) begins  at  1:30  that  sets  the  tone  and
+
+(45:53) pace  for  the  2  o'clock  to  3:00  Silver
+
+(45:55) Bullet  baby
+
+(45:59) H
+
+(46:02) H  the  dots  are  starting  to  connect
+
+(46:05) aren't  they  starting  to  see  a  little  bit
+
+(46:08) more  of  the
+
+(46:10) tapestry  that's  been  that's  eluded  you
+
+(46:13) and  everybody  else  out  there  that
+
+(46:15) doesn't  believe  there's  an  algorithm
+
+(46:16) doesn't  believe  that  these  markets  are
+
+(46:18) absolutely  controlled  by
+
+(46:22) AI  I  promise  you  that's  exactly  what's
+
+(46:25) going  on
+
+(46:29) we  want  to  see  when  we're  bullish  the
+
+(46:31) market  drop  down  and  take  out  the  New
+
+(46:34) York  lunch
+
+(46:38) lows  even  if  it's  going  to
+
+(46:42) reverse  you  can  trade
+
+(46:46) that
+
+(46:50) here  how  can  you  trade
+
+(46:52) that  wait  for  a  shift  in  Market
+
+(46:54) structure
+
+(46:57) value
+
+(46:57) Gap  don't  trust  the  five  minute  chart
+
+(47:00) I've  already  shown  you  today  using  a
+
+(47:02) 15-second  chart  and  we'll  get  to  that
+
+(47:04) too  what  do  he  say  a  15c  chart  yes  yes
+
+(47:08) friends  and  neighbors  price  is  price  and
+
+(47:11) you  have  to  look  where  the
+
+(47:12) inefficiencies  are  and  every  retail
+
+(47:14) Trader  is  using  a  15-minute  chart  an
+
+(47:16) hourly  chart  a  4  Hour
+
+(47:18) chart  and  there's  this  taboo  around  five
+
+(47:21) minute  charts  or  less  because  they're
+
+(47:23) not  informed  they're  not  initiated
+
+(47:28) they  think  it's  noise  they're  part  of
+
+(47:30) the  Goldman  Sachs  cult  sorry  boys  but
+
+(47:33) price  is  price  and  whatever  you  see  in
+
+(47:35) terms  of  measuring  it  using  a  Time  based
+
+(47:38) chart  you  have  every  advantage  using  a
+
+(47:41) Time  based
+
+(47:43) chart  in  fact  that's  the  only  way  you're
+
+(47:45) going  to  see  it  so  don't  listen  to
+
+(47:48) people  that  say  don't  look  at  the  time
+
+(47:49) based  chart  it's  nonsense  wrong  right
+
+(47:52) away  that  tells  you  they  have  no  idea
+
+(47:55) algorithmic  delivery  mm-  it  escapes  them
+
+(48:00) sorry  it  runs  on  time  time  is  the  first
+
+(48:04) Factor  what  am  i  showing  you  here
+
+(48:06) tonight  very  specific  Windows  of  time
+
+(48:08) and  what  to  reference  it  in  terms  of
+
+(48:10) liquidity  go  back  and  look  at  my
+
+(48:12) examples  folks  your  draw  is  going  to  hit
+
+(48:14) the  floor  it's  always  been
+
+(48:17) there  and  it's  always  been  explained  to
+
+(48:19) you  in  those  long  winded  rants  the  stuff
+
+(48:23) that  you  say  I'm  boring  no  I'm  teaching
+
+(48:26) you  I'm  trying  to  teach  you  everything
+
+(48:29) that  would  bring  you  as  close  as  I  can
+
+(48:31) bring  you  without  having  the  30  years
+
+(48:34) experience  I  had  so  I'm  I'm  taking  you
+
+(48:37) FasTrack  through  three  decades  of
+
+(48:40) understanding  and  if  you  don't  have  the
+
+(48:42) patience  to  sit  through  whatever  the
+
+(48:43) duration  is  for  the
+
+(48:45) lecture  that's  a  little  bit  myopic  and
+
+(48:48) unrealistic  you're  selling  yourself
+
+(48:50) short  I  don't  care  if  you  learn  it
+
+(48:52) really  and  if  you're  going  to  be  lazy  I
+
+(48:54) don't  care  but  if  you  really  want  to
+
+(48:56) learn  it  telling  you  what  to  do  I'm
+
+(48:58) telling  you  what  to  avoid  where  your
+
+(49:00) focus  should
+
+(49:01) be  if  you're
+
+(49:04) bearish  you  can  wait
+
+(49:06) for  a  run  up  into  the  opening  range
+
+(49:11) Gap  take  out  a  lunch  bide  liquidity  pool
+
+(49:16) and  then  watch  and  see  how  it  trades
+
+(49:18) back  below  the  New  York  lunch
+
+(49:22) high  if  there's  a  displacement  what  does
+
+(49:25) that  mean
+
+(49:27) see  that  low  right
+
+(49:28) here
+
+(49:30) displacement  what  does  it  leave  this
+
+(49:33) candle's  high  and  that  candle's  low  what
+
+(49:34) is
+
+(49:36) that  that's  random  look  at  that  it's
+
+(49:39) like  it's  just  you  know  has  no  Rhyme  or
+
+(49:42) Reason  right
+
+(49:44) wrong  that's  your  2022
+
+(49:49) model
+
+(49:52) boom  sell  short  aim  for  what  ICT
+
+(49:58) the  New  York  lunch  low  well  it  made  this
+
+(50:01) one  here  at  one  o00  but  you  can  use  this
+
+(50:03) one  while  you're  long  or
+
+(50:05) bullish  I  know  it  looks  cherry-picked
+
+(50:07) and  talking  I  promise  I  got  something
+
+(50:09) for  you  to  thinking  that  right  now  I
+
+(50:10) promise  you  just  sit  tight  but  in  the
+
+(50:13) afternoon  session  you  can  see  how  that
+
+(50:16) lunch  hour  plus  30  minutes  that  90
+
+(50:19) minute
+
+(50:20) window  that  low  right  here  is  where  sell
+
+(50:22) side  resides  and  in  the  PM  session  it
+
+(50:25) raids  that  liquidity
+
+(50:27) but  I  C  look  man  there's  some  relative
+
+(50:30) equal  lows  down  there  and  you  teach
+
+(50:31) relative  equal  lows
+
+(50:33) right  but  before  you  get  there  where's
+
+(50:36) the  next
+
+(50:38) logical  rign  to  look  for  for  in  terms  of
+
+(50:41) liquidity  that  lunch  hour  or  90minut
+
+(50:47) period  now  I  said  a  lot  of  talking  about
+
+(50:50) things  that  some  of  you  get  pissed  off
+
+(50:52) about  because  you  think  I'm  thumbing  my
+
+(50:54) nose  that  you  were  talking  down  to  you
+
+(50:55) but  no  I'm  talking  to  you  like  a  friend
+
+(50:57) if  you  were  friends  with  me  from
+
+(50:59) childhood  this  is  exactly  how  i'  talk  to
+
+(51:02) you  I  know  what  I'm  talking  about  I  know
+
+(51:04) how  to  make  crazy  ass  profitable
+
+(51:07) Traders  but  I  also  have  students  that
+
+(51:09) are  [ __ ]  lazy  they're  not  going  to  do
+
+(51:11) what  I  tell  them  to  do  and  they're  going
+
+(51:12) to  make  excuses  why  they  failed  because
+
+(51:14) they  didn't  listen  and  they  rushed  too
+
+(51:16) fast  to  get  into  live
+
+(51:18) trading  that's  your  mistake  that's  not
+
+(51:21) my  mistake  in  hiding  things  from  you  I
+
+(51:23) didn't  do  that  I'm  not  doing  it  here
+
+(51:25) tonight  either
+
+(51:27) you  have  every  Advantage  after
+
+(51:31) tonight  going  in  looking  at  what  I'm
+
+(51:33) looking  for  where  am  I
+
+(51:35) focusing  I  promise  you  after  tonight
+
+(51:37) your  shit's  going  to  be
+
+(51:39) different  yes  it's  going  to  have
+
+(51:46) nuts  am  session
+
+(51:48) ranges  9:30  in  the  morning  to
+
+(51:52) noon  so  right
+
+(51:54) away  we  are  considering  this  in  the
+
+(51:58) afternoon  so  we  can  always  refer  to  it
+
+(52:01) in  the  same  trading
+
+(52:02) day  so  we  could  be  anticipating  a  market
+
+(52:05) reversal  profile  something  to  that
+
+(52:08) effect  if  we  have  an  elongated  Market
+
+(52:14) where  say  the  New  York  session  morning
+
+(52:17) session  rather  of  the  current  trading
+
+(52:20) day  is  consolidation  and  then  we  have  a
+
+(52:23) directional  lunch  hour  or  during  the
+
+(52:26) lunch  hour  it's  you  consolidation  as
+
+(52:28) well  we  can  refer  to  and  if  we're
+
+(52:31) bearish  we  look  at  the  previous  sessions
+
+(52:34) trading  now  if  you  look  at  the  previous
+
+(52:37) session  and  you're  using  electronic
+
+(52:39) trading  what  specific  low  am  I  looking
+
+(52:43) for  I'm  looking  at  the  9:30  in  the
+
+(52:45) morning  to
+
+(52:46) noon  if  I'm  not  going  to  look  at  the  PM
+
+(52:49) session  range  remember  I'm  taking  you
+
+(52:51) through  very  specific  pools  of  liquidity
+
+(52:54) I'm  going  to  look
+
+(52:55) past  the  PM
+
+(52:58) session  well  why  would  I  do  that  because
+
+(53:01) we're  already  trading  below  it  over
+
+(53:05) here  so  would  I  refer  to  it  for  sell
+
+(53:08) side  no  we're  already  below  it  so  if  I'm
+
+(53:10) bearish  what  am  I  looking  for  what  low
+
+(53:12) am  I  looking  for  which  draw  on  liquidity
+
+(53:14) am  I  looking
+
+(53:16) for  in  this  regard  I'm  using  the  am
+
+(53:19) session  sside
+
+(53:20) liquidity  if  I  was  bullish  it  would  be
+
+(53:22) everything  I  just  said  here  in  reverse
+
+(53:24) and  opposite  I  would  be  looking  for  the
+
+(53:26) side  but  if  we're  bearish  I'm  looking
+
+(53:29) for  very  specific  pools  of  liquidity  if
+
+(53:32) I  showed  this  on  regular  trading  hours
+
+(53:34) it  would  still  get  that  low  very
+
+(53:38) important  even  though  I'm  showing  you
+
+(53:40) down
+
+(53:40) [Music]
+
+(53:42) here  the  electronic  trading  hours  I'm
+
+(53:45) doing  this  for  the  sake  of  showing  you
+
+(53:46) an  understanding  that  whether  your  chart
+
+(53:50) is  on  regular  trading  hours  or
+
+(53:52) electronic  trading  hours  and  I'm  looking
+
+(53:53) at  previous  daily  range  or  if  I  want  to
+
+(53:57) trade  below  yesterday's  lows  what  low  am
+
+(54:00) I  looking  at  the  PM  session
+
+(54:04) low
+
+(54:06) or  the  am  session  L  very  very  specific
+
+(54:10) not  ambiguous  not  well  I  don't  know
+
+(54:13) which  one  he's  looking  at  he's  always
+
+(54:14) changing  [ __ ]  around  no  I'm  not  it's
+
+(54:16) always  the  same  stuff  always  the  same
+
+(54:18) logic  always  the  same
+
+(54:20) logic  what's  changing  is  the  profile
+
+(54:24) that  I'm  operating  in  because  the  market
+
+(54:26) delivering  a  specific  way  and  I  have  to
+
+(54:28) adapt  to  that  and  then  I  anticipate  I'm
+
+(54:32) not  reacting  to  price  I'm  anticipating
+
+(54:34) where  it's  going  to  run  to  what  does
+
+(54:37) that  mean  everything  I'm  teaching  you
+
+(54:39) tonight  now  I  don't  expect  you  to  watch
+
+(54:42) this  tonight  and  walk  away  feeling  like
+
+(54:44) you  know  everything  about  what  I  just
+
+(54:45) said  you're  going  to  need  to  watch  it  a
+
+(54:46) few
+
+(54:48) times  and  if  it's  something  you  don't
+
+(54:49) want  to  do  you  won't  learn  it  I  promise
+
+(54:53) you  you  won't  learn  it  one  time  watching
+
+(54:54) it  ain't  going  to  work  you  need  to
+
+(54:56) listen  to  what  I'm  saying  in  here  and
+
+(54:58) then  go  into  your
+
+(54:59) charts  spend  weeks  and  months  going  back
+
+(55:02) through
+
+(55:03) it  that's  what  will  convince  you  that
+
+(55:06) this  is  Sound  Logic  it's  not  contrived
+
+(55:08) it's  not  conjecture  it's  not  made  up
+
+(55:11) it's  absolutely  what  the  market  does
+
+(55:14) every  week  every  day  and  it  will  not
+
+(55:21) stop  so  you  can  see  the  previous  am
+
+(55:23) session  low  over  here  s  side  liquidity
+
+(55:25) this  dotted  line  here  denotes  we're
+
+(55:27) looking  at  the  20th  of  June
+
+(55:31) 2023  so  I  can't  use  the  afternoon
+
+(55:34) session  high  and  low  because  we've
+
+(55:37) already  starting  at  9:30  we're  already
+
+(55:39) below  that  so  what  am  I  looking  for  ICT
+
+(55:43) what  am  I  supposed  to  be  looking
+
+(55:45) for  that
+
+(55:47) low  it  doesn't  matter  if  it  was  a  lower
+
+(55:50) low  okay  listen  if  there  was  electronic
+
+(55:54) trading  hours  showing  and  it  had  a  lower
+
+(55:57) low  and  it  went  below  that  low  here  I
+
+(55:59) would  still  listen  I  would
+
+(56:03) still  refer  to  the  PM  session  range  as
+
+(56:06) as  I  mentioned  a  little  bit  ago  in  this
+
+(56:07) presentation  tonight  and  before  that  one
+
+(56:11) I  would  go  to  this  specific  range
+
+(56:13) here  it's  specific
+
+(56:15) time  I  don't  care  about  overnight  highs
+
+(56:19) and  lows  I'm  looking  at  very  specific
+
+(56:21) regular  trading
+
+(56:23) hours  regular  trading  hours  is  going  to
+
+(56:26) be  referred  to  in  next  trading  session
+
+(56:29) they're  either  going  to  be  respected  or
+
+(56:31) blown
+
+(56:32) out  it's  simple  that's  not
+
+(56:40) hard  all  right  so  let's  blend  some
+
+(56:42) things  here  okay  so  as  you  can  see  we
+
+(56:45) have  several  things  here  in  this  chart
+
+(56:47) and  this  is  today's  trading  the  21st  of
+
+(56:49) June  2023  and  it's  the  E  Min  S&P  and  I
+
+(56:53) photoshopped  some  things  in  here
+
+(56:56) obviously  the  ous  by  saying  that  uh  the
+
+(56:59) opening  range  as  I  taught  you  here
+
+(57:01) tonight  that  was  one  of  the  factors  I
+
+(57:03) utilized  today  in  the  if  you're
+
+(57:05) following  me  on  Twitter  I  showed  my  PM
+
+(57:08) session  trade  which  is  what  you're
+
+(57:09) seeing  here  using
+
+(57:11) everything  that  I  taught  you
+
+(57:14) tonight  let's  go  through  it
+
+(57:17) okay  this  morning  we  were  watching  Fed
+
+(57:21) chair
+
+(57:22) Pal  give  his  testimony  at  10
+
+(57:24) o'clock  and  I  had  my  favorite  Usual
+
+(57:27) Suspects  that  I  like  following  on
+
+(57:28) Twitter  not  Twitter  on  YouTube  rather
+
+(57:32) and  those  that  were  live  streaming  I
+
+(57:33) listen  to  them  and  no  disrespect
+
+(57:37) gentlemen  and  ma'am  uh  they  had  really
+
+(57:41) no  idea  what  was  going  on  which  is
+
+(57:44) exactly  what  one  would  expect  because
+
+(57:47) the  Market's  gting  and  going  sideways
+
+(57:50) it's  just  churning  up  accounts  going
+
+(57:52) sideways  beating  up
+
+(57:54) everybody  you  have  to  wait
+
+(57:57) until  we  get  through  lunch  if  Fed  chair
+
+(57:59) pal  is  going  to  talk  and  it's  a  10:00
+
+(58:02) testimony  or
+
+(58:05) whatever  wait  wait  for  lunch  just  wait
+
+(58:08) for
+
+(58:10) lunch  if  you  do
+
+(58:12) that  you  will  get  the  cleanest  setup  for
+
+(58:16) the  day  the  easy  what  what  does  that
+
+(58:18) mean  cleanest  setup  Michael  what  do  you
+
+(58:20) mean  when  you  say
+
+(58:23) that  where  everything  just  simply  jumps
+
+(58:25) off  the  chart  and  just  it  makes  itself
+
+(58:29) very  obvious  you  want  setups  that  are
+
+(58:31) very  obvious  that's  clean  okay  I  don't
+
+(58:35) want  you  as  my  student  going  into  the
+
+(58:37) marketplace  and  trying  to  just  be  an
+
+(58:38) action  hound  and  try  to  trade
+
+(58:41) everything  I  don't  teach  my  students  to
+
+(58:43) do  that  the  ones  that  blow  their
+
+(58:45) accounts  or  fail  their  funded  account
+
+(58:47) challenges  that's  a  characteristic  that
+
+(58:49) they  have  that  is  not  a  a  derivative  of
+
+(58:53) learning  from  me  that's  a  person
+
+(58:56) character  flaw  and  you  can  correct  it
+
+(58:59) you  can  fix  it  but  you  can't  place  that
+
+(59:01) blame  on
+
+(59:02) me  if  you  wait  and  you  listen  I  cancel
+
+(59:05) all  of  you  real  real  time  live  on
+
+(59:09) Twitter  don't  touch  this  right
+
+(59:11) now  all  right  focus  on  this  time  of  the
+
+(59:15) day  and  when  it's  appropriate  I'll  point
+
+(59:17) to  where  the  Market's  going  to  go  to
+
+(59:18) next  I  did  that
+
+(59:21) today  the  opening  range  Gap  here
+
+(59:27) was  utilized  to  get  what  would  otherwise
+
+(59:29) be  done  if  you  had  done  these  same
+
+(59:32) entries  and  managed  the  same  position
+
+(59:35) would  have  resulted  in  a
+
+(59:38) 9,362  before
+
+(59:40) commissions  now  I  don't  know  about  you
+
+(59:42) where  you  are  in  the  world  and  you  know
+
+(59:43) your  Walkin  life  but  uh  almost  $10,000
+
+(59:47) is  is  a  pretty  respectable  amount  of
+
+(59:48) money  I  mean  you  can  go  into  nice
+
+(59:50) vacation  with  that  you  can  uh  get  your
+
+(59:53) spouse  something  really  nice  you
+
+(59:54) probably  do  some  really  good  Christmas
+
+(59:56) shopping  with  that  so  that's  not  chump
+
+(59:59) change  and  I  want  you  to  think  about  the
+
+(60:02) logic  that's  shown
+
+(60:04) here
+
+(60:06) pal  10
+
+(60:08) o00  trash  Market  okay  just  ignore
+
+(60:12) it  just  ignore  it  just  don't  even  worry
+
+(60:15) about  it  oh  but  it's  gonna  run  it's  GNA
+
+(60:18) move  that  is  you  as  a  neoy  Trader  and  an
+
+(60:23) action  Hound  you  feel  like  you  have  to
+
+(60:25) be  able  to  do  something  in  that  I'm
+
+(60:27) telling  you  I'm  telling  you  with  30
+
+(60:29) years  of  experience  you  don't  need
+
+(60:33) to  you  don't  need  to  it's  liberating
+
+(60:35) when  you  just  relax  and  say  you  know
+
+(60:37) what  this  is  the  highest  degree  of
+
+(60:39) manipulation  right  now  and  you  don't  I
+
+(60:41) don't  know  what  they're  going  to  do
+
+(60:44) because  they  can  manually  intervene  and
+
+(60:46) send  price  careening  higher  or  lower  and
+
+(60:49) you  won't  be  able  to  see  it  coming  so
+
+(60:53) don't  torture  yourself  do  something  else
+
+(60:56) sleep
+
+(60:58) in  go  have  breakfast  with  your  spouse
+
+(61:01) work  out  longer  take  your  boat  out  ride
+
+(61:05) your  jet
+
+(61:06) skis  cut  the  grass  whatever  don't  do
+
+(61:10) don't  do  anything  in  the  marketplace
+
+(61:11) just  wait  and  then  what  time  does  your
+
+(61:15) shift
+
+(61:16) start  at
+
+(61:18) 1:30  that's  when  the  macro  will  start
+
+(61:21) running  at  1:30  the  market  creates  a  a
+
+(61:25) low  here
+
+(61:27) Market  trades  down
+
+(61:30) below  the  New  York  lunch  sell  side
+
+(61:33) liquidity  again  they  can  sweep  it  again
+
+(61:36) but  notice  it  doesn't  take  that  low  here
+
+(61:38) I  don't  require  it
+
+(61:41) to  the  logic  is  it's  going  down  there
+
+(61:44) once
+
+(61:45) more  just  in
+
+(61:49) case
+
+(61:51) rallies  comes  back  down  into  this  down
+
+(61:54) close  candle  which  is  a  bullish  order
+
+(61:55) block
+
+(61:56) I'm  not  teaching  you  order  blocks  in
+
+(61:58) this
+
+(62:00) lecture  the  market  rallies  we  have
+
+(62:03) displacement  again  fair  value  gaps  and
+
+(62:05) whatnot  I  promise  you  I'm  going  to  take
+
+(62:08) you  into  a  15  second  chart  where  I
+
+(62:12) utilize  the  information  I'm  going  to
+
+(62:13) show  you  here  what  I  saw  was  the  market
+
+(62:16) dropped  down  below  the  initial  New  York
+
+(62:19) lunch  cide
+
+(62:21) liquidity  it's  dropping  down  below  here
+
+(62:24) and  then  I'm  anticipating  it  to  go  up
+
+(62:27) into  that  opening  range  Gap  that's  this
+
+(62:29) shaded  area  up
+
+(62:31) here  I  don't  need  to  show  you  an  example
+
+(62:34) where  it  goes  all  the  way  up  there  I'm
+
+(62:35) teaching  you  lwh  hanging  fruit  that's
+
+(62:37) the  first  threshold  for  you  to  learn
+
+(62:39) under  my
+
+(62:40) wing  you  can  and  you  can  see  it  tonight
+
+(62:44) the  logic  is  leave  a  partial  on  for  that
+
+(62:47) but  I'm  trying  to  encourage  you  while
+
+(62:50) you're  learning  to  learn  how  to  do  this
+
+(62:53) modularly  step  by  step  you're  not  going
+
+(62:55) to  be  a  go  out  there  and  do  you  know  a
+
+(62:58) lot  of  contracts  in  one  time  you  won't
+
+(63:00) know  how  to  do  the  pyramiding  that
+
+(63:01) you're  going  to  watch  me  do  here  in  a
+
+(63:03) moment  you're  not  going  to  know  all  that
+
+(63:05) stuff  okay  and  to  remove  all  of  the  oh
+
+(63:09) man  I  wish  I  would  have  had
+
+(63:11) a  partial  on  I  wish  I  would  have  held  it
+
+(63:14) longer  you  don't  know  where  your  growth
+
+(63:17) is  going  to  be  and  how  long  it's  going
+
+(63:18) to  take  you  to  get  to  a  point  where  you
+
+(63:20) can  trust  doing  that  so  I  allow  for  and
+
+(63:23) I  build  into  my  teaching  room  for  you  to
+
+(63:26) develop  independent  from  my  personal
+
+(63:29) timing  see  what  what  I  think  a  student
+
+(63:32) should  require  in  terms  of  learning  may
+
+(63:35) be  more  or  less  than  what  it's  going  to
+
+(63:37) require  for  you  so  I'm  trying  to  be  a
+
+(63:40) realistic  Mentor  not  just  someone  that
+
+(63:43) says  go  through  my  workshop  go  through
+
+(63:44) my  training  in  this  many  days  months
+
+(63:46) weeks  or  whatever  you're  going  to  come
+
+(63:48) out  knowing  what  it  is  you're  going  to
+
+(63:49) do  and  if  you  can't  then  you  suck  that
+
+(63:51) that's  just  not
+
+(63:52) practical  so  what  I  do  is  I  teach  you
+
+(63:56) where  the  Market's  going  to  go  what  is
+
+(63:58) your
+
+(63:59) Terminus  Terminus  while  you're  first
+
+(64:01) learning  is  the  easiest  loow  hanging
+
+(64:03) fruit  objective  so  if  we're
+
+(64:06) buying  down  here  on  the  basis  that  that
+
+(64:09) sell  side  liquidity  pool  for
+
+(64:11) lunch  has  been  swept  here  and  we  see
+
+(64:14) this  returning  but  not
+
+(64:18) respecting  a  run  into  and  below  that  low
+
+(64:21) it's  denying  that  and  it  showed  a
+
+(64:23) willingness  to  repel  back  above  this  low
+
+(64:26) that's  what  I  was  looking  through  all
+
+(64:27) this  lows  here  I'm  looking  past  all  that
+
+(64:29) going  right  to  that  low  right  there
+
+(64:31) remember  this  low  here  doesn't  get  taken
+
+(64:34) out  until  the  PM
+
+(64:36) session  look  at  your  chart  I  mentioned
+
+(64:38) it
+
+(64:41) earlier  this  low  I  trusted  it  but
+
+(64:44) Michael  what  happens  if  it  went  down
+
+(64:45) there  then  I  would  have  got  stopped
+
+(64:47) out  what  yeah  sometimes  I  get  it  wrong
+
+(64:51) sometimes  I  mess  it  up  sometimes  I  bring
+
+(64:53) the  baggage  okay  the  scar  tissue  or  my
+
+(64:56) ego  into  it  and  I  try  to  outperform  my
+
+(64:58) own
+
+(65:00) algorithm  and  I  get  my  ass  handed  to  me
+
+(65:02) and  I  get  stopped  out  if  the  trade  still
+
+(65:04) valid  I'll  go  back  in  and  reenter  you've
+
+(65:05) watched  me  do  that  I've  recorded  myself
+
+(65:08) doing  that  go  on  Twitter  it's
+
+(65:11) there  it's
+
+(65:14) there  if  I  get  it  wrong  you  see  it  if  I
+
+(65:17) get  stopped  out  you  see  it  if  I  get
+
+(65:19) stopped  out  and  it's  still  a  good  trade
+
+(65:20) I'll  get  back  in  if  I  get  stopped  out
+
+(65:21) and  I'm  done  I'm
+
+(65:23) done  I  don't  hide  that  from  you
+
+(65:28) so  I'm  buying  Under  the  premise  that
+
+(65:31) we're  returning  into  that  sell  side
+
+(65:33) liquidity  here  one  more
+
+(65:36) time  what  is  it  doing  here  though  if
+
+(65:38) it's  not  taking  out  that  low  what  is  it
+
+(65:40) doing  it's  trading  below  the  rejection
+
+(65:43) block  which  is  the  lowest  closing  price
+
+(65:45) in  this  swing  I  don't  need  that  low  to
+
+(65:48) be  taken  out  I  don't  want  to  see  it
+
+(65:50) taken
+
+(65:51) out  so  all  the  understanding  of  price
+
+(65:54) action  over  here  I'm  anticipating  this
+
+(65:58) accumulation  and  smart  money  jumping  on
+
+(66:00) board  like  I  was  to  run
+
+(66:03) to  relative  equal  highs  and  more
+
+(66:06) specifically  inside  the  opening  range
+
+(66:08) from  regular  trading  hours  where  we
+
+(66:10) stopped
+
+(66:11) trading  and  where  we  started
+
+(66:17) trading  42  22  and  a
+
+(66:22) half  that's  this  high  in  here  I  could
+
+(66:25) have  very  easily  had  a  runner  run  up  in
+
+(66:28) here  and  try  to  get  one  tick  below  the
+
+(66:30) high  of  the  opening  range
+
+(66:32) Gap  but  if  I  do  those  types  of  things
+
+(66:35) you  already  some  of  you
+
+(66:37) already  get  pissed  off  at  your  own
+
+(66:39) performance  because  you  think  you  should
+
+(66:41) have  30  years  of  experience  in
+
+(66:42) performance  and  results  too  because  you
+
+(66:44) watched  my  videos  or  you  spent  enough
+
+(66:46) time  which  isn't  realistic  because  none
+
+(66:49) of  you  spend  enough  time  to  do  what  I'm
+
+(66:51) doing  it's  not  ego  it's  not  it's  not
+
+(66:54) arrogance  it's  it's
+
+(66:56) real  practicality  I  mean  think  about  it
+
+(66:59) folks  I  may  have  30  years  of  experience
+
+(67:02) but  I  can't  Pour  That  Into  You  in  a
+
+(67:04) short  period  of  time  and  then  you  have
+
+(67:05) 30  years  experience
+
+(67:06) too  it's
+
+(67:09) unrealistic  and  some  of  you  are  very
+
+(67:11) hard  on  yourselves  and  you  think  that
+
+(67:12) you  should  be  able  to  do  what  I  do  so  I
+
+(67:15) try  to  teach  with  that  in  mind  and  I
+
+(67:18) teach  lwh  hanging  fruit  those  terms  are
+
+(67:22) my  way  of  saying  okay  if  it's  going  to
+
+(67:24) go  higher  where  is  it  going  to  go  to
+
+(67:27) logically  well  if  it's  taken  cell  side
+
+(67:29) out  here  that  means  the  cell  stocks  have
+
+(67:31) been  rated  there  and  we  swept  down  into
+
+(67:33) the  rejection  block  and  preserve  that
+
+(67:35) low  in  the  afternoon  should  see  a  run  up
+
+(67:39) into  that  Gap  and  for  those  that  are  you
+
+(67:42) know  wondering  why  should  that  happen
+
+(67:43) and  not  take  out  the  relative  equal  lows
+
+(67:45) is  because  we've  already  worked  below
+
+(67:47) that  am  session  low  remember  before  we
+
+(67:50) trade  into  well  not  traded  but
+
+(67:52) transitioned  into  this  slide  here  we
+
+(67:54) traded  into  the  previous  session  am  lows
+
+(67:56) so  we  are  really  in  a  deep
+
+(67:59) discount  and  that  opening  range  Gap  has
+
+(68:02) not  been  traded  into  from  the  open  it
+
+(68:04) opened  and  ran  away  from  it  quickly  it's
+
+(68:07) never  came  up  to  it  until
+
+(68:10) here  and  it  left  what  relative  equal
+
+(68:12) highs  what  time  of  the  day  did  it  do  it
+
+(68:14) between  12:00  and
+
+(68:16) 1:30  so  that's  your  lunch  buy  side
+
+(68:19) liquidity  everybody  that's  short  thinks
+
+(68:21) it's  going  to  keep  going  down  that's
+
+(68:22) where  their  stop  loss  is  who's  doing
+
+(68:24) that  fun
+
+(68:26) not  retail
+
+(68:28) Rick  large  funds  Deep
+
+(68:34) Pockets  buying  and  every  time  the  market
+
+(68:37) gave  me  a  buying  opportunity  very
+
+(68:40) specific  PD  arrays  on  a  15  second  chart
+
+(68:45) I  was  entering  this  is  a  one  minute
+
+(68:46) chart  by  the  way  if  you're  looking  at
+
+(68:47) here  it's  one  minute  every  one  of  these
+
+(68:50) entries  were  based  on  a  15sec
+
+(68:52) candle  I  recorded  it  I've  already  shared
+
+(68:54) it  on  Twitter  but  for  the  folks  that
+
+(68:56) don't  have  Twitter  or  refuse  to  watch  it
+
+(68:58) cuz  they  don't  want  to  be  on  the  Bird
+
+(69:00) app  or  whatever  I  got  you  covered
+
+(69:02) tonight  but  every  time  it  reached  above
+
+(69:05) relative  equal  highs  I'm  taking  a
+
+(69:07) partial  profit  up  in  here  another
+
+(69:10) partial
+
+(69:11) profit  Above  This  high  in  here  partial
+
+(69:14) profit  and  above  the  high  here  partial
+
+(69:17) profit  so  I  don't  require  it  to  trade
+
+(69:21) Above  This  high  and  I'm  teaching  you
+
+(69:24) that  you  don't  need  to  do  that  either  I
+
+(69:27) mean  if  you  got  out  just  with  this  4422
+
+(69:30) A5  that's
+
+(69:32) below  the  actual  liquidity  Above  This
+
+(69:36) high  and  if  you  mimic  this  same  trade  in
+
+(69:40) your  own  account  whether  it  be  funded  or
+
+(69:41) in  live  funds  and  you  profited
+
+(69:45) 9,362  are  you  going  to  beat  yourself  up
+
+(69:47) because  you  didn't  have  that  run  up  on
+
+(69:48) to  the  opening  range  Gap  High  some  of
+
+(69:51) you  might  and  that  would  be  unfortunate
+
+(69:53) that's  not  what  I  want  you  to  think  that
+
+(69:55) would  be  really  a  toxic  mindset  about
+
+(69:58) your  performance  and  what  you're  trying
+
+(69:59) to  do  you  try  very  very  hard  to  filter
+
+(70:03) out  negative  thinking  that's  why  social
+
+(70:05) media  is  a  work  social  media  is  like
+
+(70:07) cancer  okay  for  a  developing  student
+
+(70:09) because  everybody's  got  an  ego  they're
+
+(70:11) all  pulling  her  dicks  out  for  a
+
+(70:12) measuring  competition  okay  and  the  point
+
+(70:14) is  you're  trying  to  learn  how  to  make
+
+(70:16) money  and  all  I'm  trying  to  do  is  teach
+
+(70:17) you  how  to  keep  stay  in  the  game  long
+
+(70:19) enough  so  you  can  keep  your  money  learn
+
+(70:21) the  skills  that's  I'm  showing  you  so
+
+(70:23) that  way  you  can  leave  your  [ __ ]  job
+
+(70:24) and  live  your  life  and  do  whatever  you
+
+(70:25) want  to  do  okay  and  you  don't  need  to
+
+(70:27) listen  to  me  rest  of  your  life  I  don't  I
+
+(70:29) don't  want  to  be  doing  these  videos  I
+
+(70:30) don't  want  to  be  doing  it  so  I'm  leaving
+
+(70:32) you  a  legacy  so  that  way  you  can  come
+
+(70:34) back  to  this  information  take  your  kids
+
+(70:35) to  this  information  whatever  and  build
+
+(70:37) Legacy  wealth  you  don't  need  you  don't
+
+(70:40) need  to  entertain  these  people's  egos
+
+(70:42) you  don't  need  to  come  back  and  keep  me
+
+(70:44) feeling  good  about  myself
+
+(70:46) either  this  stuff  works  but  you  have  to
+
+(70:50) graduate  in  your  understanding  about
+
+(70:51) where's  it  going  to  go  and  be  realistic
+
+(70:54) and  over  time  when  you  start  seeing  this
+
+(70:58) unfold  reasons  for  it  to  go  higher  you
+
+(71:01) leave  a  runner
+
+(71:03) on  that's  the  only  way  if  you're  in
+
+(71:06) there  trading  and  you're  thinking  to
+
+(71:07) yourself  man  I  don't  know  I  should
+
+(71:10) probably  leave  a  runner  on  here  I  know
+
+(71:11) if  I  leave  a  runner  on  you  it's  probably
+
+(71:13) gonna  you  stop  me  out  and  if  I  don't  put
+
+(71:15) one  on  it's  going  to  run  well  put  one  on
+
+(71:17) what's  the  worst  thing  gonna  happen  it's
+
+(71:18) gonna  stop  you  out  and  profit  see  you're
+
+(71:21) wrestling  with  being
+
+(71:23) right  and  many  of  you  are  trying  to  do
+
+(71:25) that  if  you're  doing  it  in  front  of  an
+
+(71:26) audience  that  is  hard  because  not  only
+
+(71:31) are  you  wrestling  with  your  internal
+
+(71:32) dialogue  about  what  you  should  do  and
+
+(71:34) how  you're  managing  the  trade  but  you're
+
+(71:36) inviting  everybody  else's  feedback  to
+
+(71:38) your  trade  and  guess  what  guess  what
+
+(71:41) cboy  that's  not  your  trade  anymore
+
+(71:44) you've  invited  the  entire  Community
+
+(71:45) that's  watching  you  and  your  audience  to
+
+(71:47) manage  your  trade  for  you  and  that  means
+
+(71:49) you  brought  in  a  level  of  uncertainty
+
+(71:52) fear  Pride
+
+(71:56) and  pain  that  would  otherwise  not  be
+
+(71:58) there  if  you  were  just  quiet  about  what
+
+(72:00) the  [ __ ]  you're
+
+(72:01) doing  that's  what  this  is  all  about
+
+(72:03) folks  it's  not  about  getting  out  there
+
+(72:04) and  show  showboating  and  show  what  you
+
+(72:06) can  do  and  prove  this  and  prove  that  is
+
+(72:09) it  going  to  matter  when  you're  paying
+
+(72:11) off  a  house  how  many  people  believe  you
+
+(72:14) did  it  how  many  you  going  to  have  to
+
+(72:16) come  back  here  on  social  media  when  you
+
+(72:18) hit  seven  figures  and  you're  a
+
+(72:19) millionaire  how  many  of  you  have  to  come
+
+(72:22) back  to  social  media  and  go  to  the  usual
+
+(72:24) suspect  and  say  h  ICT  made  me  a
+
+(72:26) millionaire  if  you  think  that  you're
+
+(72:28) doing  this  [ __ ]  for  the  wrong
+
+(72:30) reasons  the  people  that  are  really
+
+(72:32) killing
+
+(72:33) it  they  don't  come  to  my
+
+(72:35) Twitter  they  don't  leave  comments  in  my
+
+(72:38) section  of  my  videos  they  don't  do  any
+
+(72:40) of  that  stuff  they're  out  there  living  a
+
+(72:42) life  they've  already  thanked  me  they've
+
+(72:44) already  shared  a  testimony  and  they're
+
+(72:46) doing  big  wheel
+
+(72:48) [ __ ]  grow  like  that
+
+(72:58) all  right  so  uh  this  is
+
+(73:02) a  15-second
+
+(73:05) chart
+
+(73:07) and  I  have  to  make  sure  that  I  don't
+
+(73:09) play  sound  on  this  I  got  to  make  sure  I
+
+(73:12) do  this  correctly
+
+(73:17) here  uh  I  recorded  a  song  as  I  typically
+
+(73:20) do  on  Twitter  um  I  I  love  Twitter  for
+
+(73:23) that  reason  uh  it's  like  a  like  a  a
+
+(73:25) textt  message  to  you  like  if  you  had  my
+
+(73:28) personal  phone  number  and  yes  there's  a
+
+(73:29) lot  of  people  that  have  it  and  yes  they
+
+(73:31) [ __ ]  abuse  it  and  yes  I'm  changing  my
+
+(73:32) phone  number  in
+
+(73:34) November  a  lot  of  you  that  listen  to  me
+
+(73:39) or  follow  me  on  Twitter  when  I'm
+
+(73:41) tweeting  uh  that's  the  same  thing  if  if
+
+(73:43) you  were  like  my  best  friend  and  I'll
+
+(73:45) say  hey  look  at  uh  look  at  this  Market
+
+(73:46) here  that's  that's  real  time  right  now
+
+(73:50) right  from  my  mind  right  into  Twitter
+
+(73:53) and  I  can't  put  the  music  on
+
+(73:56) in  in  a  presentation  format  that  I  love
+
+(73:58) doing  over  the  years  I  used  to  be  on
+
+(74:00) Twitter  before  leaving  it  they  started
+
+(74:02) censoring  me  and  I  left  it  and  I  came
+
+(74:05) back  and  one  of  the  things  I  was  looking
+
+(74:07) forward  to  was  uh  going  back  in  doing
+
+(74:09) vignettes  where  I  record  myself
+
+(74:11) executing  putting  on  a  trade  putting  the
+
+(74:12) stop  loss  on  managing  it  you  know
+
+(74:15) putting  on  a  pyramid  position  building
+
+(74:16) it  up  taking  profits  and  watching  the
+
+(74:18) you  position  go  from  beginning  to  end
+
+(74:21) and  I  usually  put  a  song  on  there  it  may
+
+(74:23) not  be  the  type  of  song  that  you  like  it
+
+(74:25) may  have  foul  language  in  it  it  may  be  a
+
+(74:27) genre  that  you  don't  like  I  don't  give  a
+
+(74:28) [ __ ]  because  it's  what  I  like  okay  I
+
+(74:30) like  doing  that  because  it's  just  what  I
+
+(74:32) like  doing  uh  it's  usually  received  well
+
+(74:35) in  the  community  but  I  can't  play  that
+
+(74:38) here  because  I'll  get  a  copyright  strike
+
+(74:40) and  I  don't  need  all  that  [ __ ]  here  so
+
+(74:43) I'll  leave  a  link  so  that  way  you  can
+
+(74:45) look  at  it  in  the  format  that  I  gave  on
+
+(74:47) Twitter  but  you  don't  need  it  it's  going
+
+(74:48) to  be  the  same  thing
+
+(74:50) here  as  a  reminder  every  Candlestick
+
+(74:53) you're  seeing  here  is  is  a  15-second
+
+(74:56) duration  now  think  about  that  lunch
+
+(75:00) sside  liquidity  pool  and  where  the
+
+(75:02) market  was  going  to  go  up  to  now  right
+
+(75:04) now  you're  looking  at  the  dollar  Index
+
+(75:07) it's  going  to  change  over  to  index
+
+(75:09) Futures  but  I  want  you  to  think  about
+
+(75:11) what  I  showed  you  before  we  got  to  this
+
+(75:13) slide  here  because  when  the  when  the
+
+(75:16) video  starts  playing  it's  like  two
+
+(75:18) minutes  long  and  I'll  walk  you  through
+
+(75:19) as  much  as  I  can  but  everything  that  has
+
+(75:23) already  been  told  to  you  tonight  that's
+
+(75:25) what  I  was
+
+(75:26) using  okay  I  promise  you  I  didn't  have
+
+(75:30) something  secret  okay  I  everything  that
+
+(75:33) I  taught  you  tonight  is  exactly  what  I
+
+(75:35) implemented  here  and  everything  I'm
+
+(75:37) commenting  and  annotating  in  the  chart
+
+(75:39) real  time  as  I'm  recording
+
+(75:41) it  that's  what  I  was  seeing  so  I  try  to
+
+(75:45) do  as  much  as  I  can  in  terms  of
+
+(75:46) annotating  the  chart  showing  the
+
+(75:48) reference  points  where  I  think  the
+
+(75:49) Mark's  going  to  be  respecting  certain
+
+(75:51) levels  and  why  it  should  behave  a
+
+(75:52) certain  way  keeping  in  mind  that  I'm
+
+(75:55) doing
+
+(75:56) this  with  15c  candlesticks  so  I  have  to
+
+(76:01) know  what  the  [ __ ]  I'm  talking  about  to
+
+(76:03) be  able  to  do  this  to  you  be  able  to
+
+(76:05) annotate  it  show  you  where  the  levels
+
+(76:06) are  going  to  be  respected  how  it's  going
+
+(76:07) to  reach  up  to  this  and  do  think  about
+
+(76:09) seriously  seriously  folks  think  about
+
+(76:13) what  would  be  necessary  to  be  able  to
+
+(76:15) know  what's  going  on  if  you're  just
+
+(76:17) simply  looking  at  the  15-second  chart
+
+(76:18) like  everybody  else  on  Twitter  was  doing
+
+(76:21) today  and  they  watched  it  and  look  at
+
+(76:23) the  comment  section  like  what  the  the  he
+
+(76:25) what  what  the  hell's  going  on  how  what
+
+(76:27) 15  second  forget  the  time
+
+(76:30) frame  forget  the  time  frame  think  about
+
+(76:33) what  I  told  you  tonight  with  the  lunch
+
+(76:34) macro  it's  running  down  to  the  sell  side
+
+(76:37) and  it's  going  back  up  into  that  opening
+
+(76:39) range  Gap  to  take  the  buy  side  on  the
+
+(76:41) New  York  lunch  High  where  the  buy  side
+
+(76:43) is  that's  all  that  I'm  doing  and  I'm
+
+(76:46) going  to  use  every  PD  array  that  is
+
+(76:50) Discount  I'm  going  to  put  in  every  every
+
+(76:52) one  of  these  things  could  have  been  your
+
+(76:54) individual  entry  based  on  the  things  I
+
+(76:57) taught  just  using  a  15sec  chart  now
+
+(77:00) there's  other  things  if  you  were  looking
+
+(77:02) at  a  one  minute  chart  far  less  entries
+
+(77:05) obviously  but  you  could  see  certain
+
+(77:07) entry  patterns  or  PD  arrays  to  get  into
+
+(77:09) the
+
+(77:10) trades  based  on  a  one  minute  chart  two
+
+(77:13) minute  three  minute  four  or  five  or  a
+
+(77:16) 15minute  chart  but  you  have  less  entry
+
+(77:19) opportunities  the  higher  time  frame  that
+
+(77:21) you  go  so  just  to  add  insult  injury  for
+
+(77:25) the  people  that  say  this  is  [ __ ]  and
+
+(77:26) it's  faked  and  all  this  other  stuff  I  go
+
+(77:29) into  these  Ultra  short-term  time  frames
+
+(77:31) just  to  Overkill  just  to  rub  their  nose
+
+(77:34) in  it  to  show  you  that  this  stuff  works
+
+(77:38) and  it  will  work  for  you  it  ain't  going
+
+(77:40) to  work  for  you  the  first  time  you  watch
+
+(77:41) the  video  it  ain't  going  to  be  working
+
+(77:42) for  you  because  you  watched  a  couple
+
+(77:44) videos  and  you  wrote  a  couple  sentences
+
+(77:45) down  you  think  that's  journaling  you're
+
+(77:47) going  to  have  to  really  roll  your
+
+(77:48) sleeves  up  and  dig  into  this  stuff  and
+
+(77:50) study  it  it's  a  lifestyle  if  you  don't
+
+(77:52) make  it  a  lifestyle  forget  about  it  it's
+
+(77:55) it's  it's  not  going  to  work  for  you  you
+
+(77:57) have  to  be  passionate  about
+
+(78:00) it  all  right  so  I'm  going  long  here  on
+
+(78:03) the  S&P  here's  that  uh  run  that  didn't
+
+(78:07) take  out  the  low  at
+
+(78:09) 1:00  and  I'm  adding  pyramiding  and  I've
+
+(78:11) already  annotated  that  fair  value  Gap
+
+(78:13) and  told  you  that  it's  an  inversion  fair
+
+(78:15) value  Gap  that  means  it's  going  to  go
+
+(78:16) above  it  treat  it  as  support  and  then
+
+(78:19) rally  up  into  the  buy  sides  that  I'm
+
+(78:20) show  you  here  so  you  can  already  see
+
+(78:23) that  4422  even  level  is  highlighted  as
+
+(78:25) buy  side  liquidity  notice  it's  below
+
+(78:29) that  high  I  was  showing  you  when  we  were
+
+(78:30) covering  the  lunch  liquidity  so  that's
+
+(78:34) his  order  Block  it's  reclaimed  and  it
+
+(78:37) dug  into  the  uh  inversion  fair  value  Gap
+
+(78:40) and  for  the  folks  that  thinking  oh  the
+
+(78:41) order  block  doesn't  work  see  here  that
+
+(78:42) entire  range  is  the  order  block  and  I'm
+
+(78:45) adding  into  it  here  inside  the  fair
+
+(78:47) value  Gap  that  is  already  identified  as
+
+(78:49) an  inversion  fair  value  Gap  so  this  is
+
+(78:51) going  to  be  dynamic  support  here  watch
+
+(78:53) how  it  respects  it
+
+(78:58) I've  already  shown  you  here  it's  going
+
+(78:59) to  go
+
+(79:00) up  and  just  like  magic  on  a  15  second
+
+(79:02) chart  look  at  that  it's  unbelievable
+
+(79:05) isn't  it  now  my  stop  loss  is  below  the
+
+(79:08) inversion  fair  value  Gap  and  I'm  showing
+
+(79:09) you  where  the  executions  are  so
+
+(79:10) everything  matches  now  folks  this  is  not
+
+(79:12) replay  none  of  that
+
+(79:18) [ __ ]  there's  another  partial
+
+(79:21) here  and  my  stop  is  below  the  low  at  44
+
+(79:24) 16  I  don't  want  to  chase  it  up  there
+
+(79:27) because  that's
+
+(79:28) inefficient  it  can  trade  down  inside
+
+(79:31) that  so  I  don't  want  to  put  a  stop  loss
+
+(79:32) at  44  17  and  a  half  it  can  come  back  in
+
+(79:34) there  deeper  I'm  making  allowance  for
+
+(79:36) that  so  my  stop  is  staying  below  that
+
+(79:40) I'm  not  in  a  hurry  to  guarantee  higher
+
+(79:42) profits  I'm  more  concerned  about  my
+
+(79:44) limit  orders  filling  my  stop  is  not
+
+(79:46) being  concerned
+
+(79:50) about  and  here  comes
+
+(79:53) another  run  up  into
+
+(79:56) a  10  lot  limit  order  that  would  put  me
+
+(80:00) at  five  remaining  see  that  retracement
+
+(80:02) down  in
+
+(80:04) there  I'm  not  worried  about  that  you
+
+(80:06) might  be  freaking  out  because  you  put
+
+(80:07) your  stop  loss  higher  or  maybe  even
+
+(80:09) stopped  out  but  this  is  proper  stop  loss
+
+(80:12) management  and  there's  the  limit  order
+
+(80:13) and  then  now  we're  going  to  run  for  that
+
+(80:14) buy  side
+
+(80:16) here  and  then  once  it  runs  that  high  I'm
+
+(80:20) W  to  Trail  my  stop  loss  up  then  this  is
+
+(80:23) exactly  what  I  shared  on  Twitter  today
+
+(80:24) okay  everything  was  recorded  this  is  not
+
+(80:27) Market  replay  this  is  not  uh  the  trading
+
+(80:29) view  replay  none  of  that  stuff  okay  the
+
+(80:34) logic  that  I  showed  here
+
+(80:37) doesn't  show  everything  that  I  taught
+
+(80:40) tonight  but  what  I  was  utilizing  because
+
+(80:41) you  don't  hear  me  talking  in  in  the  the
+
+(80:44) trade  but  the  things  that  I'm  doing  to
+
+(80:46) trade
+
+(80:47) this  everything  I'm  doing  is  what  I  was
+
+(80:51) teaching  you  tonight  it's  not  conjecture
+
+(80:54) I  didn't  form  fit  it  I  do  this  stuff
+
+(80:57) every  single  week  with  you  all  on
+
+(80:58) Twitter  over  and  over  and  over  again  and
+
+(81:01) when  time  permits  it  I'll  give  an
+
+(81:02) example  every  single  day  today  I  gave
+
+(81:04) several  examples  this  one  today  I  told
+
+(81:07) you  to  wait  for  the  PM  session  that  was
+
+(81:09) the  morning  advice  and  I  went  in  there
+
+(81:11) and  murdered  it  so  every  single  one  of
+
+(81:15) these  individual
+
+(81:18) entries  that  could  be  your
+
+(81:20) model  some  are  better  in  terms  of  where
+
+(81:23) their  entry  was  but  I'm  using  them  as
+
+(81:25) pyramiding
+
+(81:27) opportunities  none  of  the  things  in  here
+
+(81:29) that  I
+
+(81:30) showed  violated  any  of  the  bullish  order
+
+(81:33) flow  this  is  real  order  flow  notice
+
+(81:37) there's  no  Dom  depth  of  Market  level  two
+
+(81:40) data  required  no  book  map  required
+
+(81:44) everything  that  I've  outlined  here  is
+
+(81:47) shown  to  you  on  a  time-based  chart  my
+
+(81:50) partials  are  based  on  liquidity  look  at
+
+(81:53) my  exits  on  the  partials  they're  at  the
+
+(81:56) highs  my  entries  are  in  very  key  levels
+
+(82:00) that  would  be  a  discount  array  for  what
+
+(82:02) I've  taught  you  and  I've  done  so  on  a
+
+(82:05) 15c  chart  that's  not  even  a  minute  it
+
+(82:08) takes  four  these  individual  candles  to
+
+(82:09) make  one  minute  does  it  look  like  noise
+
+(82:11) to  you  look  at  how  the  market  reacted
+
+(82:15) right  there  I  time  traveled  folks  I  time
+
+(82:18) traveled  when  we  were  down  here  I  drew
+
+(82:21) this  out  and  labeled  it  inversion  fair
+
+(82:23) value  cap  for  the  folks  that  have  been
+
+(82:24) following  me  for  the  last  couple  weeks
+
+(82:26) and  month  or  so  probably  two  months  I
+
+(82:30) introduced  the  inversion  fair  value  C
+
+(82:33) okay  so  every  one  of  my  PD  arrays  can  be
+
+(82:35) utilized  as  a  contant  entry  but  unless
+
+(82:39) you  have  the  narrative  in  mind  knowing
+
+(82:41) where  is  it  going  to  reach  for  where's
+
+(82:42) the  liquidity  that's  going  to  be  drawing
+
+(82:43) price  next  how  do  you  know  how  do  you
+
+(82:46) know  that  ICT  well  you  start  it  with  the
+
+(82:48) weekly
+
+(82:49) candle  where  is  it  going  to  gravitate  to
+
+(82:52) I  don't  care  if  you  use  another  of
+
+(82:54) trading  folks  I  don't  care  if  you  do
+
+(82:57) trade  with  harmonic  patterns  okay  if  you
+
+(82:59) use  what  I'm  teaching  here  tonight  it's
+
+(83:01) going  to  make  your  [ __ ]  start  working
+
+(83:03) the  times  that  it  fails  it's  going
+
+(83:05) against  what  I'm  teaching  you  tonight  I
+
+(83:07) promise  you  that  is  not  arrogance  or
+
+(83:09) Pride  or  ego  speaking  your  [ __ ]  ain't
+
+(83:12) working  when  it  goes  against
+
+(83:14) this  if  you  trade  retail  concepts  with
+
+(83:17) this  stuff  your  retail  [ __ ]  will  start
+
+(83:20) working  you  don't  have  to  like  me  okay
+
+(83:23) you  don't  have  to  tell  everybody  you
+
+(83:24) trade  SMC  or  ICT  or  whatever  the  [ __ ]
+
+(83:27) you  want  to  call  me  okay  I  don't  care  I
+
+(83:30) really  don't  care  but  I  really  want  to
+
+(83:33) see  you  succeed  even  if  you  [ __ ]  hate
+
+(83:34) my  guts  and  you  troll  me  and  you  make
+
+(83:36) videos  about  me  and  all  that  [ __ ]  I
+
+(83:38) don't  care  I'm  not  losing  any  [ __ ]
+
+(83:39) sleep  okay  I  can  still  do  this  stuff
+
+(83:42) whether  you  love  me  or  hate
+
+(83:43) me  and  I  really  want  you  to  listen  and
+
+(83:47) you  never  ever  ever  have  to  tell  me  that
+
+(83:49) it  improved  your
+
+(83:51) trading  I  don't  need  it  I  know  it
+
+(83:58) works  I  want  you  to  think  about
+
+(84:01) everything  I  talked  about  tonight  and
+
+(84:03) how  it  gives  you  a  plethora  of
+
+(84:06) opportunities  that  will  always  be  there
+
+(84:09) folks  these  intervals  they  happen  every
+
+(84:13) day  and  guess  what  they  can't  hide  it
+
+(84:17) they  cannot  hide  this  information  from
+
+(84:19) you  it  doesn't  require  any  kind  of
+
+(84:21) subscription  to  any  [ __ ]  thing  it
+
+(84:22) doesn't  require  you  to  do  any  anything
+
+(84:25) extra  it's  simply  just  looking  at  the
+
+(84:28) time  intervals  where  is  that  pool  of
+
+(84:30) liquidity  above  and  below  and  where  does
+
+(84:32) it  fit  in  a  narrative  I'm  guiding  you
+
+(84:34) I'm  teaching  you  but  teach  me  bias  ICT
+
+(84:37) this  is  all  part  of
+
+(84:39) it  it's  all  part  of
+
+(84:41) it  go  back  and  look  at  the  tweets  I've
+
+(84:43) told  you  to  focus  on  the  PM  session  what
+
+(84:46) is  that  1:30  to  4
+
+(84:50) o'clock  think
+
+(84:55) how  many
+
+(84:56) opportunities  are  going  to  be  much  more
+
+(84:59) Within  Reach  for  you  now  because  you
+
+(85:01) have  this  understanding  in
+
+(85:04) price  that  doesn't  mean  you're  going  to
+
+(85:05) be  able  to  go  out  and  do  it  tomorrow
+
+(85:07) remember  I  said  in  this  lecture  tonight
+
+(85:09) that  you  have  to  go  through  weeks  and
+
+(85:10) months  of  back  testing  studying  what
+
+(85:13) it's  done  logging  it  journaling  it  and
+
+(85:17) encouraging  yourself  in  the  commentary
+
+(85:20) in  the  chart  that  you  screenshot  that
+
+(85:22) you  put  into  your  journal  and  you  talk
+
+(85:24) to  yourself  like  you  knew  it  was  going
+
+(85:26) to  happen  in  advance  and  you're  tricking
+
+(85:28) your  subconscious  into  believing  that  is
+
+(85:31) experience  and  because  you're  sugar
+
+(85:32) coating  it  with  everything  positive  and
+
+(85:34) you're  never  saying  anything  negative
+
+(85:36) when  you  watch  Real  Time  price  it  won't
+
+(85:39) feel  scary  subconsciously  if  you  always
+
+(85:42) looked  at  Price  action  or  looked  at
+
+(85:43) people  like  me  or  other  people  that  you
+
+(85:45) think  are  fraud  scammers  or  they  don't
+
+(85:47) really  know  how  to  trade  or  whatever  you
+
+(85:49) are  literally  flooding  your  brain  with
+
+(85:52) toxicity
+
+(85:54) and  I  guarantee  you  probably  can't  make
+
+(85:56) a  [ __ ]  penny  trading  because  you've
+
+(85:57) done
+
+(85:58) that  this  game  is  90%
+
+(86:02) psychological  it's  easy  to  talk  yourself
+
+(86:04) out  of  it  and  it's  easy  to  program  your
+
+(86:07) mind  to  keep  you  in  the  game  before  you
+
+(86:09) really  know  the  skill  set  you  have  to
+
+(86:11) cheerlead  yourself  nobody's  gonna  be
+
+(86:13) able  to  do  it  for  you  just  watching  my
+
+(86:15) videos  is  not  enough  I  promise  you  I
+
+(86:17) have  paid  members  that  have  paid
+
+(86:19) me  and  they  still  can't  do  it  because
+
+(86:23) they  have  not  done  what  told  them  to  do
+
+(86:25) or  they  think  they've  done  enough  but
+
+(86:26) they
+
+(86:28) haven't  the  fruits  and  the  results  will
+
+(86:30) come  because  of  what  they've  done  and
+
+(86:32) they  got  to  leave  the  [ __ ]  at  the
+
+(86:34) door  when  they  come  in  they  can't  bring
+
+(86:35) in  whiteoff  theory  and  harmonics  and
+
+(86:38) other  stuff  and  and  try  to  blend  it
+
+(86:40) together  you  have  to  learn  this  first
+
+(86:42) forget  all  that  stuff  learn  this  and
+
+(86:44) then  once  you  understand  this  it's  easy
+
+(86:46) to  go  into  a  John  Murphy  Financial  uh  uh
+
+(86:49) what's  it  the  technical  analys  of  the
+
+(86:51) financial  markets  that's  the  retail
+
+(86:52) Traders  Bible  everything  in  that  book
+
+(86:55) everything  in  that  book  can  be
+
+(86:58) contrarian  if  you  understand  this  but
+
+(87:02) same  side  of  the  coin  if  you  flip  it
+
+(87:05) over  you  can  make  those  retail  Concepts
+
+(87:07) work  if  you  understand  this  premise
+
+(87:10) tonight  see  the  problem  with  retail
+
+(87:12) Traders  is  they  don't  look  at  the  market
+
+(87:13) like  this  they're  looking  for  patterns
+
+(87:16) for  pattern  sake  they're  looking  for
+
+(87:18) indicator  confirmation  they're  looking
+
+(87:19) for  things  that  cuts  through  all  the
+
+(87:23) they  think  noise  or  uncertainty  or
+
+(87:25) randomness  of  price  action  if  you're
+
+(87:28) believing  that  price  is  random  what  the
+
+(87:30) [ __ ]  are  you  thinking  the  indicator  is
+
+(87:31) going  to  do  it's  not  changing  the
+
+(87:33) randomness  it's  just  adding  something
+
+(87:35) else  to  believe
+
+(87:36) in  so  that's  not  the  right  way  the  right
+
+(87:39) way  is  understanding  why  price  delivers
+
+(87:41) the  way  it  does  and  it  does  on  a  basis
+
+(87:43) of  time  and  price  there's  a  time  that  it
+
+(87:47) operates  and  it's  reaching  for  a  very
+
+(87:50) specific  price  I've  already  taught  you
+
+(87:52) the  time  elements  and  tonight  I've
+
+(87:54) taught  you  the  price  elements  time  and
+
+(87:57) price  between  those  two  you  will  always
+
+(88:00) have  a  setup  for  life  you  can  have  a
+
+(88:03) breaker  you  can  have  a  institutional
+
+(88:06) orderflow  entry  drill  you  can  have  a
+
+(88:08) fair  value  gap  an  inversion  fair  value
+
+(88:10) Gap  I  did  this  trade  today  to  rub  the
+
+(88:13) nose  of  the  guy  that  was  in  my  comment
+
+(88:14) section  and  know  you  don't  see  him  but
+
+(88:17) he's  in  the  videos  where  I  U  it  looks
+
+(88:20) like  my  comment  section  open  is  is  open
+
+(88:22) rather  like
+
+(88:24) It's  usually  the  pre-recorded  videos  I
+
+(88:26) think  it's  what  it  I  think  I  don't  think
+
+(88:27) it  lets  you  do  a  comment  or  doesn't  look
+
+(88:29) like  there's  going  to  be  comments  open
+
+(88:30) for  a  live  stream  but  when  I  do  a
+
+(88:33) pre-recorded  video  the  section
+
+(88:35) underneath  the  video  it  looks  like  you
+
+(88:36) can  leave  a  comment  and  I  have  so  many
+
+(88:38) people  saying  first  first  first  first
+
+(88:39) comment  whatever  that's  silly  but
+
+(88:42) invariably  I  get  some  goober  that  comes
+
+(88:44) in  there  and  will  say  like  you  know  this
+
+(88:47) is  never  done  in  advance  you  you  you're
+
+(88:49) making  this  stuff  up  it  doesn't  work  it
+
+(88:51) only  works  sometimes  well  it  that's  true
+
+(88:54) for  you  because  you  don't  know  what  the
+
+(88:55) [ __ ]  you're  doing  but  I  know  what  I'm
+
+(88:57) doing  and  in  inversion  fair  value  gaps  I
+
+(89:00) know  which  fair  value  Gap  is  going  to  be
+
+(89:02) invert  here  it  is  folks  and  I've  shown
+
+(89:04) it  to  you  on  a  15-second
+
+(89:06) chart  like  you  can't  get  any  planer  than
+
+(89:10) that  it's  real  it's  absolutely  a  real
+
+(89:14) phenomenon  it's  really  there  but  you
+
+(89:17) know  what  makes  it  valid  and  how  to
+
+(89:19) predict
+
+(89:20) it  understanding
+
+(89:22) liquidity  understanding  time  and
+
+(89:26) price  that  lunch  hour  that  nobody  goes
+
+(89:30) to
+
+(89:33) lunch  the  algorithm  runs  on  that
+
+(89:36) liquidity  and  then  it  starts  repricing
+
+(89:38) and  spoiling  to  the  next  pool  liquidity
+
+(89:41) so  since  it  took  sell  side  okay  what  did
+
+(89:43) I  teach  you  price  only  goes  up  to  take
+
+(89:46) buy  side  or  buy  stops  or  it  goes  up  to
+
+(89:49) an  inefficiency  above  market  price
+
+(89:51) that's  the  only  two  [ __ ]  reasons  that
+
+(89:53) price  goes  goes  up  period  end  of  story  I
+
+(89:55) don't  care  how  many  years  you've  been
+
+(89:56) trading  you  can  call  yourself  a  market
+
+(89:58) maker  I  don't  care  what  institution  you
+
+(89:59) worked  for  you  bank  at  this  one  you  did
+
+(90:01) this  trading  for  that  when  you  manage
+
+(90:02) funds  I  don't  give  a
+
+(90:04) [ __ ]  price  only  goes  up  for  one  or  two
+
+(90:06) reasons  to  go  up  to  an  inefficiency
+
+(90:08) above  market  price  or  it  runs  up  for  buy
+
+(90:10) side  liquidity  buy  stops  that's  it  folks
+
+(90:13) that  is  it  it's  not  going  up  because  of
+
+(90:14) buying  pressure  and  it's  not  going  down
+
+(90:15) because  of  selling  pressure  it's  going
+
+(90:17) down  for
+
+(90:19) inefficiency  below  market  price  or  it's
+
+(90:21) going  down  for  sell  out  liquidity  period
+
+(90:23) and  a  story
+
+(90:24) that  is  it  if  it's  not  doing  one  of
+
+(90:26) those  two
+
+(90:28) things  it's  going
+
+(90:30) sideways  I  already  teach  you  and  taught
+
+(90:32) you  the  economic  calendar  tells  you  when
+
+(90:34) it's  going  to
+
+(90:35) consolidate  so  what  does  that  leave  up
+
+(90:38) or  down  okay  how  do  you  know  if  it's
+
+(90:40) going  to  go  up  or  down  look  at  the
+
+(90:41) weekly  chart  what  is  it  going  to  reach
+
+(90:43) for  on  that  Weekly
+
+(90:45) Candlestick  something  above  the  price  or
+
+(90:47) below  the  price  which  is  the  most
+
+(90:51) obvious  there's  going  to  be  a  fair  value
+
+(90:52) gap  or  liquidity
+
+(90:55) which  is  the  most  easiest  closest
+
+(90:57) proximity  PD
+
+(90:59) array  it's  probably  going  to  go  to  that
+
+(91:02) one  but  what  if  you're  wrong  then  you
+
+(91:04) [ __ ]  lose  what  the  f  You're  Gonna
+
+(91:06) Lose  sometimes  you're  gonna  lose  folks
+
+(91:09) you're  gonna  did  it  wrong  sometimes  why
+
+(91:10) are  you  afraid  look  at  how  many  new
+
+(91:13) opportunities  are  made  available  to  you
+
+(91:15) now  you  have  information  that  is  not
+
+(91:17) found  anywhere  else  I  have  laughed  at
+
+(91:20) all  these  [ __ ]  clowns  for  30  years  on
+
+(91:23) an  internet
+
+(91:24) pretending  they  had  some  kind  of  Holy
+
+(91:27) Grail  and  they're  clueless  they're
+
+(91:30) absolutely
+
+(91:32) clueless  and  they  perpetuate  and
+
+(91:34) regurgitate  all  the  stuff  that  I  fought
+
+(91:36) in
+
+(91:37) books  over  2,000  books  and  it's  all
+
+(91:40) horseshit  and  I  just  can't  bring  it  to
+
+(91:42) throw  I  can't  bring  myself  to  the  point
+
+(91:44) of  throwing  them  away  because  number  one
+
+(91:45) I  spent  a  lot  of  good  money  on  it  I
+
+(91:47) worked  hard  for  that
+
+(91:48) money  and  it  just  reminds  me  of  what  I
+
+(91:52) had  to  Wade  through
+
+(91:55) and  all  the  horeshit  and  lies  and
+
+(91:57) garbage  that  people  believe  that  makes
+
+(91:59) these  markets  move  up  and  down  and  it's
+
+(92:02) all  horeshit  it's  a  waste  of  time  all
+
+(92:06) the  things  that  you  think  is  going  to
+
+(92:07) make  the  price  go  up  and  down  if  it's  in
+
+(92:10) a  book  unless  I  wrote  it  it's  all
+
+(92:12) horseshit  and  yes  I  just  let  pride  and
+
+(92:14) ego  speak  right  there  because  I  can  do
+
+(92:15) it  I  have  the  author  I  have  the
+
+(92:16) authority  to  do
+
+(92:19) so  you  have  a  setup  for  life  if  you  use
+
+(92:22) this  information  I've  given  you  the
+
+(92:25) freedom  to  be  able  to  pick  what  your
+
+(92:29) entry  model  is  going  to
+
+(92:31) be  which  one  are  you  going  to  use  is  it
+
+(92:35) going  to  be  an  order  block  a  fair  value
+
+(92:36) Gap  optimal  trade  entry  inversion  fair
+
+(92:39) value
+
+(92:40) Gap  turtle
+
+(92:42) soup  uh  consequent  encroachment  of  a
+
+(92:49) wick  all  these  things  are  left  into  your
+
+(92:52) hands  and  I'm  making  allowance  for  that
+
+(92:55) because  I  don't  know  where  you  started
+
+(92:57) in  my  videos  and  if  you're  wondering
+
+(93:00) where  to  start  the  2022  model  or  2022
+
+(93:04) mentorship  it's  41  videos  I  promise  you
+
+(93:07) if  you  start  there  you  will  get  the
+
+(93:09) shortest  route  to  going  into  the  charts
+
+(93:11) and  finding  something  that  works  every
+
+(93:12) [ __ ]
+
+(93:13) day  every  day  it  works  every  day  now
+
+(93:16) here's  here's  the  caveat  it  may  not  work
+
+(93:20) in  the  market  that  you're  looking  at
+
+(93:22) right  now  but  it's  in  the  every  single
+
+(93:24) one  of  these  markets  it's  in  there  so
+
+(93:27) what  does  that  mean  if  you're  an  index
+
+(93:29) Trader  it  will  be  in  one
+
+(93:32) index  it  may  be  in  multiple  index  but  it
+
+(93:35) might  only  be  in  one  and  that's  why  I
+
+(93:38) teach  you  to  look  at  all  three  of  the
+
+(93:39) averages  the  Dow  the  NASDAQ  and  the
+
+(93:42) S&P  it  may  not  be  in  the  pound  but  it  is
+
+(93:46) in  the
+
+(93:47) Euro  you  see  the  difference  that's  why  I
+
+(93:49) teach  at  least  a  Triad  when  I  taught
+
+(93:53) predominant  only  Forex  I  was  teaching
+
+(93:55) dollar  euro  dollar  and  pound  dollar  you
+
+(93:59) can't  miss  it  then  it's  there  you  have
+
+(94:03) to  have  intermarket  relationships  and
+
+(94:05) study  like  that  with  a  closely
+
+(94:07) correlated  Market  Euro  and  cable  or  euro
+
+(94:11) dollar  and  pound  dollar  are  closely
+
+(94:13) correlated  they're  inversely
+
+(94:16) correlated  with  the  dollar  so  when  the
+
+(94:18) dollar  goes  up  they  go  down  but  just
+
+(94:21) because  the  dollar  is  going  down  doesn't
+
+(94:23) mean  it's  a  good  buy  to  be  in  Euro
+
+(94:25) sometimes  it's  a  better  buy  in  cable
+
+(94:27) most  times  it's  better  than  cable  better
+
+(94:30) in  cable  rather  but  there's  going  to  be
+
+(94:31) times  when  the  dollar  is  going  sideways
+
+(94:34) and  the  Euro  or  cable  May  outperform  one
+
+(94:37) or  the  other  what  does  that  mean  it  just
+
+(94:40) means  that  the  real  trade  is  not  in  that
+
+(94:42) one  it's  in  the  Exotic  meaning  that  you
+
+(94:45) can  use  the  pound  dollar  if  it's  really
+
+(94:47) running  or  it's  predisposed  to  go  up
+
+(94:50) more  if  the  dollar  is  consolidating  that
+
+(94:52) means  you  probably  have  a  really  good
+
+(94:54) trade  short  I'm  sorry  long  in  pound
+
+(94:58) Yen  don't  take  my  word  for  it  just
+
+(95:01) consider  it  I've  done  lessons  and  core
+
+(95:02) content  about  that  stuff
+
+(95:04) too  those  videos  are  not  coming  down  in
+
+(95:07) November  everything  on  this  YouTube
+
+(95:09) channel  will
+
+(95:10) stay  I  won't  be  here  updating  it  after
+
+(95:13) November  but  I  promise  I  will  leave  you
+
+(95:16) with  more  than  you  will  ever  need  and
+
+(95:19) you  study  at  your  own  pace  don't
+
+(95:22) rush  if  you  rush  you  just  make  it  just
+
+(95:25) makes  your  learning  curve  longer  you
+
+(95:27) can't  you  can't  speed  learn  this  you
+
+(95:30) can't  learn  I  saw  a  guy  I  watched  all
+
+(95:34) the  ICT  videos  and  I've  condensed  it
+
+(95:37) into  15  videos  and  now  you  can  do  it
+
+(95:40) quicker  and  sooner  and  faster  and  more
+
+(95:41) efficiently  bull  that's
+
+(95:43) [ __ ]  you  hear  that  that's  me
+
+(95:45) laughing  at  your  [ __ ]  ass  you  are
+
+(95:46) clown  if  you  think  you  can  take
+
+(95:48) everything  I've  done  and  condense  it
+
+(95:49) into  the  smallest  little  time  frame  of
+
+(95:51) of  presentation  you're  going  to  miss  so
+
+(95:52) much  information
+
+(95:54) there's  so  much  information  in  the  stuff
+
+(95:56) I've
+
+(95:57) given  and  you  don't  even  appreciate  what
+
+(96:00) it  is  because  you  just  went  through  it
+
+(96:02) one  time  and  you  haven't  even  started
+
+(96:03) trading  with  real  money  and  when  you
+
+(96:05) start  trading  with  real  money  and  you
+
+(96:06) come  back  and  you  watch  those  same
+
+(96:07) videos  again  you're  like  oh  [ __ ]  he  said
+
+(96:09) that  I  didn't  hear  that  the  first  time
+
+(96:11) you're  going  to  swear  up  and  down  that  I
+
+(96:12) made  an  edit  to  the  video  and  I  haven't
+
+(96:15) it  just  doesn't  mean  anything  to  you
+
+(96:16) right  now  because  you're  not  even  a  demo
+
+(96:18) Trader  yet  with  consistency  when  you
+
+(96:20) start  trading  with  real  money  the
+
+(96:21) lessons  and  all  those  droning
+
+(96:24) discussions  jaw  boning  by  ICT  all  that
+
+(96:27) stuff's  going  to  be  much  more  meaningful
+
+(96:29) to  you  it's  going  to  be  rich
+
+(96:33) understanding  because  it'll
+
+(96:34) be  you  that's  prepared  to  hear  it  you're
+
+(96:37) not  prepared  to  hear  it  most  times
+
+(96:39) you're  not  and  to  be  honest  with  you  I'm
+
+(96:42) not  talking  to  you  I'm  talking  to  my
+
+(96:46) children  that's  what  all  this  is
+
+(96:49) for  that  movie  with  Michael  Keat  in  my
+
+(96:51) life  that's  what  I'm  doing  right  here
+
+(96:54) when  I'm  gone  they'll  have  all  this
+
+(96:57) they'll  have  all  this  to  listen  to  in
+
+(97:00) compare  and  contrast  with  notes  that  I
+
+(97:02) have  for  enigma  which  I  am  not  teaching
+
+(97:04) and  none  of  these  presentations  ever  had
+
+(97:06) Enigma  in  them  and  no  joker  has  cracked
+
+(97:09) it  and  figured  it  out  either  they  may
+
+(97:11) call  what  the  [ __ ]  they're  doing  Enigma
+
+(97:13) that  ain't  even
+
+(97:15) close  I  promise  you  it's  not  even
+
+(97:19) close  I  am  enigma
+
+(97:23) [Music]
+
+(97:27) appreciate  you  hanging  out  with  me
+
+(97:28) tonight  hopefully  this  was  insightful
+
+(97:30) and  helpful  to  you  in  your  learning  and
+
+(97:32) if  you  could  give  me  a  thumbs  up  on  the
+
+(97:34) video  doesn't  cost  you  anything  and  it's
+
+(97:36) an  encouragement  for  me  to  want  to  come
+
+(97:38) back  and  do  more  like  this  till  I'll
+
+(97:39) talk  to  you  next  time  be  safe
