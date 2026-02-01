@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquidity Pools - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 213, 115, 0.1) 0%, rgba(255, 165, 2, 0.1) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Liquidity Pools</h1>
+        <p>ICT Mentorship Core Content - Month 04</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#structure">Structure</a>
+        <a href="#smart-money">Smart Money vs Retail</a>
+        <a href="#bullish-pool">Bullish Pool Raid</a>
+        <a href="#bearish-pool">Bearish Pool Raid</a>
+        <a href="#entry">Entry Techniques</a>
+        <a href="#risk">Risk Management</a>
+        <a href="#examples">Chart Examples</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <div class="quote">
+                <p><em>"liquidity is the open interest of buyers and sellers in the market and can be further defined by those entities at or near specific price levels"</em></p>
+            </div>
+
+            <h3>What Are Liquidity Pools?</h3>
+            <div class="quote">
+                <p><em>"above old highs there's a pool or a collection of orders that Traders will build up around"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"new pending orders are in the form of buy stops above the marketplace"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"below the market price typically you'll see sellers and usually it's the smart money that usually wants to buy below market price"</em></p>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2>Structure & Pattern</h2>
+
+            <h3>Market Price and Liquidity Distribution</h3>
+            <div class="quote">
+                <p><em>"the gray area represents the current price that you're looking at for your specific asset class"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Liquidity Pool Structure</text>
+
+                <!-- Market Price Zone (Gray Area) -->
+                <rect x="300" y="200" width="200" height="100" fill="#9898a8" opacity="0.3" stroke="#9898a8" stroke-width="2"/>
+                <text x="400" y="255" fill="#e8e8ed" font-size="16" text-anchor="middle" font-weight="bold">MARKET PRICE</text>
+
+                <!-- Above Market Price -->
+                <text x="400" y="120" fill="#ff4757" font-size="14" text-anchor="middle">ABOVE MARKET PRICE</text>
+
+                <!-- Buy Stops Above -->
+                <rect x="150" y="140" width="200" height="40" fill="#ff4757" opacity="0.2" stroke="#ff4757" stroke-width="2"/>
+                <text x="250" y="165" fill="#ff4757" font-size="13" text-anchor="middle" font-weight="bold">BUY STOPS</text>
+
+                <!-- Smart Money Sells Above -->
+                <rect x="450" y="140" width="200" height="40" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="550" y="160" fill="#ffa502" font-size="13" text-anchor="middle" font-weight="bold">SMART MONEY</text>
+                <text x="550" y="175" fill="#ffa502" font-size="12" text-anchor="middle">SELLS</text>
+
+                <!-- Below Market Price -->
+                <text x="400" y="380" fill="#2ed573" font-size="14" text-anchor="middle">BELOW MARKET PRICE</text>
+
+                <!-- Sell Stops Below -->
+                <rect x="150" y="400" width="200" height="40" fill="#ff4757" opacity="0.2" stroke="#ff4757" stroke-width="2"/>
+                <text x="250" y="425" fill="#ff4757" font-size="13" text-anchor="middle" font-weight="bold">SELL STOPS</text>
+
+                <!-- Smart Money Buys Below -->
+                <rect x="450" y="400" width="200" height="40" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="550" y="420" fill="#2ed573" font-size="13" text-anchor="middle" font-weight="bold">SMART MONEY</text>
+                <text x="550" y="435" fill="#2ed573" font-size="12" text-anchor="middle">BUYS</text>
+
+                <!-- Arrows showing relationship -->
+                <path d="M 350 165 L 450 165" stroke="#ffa502" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                <path d="M 350 425 L 450 425" stroke="#2ed573" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+
+                <!-- Arrow markers -->
+                <defs>
+                    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502" />
+                    </marker>
+                    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#2ed573" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="quote">
+                <p><em>"usually more refined smart Money traders will be selling above the market price"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"below the market price typically you'll see sellers and usually it's the smart money that usually wants to buy below market price"</em></p>
+            </div>
+        </section>
+
+        <section id="smart-money">
+            <h2>Smart Money vs Retail Positioning</h2>
+
+            <h3>Smart Money Strategy</h3>
+            <div class="quote">
+                <p><em>"the liquidity that we seek as a smart money-minded Trader is that we want to sell to the buyers above us or above the market price so we want to be a seller above market price"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"we want to buy below the market price from sellers that are willing to sell below the market price"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"by having this understood you're always going to be selling at a premium and buying at a discount"</em></p>
+            </div>
+
+            <h3>Retail Trader Behavior</h3>
+            <div class="quote">
+                <p><em>"usually it's the retail Trader that is so reactive to price they're usually buying and selling at market price"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"this is going to be diametrically opposed to what retail is typically taught. they're usually taught to buy on a Breakout or buy on some continuation pattern like a bull flag or or a wedge of some kind"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Premium vs Discount Trading</text>
+
+                <!-- Vertical price axis -->
+                <line x1="400" y1="80" x2="400" y2="360" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Premium Zone (Above Market) -->
+                <rect x="200" y="80" width="400" height="100" fill="#ff4757" opacity="0.15"/>
+                <text x="400" y="105" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">PREMIUM</text>
+                <text x="150" y="130" fill="#ffa502" font-size="13" text-anchor="end">Smart Money SELLS</text>
+                <text x="650" y="130" fill="#ff4757" font-size="13" text-anchor="start">Retail BUYS on breakout</text>
+                <circle cx="570" cy="130" r="5" fill="#ff4757"/>
+
+                <!-- Market Price Line -->
+                <line x1="200" y1="220" x2="600" y2="220" stroke="#ffa502" stroke-width="3" stroke-dasharray="10,5"/>
+                <text x="620" y="225" fill="#ffa502" font-size="14" text-anchor="start" font-weight="bold">MARKET PRICE</text>
+
+                <!-- Discount Zone (Below Market) -->
+                <rect x="200" y="260" width="400" height="100" fill="#2ed573" opacity="0.15"/>
+                <text x="400" y="285" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">DISCOUNT</text>
+                <text x="150" y="310" fill="#2ed573" font-size="13" text-anchor="end">Smart Money BUYS</text>
+                <text x="650" y="310" fill="#ff4757" font-size="13" text-anchor="start">Retail SELLS on breakdown</text>
+                <circle cx="570" cy="310" r="5" fill="#ff4757"/>
+            </svg>
+
+            <h3>Discipline Required</h3>
+            <div class="quote">
+                <p><em>"what we require is the market and pull back into a level of discount and that requires a bit of discipline and most Traders especially in the retail Universe lack discipline in terms of patience"</em></p>
+            </div>
+        </section>
+
+        <section id="bullish-pool">
+            <h2>Bullish Liquidity Pool Raid</h2>
+
+            <h3>Definition</h3>
+            <div class="quote">
+                <p><em>"a run on a bullish liquidity pool... the low that is under the current market price will typically have a trailed sell stop under it for long Traders"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"sell stops for Traders who wish to trade on a breakout lower in price for a short position also reside below old lows"</em></p>
+            </div>
+
+            <h3>Validation</h3>
+            <div class="quote">
+                <p><em>"validation of this setup or condition is when the low is violated or Price moves below the recent low and the sell stops become Market orders to sell at Market"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"this injects sell side liquidity in the marketplace and typically this is paired up with smart money buyers"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bullish Liquidity Pool Raid</text>
+
+                <!-- Price movement simulation -->
+                <!-- Downtrend -->
+                <polyline points="100,150 150,180 200,160 250,200 300,180 350,220"
+                          fill="none" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- Old Low Level -->
+                <line x1="350" y1="220" x2="700" y2="220" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="710" y="225" fill="#ff4757" font-size="13" text-anchor="start">Old Low</text>
+
+                <!-- Sweep Below (Liquidity Pool) -->
+                <rect x="380" y="230" width="80" height="40" fill="#ff4757" opacity="0.2" stroke="#ff4757" stroke-width="2"/>
+                <text x="420" y="245" fill="#ff4757" font-size="11" text-anchor="middle" font-weight="bold">SELL STOPS</text>
+                <text x="420" y="260" fill="#ff4757" font-size="11" text-anchor="middle">(Liquidity Pool)</text>
+
+                <!-- Sweep down arrow -->
+                <path d="M 350 220 L 420 250" stroke="#2ed573" stroke-width="3" marker-end="url(#arrowhead-buy)"/>
+                <text x="380" y="240" fill="#2ed573" font-size="12" font-weight="bold">Sweep</text>
+
+                <!-- Rally up after accumulation -->
+                <polyline points="420,250 450,240 480,200 520,180 560,140 600,120"
+                          fill="none" stroke="#2ed573" stroke-width="4"/>
+
+                <!-- Buy Side Liquidity (Target) -->
+                <line x1="100" y1="120" x2="700" y2="120" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="710" y="125" fill="#2ed573" font-size="13" text-anchor="start">Old High</text>
+
+                <rect x="580" y="80" width="80" height="40" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="620" y="95" fill="#2ed573" font-size="11" text-anchor="middle" font-weight="bold">BUY STOPS</text>
+                <text x="620" y="110" fill="#2ed573" font-size="11" text-anchor="middle">(Target)</text>
+
+                <!-- Labels -->
+                <text x="420" y="300" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">1. ACCUMULATE Sell Stops</text>
+                <text x="620" y="50" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">2. DISTRIBUTE to Buy Stops</text>
+
+                <!-- Process explanation -->
+                <text x="400" y="350" fill="#e8e8ed" font-size="13" text-anchor="middle">"you're accumulating sell stops and offloading them to buy stops"</text>
+
+                <defs>
+                    <marker id="arrowhead-buy" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#2ed573" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Market Mechanics</h3>
+            <div class="quote">
+                <p><em>"if the Market's predisposed to go higher we wait for the market to go down below an old low to knock out those weak Longs or bullish traders that trailer stop loss off too tight"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"the market will correct and go lower and take out an old low that accumulation of sell side liquidity or knocking out the sell stops below the marketplace it injects the marketplace with willing participants to sell the marketplace so Engineers liquidity into Market"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"if there's a rush to sell the smart money and us we look to accumulate that Rush of selling interest and we'll accumulate those orders really quick and then we'll look for a move to go higher"</em></p>
+            </div>
+        </section>
+
+        <section id="bearish-pool">
+            <h2>Bearish Liquidity Pool Raid</h2>
+
+            <h3>Bearish Market Context</h3>
+            <div class="quote">
+                <p><em>"if we're looking at a bearish market if the undertones of the marketplace suggest that the dollar is bearish what we will be willing to do is we want to sell above old highs"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"the buyers that would view that move above an old high they would see that as a bullish Breakout so they're going to be willing buyers up there"</em></p>
+            </div>
+
+            <h3>Buyer Participation Above Old Highs</h3>
+            <div class="quote">
+                <p><em>"if price prints at an old high or just above an old High there's going to be buyers that want to accumulate new longs up there or they have shorts on and the market has repriced above an old high and that's exactly where their stop loss for protective short position would be residing"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"in other words they would have a protective buy stop above an old high we could sell at that moment"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bearish Liquidity Pool Raid</text>
+
+                <!-- Uptrend -->
+                <polyline points="100,350 150,320 200,340 250,300 300,320 350,280"
+                          fill="none" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Old High Level -->
+                <line x1="350" y1="280" x2="700" y2="280" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="710" y="285" fill="#2ed573" font-size="13" text-anchor="start">Old High</text>
+
+                <!-- Sweep Above (Liquidity Pool) -->
+                <rect x="380" y="230" width="80" height="40" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="420" y="245" fill="#2ed573" font-size="11" text-anchor="middle" font-weight="bold">BUY STOPS</text>
+                <text x="420" y="260" fill="#2ed573" font-size="11" text-anchor="middle">(Liquidity Pool)</text>
+
+                <!-- Sweep up arrow -->
+                <path d="M 350 280 L 420 250" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowhead-sell)"/>
+                <text x="380" y="260" fill="#ff4757" font-size="12" font-weight="bold">Sweep</text>
+
+                <!-- Decline after distribution -->
+                <polyline points="420,250 450,260 480,300 520,320 560,360 600,380"
+                          fill="none" stroke="#ff4757" stroke-width="4"/>
+
+                <!-- Sell Side Liquidity (Target) -->
+                <line x1="100" y1="380" x2="700" y2="380" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="710" y="385" fill="#ff4757" font-size="13" text-anchor="start">Old Low</text>
+
+                <rect x="580" y="390" width="80" height="40" fill="#ff4757" opacity="0.2" stroke="#ff4757" stroke-width="2"/>
+                <text x="620" y="405" fill="#ff4757" font-size="11" text-anchor="middle" font-weight="bold">SELL STOPS</text>
+                <text x="620" y="420" fill="#ff4757" font-size="11" text-anchor="middle">(Target)</text>
+
+                <!-- Labels -->
+                <text x="420" y="200" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">1. ACCUMULATE Buy Stops</text>
+                <text x="620" y="460" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">2. DISTRIBUTE to Sell Stops</text>
+
+                <!-- Process explanation -->
+                <text x="400" y="480" fill="#e8e8ed" font-size="13" text-anchor="middle">"selling short in a pool of liquidity of buyers"</text>
+
+                <defs>
+                    <marker id="arrowhead-sell" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ff4757" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Selling into Buy Side Liquidity</h3>
+            <div class="quote">
+                <p><em>"by doing that what we're doing is we're actually selling short in a pool of liquidity of buyers"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"we wait for the market to trade above an old high that buy side liquidity is injected in the marketplace it's a rush of buy orders at the market and smart money will go and accumulate and sell into that with the expectations that false break above an old high while the market is underlying bearish"</em></p>
+            </div>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Techniques</h2>
+
+            <h3>Bullish Entry Setup</h3>
+            <div class="quote">
+                <p><em>"when underlying Market is bullish before price trades under the recent low you're going to place a buy limit order just below or at the recent low"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"you're buying the sell stops like a bank Trader or any other smart money entity would"</em></p>
+            </div>
+
+            <h3>Role Playing Exercise</h3>
+            <div class="quote">
+                <p><em>"we go into the marketplace and we role play by looking at the charts and say okay if I were short right now where would my protective buy stop would be. if I was long right now where would my protective sell stop be"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"by doing that you can get a good read on where other Traders would have their stop-loss orders above and below the marketplace"</em></p>
+            </div>
+
+            <h3>No Order Book Required</h3>
+            <div class="quote">
+                <p><em>"you don't need to see a order book you don't need to see a supposed ladder or anything like that depth of Market you don't need any of that stuff"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"you can actually see where the orders would be residing with common sense and just visual reference to where the charts are showing old highs and old lows"</em></p>
+            </div>
+
+            <h3>Higher Time Frame Work</h3>
+            <div class="quote">
+                <p><em>"the trick is knowing what the underlying paintings of the market is is the market predisposed to go higher or is it predisposed to go lower once you do that higher time frame work that leads you to be bullish or bearish on a specific asset class"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"then it's not hard to sit and wait"</em></p>
+            </div>
+        </section>
+
+        <section id="risk">
+            <h2>Risk Management</h2>
+
+            <h3>Defining Risk</h3>
+            <div class="quote">
+                <p><em>"defining the risk with this setup this is where your work is going to be you're going to need to see the low identify how far it could reasonably trade below it"</em></p>
+            </div>
+
+            <h3>Sweep Expectations</h3>
+            <div class="quote">
+                <p><em>"the low that you're trying to buy under okay you're going to expect or anticipate on a lower time frame chart like a 15 or 30 minute chart you can expect a 10 to 20 pip sweep below the old low"</em></p>
+            </div>
+
+            <h3>Stop Loss Placement</h3>
+            <div class="quote">
+                <p><em>"a 30 to 50 pip stop is ideal if your entry is under the low and not above it"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"if you're trying to get ahead of the move trying to buy Above the low or at the low you're really probably just fearful you're going to miss the entry"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it's better to wait for the market to trade under that low and once it trades under there 10 20 Pips that's a really good ideal entry point because if you use a 30 to 50 pip stop while entering below significantly below the Low by 10 or 20 Pips below the low if you use a 30 or 50 pip stop at that point it's going to take a real significant move to knock you out"</em></p>
+            </div>
+
+            <h3>Invalidation Point</h3>
+            <div class="quote">
+                <p><em>"if it starts moving beyond 25 Pips I think is a fair assessment below the low it's probably not just a stop run you're probably looking at it much further decline"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Entry Technique with Stop Placement</text>
+
+                <!-- Old Low Line -->
+                <line x1="100" y1="200" x2="700" y2="200" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="720" y="205" fill="#ff4757" font-size="13" text-anchor="start" font-weight="bold">Old Low</text>
+
+                <!-- 10-20 Pip Sweep Zone -->
+                <rect x="100" y="200" width="600" height="40" fill="#2ed573" opacity="0.15" stroke="#2ed573" stroke-width="2"/>
+                <text x="400" y="225" fill="#2ed573" font-size="13" text-anchor="middle" font-weight="bold">10-20 Pip Sweep Zone - ENTRY AREA</text>
+
+                <!-- Entry Point -->
+                <circle cx="450" cy="220" r="8" fill="#2ed573" stroke="#e8e8ed" stroke-width="2"/>
+                <text x="450" y="265" fill="#2ed573" font-size="12" text-anchor="middle" font-weight="bold">BUY LIMIT</text>
+                <text x="450" y="280" fill="#2ed573" font-size="11" text-anchor="middle">10-20 pips below low</text>
+
+                <!-- Stop Loss Zone -->
+                <rect x="100" y="240" width="600" height="50" fill="#ff4757" opacity="0.15" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="400" y="270" fill="#ff4757" font-size="13" text-anchor="middle">30-50 Pip Stop Loss Zone</text>
+
+                <!-- Stop Loss Line -->
+                <line x1="100" y1="290" x2="700" y2="290" stroke="#ff4757" stroke-width="2"/>
+                <circle cx="450" cy="290" r="6" fill="#ff4757"/>
+                <text x="450" y="310" fill="#ff4757" font-size="12" text-anchor="middle" font-weight="bold">STOP LOSS</text>
+
+                <!-- Invalidation Zone -->
+                <rect x="100" y="290" width="600" height="30" fill="#ff4757" opacity="0.25"/>
+                <text x="400" y="310" fill="#e8e8ed" font-size="11" text-anchor="middle">Beyond 25 pips = Likely NOT a stop run</text>
+
+                <!-- Rally -->
+                <path d="M 450 220 L 500 180 L 550 140 L 600 100"
+                      fill="none" stroke="#2ed573" stroke-width="4" marker-end="url(#arrowhead-rally)"/>
+                <text x="580" y="85" fill="#2ed573" font-size="13" text-anchor="middle" font-weight="bold">Rally to Old High</text>
+
+                <!-- Notes -->
+                <text x="400" y="360" fill="#e8e8ed" font-size="12" text-anchor="middle" font-style="italic">"it's better to wait for the market to trade under that low"</text>
+
+                <defs>
+                    <marker id="arrowhead-rally" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#2ed573" />
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="examples">
+            <h2>Chart Examples</h2>
+
+            <div class="example-box">
+                <div class="example-title">Example 1: USD/CAD (Canadian Dollar)</div>
+
+                <h3>Daily Chart Setup</h3>
+                <div class="quote">
+                    <p><em>"we're looking at the Canadian dollar U.S CAD pair on the left hand side we have a daily chart and I want you to take a look at the bodies of these candles over here and we're going to look for a sweep below the bodies of those candles"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"there's sell stops below these lows and we're using this previous day's candle low and that low comes in at one 3102"</em></p>
+                </div>
+
+                <h3>15-Minute Entry Execution</h3>
+                <div class="quote">
+                    <p><em>"we transpose that level over onto our 15 minute time frame 3102 and we see on this day here price trades down below it"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"we now have another lower low right here that we're finding on a daily time on an intraday basis so we're going to be looking for a run below 130.95"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"if we see a movement down to 130 85 or 130 75 we could be a buyer so we can do a buy at 130 90. we're going to say that's our entry point"</em></p>
+                </div>
+
+                <h3>Execution Details</h3>
+                <div class="quote">
+                    <p><em>"price trades right down below here and this candle's low comes in at 130 83 so the stop I'm sorry the limit order would have put you in Long at 1 30 90 and the actual low comes in at 1 30 83 so it's not even seven Pips it's small it is seven Pips draw down"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"price immediately shares a willingness to want to Rally up and we're looking for a run up into this swing High where there would be a contrary liquidity pool where buy stops would be resting so we're gonna be looking for a 13360 as a way to unload"</em></p>
+                </div>
+
+                <h3>Result</h3>
+                <div class="quote">
+                    <p><em>"price rallies up... 13360 occurs right here on this candle right here it still goes a little bit higher"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"really nice example of a low risk entry very big payout"</em></p>
+                </div>
+
+                <ul>
+                    <li><strong>Daily Low Reference:</strong> <em>131.02</em></li>
+                    <li><strong>Intraday Low:</strong> <em>130.95</em></li>
+                    <li><strong>Entry:</strong> <em>130.90</em></li>
+                    <li><strong>Actual Low:</strong> <em>130.83</em></li>
+                    <li><strong>Drawdown:</strong> <em>7 pips</em></li>
+                    <li><strong>Target:</strong> <em>133.60 (buy stops above swing high)</em></li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 2: Dollar Index (Thursday to Friday)</div>
+
+                <div class="quote">
+                    <p><em>"we're looking at the dollar Index you see the Dollar's been in a bullish move here and we probably cooled our jets for the week going into Friday this is Thursday's Trading and this is Friday's set up here"</em></p>
+                </div>
+
+                <h3>Setup Identification</h3>
+                <div class="quote">
+                    <p><em>"price creates a low in here intraday and we have some buy stops Above This High here and we have some buy stops above this short term High here as well"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"price trades down clears out the sell stops on the marketplace here and your entry could have been a 102.85 or 102.80"</em></p>
+                </div>
+
+                <h3>Execution</h3>
+                <div class="quote">
+                    <p><em>"the low comes in at 102.69 so you definitely would have had a easy fill on that regards to spread So Below this low you'd be long and we're looking for buy stops above these equal highs and then buy stops above here to unload that long position that would be accumulated below this low"</em></p>
+                </div>
+
+                <h3>Price Movement</h3>
+                <div class="quote">
+                    <p><em>"price rallies up smaller retracement could have been scary for you here but you're looking for a rejection away price Taps that high just falls short of it explodes up through takes the buy stops smaller retracement again runs right up above hits the buy stops"</em></p>
+                </div>
+
+                <h3>Friday Context</h3>
+                <div class="quote">
+                    <p><em>"because the market was in a trending environment prior to Friday and Friday being the end of the week we're going to be looking for the market to want to take something off the table and I'm going to have a choppy sideways day and that's why we weren't expecting a new high but we were looking for a run on those buy stops and then running out the sell stop"</em></p>
+                </div>
+
+                <ul>
+                    <li><strong>Entry Zone:</strong> <em>102.85 or 102.80</em></li>
+                    <li><strong>Actual Low:</strong> <em>102.69</em></li>
+                    <li><strong>Targets:</strong> <em>Equal highs and short-term high buy stops</em></li>
+                    <li><strong>Context:</strong> <em>Friday choppy sideways day after trending week</em></li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 3: Dollar/Swiss Franc</div>
+
+                <div class="quote">
+                    <p><em>"we're going to install a horizontal line delineating this low here okay we could be a buyer at that low or just below it and we're going to look for a run below that to be a buyer"</em></p>
+                </div>
+
+                <h3>Layered Targets</h3>
+                <div class="quote">
+                    <p><em>"we're going to look to pair orders Above This high and this High here and we'll see and we'll potentially look for a run up here so one zero one four five one zero one Thirty and then one zero one twenty five are are layered by stop areas where we're going to be looking to take our profits and take something off the table"</em></p>
+                </div>
+
+                <h3>Execution</h3>
+                <div class="quote">
+                    <p><em>"here's that move down into that that level we identified to low and here is to sweep down below it. price rallies away surges up above for the 101 25s look at the reaction after it hits this"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"that in itself is a nice other reaction for a liquidity pool reaction but we're looking for a stronger move higher and there's your reaction clearing out the 101 30s and the 101 45s"</em></p>
+                </div>
+
+                <ul>
+                    <li><strong>Entry:</strong> <em>At or just below identified low</em></li>
+                    <li><strong>Target 1:</strong> <em>101.25 (first reaction)</em></li>
+                    <li><strong>Target 2:</strong> <em>101.30 (second high)</em></li>
+                    <li><strong>Target 3:</strong> <em>101.45 (highest buy stops)</em></li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 4: Cable (GBP/USD) - December 16, 2016</div>
+
+                <div class="quote">
+                    <p><em>"this is cable we talked about this one also live in session Friday during live market action said that we would probably sweep below that one more time get below the opening price sweep the sell stops below that short term low here"</em></p>
+                </div>
+
+                <h3>Target Projection</h3>
+                <div class="quote">
+                    <p><em>"we talked about price moving up into the 125 the 125 20 Level relative to the hourly chart"</em></p>
+                </div>
+
+                <h3>Execution</h3>
+                <div class="quote">
+                    <p><em>"price sweeps down below it runs it pool of liquidity out here so those stops are now gone the sell stops are gone so they accumulated those those positions and now they're going to look to offset above 24.75"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"price runs up it hits that level handsomely"</em></p>
+                </div>
+
+                <div class="quote">
+                    <p><em>"run on liquidity pool here absorb the sell stops accumulate them as long position entries take something off above here and then off up here relative to the hourly chart"</em></p>
+                </div>
+
+                <ul>
+                    <li><strong>Setup:</strong> <em>Sweep below opening price and short-term low</em></li>
+                    <li><strong>Target 1:</strong> <em>124.75</em></li>
+                    <li><strong>Target 2:</strong> <em>125.20 (hourly chart level)</em></li>
+                    <li><strong>Note:</strong> <em>Live session recording available for December 16, 2016</em></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer from the transcript</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is liquidity according to ICT?</div>
+                    <div class="flashcard-answer">"liquidity is the open interest of buyers and sellers in the market and can be further defined by those entities at or near specific price levels"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a liquidity pool?</div>
+                    <div class="flashcard-answer">"above old highs there's a pool or a collection of orders that Traders will build up around"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where does smart money want to sell?</div>
+                    <div class="flashcard-answer">"we want to sell to the buyers above us or above the market price so we want to be a seller above market price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where does smart money want to buy?</div>
+                    <div class="flashcard-answer">"we want to buy below the market price from sellers that are willing to sell below the market price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What trading approach does this create?</div>
+                    <div class="flashcard-answer">"by having this understood you're always going to be selling at a premium and buying at a discount"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does this differ from retail trader education?</div>
+                    <div class="flashcard-answer">"this is going to be diametrically opposed to what retail is typically taught. they're usually taught to buy on a Breakout or buy on some continuation pattern like a bull flag or or a wedge of some kind"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What validation confirms a bullish liquidity pool raid?</div>
+                    <div class="flashcard-answer">"validation of this setup or condition is when the low is violated or Price moves below the recent low and the sell stops become Market orders to sell at Market"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when sell stops are triggered?</div>
+                    <div class="flashcard-answer">"this injects sell side liquidity in the marketplace and typically this is paired up with smart money buyers"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should you place a buy limit order for a bullish setup?</div>
+                    <div class="flashcard-answer">"when underlying Market is bullish before price trades under the recent low you're going to place a buy limit order just below or at the recent low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How much sweep below an old low should you expect?</div>
+                    <div class="flashcard-answer">"on a lower time frame chart like a 15 or 30 minute chart you can expect a 10 to 20 pip sweep below the old low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal stop loss size?</div>
+                    <div class="flashcard-answer">"a 30 to 50 pip stop is ideal if your entry is under the low and not above it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What indicates the sweep is NOT just a stop run?</div>
+                    <div class="flashcard-answer">"if it starts moving beyond 25 Pips I think is a fair assessment below the low it's probably not just a stop run you're probably looking at it much further decline"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you identify where stops would be without an order book?</div>
+                    <div class="flashcard-answer">"we go into the marketplace and we role play by looking at the charts and say okay if I were short right now where would my protective buy stop would be. if I was long right now where would my protective sell stop be"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do you need depth of market or order book data?</div>
+                    <div class="flashcard-answer">"you don't need to see a order book you don't need to see a supposed ladder or anything like that depth of Market you don't need any of that stuff you can actually see where the orders would be residing with common sense and just visual reference to where the charts are showing old highs and old lows"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the trick to knowing when to wait?</div>
+                    <div class="flashcard-answer">"the trick is knowing what the underlying paintings of the market is is the market predisposed to go higher or is it predisposed to go lower once you do that higher time frame work that leads you to be bullish or bearish on a specific asset class then it's not hard to sit and wait"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when the market raids buy side liquidity in a bearish context?</div>
+                    <div class="flashcard-answer">"we wait for the market to trade above an old high that buy side liquidity is injected in the marketplace it's a rush of buy orders at the market and smart money will go and accumulate and sell into that with the expectations that false break above an old high while the market is underlying bearish"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the smart money role in liquidity pools?</div>
+                    <div class="flashcard-answer">"you're accumulating sell stops and offloading them to buy stops... all you're doing is the same role as a market maker and a liquidity provider"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">In the USD/CAD example, what was the entry and drawdown?</div>
+                    <div class="flashcard-answer">"the limit order would have put you in Long at 1 30 90 and the actual low comes in at 1 30 83 so it's not even seven Pips it's small it is seven Pips draw down"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

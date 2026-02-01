@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcing Liquidity Concepts & Price Delivery - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reinforcing Liquidity Concepts & Price Delivery</h1>
+        <p>Understanding External Range Liquidity, Internal Range Liquidity, and Low Resistance Liquidity Runs</p>
+    </header>
+
+    <nav>
+        <a href="#external">External Range Liquidity</a>
+        <a href="#internal">Internal Range Liquidity</a>
+        <a href="#resistance">Low vs High Resistance</a>
+        <a href="#framework">Trading Framework</a>
+        <a href="#entry">Entry Rules</a>
+        <a href="#timeframes">Timeframe Guidelines</a>
+        <a href="#study">Study & Review</a>
+    </nav>
+
+    <main>
+        <section id="external">
+            <h2>External Range Liquidity</h2>
+
+            <div class="quote">
+                <p><em>"The current trading range will have buy side liquidity above the Range High"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"The current trading range will have sell side liquidity below the range or low"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Runs on liquidity seek to pair orders with pending order liquidity which is in the form of a liquidity pool"</em></p>
+            </div>
+
+            <h3>Nature of External Range Liquidity Runs</h3>
+
+            <div class="quote">
+                <p><em>"External range liquidity runs can be low resistance or high resistance in nature. You as a Trader you want your trades to be in low resistance conditions. In other words you don't want to have any resistance in your path of profitability"</em></p>
+            </div>
+
+            <h3>Example: Context Dependency</h3>
+
+            <div class="quote">
+                <p><em>"In the context from this high to this low its internal range liquidity but from this low to this high its external range liquidity because it's piercing it down here. In other words we created the range from this low to this high so we expect this range to be given up and run the stops out here"</em></p>
+            </div>
+        </section>
+
+        <section id="internal">
+            <h2>Internal Range Liquidity</h2>
+
+            <h3>Liquidity Voids</h3>
+
+            <div class="quote">
+                <p><em>"When the current trading range is likely to remain liquidity voids will fill in and this is associated with gap risk"</em></p>
+            </div>
+
+            <h3>Fair Value Gaps</h3>
+
+            <div class="quote">
+                <p><em>"When current trading range is likely to remain fair value gas will also fill in and this is tribute to Gap risk"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Gap risk is nothing more than simply when the market quickly reprices to a level where there was very little or no trading. So in other words when we see a liquidity run to close in a Range where there's only like one candle real long candle usually that's a gap fill"</em></p>
+            </div>
+
+            <h3>Order Blocks</h3>
+
+            <div class="quote">
+                <p><em>"Order blocks inside the trading range will be populated with new buys and or sells"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Market maker buy and sell models will form inside trading ranges"</em></p>
+            </div>
+
+            <h3>Trading Inside the Range</h3>
+
+            <div class="quote">
+                <p><em>"Every time the market creates a trading uh range going lower you want to mark off the previous High and the new low and when price trades back up you're trading inside that range. So if you trade short at a bearish order block which is the last up candle that's going to be a return to internal range liquidity"</em></p>
+            </div>
+        </section>
+
+        <section id="resistance">
+            <h2>Low Resistance vs High Resistance Liquidity Runs</h2>
+
+            <h3>Low Resistance Liquidity Runs</h3>
+
+            <div class="quote">
+                <p><em>"When we understand where the monthly and the weekly are trying to trade to when we look at Daily setups like this this creates the recipe if you will low resistance liquidity runs because you're trading in sync with the monthly where the monthly will most likely want to see price go up into"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Every time we see this you can see how price reacts to it. Very little resistance on the part of price to get through these levels because it has an agenda it wants to get to a specific price level relative to a higher time frame because the funds trade on the monthly and the weekly basis"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If we can keep that in context and frame our trades with this idea we will always be able to classify a trade whether if it's a high resistance or a low resistance liquidity run"</em></p>
+            </div>
+
+            <h3>High Resistance Liquidity Runs</h3>
+
+            <div class="quote">
+                <p><em>"If you're trading against a higher time frame and there's no real reason to see the funds okay move the marketplace to those levels it's not going to be a low resistance liquidity run it's going to be a high resistance liquidity run and they're the types of Trades that you sit in too long or they don't pan out right away or they turn right around on you and bite you in the rear end and stop you out"</em></p>
+            </div>
+
+            <h3>Characteristics of Low Resistance Runs</h3>
+
+            <div class="quote">
+                <p><em>"They are the high probability setups. They're the ones that have the immediate payouts. They're the ones that give you the immediate responsiveness to your entries and has very little drawdown and that's your goal as a Trader you want to be trading in that environment"</em></p>
+            </div>
+        </section>
+
+        <section id="framework">
+            <h2>Trading Framework</h2>
+
+            <h3>Entry and Exit Strategy</h3>
+
+            <div class="quote">
+                <p><em>"Predominantly my entries are internal range liquidity entries with exits at external range liquidity. In other words I'm buying inside the range and selling it outside the range once it breaks it"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You're looking to buy with internal range liquidity or a bullish order block inside a previous range and trying to take profit at an old high or above it while you're in sync with a higher time frame directional bias based on institutional order flow"</em></p>
+            </div>
+
+            <h3>Higher Timeframe Alignment</h3>
+
+            <div class="quote">
+                <p><em>"If I am in sync with the marketplace and I know what direction it wants to go and we're framing that based on the monthly chart here"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If I'm looking for it to go higher relative to the monthly chart any time that the market comes down below a short-term low I can be a buyer of that on short term external range liquidity or buying up stocks but the expectations of the range will continue going higher seeking monthly internal range liquidity in the form of this fair value Gap"</em></p>
+            </div>
+
+            <h3>Ranging Markets</h3>
+
+            <div class="quote">
+                <p><em>"When price trades back up we would expect it to reach up into 106.25. If it gets through the up candle we will be expecting it to trade up into this area here closing that range"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Inside this range from this low to this High we would be aiming for internal range liquidity"</em></p>
+            </div>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Rules & Patterns</h2>
+
+            <h3>Bullish Order Block Entries</h3>
+
+            <div class="quote">
+                <p><em>"At the top of this candle here and it's it's open on the next one that's where I would expect to see a measure of short-term bounce"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you look at this candle here we have a previous up candle rather large candle then we have this candle has a wick so at one point this candle opened traded lower so there was a pass-through on the range between both these candles in this area. So the delivery of price was on the up move here and then down on this one even though it's an up close it was offered twice all through that range"</em></p>
+            </div>
+
+            <h3>Fair Value Gaps</h3>
+
+            <div class="quote">
+                <p><em>"See this candle swick and this candle's Wick in between there price was only delivered on the downside so we have a fair value Gap. So if we start to trade higher we can expect to see the market want to reach up into that 106.50 level"</em></p>
+            </div>
+
+            <h3>Confirmation Pattern</h3>
+
+            <div class="quote">
+                <p><em>"Does it stay down there no it quickly runs away okay now we wait when we wait for a price to come back down to the last down candle here you look for the return back to that range. Does it want to run it after it takes this low certainly once the run it runs higher and every time it takes out a new high it's showing willingness to go higher. It's giving us a confirmation that there's underlying strength in this pair"</em></p>
+            </div>
+
+            <h3>Turtle Soups</h3>
+
+            <div class="quote">
+                <p><em>"The type of Trader you're going to be is going to be based on what you see easily in the charts. You're going to see either Turtle soups and you're going to be looking for buying of cell stops or selling of buy stops or you're going to be looking for a return back to fair value where you're looking to trade inside the range or buying internal range liquidity"</em></p>
+            </div>
+
+            <h3>Accumulation Pattern</h3>
+
+            <div class="quote">
+                <p><em>"Ultimately if you give it time all it's going to do is Recon it's going to return back to a previous order block here like it did here and recapitalize more buy orders because it's a long-term objective to get up to here. So they're going to have to buy some here buy some more here let some time go by and come back down to it again buy more of it again and one more time and then ultimately runs away because they have their position built"</em></p>
+            </div>
+        </section>
+
+        <section id="timeframes">
+            <h2>Timeframe Guidelines</h2>
+
+            <h3>Cheat Sheet</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Monthly/Weekly Chart Analysis</span>
+                </div>
+                <p><em>"You want to be looking at a monthly chart or weekly chart and determine where is the market more likely to go to and by having that idea if we're bullish on the monthly or weekly then we'll be looking for Buy signif Buy signals on the lower time frame like the daily the four hour to one hour and we would be looking for bullish order box or turtle soup Longs with the expectation that any short-term highs on those time frames that's where the objective is"</em></p>
+            </div>
+
+            <h3>Minimum Range Requirements</h3>
+
+            <div class="quote">
+                <p><em>"If the range is only from the order block where you would be buying up to the high in between if that's only 20 Pips are you going to be taking that type of trade my opinion would be no I wouldn't personally take that trade. But if I saw a sling like say this low here and up to this High here and there was an older block that allowed me to get into it down in this point here if I could take that trade and say this was 40 Pips that would be a trade I want to take"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you can see anything at 40 Pips or higher in looking for a retracement to go along on that that gives you a a reasonable first profit objective"</em></p>
+            </div>
+
+            <h3>50 Pip Strategy</h3>
+
+            <div class="quote">
+                <p><em>"If you're looking for say you're a Trader you want to have nothing less than 50 Pips okay well that's great use a 30 minute or 60 Minute chart and dial in looking at your Marketplace for buy signals that set up those price settings"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You want to look for ranges that have 50 Pips or more preferably about 75 to 80 Pips is perfect because even if it doesn't even break the range and go up above this old high it still gives you the opportunity to get that 50 Pips"</em></p>
+            </div>
+
+            <h3>100+ Pip Strategy</h3>
+
+            <div class="quote">
+                <p><em>"If you're trying to get you know 250 Pips you know um over a course of two weeks or so okay you're not going to get that trading on a five minute chart and looking for those types of price lines. You need to be living on a four hour chart or a daily chart and trading those price swings and looking for those those levels and that'll give you you know those types of objectives and returns"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You can you tell me how to make 100 Pips a week okay that's easy what you need to do is you need to trade a four hour or one hour chart nothing less that's it that's all you're gonna do and you wait and you look for scenarios across all the majors and you'll find a hundred Pips price swing every single week"</em></p>
+            </div>
+
+            <h3>Selectivity</h3>
+
+            <div class="quote">
+                <p><em>"You can't do that if you try to do every entry on every 30 pit price link for 25 price point because you're you're trying to get in right now and you're looking for anything to get you in. If you're much more selective in your setups you're going to trade a lot less but your setups are going to be a lot more Choice. They're going to be more potent. They're going to have a lot more uh likelihood of panning out for you in your favor"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You can't do that okay if you trade every single setup in every time frame. You got to pick a time frame that fits what your model is"</em></p>
+            </div>
+
+            <h3>Weekly Setup Frequency</h3>
+
+            <div class="quote">
+                <p><em>"It's not that you have to find a setup every single day but you will finally set up once a week. That's all you're looking for you're looking for one setup per week"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Every week There's been one setup in here we saw price rally away it comes back down to the previous order block and rallies through. It's not that you're trying to capture every piece of the weekly range that's not what I mean that's not being Illustrated here what I'm showing you is how you can find one setup program it doesn't require you to have the full entire weekly range"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where is buy side liquidity located relative to a trading range?</div>
+                    <div class="flashcard-answer">"The current trading range will have buy side liquidity above the Range High"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where is sell side liquidity located relative to a trading range?</div>
+                    <div class="flashcard-answer">"The current trading range will have sell side liquidity below the range or low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is gap risk?</div>
+                    <div class="flashcard-answer">"Gap risk is nothing more than simply when the market quickly reprices to a level where there was very little or no trading"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the primary entry and exit strategy taught?</div>
+                    <div class="flashcard-answer">"Predominantly my entries are internal range liquidity entries with exits at external range liquidity. In other words I'm buying inside the range and selling it outside the range once it breaks it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do low resistance liquidity runs have very little resistance?</div>
+                    <div class="flashcard-answer">"Very little resistance on the part of price to get through these levels because it has an agenda it wants to get to a specific price level relative to a higher time frame because the funds trade on the monthly and the weekly basis"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What creates a low resistance liquidity run?</div>
+                    <div class="flashcard-answer">"When we understand where the monthly and the weekly are trying to trade to when we look at Daily setups like this this creates the recipe if you will low resistance liquidity runs because you're trading in sync with the monthly where the monthly will most likely want to see price go up into"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens with high resistance liquidity runs?</div>
+                    <div class="flashcard-answer">"They're the types of Trades that you sit in too long or they don't pan out right away or they turn right around on you and bite you in the rear end and stop you out"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the characteristics of high probability setups?</div>
+                    <div class="flashcard-answer">"They are the high probability setups. They're the ones that have the immediate payouts. They're the ones that give you the immediate responsiveness to your entries and has very little drawdown"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the minimum range requirement for a day trade?</div>
+                    <div class="flashcard-answer">"If I could take that trade and say this was 40 Pips that would be a trade I want to take because if that's 40 Pips from where the high is and where the order block entry would be that means I could potentially have 40 Pips in profit"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you make 100 pips a week?</div>
+                    <div class="flashcard-answer">"What you need to do is you need to trade a four hour or one hour chart nothing less that's it that's all you're gonna do and you wait and you look for scenarios across all the majors and you'll find a hundred Pips price swing every single week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How often should you be looking for setups?</div>
+                    <div class="flashcard-answer">"It's not that you have to find a setup every single day but you will finally set up once a week. That's all you're looking for you're looking for one setup per week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when you're not selective with entries?</div>
+                    <div class="flashcard-answer">"You can't do that if you try to do every entry on every 30 pit price link for 25 price point because you're you're trying to get in right now and you're looking for anything to get you in"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT identify a fair value gap?</div>
+                    <div class="flashcard-answer">"See this candle swick and this candle's Wick in between there price was only delivered on the downside so we have a fair value Gap"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What confirms underlying strength in a bullish pair?</div>
+                    <div class="flashcard-answer">"Every time it takes out a new high it's showing willingness to go higher. It's giving us a confirmation that there's underlying strength in this pair"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do if the monthly/weekly is bullish?</div>
+                    <div class="flashcard-answer">"If we're bullish on the monthly or weekly then we'll be looking for Buy signif Buy signals on the lower time frame like the daily the four hour to one hour and we would be looking for bullish order box or turtle soup Longs with the expectation that any short-term highs on those time frames that's where the objective is"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two main trading approaches mentioned?</div>
+                    <div class="flashcard-answer">"You're going to see either Turtle soups and you're going to be looking for buying of cell stops or selling of buy stops or you're going to be looking for a return back to fair value where you're looking to trade inside the range or buying internal range liquidity"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

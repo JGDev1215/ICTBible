@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change in the State of Delivery - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Change in the State of Delivery</h1>
+        <p>"it's this change in the state of delivery that is the order block"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#buy-program">Buy Program</a>
+        <a href="#order-block">Order Block</a>
+        <a href="#macro">Last Hour Macro</a>
+        <a href="#market-function">Market Function</a>
+        <a href="#entry-rules">Entry Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <div class="quote">
+                <p><em>"it's this change in the state of delivery that is the order block"</em></p>
+            </div>
+            <div class="quote">
+                <p><em>"every time that we see a new change in the state of delivery there it's offering them another opportunity to build their position and build it larger"</em></p>
+            </div>
+            <div class="quote">
+                <p><em>"three down closed candles that opening price right there that candle's opening price you're going to look at this this value right here"</em></p>
+            </div>
+        </section>
+
+        <section id="buy-program">
+            <h2>Buy Program</h2>
+
+            <h3>What is a Buy Program</h3>
+            <div class="quote">
+                <p><em>"A buy program is not a market maker buy Model A buy program is when the market goes when an algorithm starts going into buy side delivery meaning when the market starts delivering price higher"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"it matters not how much buying pressure there is or how much selling pressure it is it's going to go there regardless of whether you want it to or not because if the Market's going to go there it's going there and it can do so with low volume"</em></p>
+            </div>
+
+            <h3>When Buy Program Starts</h3>
+            <div class="quote">
+                <p><em>"the market rallies from here and enters a buy program buy program is when the market just starts booking higher prices"</em></p>
+            </div>
+
+            <h3>Buy Program Duration</h3>
+            <div class="quote">
+                <p><em>"until we get to a pull of liquidity in this case it would be buy side here or a premium inefficiency"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Buy Program Pattern</text>
+
+                <!-- Base line -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Time labels -->
+                <text x="200" y="475" fill="#e8e8ed" font-size="14" text-anchor="middle">3:15 PM</text>
+                <text x="600" y="475" fill="#e8e8ed" font-size="14" text-anchor="middle">3:45 PM</text>
+
+                <!-- Low point -->
+                <circle cx="150" cy="400" r="6" fill="#ff4757"/>
+                <text x="150" y="430" fill="#e8e8ed" font-size="13" text-anchor="middle">Low</text>
+
+                <!-- Down closed candles (3 candles) -->
+                <rect x="180" y="350" width="20" height="50" fill="#ff4757" opacity="0.8"/>
+                <rect x="210" y="360" width="20" height="40" fill="#ff4757" opacity="0.8"/>
+                <rect x="240" y="370" width="20" height="30" fill="#ff4757" opacity="0.8"/>
+
+                <!-- Change in state of delivery annotation -->
+                <text x="220" y="330" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Three Down Closed</text>
+                <text x="220" y="345" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Candles</text>
+
+                <!-- Order block zone -->
+                <rect x="170" y="370" width="100" height="3" fill="#ffa502" opacity="0.5"/>
+                <text x="220" y="415" fill="#2ed573" font-size="12" text-anchor="middle">Buy Here</text>
+
+                <!-- Displacement upward -->
+                <line x1="270" y1="380" x2="320" y2="280" stroke="#2ed573" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <text x="295" y="325" fill="#2ed573" font-size="13" text-anchor="middle">Displacement</text>
+
+                <!-- Rally path (buy program) -->
+                <rect x="330" y="270" width="20" height="30" fill="#2ed573" opacity="0.8"/>
+                <rect x="360" y="250" width="20" height="50" fill="#2ed573" opacity="0.8"/>
+                <rect x="390" y="240" width="20" height="60" fill="#2ed573" opacity="0.8"/>
+                <rect x="420" y="220" width="20" height="80" fill="#2ed573" opacity="0.8"/>
+                <rect x="450" y="200" width="20" height="100" fill="#2ed573" opacity="0.8"/>
+
+                <!-- Buy side liquidity target -->
+                <line x1="480" y1="180" x2="680" y2="180" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="580" y="170" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Buy Side Liquidity</text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#2ed573" />
+                    </marker>
+                </defs>
+
+                <!-- Annotations -->
+                <text x="420" y="340" fill="#e8e8ed" font-size="13" text-anchor="middle">"market just starts</text>
+                <text x="420" y="355" fill="#e8e8ed" font-size="13" text-anchor="middle">booking higher prices"</text>
+
+                <!-- Macro time window -->
+                <rect x="180" y="460" width="440" height="20" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="1"/>
+                <text x="400" y="495" fill="#ffa502" font-size="12" text-anchor="middle">Last Hour Macro (3:15 - 3:45)</text>
+            </svg>
+        </section>
+
+        <section id="order-block">
+            <h2>Order Block Formation</h2>
+
+            <h3>Core Concept</h3>
+            <div class="quote">
+                <p><em>"One Candle does not make a narrative one candle doesn't make a order Block it's this change in the state of delivery that is the order block"</em></p>
+            </div>
+
+            <h3>Using Series of Down Closed Candles</h3>
+            <div class="quote">
+                <p><em>"if there's ever a series of down closed candles you use that entire block of down closed candles as one because it's delivery that you're looking at not just simply One Candle"</em></p>
+            </div>
+
+            <h3>Identifying the Price Level</h3>
+            <div class="quote">
+                <p><em>"three down closed candles that opening price right there that candle's opening price you're going to look at this this value right here okay that price is 4145.45"</em></p>
+            </div>
+
+            <h3>Smart Money Activity at Order Block</h3>
+            <div class="quote">
+                <p><em>"when it comes back down and touches that they're buying it when it trades on this candle here and trades and goes down to it again they're buying it their algorithm which is high frequency and it's hammering hammering constantly hammering the market at these price points they're buying it here they're buying it here they're buying it here and they're buying it here"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"every single time we leave a down closed candle they're watching their positions move into profit"</em></p>
+            </div>
+        </section>
+
+        <section id="macro">
+            <h2>Last Hour Macro (3:15 - 3:45 PM)</h2>
+
+            <h3>Macro Definition</h3>
+            <div class="quote">
+                <p><em>"between 3:15 and 345 last hour macro it will run on liquidity that has not been engaged meaning here's 315 New York local time 345 that's your last hour trading the macro"</em></p>
+            </div>
+
+            <h3>What the Macro Does</h3>
+            <div class="quote">
+                <p><em>"the algorithm will do a spooling so you could be a buyer trading down here a volume IM balance order block buying that at the 15 minute after 3:00 and expecting price to start delivering higher"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"that macro is Market on close it means it's going to cause a price run as we get in towards the end of the day"</em></p>
+            </div>
+
+            <h3>Expected Movement</h3>
+            <div class="quote">
+                <p><em>"if you do not have a clear setup and it's not obvious you do nothing and you just wait for 20 minutes to 15 minutes before 4:00 and then you'll get some kind of a 5 to eight maybe sometimes 10 handle run"</em></p>
+            </div>
+        </section>
+
+        <section id="market-function">
+            <h2>Market Function & Psychology</h2>
+
+            <h3>Why Market Rallies</h3>
+            <div class="quote">
+                <p><em>"it does not Rally because smart money bought it does not Rally because smart money has more buying pressure it rallies because it's rallying it's designed and it's coded to do so"</em></p>
+            </div>
+
+            <h3>Draw on Liquidity</h3>
+            <div class="quote">
+                <p><em>"the focus is over here this is the draw on liquidity where the Market's going to be pulled to why why should it go up there because there's buy side up there buy stops willing buyers to buy at a higher price when it's down here think about that that's the life essence of these markets"</em></p>
+            </div>
+
+            <h3>Market Seeking Behavior</h3>
+            <div class="quote">
+                <p><em>"it's going to where the orders are and inefficiencies so the Market's going to seek liquidity and fair value constantly it's always this EB and flow between the two it's constantly trying to facilitate the most efficient model of delivery for Price that's the function of these price engines"</em></p>
+            </div>
+
+            <h3>Retail vs Smart Money</h3>
+            <div class="quote">
+                <p><em>"when this pass here occurs Traders are going to look at that and say oh it's going to take out that low they want to be short selling selling selling smart money's buying buying buying changeing the state of delivery buy buy buy buy boom displacement"</em></p>
+            </div>
+        </section>
+
+        <section id="entry-rules">
+            <h2>Entry Rules & Risk Management</h2>
+
+            <h3>Where to Buy</h3>
+            <div class="quote">
+                <p><em>"this is where I've been telling you to buy this is where I buy this is where I buy that's where smart money engages they're in early I'm teaching you how to get in where it's obvious to see"</em></p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Buy in this fair value got okay"</em></p>
+            </div>
+
+            <h3>Stop Loss Management</h3>
+            <div class="quote">
+                <p><em>"don't Trail the stop loss up real tight you got to get first profit before you ever roll your stop to anything considered Break Even or close to that"</em></p>
+            </div>
+
+            <h3>Fair Value Gap Behavior</h3>
+            <div class="quote">
+                <p><em>"the difference between this candle's low and this candle's high is a Cy sell-side balance buyid and efficiency that's the classification of this particular fair value Gap meaning it only offered sell side so to be repriced correctly and have an efficient fair value offered to the marketplace between this candle's low and this candle's High it will want to reprice price up to it"</em></p>
+            </div>
+
+            <h3>Repricing vs Rebalancing</h3>
+            <div class="quote">
+                <p><em>"it is not rebalanced because it did that that's not rebalancing it's repricing when it leaves this range then it is balanced then it's likely to support price where it doesn't need to go back down there so that's the only distinction I'm going to make"</em></p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the definition of a "change in the state of delivery"?</div>
+                    <div class="flashcard-answer">"it's this change in the state of delivery that is the order block... three down closed candles that opening price right there that candle's opening price you're going to look at this"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a buy program and how does it differ from a market maker buy model?</div>
+                    <div class="flashcard-answer">"A buy program is not a market maker buy Model A buy program is when the market goes when an algorithm starts going into buy side delivery meaning when the market starts delivering price higher"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does buying or selling pressure determine where the market goes during a buy program?</div>
+                    <div class="flashcard-answer">"it matters not how much buying pressure there is or how much selling pressure it is it's going to go there regardless of whether you want it to or not because if the Market's going to go there it's going there and it can do so with low volume"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the last hour macro time window?</div>
+                    <div class="flashcard-answer">"between 3:15 and 345 last hour macro it will run on liquidity that has not been engaged meaning here's 315 New York local time 345 that's your last hour trading the macro"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How should you handle a series of down closed candles when identifying order blocks?</div>
+                    <div class="flashcard-answer">"if there's ever a series of down closed candles you use that entire block of down closed candles as one because it's delivery that you're looking at not just simply One Candle"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does the market rally according to ICT?</div>
+                    <div class="flashcard-answer">"it does not Rally because smart money bought it does not Rally because smart money has more buying pressure it rallies because it's rallying it's designed and it's coded to do so"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the function of price engines in the market?</div>
+                    <div class="flashcard-answer">"it's constantly trying to facilitate the most efficient model of delivery for Price that's the function of these price engines"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should you trail your stop loss to break even?</div>
+                    <div class="flashcard-answer">"don't Trail the stop loss up real tight you got to get first profit before you ever roll your stop to anything considered Break Even or close to that"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when smart money's algorithm encounters down closed candle price levels?</div>
+                    <div class="flashcard-answer">"when it comes back down and touches that they're buying it... their algorithm which is high frequency and it's hammering hammering constantly hammering the market at these price points they're buying it here they're buying it here they're buying it here and they're buying it here"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the difference between repricing and rebalancing a fair value gap?</div>
+                    <div class="flashcard-answer">"it is not rebalanced because it did that that's not rebalancing it's repricing when it leaves this range then it is balanced then it's likely to support price where it doesn't need to go back down there"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do if you don't have a clear setup during the last hour of trading?</div>
+                    <div class="flashcard-answer">"if you do not have a clear setup and it's not obvious you do nothing and you just wait for 20 minutes to 15 minutes before 4:00 and then you'll get some kind of a 5 to eight maybe sometimes 10 handle run"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the market seeking constantly?</div>
+                    <div class="flashcard-answer">"the Market's going to seek liquidity and fair value constantly it's always this EB and flow between the two"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

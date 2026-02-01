@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 2026 Live Stream - Trading Inside the Range - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trading Inside the Range</h1>
+        <p>"Inside of that range, what you're looking for is where did it reject pricing... to simply say no, I'm not going any further."</p>
+    </header>
+
+    <nav>
+        <a href="#first-lesson">First Lesson</a>
+        <a href="#range">Trading the Range</a>
+        <a href="#opening-range-gap">Opening Range Gap</a>
+        <a href="#jagged-smooth">Jagged vs Smooth</a>
+        <a href="#base-hits">Base Hits</a>
+        <a href="#timing">8:30 & 9:30 Times</a>
+        <a href="#threequarters">3/4 Rule</a>
+        <a href="#paintbrushes">Three Paint Brushes</a>
+        <a href="#mindset">Mindset & Learning</a>
+        <a href="#study">Study & Review</a>
+    </nav>
+
+    <main>
+        <section id="first-lesson">
+            <h2>The First Lesson in Trading</h2>
+            <div class="quote">
+                <p><em>"First step is don't lose it. And how do you not lose money? You have to know where it's likely to go to next and not be on the wrong side. That's the first lesson in trading, folks. You have to know where it's going first. Where is it going? Sit down on the chart. Boom. Where's it going next?"</em> (58:26)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you don't clearly know where it's going to go to, as outlined this morning, again, live streamed, you have no chance of being profitable. Zero chance."</em> (58:45)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you can't pick the right direction, if you can't do that, you have no chance. You have zero chance."</em> (71:03)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"First step is this. If you can't see where it's going, why it's going there, you can't do entries, you can't place stops, you can't profit, you can't keep an account, you become insolvent."</em> (81:42)</p>
+            </div>
+        </section>
+
+        <section id="range">
+            <h2>Trading Inside the Range</h2>
+
+            <h3>Defining the Range</h3>
+            <div class="quote">
+                <p><em>"Knowing where the market should draw to inside the range. Okay. So trading inside the range. I don't necessarily and you don't necessarily need it to trade to this high to get into these relative equal highs. You won't you don't need that. You don't need it to trade below that low. You don't need that. So, inside of this low and this high, that is your range. That's your dealing range."</em> (20:02)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"By having a a defined range or a dealing range that you're operating inside of, number one, it frees up the necessity for you to know where the next big run's going to be. That's not important when you first start. What you're learning is to define where price can stay inside the lines."</em> (31:13)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you can't define the range that we're inside of right now, you're lost."</em> (35:10)</p>
+            </div>
+
+            <h3>Benefits of Trading Inside the Range</h3>
+            <div class="quote">
+                <p><em>"What benefits do you derive from having determined a range that we're trading inside of? Well, it limits your need to be right about how far the market's going to go. You're only looking for something that's very simple inside of the range."</em> (35:33)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You have to learn how to frame a range and then get comfortable trading inside that range and not needing it to do anything more than trade inside two reference points which is that one here and this one here. and you can make all the money you'd ever need trading just in that."</em> (30:27)</p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Trading Inside the Range</text>
+
+                <!-- Range box -->
+                <rect x="100" y="80" width="600" height="250" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+
+                <!-- High of range -->
+                <line x1="80" y1="80" x2="720" y2="80" stroke="#2ed573" stroke-width="2"/>
+                <text x="730" y="85" fill="#2ed573" font-size="14">High of Range</text>
+
+                <!-- Low of range -->
+                <line x1="80" y1="330" x2="720" y2="330" stroke="#ff4757" stroke-width="2"/>
+                <text x="730" y="335" fill="#ff4757" font-size="14">Low of Range</text>
+
+                <!-- Price action inside -->
+                <path d="M 120 250 L 160 200 L 200 220 L 240 160 L 280 180 L 320 140 L 360 150 L 400 120 L 440 140 L 480 110 L 520 130 L 560 100 L 600 120 L 640 90 L 680 110"
+                      fill="none" stroke="#e8e8ed" stroke-width="2"/>
+
+                <!-- Annotations -->
+                <text x="400" y="370" fill="#9898a8" font-size="14" text-anchor="middle">All trading occurs inside these two reference points</text>
+            </svg>
+        </section>
+
+        <section id="opening-range-gap">
+            <h2>Opening Range Gap on the Eights</h2>
+
+            <div class="quote">
+                <p><em>"This is simply just the opening range gap on the eights."</em> (5:04)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"These levels, these horizontal lines are just simply me carrying over the opening range gap from yesterday, the regular trading hours opening range gap."</em> (13:55)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Look at where it's at. They're converging on the eighth, which is .125. So it's halfway between the the high of the gap and it's the first quadrant. But between those two points is 0.125. So it's an eighth."</em> (15:11)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"This level here this line that is part of the regular trading hours opening range gap from yesterday. Okay. So it forms right there. So, you're going to tell me now everybody's trading the ETHs on an opening range gap from a previous day after the gap closes. See, it doesn't hold water, does it?"</em> (27:31)</p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Opening Range Gap on the Eights (0.125 Gradients)</text>
+
+                <!-- Gap high -->
+                <line x1="100" y1="100" x2="700" y2="100" stroke="#2ed573" stroke-width="3"/>
+                <text x="710" y="105" fill="#2ed573" font-size="14">Gap High</text>
+
+                <!-- Eighth levels -->
+                <line x1="100" y1="150" x2="700" y2="150" stroke="#ffa502" stroke-width="1.5"/>
+                <text x="710" y="155" fill="#ffa502" font-size="12">0.125 (First Eighth)</text>
+
+                <line x1="100" y1="200" x2="700" y2="200" stroke="#ffa502" stroke-width="1.5"/>
+                <text x="710" y="205" fill="#ffa502" font-size="12">0.250 (Quarter)</text>
+
+                <line x1="100" y1="250" x2="700" y2="250" stroke="#ffa502" stroke-width="1.5"/>
+                <text x="710" y="255" fill="#ffa502" font-size="12">0.375 (Three-eighths)</text>
+
+                <line x1="100" y1="300" x2="700" y2="300" stroke="#ffa502" stroke-width="2"/>
+                <text x="710" y="305" fill="#ffa502" font-size="14">0.500 (Half)</text>
+
+                <line x1="100" y1="350" x2="700" y2="350" stroke="#ffa502" stroke-width="1.5"/>
+                <text x="710" y="355" fill="#ffa502" font-size="12">0.625 (Five-eighths)</text>
+
+                <line x1="100" y1="400" x2="700" y2="400" stroke="#ffa502" stroke-width="1.5"/>
+                <text x="710" y="405" fill="#ffa502" font-size="12">0.750 (Three-quarters)</text>
+
+                <line x1="100" y1="450" x2="700" y2="450" stroke="#ffa502" stroke-width="1.5"/>
+                <text x="710" y="455" fill="#ffa502" font-size="12">0.875 (Seven-eighths)</text>
+
+                <!-- Gap low -->
+                <line x1="100" y1="480" x2="700" y2="480" stroke="#ff4757" stroke-width="3"/>
+                <text x="710" y="485" fill="#ff4757" font-size="14">Gap Low</text>
+            </svg>
+        </section>
+
+        <section id="jagged-smooth">
+            <h2>Jagged Lows vs Smooth Highs</h2>
+
+            <div class="quote">
+                <p><em>"The levels that are smooth after levels that have been made jagged. Okay? And if you're first time hearing that, what that means is where the market has ripped lower, lower, lower, lower. There's nothing smooth down here. In other words, nothing in terms of a relative equal low. They just keep taking it lower, lower, lower, lower, lower. And then there's a shift in market structure."</em> (26:50)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"I said there was a minor buy here and then this inefficiency right here... It was jagged by dropping dropping dropping and nothing relative equal low down here at 8:30 news driver came up. I took your attention to this high here minor buy side."</em> (41:36)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you're looking at like precession times before 9:30 opening, you might look at this and say, 'Well, why wouldn't you have this high and this high?' Because this one would be lower, right, than this one. And that should act as a draw in liquidity. Not not when the level is so obvious like this. This is real real close proximity. and they might just take it up here to bump that stay inside the range and never clear this."</em> (14:29)</p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Jagged Lows vs Smooth Highs</text>
+
+                <!-- Jagged lows -->
+                <text x="150" y="70" fill="#ff4757" font-size="16" font-weight="bold">Jagged Lows</text>
+                <line x1="100" y1="300" x2="140" y2="280" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="140" y1="280" x2="160" y2="310" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="160" y1="310" x2="200" y2="260" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="200" y1="260" x2="220" y2="290" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="220" y1="290" x2="260" y2="240" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="260" y1="240" x2="280" y2="270" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="280" y1="270" x2="320" y2="220" stroke="#e8e8ed" stroke-width="2"/>
+
+                <!-- Annotation for jagged -->
+                <text x="210" y="350" fill="#9898a8" font-size="12" text-anchor="middle">Lower, lower, lower, lower</text>
+                <text x="210" y="365" fill="#9898a8" font-size="12" text-anchor="middle">No relative equal lows</text>
+
+                <!-- Shift arrow -->
+                <path d="M 340 250 L 420 180" stroke="#ffa502" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <text x="380" y="240" fill="#ffa502" font-size="14">Shift in market structure</text>
+
+                <!-- Smooth highs -->
+                <text x="550" y="70" fill="#2ed573" font-size="16" font-weight="bold">Smooth Highs</text>
+                <line x1="450" y1="160" x2="490" y2="140" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="490" y1="140" x2="530" y2="150" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="530" y1="150" x2="570" y2="135" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="570" y1="135" x2="610" y2="145" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="610" y1="145" x2="650" y2="138" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="650" y1="138" x2="690" y2="148" stroke="#e8e8ed" stroke-width="2"/>
+
+                <!-- Relative equal highs -->
+                <line x1="490" y1="140" x2="570" y2="135" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <line x1="570" y1="135" x2="650" y2="138" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+
+                <text x="570" y="120" fill="#2ed573" font-size="12">Relative Equal Highs</text>
+                <text x="570" y="350" fill="#9898a8" font-size="12" text-anchor="middle">Smooth = Draw on liquidity</text>
+
+                <!-- Arrow definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ffa502"/>
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="base-hits">
+            <h2>Base Hits Make Millionaires</h2>
+
+            <div class="quote">
+                <p><em>"Try not to hit grand slam home runs. You just need bass hits. Okay? Base hits. I promise you. I promise you. Base hits make millionaires."</em> (32:30)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Buying that inversion fair value and just getting out at that high right there. But that's not really a lot of If that's what you're thinking, you already are showcasing you are not ready to learn."</em> (33:05)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Here to here. Low hanging fruit objective. Very easy type trading. Very cookie cutter. It's not hard. It's not complicated. It's not comp It's not complex. It's not a lot of moving parts. It's very, very simple things. It's low in price and it's going to reach for a higher price."</em> (45:32)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Low Hanging Fruit</span>
+                </div>
+                <p><em>"Buying here and getting out here, that's the lowest hanging fruit easy objective. Just get in there and do those every single day. Find the smallest little price run from one point of entry to a pool of liquidity or an inefficiency."</em> (49:25)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">One Micro Contract</span>
+                </div>
+                <p><em>"One micro will teach you everything you need to learn and you can make money with one micro. one micro contract in the hands of someone that knows what they're doing. I don't care where you are in the work field, okay? Unless you are running your own company because that changes things, okay? But even a s a surgeon salary, you can make a surgeon salary with one microcontract a year."</em> (50:55)</p>
+            </div>
+        </section>
+
+        <section id="timing">
+            <h2>8:30 and 9:30 Algorithmic Times</h2>
+
+            <div class="quote">
+                <p><em>"8:30, whether there's news there or not on the calendar, always is an algorithmic time to anticipate some kind of a a measurable price run."</em> (38:08)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Wait till a time of like 8:30 and 9:30. They're like they're starting points, okay? Imagine a race. Everybody lines up. Everybody's lined up at the beginning of the start race. Boom. The gun goes off. Everybody starts running. That's what happens at 8:30. The same thing happens at 9:30."</em> (47:58)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"8:30 in the morning Eastern time always is a time where the market will it's like you'll be surprised if you start studying it when there's no news on the economic calendar all of a sudden it creates these runs exactly at 8:30 but they're going to tell you there's no algorithm."</em> (49:04)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"At 3:00, the race has been ran all day long. And then you wait and you see which one's the strongest one that finishes the best and there's a flurry of little action that goes in the last hour trading three o'clock and the four o'clock closing."</em> (48:22)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Daily Trading Timeline</span>
+                </div>
+                <ul>
+                    <li><em>"8:30 - The gun goes off. Everybody starts running."</em></li>
+                    <li><em>"9:30 - Same thing happens at 9:30."</em></li>
+                    <li><em>"3:00 - The race has been ran all day long."</em></li>
+                    <li><em>"4:00 - Closing"</em></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="threequarters">
+            <h2>Market Maker Sell Model - 3/4 Rule</h2>
+
+            <div class="quote">
+                <p><em>"Threearters of that range is optimal trade entry. That was the flagship thing I taught for years on baby pips and on my YouTube channel before I started teaching any of the higher level technical stuff, PDA rays and whatnot, which I started revealing in 2016 behind a payw wall."</em> (41:58)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"With a market maker sell model, it can go up into 3/4 of the range and not come back to the original consolidation. And that's what you saw here. And then it fails there. It never even goes back to the original consolidation."</em> (59:37)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You won't know when the market maker buy models complete. You'll get tripped up and you'll be in a trade that's making money and you'll be like, 'I got to It's so easy. It's so easy.' And then it does these types of things here and it reverses on you."</em> (60:04)</p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Market Maker Sell Model - 3/4 Failure</text>
+
+                <!-- Range -->
+                <line x1="100" y1="350" x2="700" y2="350" stroke="#ff4757" stroke-width="2"/>
+                <text x="710" y="355" fill="#ff4757" font-size="12">Range Low</text>
+
+                <line x1="100" y1="100" x2="700" y2="100" stroke="#2ed573" stroke-width="2"/>
+                <text x="710" y="105" fill="#2ed573" font-size="12">Range High</text>
+
+                <!-- Quarter markers -->
+                <line x1="100" y1="287.5" x2="700" y2="287.5" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="710" y="292.5" fill="#9898a8" font-size="11">1/4</text>
+
+                <line x1="100" y1="225" x2="700" y2="225" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="710" y="230" fill="#9898a8" font-size="11">1/2</text>
+
+                <line x1="100" y1="162.5" x2="700" y2="162.5" stroke="#ffa502" stroke-width="2"/>
+                <text x="710" y="167.5" fill="#ffa502" font-size="12">3/4 (OTE)</text>
+
+                <!-- Price action -->
+                <path d="M 120 350 L 200 300 L 280 250 L 360 200 L 440 170 L 480 165"
+                      fill="none" stroke="#e8e8ed" stroke-width="2"/>
+
+                <!-- Failure point -->
+                <circle cx="480" cy="165" r="8" fill="#ff4757" opacity="0.7"/>
+                <text x="480" y="145" fill="#ff4757" font-size="14" text-anchor="middle">Fails at 3/4</text>
+
+                <!-- Sell-off -->
+                <path d="M 480 165 L 520 220 L 560 280 L 600 320 L 640 350"
+                      fill="none" stroke="#ff4757" stroke-width="3"/>
+
+                <text x="600" y="310" fill="#ff4757" font-size="12">Never comes back to</text>
+                <text x="600" y="325" fill="#ff4757" font-size="12">original consolidation</text>
+            </svg>
+        </section>
+
+        <section id="paintbrushes">
+            <h2>Three Paint Brushes Framework</h2>
+
+            <div class="quote">
+                <p><em>"Like Bob Ross, he has that whole toolbox of paint brushes behind him, but he's only using three because he can make a whole world exist from his hands, which is three paint brushes. You need to draw on liquidity. You need to be able to frame risk. So that means where a stop loss is. And you need an entry mechanism. There's your three paint brushes."</em> (100:42)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"When you watch Bob Ross paint, there's all kinds of paint brushes he could reach for, but he's using a fan brush and a simple little, you know, line brush where he can do small details. Predominantly, that's what he's doing. Or he uses that big big wide brush where he's making uh his backgrounds and smoothing out things for the canvas. So, there's only like three brushes he's working, but when he's done, it's like, what in the world, man? Like, where'd you get that from?"</em> (54:23)</p>
+            </div>
+
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="22" text-anchor="middle" font-weight="bold">Three Paint Brushes Framework</text>
+
+                <!-- Brush 1 -->
+                <rect x="50" y="80" width="200" height="180" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="10"/>
+                <text x="150" y="110" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">Brush 1</text>
+                <text x="150" y="140" fill="#e8e8ed" font-size="18" text-anchor="middle">Draw on</text>
+                <text x="150" y="165" fill="#e8e8ed" font-size="18" text-anchor="middle">Liquidity</text>
+                <text x="150" y="200" fill="#9898a8" font-size="12" text-anchor="middle">Where is price</text>
+                <text x="150" y="220" fill="#9898a8" font-size="12" text-anchor="middle">likely to go?</text>
+
+                <!-- Brush 2 -->
+                <rect x="300" y="80" width="200" height="180" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="10"/>
+                <text x="400" y="110" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">Brush 2</text>
+                <text x="400" y="140" fill="#e8e8ed" font-size="18" text-anchor="middle">Frame</text>
+                <text x="400" y="165" fill="#e8e8ed" font-size="18" text-anchor="middle">Risk</text>
+                <text x="400" y="200" fill="#9898a8" font-size="12" text-anchor="middle">Where is your</text>
+                <text x="400" y="220" fill="#9898a8" font-size="12" text-anchor="middle">stop loss?</text>
+
+                <!-- Brush 3 -->
+                <rect x="550" y="80" width="200" height="180" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="10"/>
+                <text x="650" y="110" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">Brush 3</text>
+                <text x="650" y="140" fill="#e8e8ed" font-size="18" text-anchor="middle">Entry</text>
+                <text x="650" y="165" fill="#e8e8ed" font-size="18" text-anchor="middle">Mechanism</text>
+                <text x="650" y="200" fill="#9898a8" font-size="12" text-anchor="middle">How do you</text>
+                <text x="650" y="220" fill="#9898a8" font-size="12" text-anchor="middle">enter the trade?</text>
+            </svg>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">The Canvas</span>
+                </div>
+                <p><em>"Which paintbrush are you going to use? You're all going to use the same canvas. We're all looking at the same chart, the same amount of time, the reference of where price has been, where is it likely to go. Everybody has that. It's not hiding from anyone. We all have the same information."</em> (100:59)</p>
+            </div>
+        </section>
+
+        <section id="volume-imbalance">
+            <h2>Volume Imbalance + SIBI Combination</h2>
+
+            <div class="quote">
+                <p><em>"There's a volume imbalance and a continuation of a sell bounce by efficiency. So whenever you see that this is actually another PD array where you have a candlestick low, it sells off volume imbalance and then we continue this sell sideband by side and efficiency or civvy and then it would be shown here."</em> (10:04)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you have it as it leaves, pardon me, it leaves this candlestick low, comes down, creates a sell sign bounce, buy sign efficiency, that candlestick there, and then it creates a volume imbalance and then starts another downside close candle. You have to encapsulate the entire thing to get the full range and the precision aspects that's afforded to you by having it."</em> (11:05)</p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Volume Imbalance + SIBI Combination</text>
+
+                <!-- Candlestick low -->
+                <rect x="150" y="120" width="40" height="80" fill="#ff4757" stroke="#ff4757" stroke-width="2"/>
+                <line x1="170" y1="100" x2="170" y2="200" stroke="#ff4757" stroke-width="2"/>
+                <text x="170" y="220" fill="#e8e8ed" font-size="12" text-anchor="middle">Candlestick Low</text>
+
+                <!-- SIBI -->
+                <rect x="250" y="180" width="40" height="100" fill="#ff4757" stroke="#ff4757" stroke-width="2"/>
+                <line x1="270" y1="170" x2="270" y2="280" stroke="#ff4757" stroke-width="2"/>
+                <text x="270" y="300" fill="#e8e8ed" font-size="12" text-anchor="middle">SIBI</text>
+
+                <!-- Volume Imbalance gap -->
+                <rect x="290" y="200" width="80" height="1" fill="none" stroke="none"/>
+                <text x="330" y="240" fill="#ffa502" font-size="14" text-anchor="middle">Volume</text>
+                <text x="330" y="255" fill="#ffa502" font-size="14" text-anchor="middle">Imbalance</text>
+
+                <!-- Another down candle -->
+                <rect x="400" y="240" width="40" height="120" fill="#ff4757" stroke="#ff4757" stroke-width="2"/>
+                <line x1="420" y1="220" x2="420" y2="360" stroke="#ff4757" stroke-width="2"/>
+                <text x="420" y="380" fill="#e8e8ed" font-size="12" text-anchor="middle">Down Close Candle</text>
+
+                <!-- Full range box -->
+                <rect x="140" y="100" width="310" height="280" fill="none" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="500" y="240" fill="#2ed573" font-size="14">Encapsulate the</text>
+                <text x="500" y="255" fill="#2ed573" font-size="14">entire thing</text>
+            </svg>
+        </section>
+
+        <section id="inversion-fvg">
+            <h2>Inversion Fair Value Gap with Breaker</h2>
+
+            <div class="quote">
+                <p><em>"This inversion fair value gap is part of this breaker. So these lows create the liquidity pool. This is the fulcrum point right here. Then we drive down take the liquidity out below there. There. And then this right there that is your inversion fair gap."</em> (23:41)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"This is an A+ setup because you have several things here. You have liquidity that's left in the marketplace. They come down ahead of news. They take that liquidity. They don't go to a level that if it was weak, it should have came down here. At that time, it didn't do it. And then it rallied back above the CBI, the lowest portion of a bullish breaker."</em> (24:18)</p>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Inversion Fair Value Gap with Breaker</text>
+
+                <!-- Liquidity lows -->
+                <line x1="100" y1="200" x2="200" y2="195" stroke="#e8e8ed" stroke-width="2"/>
+                <line x1="200" y1="195" x2="300" y2="190" stroke="#e8e8ed" stroke-width="2"/>
+                <circle cx="150" cy="197.5" r="5" fill="#ff4757"/>
+                <circle cx="250" cy="192.5" r="5" fill="#ff4757"/>
+                <text x="175" y="220" fill="#ff4757" font-size="12">Liquidity pool</text>
+
+                <!-- Fulcrum -->
+                <rect x="280" y="150" width="60" height="80" fill="#2ed573" opacity="0.3"/>
+                <text x="310" y="245" fill="#2ed573" font-size="12" text-anchor="middle">Fulcrum</text>
+
+                <!-- Drive down -->
+                <path d="M 340 190 L 380 280" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowhead2)"/>
+                <circle cx="380" cy="280" r="8" fill="#ff4757" opacity="0.7"/>
+                <text x="360" y="300" fill="#ff4757" font-size="12">Takes liquidity</text>
+
+                <!-- Rally back -->
+                <path d="M 380 280 L 500 180" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Inversion FVG -->
+                <rect x="450" y="170" width="100" height="40" fill="#ffa502" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <text x="500" y="230" fill="#ffa502" font-size="12" text-anchor="middle">Inversion FVG</text>
+
+                <!-- A+ setup label -->
+                <text x="600" y="150" fill="#2ed573" font-size="16" font-weight="bold">A+ Setup</text>
+
+                <defs>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ff4757"/>
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="opening-price">
+            <h2>Settlement Price and Opening Price Sensitivity</h2>
+
+            <div class="quote">
+                <p><em>"Used the opening price, which is very sensitive, just like the midnight Eastern time opening price. Um, that is many times a like a magnet. It's very sensitive. It also helps with the daily directional bias."</em> (80:03)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Opening price hits it and never came back. Never came back."</em> (99:52)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"When we have the opening range from where we open at 9:30, difference between where we settled the previous day at regular trading hours, that was this line here."</em> (96:49)</p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Settlement → Opening Price Gap</text>
+
+                <!-- Previous day settlement -->
+                <line x1="100" y1="150" x2="400" y2="150" stroke="#9898a8" stroke-width="2"/>
+                <text x="250" y="140" fill="#9898a8" font-size="14" text-anchor="middle">Previous Day Settlement</text>
+
+                <!-- Gap -->
+                <rect x="100" y="150" width="600" height="100" fill="#ffa502" opacity="0.1" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="400" y="205" fill="#ffa502" font-size="16" text-anchor="middle">Opening Range Gap</text>
+
+                <!-- Current day opening -->
+                <line x1="400" y1="250" x2="700" y2="250" stroke="#2ed573" stroke-width="2"/>
+                <text x="550" y="240" fill="#2ed573" font-size="14" text-anchor="middle">9:30 Opening Price</text>
+
+                <!-- Magnet icon -->
+                <circle cx="550" cy="280" r="20" fill="none" stroke="#ffa502" stroke-width="2"/>
+                <text x="550" y="287" fill="#ffa502" font-size="20" text-anchor="middle">🧲</text>
+                <text x="550" y="320" fill="#ffa502" font-size="12" text-anchor="middle">Opening price is a magnet</text>
+                <text x="550" y="335" fill="#ffa502" font-size="12" text-anchor="middle">Very sensitive</text>
+            </svg>
+        </section>
+
+        <section id="mindset">
+            <h2>Mindset & Learning Process</h2>
+
+            <h3>Negative Self-Talk Warning</h3>
+            <div class="quote">
+                <p><em>"You're you're beating yourself up with negative selft talk. Whether you vocalize it from your mouth or you're just thinking it, you're feeling it as you tell yourself. Imagine if your mother and father got in your face and said, 'You are a worthless piece of You never do anything right.' But later in the day after you do a good chore, they say, 'All right, good boy. I love you, son. I love you, daughter.' Are you going to feel warm and fuzzy with that? No. Your subconscious is going to say, 'Don't trust that.' Because remember what he said to you earlier."</em> (88:10)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"The average person has over 300 negative thoughts enter their mind. That's the average. If you're chronic about it, it's probably double. So if you're whipping yourself up in the beginning because you think you should do it quicker, learn it faster."</em> (89:09)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"There was no troll out there ever and never will be that's ever been harder on me than I was on myself. And I still carry those scar tissue. I did it to myself and I can tell you when you do it for a length of time, it's hard to get rid of it. So, you don't want to begin with that."</em> (89:46)</p>
+            </div>
+
+            <h3>Positive Approach</h3>
+            <div class="quote">
+                <p><em>"Find a positive. Say, I I didn't do too many things wrong today and I learned something from this experience. That's how you would say it. If you didn't do it right, if it didn't come to an outcome that you expected or it just simply did everything contrary to what you expected, find a way to tell yourself internally and vocally and then record it in your journal that it was a positive expectation because or not expectation experience."</em> (90:04)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"If you do it negative wise in the beginning, fill yourself up with negative toxic thinking. You literally are giving yourself no chance in the beginning. But you're feeding your mind toxicity and you'll be fearful of putting up any real effort after that because why should you bother?"</em> (90:49)</p>
+            </div>
+
+            <h3>The Learning Process</h3>
+            <div class="quote">
+                <p><em>"You have to be in here watching the candlesticks form where they're going to reach for. Now, you're going to do it. You're going to pick the wrong inefficiencies. You're going to pick the wrong high and low. It's not going to do what you think it's going to do. And you're going to get frustrated in the beginning. That's okay. That's part of it. That's normal."</em> (84:04)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"You want to submit yourself to the process that you know, it's normal for you not to know what you're doing. But you're going to discover things that repeat over and over and over again. And you have to give yourself the time. Give yourself the permission. Allow yourself to discover what it is that you don't know."</em> (84:21)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"It wasn't fun in the beginning. It was very, very boring. It was no promise of anything of usefulness at the end of it. I just submitted myself to I'm gonna I'm gonna study what price does and what it's looking to do and how it does it and what does it behave like and how does it look when it does it and then I noticed that there was repeating things and look here and look here and that's how it happened."</em> (94:42)</p>
+            </div>
+
+            <h3>Be Teachable</h3>
+            <div class="quote">
+                <p><em>"The first thing you have to fix is how you think. How you think changes everything. And if you think that you know everything, if you think you know how you're going to be taught, you're going to fail."</em> (91:36)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"They had to submit to a process. They had to give up their expectations. They had to suppress their desires, their immediate gratification. They had to defer all that and they had to change the way they think. That means they had to adopt patience."</em> (92:02)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"By not having the concern of being right or wrong in the beginning, it frees you up to discover, wow, I am learning. It doesn't feel like it the first few times you sit down and you start doing these things."</em> (92:18)</p>
+            </div>
+        </section>
+
+        <section id="daily-process">
+            <h2>Daily Process for Beginners</h2>
+
+            <h3>What to Do Every Day</h3>
+            <div class="quote">
+                <p><em>"Every single day, do these types of things. Look where the market's jagged and where it's left smooth levels. Wait till a time of like 8:30 and 9:30. They're like they're starting points, okay?"</em> (47:52)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"Show up every day. Go through the charts. Do the same thing every day. Every single day, the same thing every single day. And over time, how much time? I don't know. It's how much time are you placing in the study of it?"</em> (82:27)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"After the day completes or the session completes, okay, what do I mean by that? around noon. Go back and look at the morning session from 7 o'clock in the morning to 9:30 and from 9:30 to noon and go back through and see how the market reached for inefficiency, how it reached for liquidity, how it expanded in its daily range, what side of the marketplace was it it working towards most?"</em> (93:46)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Beginner Framework Steps</span>
+                </div>
+                <ol>
+                    <li><em>"Look where the market's jagged and where it's left smooth levels"</em></li>
+                    <li><em>"Wait till a time of like 8:30 and 9:30"</em></li>
+                    <li><em>"Define the range - that low and that high"</em></li>
+                    <li><em>"Find the smallest little price run from one point of entry to a pool of liquidity or an inefficiency"</em></li>
+                    <li><em>"Go back through and see how the market reached for inefficiency, how it reached for liquidity"</em></li>
+                </ol>
+            </div>
+
+            <h3>Don't Trade Yet - Just Watch</h3>
+            <div class="quote">
+                <p><em>"You do that for a couple weeks, maybe a month or two, okay? When you get real comfortable seeing it and on the tape, that means you're not pressing a demo entry. You're not even trading a prop firm. You're not trying to risk with real money. Okay?"</em> (43:51)</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"The easiest thing for you to do in terms of failure is trying to hurry up and try to make money because you think it's only going to feel real to you if you make money. That's not true. Okay? That's just you lying to yourself because you want instant gratification."</em> (44:03)</p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from the transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the first lesson in trading?</div>
+                    <div class="flashcard-answer">"First step is don't lose it. And how do you not lose money? You have to know where it's likely to go to next and not be on the wrong side. That's the first lesson in trading, folks. You have to know where it's going first."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does "trading inside the range" mean?</div>
+                    <div class="flashcard-answer">"Inside of this low and this high, that is your range. That's your dealing range... You're only looking for something that's very simple inside of the range."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the opening range gap on the eights?</div>
+                    <div class="flashcard-answer">"This is simply just the opening range gap on the eights... They're converging on the eighth, which is .125. So it's halfway between the the high of the gap and it's the first quadrant. But between those two points is 0.125."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does "jagged" mean in ICT terminology?</div>
+                    <div class="flashcard-answer">"The levels that are smooth after levels that have been made jagged... what that means is where the market has ripped lower, lower, lower, lower. There's nothing smooth down here. In other words, nothing in terms of a relative equal low. They just keep taking it lower, lower, lower, lower, lower."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does "base hits make millionaires" mean?</div>
+                    <div class="flashcard-answer">"Try not to hit grand slam home runs. You just need bass hits. Okay? Base hits. I promise you. I promise you. Base hits make millionaires."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why are 8:30 and 9:30 important times?</div>
+                    <div class="flashcard-answer">"8:30, whether there's news there or not on the calendar, always is an algorithmic time to anticipate some kind of a a measurable price run... Imagine a race. Everybody lines up... Boom. The gun goes off. Everybody starts running. That's what happens at 8:30. The same thing happens at 9:30."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the 3/4 rule in Market Maker Sell Model?</div>
+                    <div class="flashcard-answer">"With a market maker sell model, it can go up into 3/4 of the range and not come back to the original consolidation. And that's what you saw here. And then it fails there. It never even goes back to the original consolidation."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the three paint brushes framework?</div>
+                    <div class="flashcard-answer">"You need to draw on liquidity. You need to be able to frame risk. So that means where a stop loss is. And you need an entry mechanism. There's your three paint brushes."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you combine Volume Imbalance and SIBI?</div>
+                    <div class="flashcard-answer">"If you have it as it leaves, it leaves this candlestick low, comes down, creates a sell sign bounce, buy sign efficiency, that candlestick there, and then it creates a volume imbalance and then starts another downside close candle. You have to encapsulate the entire thing to get the full range and the precision aspects that's afforded to you by having it."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an A+ setup with Inversion Fair Value Gap?</div>
+                    <div class="flashcard-answer">"This is an A+ setup because you have several things here. You have liquidity that's left in the marketplace. They come down ahead of news. They take that liquidity. They don't go to a level that if it was weak, it should have came down here. At that time, it didn't do it. And then it rallied back above the CBI, the lowest portion of a bullish breaker."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is the opening price sensitive?</div>
+                    <div class="flashcard-answer">"Used the opening price, which is very sensitive, just like the midnight Eastern time opening price. Um, that is many times a like a magnet. It's very sensitive. It also helps with the daily directional bias."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the warning about negative self-talk?</div>
+                    <div class="flashcard-answer">"You're you're beating yourself up with negative selft talk. Whether you vocalize it from your mouth or you're just thinking it, you're feeling it as you tell yourself... There was no troll out there ever and never will be that's ever been harder on me than I was on myself. And I still carry those scar tissue."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How should you approach learning in the beginning?</div>
+                    <div class="flashcard-answer">"Find a positive. Say, I I didn't do too many things wrong today and I learned something from this experience... Even though it didn't meet your expectation, find a way to talk positive about it because you will tear your up from jump street."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you expect when starting to learn?</div>
+                    <div class="flashcard-answer">"You're going to pick the wrong inefficiencies. You're going to pick the wrong high and low. It's not going to do what you think it's going to do. And you're going to get frustrated in the beginning. That's okay. That's part of it. That's normal."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the daily process for beginners?</div>
+                    <div class="flashcard-answer">"Every single day, do these types of things. Look where the market's jagged and where it's left smooth levels. Wait till a time of like 8:30 and 9:30... Show up every day. Go through the charts. Do the same thing every day."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should beginners trade with real money immediately?</div>
+                    <div class="flashcard-answer">"You do that for a couple weeks, maybe a month or two, okay? When you get real comfortable seeing it and on the tape, that means you're not pressing a demo entry. You're not even trading a prop firm. You're not trying to risk with real money."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is "low hanging fruit" trading?</div>
+                    <div class="flashcard-answer">"Here to here. Low hanging fruit objective. Very easy type trading. Very cookie cutter. It's not hard. It's not complicated... It's very, very simple things. It's low in price and it's going to reach for a higher price."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What can you earn with one micro contract?</div>
+                    <div class="flashcard-answer">"One micro will teach you everything you need to learn and you can make money with one micro. one micro contract in the hands of someone that knows what they're doing... even a s a surgeon salary, you can make a surgeon salary with one microcontract a year."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the key to being teachable?</div>
+                    <div class="flashcard-answer">"The first thing you have to fix is how you think. How you think changes everything. And if you think that you know everything, if you think you know how you're going to be taught, you're going to fail."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you review after the session?</div>
+                    <div class="flashcard-answer">"After the day completes or the session completes... Go back and look at the morning session from 7 o'clock in the morning to 9:30 and from 9:30 to noon and go back through and see how the market reached for inefficiency, how it reached for liquidity, how it expanded in its daily range."</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

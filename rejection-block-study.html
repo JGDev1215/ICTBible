@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Rejection Block | Study Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #06080c;
+            --bg-secondary: #0c1018;
+            --bg-card: #111820;
+            --bg-card-hover: #161f2a;
+            --border-subtle: #1e2836;
+            --border-accent: #2a3a4d;
+            --text-primary: #e4e8ed;
+            --text-secondary: #8a96a8;
+            --text-muted: #5a6678;
+            --accent-bear: #e54d5b;
+            --accent-bear-dim: rgba(229, 77, 91, 0.15);
+            --accent-bull: #34c77b;
+            --accent-bull-dim: rgba(52, 199, 123, 0.15);
+            --accent-gold: #d4a528;
+            --accent-gold-dim: rgba(212, 165, 40, 0.12);
+            --accent-blue: #4a90d4;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Crimson Pro', Georgia, serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(30, 40, 54, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 40, 54, 0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 80px 0 60px;
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
+
+        .header-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 600px;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(6, 8, 12, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 16px 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            justify-content: center;
+        }
+
+        nav a {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+            padding: 4px 0;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Main content */
+        main {
+            padding: 60px 0 100px;
+        }
+
+        section {
+            margin-bottom: 70px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-gold);
+            background: var(--accent-gold-dim);
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Quote blocks */
+        .quote {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-gold);
+            padding: 24px 28px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quote p {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .quote p::before {
+            content: '"';
+            color: var(--accent-gold);
+            font-size: 1.4em;
+            margin-right: 2px;
+        }
+
+        .quote p::after {
+            content: '"';
+            color: var(--accent-gold);
+            font-size: 1.4em;
+            margin-left: 2px;
+        }
+
+        /* Concept cards */
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 16px 0;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .concept-card:hover {
+            border-color: var(--border-accent);
+            background: var(--bg-card-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .card-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 3px;
+        }
+
+        .tag-bearish {
+            background: var(--accent-bear-dim);
+            color: var(--accent-bear);
+        }
+
+        .tag-bullish {
+            background: var(--accent-bull-dim);
+            color: var(--accent-bull);
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Key points list */
+        .key-points {
+            margin: 24px 0;
+        }
+
+        .key-point {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .key-point:last-child {
+            border-bottom: none;
+        }
+
+        .key-point-marker {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent-gold);
+            flex-shrink: 0;
+            padding-top: 4px;
+        }
+
+        .key-point p {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* SVG Diagram */
+        .diagram-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .diagram-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .diagram-svg {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Flashcards */
+        .flashcard-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            background: var(--bg-card-hover);
+        }
+
+        .flashcard-question {
+            font-family: var(--font-display);
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .flashcard-hint {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .flashcard-answer {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-hint {
+            display: none;
+        }
+
+        /* Two-column layout for entry rules */
+        .entry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        footer p {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header {
+                padding: 50px 0 40px;
+            }
+            
+            section {
+                margin-bottom: 50px;
+            }
+
+            .diagram-container {
+                padding: 20px 12px;
+            }
+
+            nav ul {
+                gap: 6px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="header-label">ICT Mentorship Month 04 — Teaching 3.3</span>
+            <h1>Rejection Blocks</h1>
+            <p class="subtitle">A different approach to looking at distribution and accumulation</p>
+        </header>
+    </div>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#definition">Definition</a></li>
+                <li><a href="#context">Context</a></li>
+                <li><a href="#bearish">Bearish</a></li>
+                <li><a href="#bullish">Bullish</a></li>
+                <li><a href="#structure">Structure</a></li>
+                <li><a href="#entry">Entry</a></li>
+                <li><a href="#psychology">Psychology</a></li>
+                <li><a href="#study">Study</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Definition Section -->
+        <section id="definition">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>What is a Rejection Block</h2>
+            </div>
+            
+            <div class="quote">
+                <p>I want to teach you tonight a different approach to looking at distribution and accumulation</p>
+            </div>
+
+            <div class="quote">
+                <p>There are other distribution and accumulation patterns that take place at highs and lows</p>
+            </div>
+
+            <div class="quote">
+                <p>Price does not need to make a higher high to have a failure swing</p>
+            </div>
+        </section>
+
+        <!-- Context Section -->
+        <section id="context">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>Context — False Breakouts</h2>
+            </div>
+
+            <div class="quote">
+                <p>You may have noticed these old highs being violated and a significant movement away from that and we understand this as a turtle soup or a false breakout</p>
+            </div>
+
+            <div class="quote">
+                <p>Every time a new high or low is formed we expect some measure of rejection — that's the first anticipatory price skill set you should be working towards developing because it's the hardest one to groom in your trade psychology</p>
+            </div>
+
+            <div class="quote">
+                <p>It's not always required to see a higher high for a failure swing which would be a turtle soup cell or requiring always a lower low for a rejection for a turtle sheep long</p>
+            </div>
+        </section>
+
+        <!-- Bearish Rejection Block -->
+        <section id="bearish">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Bearish Rejection Block</h2>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Definition</span>
+                    <span class="card-tag tag-bearish">Bearish</span>
+                </div>
+                <p>"The bearish rejection block is when a price high has formed with long wicks on the high or highs it can be more than one candle that forms a high of the candle stick or sticks and price reaches up above the body of the candle or candles to run the buy side liquidity out before the price declines"</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Ideal Setups</span>
+                    <span class="card-tag tag-bearish">Bearish</span>
+                </div>
+                <p>"The ideal setups are found in major to intermediate term downtrends"</p>
+            </div>
+
+            <div class="quote">
+                <p>Take notice of the highest body in this formation and the most recent candle that traded through it</p>
+            </div>
+
+            <div class="quote">
+                <p>Price pushes above the previous highest candles body... that run above the highest body's candle produces the distribution</p>
+            </div>
+        </section>
+
+        <!-- Bullish Rejection Block -->
+        <section id="bullish">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>Bullish Rejection Block</h2>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Definition</span>
+                    <span class="card-tag tag-bullish">Bullish</span>
+                </div>
+                <p>"A bullish rejection block is when a price low has formed with a long wick or wicks it could be formed over multiple candles and the low or lows of the candle stick or candle sticks again it's not limited to just one candle and price reaches down below the body of the candle to run the sell side liquidity out before price rallies higher"</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Ideal Setups</span>
+                    <span class="card-tag tag-bullish">Bullish</span>
+                </div>
+                <p>"In ideal scenarios it's in major intermediate term uptrends"</p>
+            </div>
+
+            <div class="quote">
+                <p>Price makes a previous low with wicks mark comes down trades down just below the bodies of the candle and then we see a strong rejection because of a massive accumulation that comes in</p>
+            </div>
+        </section>
+
+        <!-- Structure Section -->
+        <section id="structure">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2>How to Frame the Rejection Block</h2>
+            </div>
+
+            <div class="quote">
+                <p>When you see the wick you have to build the parameters for the rejection block by finding the highest high and the highest open or close in the swing high</p>
+            </div>
+
+            <div class="quote">
+                <p>It does not matter if the highest candle is a bearish or bullish closed candle you're still looking for the highest high with the highest open or closing price into the highest wick — that frames the rejection block</p>
+            </div>
+
+            <!-- Bearish Diagram -->
+            <div class="diagram-container">
+                <div class="diagram-title">Bearish Rejection Block — Structure</div>
+                <svg class="diagram-svg" viewBox="0 0 700 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background grid -->
+                    <defs>
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e2836" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="700" height="380" fill="url(#grid)"/>
+                    
+                    <!-- Price action - Rally into consolidation -->
+                    <!-- Rally candles -->
+                    <rect x="80" y="280" width="8" height="50" fill="#34c77b"/>
+                    <line x1="84" y1="275" x2="84" y2="335" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <rect x="120" y="250" width="8" height="55" fill="#34c77b"/>
+                    <line x1="124" y1="245" x2="124" y2="310" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <rect x="160" y="220" width="8" height="50" fill="#34c77b"/>
+                    <line x1="164" y1="212" x2="164" y2="275" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <!-- Consolidation with wicks - the swing high -->
+                    <!-- First candle with wick -->
+                    <rect x="200" y="175" width="8" height="35" fill="#34c77b"/>
+                    <line x1="204" y1="130" x2="204" y2="215" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <!-- Second candle - highest body -->
+                    <rect x="240" y="165" width="8" height="40" fill="#34c77b"/>
+                    <line x1="244" y1="125" x2="244" y2="210" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <!-- Third candle with long wick -->
+                    <rect x="280" y="170" width="8" height="35" fill="#e54d5b"/>
+                    <line x1="284" y1="115" x2="284" y2="210" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <!-- Fourth candle - trades above highest body then rejects -->
+                    <rect x="320" y="155" width="8" height="45" fill="#e54d5b"/>
+                    <line x1="324" y1="110" x2="324" y2="205" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <!-- Decline candles -->
+                    <rect x="360" y="190" width="8" height="50" fill="#e54d5b"/>
+                    <line x1="364" y1="185" x2="364" y2="245" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <rect x="400" y="230" width="8" height="55" fill="#e54d5b"/>
+                    <line x1="404" y1="225" x2="404" y2="290" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <rect x="440" y="275" width="8" height="50" fill="#e54d5b"/>
+                    <line x1="444" y1="268" x2="444" y2="330" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <!-- Rejection Block zone -->
+                    <rect x="190" y="110" width="150" height="55" fill="rgba(229, 77, 91, 0.12)" stroke="#e54d5b" stroke-width="1" stroke-dasharray="4,4"/>
+                    
+                    <!-- Highest wick high line -->
+                    <line x1="190" y1="110" x2="500" y2="110" stroke="#e54d5b" stroke-width="1" stroke-dasharray="3,3"/>
+                    
+                    <!-- Highest open or close line -->
+                    <line x1="190" y1="165" x2="500" y2="165" stroke="#d4a528" stroke-width="1" stroke-dasharray="3,3"/>
+                    
+                    <!-- Labels -->
+                    <text x="510" y="114" font-family="JetBrains Mono, monospace" font-size="10" fill="#e54d5b">Highest wick high</text>
+                    <text x="510" y="169" font-family="JetBrains Mono, monospace" font-size="10" fill="#d4a528">Highest open or close</text>
+                    
+                    <!-- Rejection Block label -->
+                    <text x="195" y="100" font-family="JetBrains Mono, monospace" font-size="11" fill="#e54d5b" font-weight="500">REJECTION BLOCK</text>
+                    
+                    <!-- Annotation for the candle that trades through -->
+                    <path d="M324 80 L324 100" stroke="#8a96a8" stroke-width="1"/>
+                    <circle cx="324" cy="75" r="3" fill="#8a96a8"/>
+                    <text x="290" y="65" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a96a8">"Price pushes above</text>
+                    <text x="280" y="53" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a96a8">the previous highest</text>
+                    <text x="292" y="41" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a96a8">candles body"</text>
+                    
+                    <!-- Annotation for highest body candle -->
+                    <path d="M244 220 L244 250 L270 250" stroke="#d4a528" stroke-width="1"/>
+                    <text x="275" y="254" font-family="JetBrains Mono, monospace" font-size="9" fill="#d4a528">"Highest body"</text>
+                    
+                    <!-- Distribution arrow -->
+                    <path d="M380 155 L420 200" stroke="#e54d5b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+                    <defs>
+                        <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#e54d5b"/>
+                        </marker>
+                    </defs>
+                    <text x="425" y="185" font-family="JetBrains Mono, monospace" font-size="9" fill="#e54d5b">"Distribution"</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p>Once we have the rejection block defined by the highest wicks high and the highest open or close in the swing high that frames the rejection block and in your mind you should be viewing it like we have here a candle all and of itself</p>
+            </div>
+
+            <!-- Bullish Diagram -->
+            <div class="diagram-container">
+                <div class="diagram-title">Bullish Rejection Block — Structure</div>
+                <svg class="diagram-svg" viewBox="0 0 700 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background grid -->
+                    <rect width="700" height="380" fill="url(#grid)"/>
+                    
+                    <!-- Price action - Decline into consolidation -->
+                    <!-- Decline candles -->
+                    <rect x="80" y="80" width="8" height="50" fill="#e54d5b"/>
+                    <line x1="84" y1="75" x2="84" y2="135" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <rect x="120" y="115" width="8" height="55" fill="#e54d5b"/>
+                    <line x1="124" y1="108" x2="124" y2="175" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <rect x="160" y="155" width="8" height="50" fill="#e54d5b"/>
+                    <line x1="164" y1="148" x2="164" y2="210" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <!-- Consolidation with wicks - the swing low -->
+                    <!-- First candle with wick -->
+                    <rect x="200" y="195" width="8" height="35" fill="#e54d5b"/>
+                    <line x1="204" y1="190" x2="204" y2="275" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <!-- Second candle - lowest body -->
+                    <rect x="240" y="200" width="8" height="40" fill="#e54d5b"/>
+                    <line x1="244" y1="195" x2="244" y2="285" stroke="#e54d5b" stroke-width="1"/>
+                    
+                    <!-- Third candle with long wick -->
+                    <rect x="280" y="200" width="8" height="35" fill="#34c77b"/>
+                    <line x1="284" y1="195" x2="284" y2="290" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <!-- Fourth candle - trades below lowest body then rallies -->
+                    <rect x="320" y="205" width="8" height="45" fill="#34c77b"/>
+                    <line x1="324" y1="200" x2="324" y2="295" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <!-- Rally candles -->
+                    <rect x="360" y="165" width="8" height="50" fill="#34c77b"/>
+                    <line x1="364" y1="158" x2="364" y2="220" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <rect x="400" y="120" width="8" height="55" fill="#34c77b"/>
+                    <line x1="404" y1="113" x2="404" y2="180" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <rect x="440" y="75" width="8" height="50" fill="#34c77b"/>
+                    <line x1="444" y1="68" x2="444" y2="130" stroke="#34c77b" stroke-width="1"/>
+                    
+                    <!-- Rejection Block zone -->
+                    <rect x="190" y="240" width="150" height="55" fill="rgba(52, 199, 123, 0.12)" stroke="#34c77b" stroke-width="1" stroke-dasharray="4,4"/>
+                    
+                    <!-- Lowest wick low line -->
+                    <line x1="190" y1="295" x2="500" y2="295" stroke="#34c77b" stroke-width="1" stroke-dasharray="3,3"/>
+                    
+                    <!-- Lowest open or close line -->
+                    <line x1="190" y1="240" x2="500" y2="240" stroke="#d4a528" stroke-width="1" stroke-dasharray="3,3"/>
+                    
+                    <!-- Labels -->
+                    <text x="510" y="299" font-family="JetBrains Mono, monospace" font-size="10" fill="#34c77b">Lowest wick low</text>
+                    <text x="510" y="244" font-family="JetBrains Mono, monospace" font-size="10" fill="#d4a528">Lowest open or close</text>
+                    
+                    <!-- Rejection Block label -->
+                    <text x="195" y="310" font-family="JetBrains Mono, monospace" font-size="11" fill="#34c77b" font-weight="500">REJECTION BLOCK</text>
+                    
+                    <!-- Annotation for the candle that trades through -->
+                    <path d="M324 305 L324 325" stroke="#8a96a8" stroke-width="1"/>
+                    <circle cx="324" cy="330" r="3" fill="#8a96a8"/>
+                    <text x="275" y="345" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a96a8">"Trades down just below</text>
+                    <text x="282" y="357" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a96a8">the bodies of the candle"</text>
+                    
+                    <!-- Annotation for lowest body candle -->
+                    <path d="M244 185 L244 160 L270 160" stroke="#d4a528" stroke-width="1"/>
+                    <text x="275" y="164" font-family="JetBrains Mono, monospace" font-size="9" fill="#d4a528">"Lowest body"</text>
+                    
+                    <!-- Accumulation arrow -->
+                    <path d="M380 250 L420 200" stroke="#34c77b" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+                    <defs>
+                        <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#34c77b"/>
+                        </marker>
+                    </defs>
+                    <text x="425" y="220" font-family="JetBrains Mono, monospace" font-size="9" fill="#34c77b">"Accumulation"</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p>We frame the rejection order block in this case the bullish rejection order block it's going to be the lowest wick low and the lowest open or the lowest close that makes that swing low on the time frame you're looking for the pattern</p>
+            </div>
+        </section>
+
+        <!-- Entry Section -->
+        <section id="entry">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2>Entry Rules</h2>
+            </div>
+
+            <div class="entry-grid">
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-title">Bearish Entry</span>
+                        <span class="card-tag tag-bearish">Sell</span>
+                    </div>
+                    <p>"This range is going to be a selling block in other words we treat this as a bearish order block"</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-title">Bullish Entry</span>
+                        <span class="card-tag tag-bullish">Buy</span>
+                    </div>
+                    <p>"We treat this as like a bullish order block when price trades back down into the high of the block we can be a buyer"</p>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>When price trades back up to the low of that range that is your trigger</p>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point">
+                    <span class="key-point-marker">Option 1</span>
+                    <p>"If you're aggressive you can sell at that price and put a significant stop loss above that particular price level"</p>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-marker">Option 2</span>
+                    <p>"You can wait for the trade through it a little bit"</p>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-marker">Option 3</span>
+                    <p>"You can wait for it to trade above that level and if it moves significant amount above that highest open or close... if it trades above that particular level and it does not trade to a higher wick high you could be a seller on a stop below that level so that way you can be selling on weakness"</p>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>This is one of the few times i use selling on a stop as an entry pattern</p>
+            </div>
+
+            <div class="quote">
+                <p>Again the trigger is that high or the lowest open or the lowest close in that swing low but the key is it has to be a swing low that has a wick or wicks</p>
+            </div>
+        </section>
+
+        <!-- Psychology Section -->
+        <section id="psychology">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2>Why It Works</h2>
+            </div>
+
+            <div class="quote">
+                <p>Price does not move around because of animal patterns or supposed geometry in price action it's based on the orders</p>
+            </div>
+
+            <div class="quote">
+                <p>The wicks are just drawing your attention to a potential rejection block</p>
+            </div>
+
+            <div class="quote">
+                <p>It's really the bodies of the candle that the closest thing to institutional understanding you're going to get when you're using retail price delivery mechanisms like the platforms we have to trade through from retail perspective</p>
+            </div>
+
+            <div class="quote">
+                <p>If you follow every swing high and low and you chart the open high low and close and you deal specifically with the opens and closes you'll be able to fare it out what distribution and accumulation takes place at these turning points</p>
+            </div>
+        </section>
+
+        <!-- Take Profit Note -->
+        <section id="takeprofit">
+            <div class="section-header">
+                <span class="section-number">08</span>
+                <h2>Take Profit Considerations</h2>
+            </div>
+
+            <div class="quote">
+                <p>We can anticipate levels like this to be taking profits at if we're short in this case if the market had been trading in our favor on another type of setup we could look at the take profit objectives to be covering the short just below the lowest open or close in the previous swing low</p>
+            </div>
+
+            <div class="quote">
+                <p>Don't always demand that price gets below the wicks it's really the bodies of the candle</p>
+            </div>
+        </section>
+
+        <!-- Study Section -->
+        <section id="study">
+            <div class="section-header">
+                <span class="section-number">09</span>
+                <h2>Study Flashcards</h2>
+            </div>
+
+            <div class="flashcard-grid">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a bearish rejection block?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"The bearish rejection block is when a price high has formed with long wicks on the high or highs it can be more than one candle that forms a high of the candle stick or sticks and price reaches up above the body of the candle or candles to run the buy side liquidity out before the price declines"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a bullish rejection block?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"A bullish rejection block is when a price low has formed with a long wick or wicks it could be formed over multiple candles and the low or lows of the candle stick or candle sticks again it's not limited to just one candle and price reaches down below the body of the candle to run the sell side liquidity out before price rallies higher"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you frame a bearish rejection block?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"You have to build the parameters for the rejection block by finding the highest high and the highest open or close in the swing high"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you frame a bullish rejection block?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"The bullish rejection order block it's going to be the lowest wick low and the lowest open or the lowest close that makes that swing low on the time frame you're looking for the pattern"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does the highest/lowest candle need to be bullish or bearish?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"It does not matter if the highest candle is a bearish or bullish closed candle you're still looking for the highest high with the highest open or closing price into the highest wick that frames the rejection block"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal trend context for bearish rejection blocks?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"The ideal setups are found in major to intermediate term downtrends"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal trend context for bullish rejection blocks?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"In ideal scenarios it's in major intermediate term uptrends"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How should you view the rejection block mentally?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"In your mind you should be viewing it like we have here a candle all and of itself"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the trigger for a bearish rejection block entry?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"When price trades back up to the low of that range that is your trigger"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the trigger for a bullish rejection block entry?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"When price trades back down into the high of the block we can be a buyer"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does price need to make a higher high for a failure swing?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"Price does not need to make a higher high to have a failure swing"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why focus on the bodies rather than wicks?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"It's really the bodies of the candle that the closest thing to institutional understanding you're going to get when you're using retail price delivery mechanisms like the platforms we have to trade through from retail perspective"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do the wicks indicate?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"The wicks are just drawing your attention to a potential rejection block"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What drives price movement according to this teaching?</div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                    <div class="flashcard-answer">"Price does not move around because of animal patterns or supposed geometry in price action it's based on the orders"</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container">
+        <p>ICT Mentorship Core Content — Month 04 — Teaching 3.3</p>
+    </footer>
+</body>
+</html>
