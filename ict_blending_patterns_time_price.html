@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT - Blending Price Patterns with Time & Price Theory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-elevated: #242435;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --text-tertiary: #6a6a78;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --accent-silver: #a8b2d1;
+            --border: #2a2a3a;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-bear), var(--accent-gold), var(--accent-bull));
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-silver));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        nav {
+            background: var(--bg-card);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--accent-silver);
+        }
+
+        .quote {
+            background: var(--bg-elevated);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .quote p {
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .pattern-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-bull);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bear-label {
+            color: var(--accent-bear);
+        }
+
+        .bull-label {
+            color: var(--accent-bull);
+        }
+
+        .info-box {
+            background: rgba(255, 165, 2, 0.1);
+            border: 1px solid var(--accent-gold);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-title {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .time-window {
+            background: linear-gradient(135deg, rgba(46, 213, 115, 0.1), rgba(46, 213, 115, 0.05));
+            border: 1px solid var(--accent-bull);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .time-window-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-bull);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+            margin: 1.5rem 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            padding: 1rem 1rem 1rem 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .diagram-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            min-height: 100px;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .flashcard-answer {
+            font-family: 'Crimson Pro', serif;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .click-hint {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+
+        .flashcard.revealed .click-hint {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-price-action.html">Return to Category</a>
+        <a href="index.html">Library Home</a>
+    </nav>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+<header>
+        <h1>Blending Price Patterns with Time & Price Theory</h1>
+        <p class="subtitle">Combining Breakers + Optimal Trade Entry</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#economic-calendar">Economic Calendar</a></li>
+            <li><a href="#bearish-pattern">Bearish Pattern</a></li>
+            <li><a href="#bullish-pattern">Bullish Pattern</a></li>
+            <li><a href="#framework">Framework</a></li>
+            <li><a href="#study">Study Cards</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Core Concept</h2>
+            
+            <div class="quote">
+                <p><em>"you can blend two patterns together within a market setup"</em> - combining the ICT Bearish Breaker or Bullish Breaker pattern with an Optimal Trade Entry for precision entries</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">What This Approach Does</div>
+                <p>This methodology blends two distinct ICT patterns to create high-probability trade setups by using the economic calendar to identify timing, the breaker pattern to identify structure, and optimal trade entry levels to refine the entry point within specific time windows.</p>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-icon">🔗</span>
+                        <div>
+                            <div class="card-title">Pattern Blending</div>
+                            <div class="pattern-label">Two Concepts Combined</div>
+                        </div>
+                    </div>
+                    <p>The approach combines a breaker pattern (bearish or bullish) with an optimal trade entry using Fibonacci retracement levels (62%-79%) to create precision entry zones.</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-icon">📅</span>
+                        <div>
+                            <div class="card-title">Economic Calendar Usage</div>
+                            <div class="pattern-label">Medium/High Impact Events</div>
+                        </div>
+                    </div>
+                    <div class="quote">
+                        <p><em>"i don't care what the actual is i don't care what the forecast is i don't know i don't care what the previous is i'm not concerned about that i'm looking at the red indication here that's a high impact market driver"</em></p>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-icon">⏰</span>
+                        <div>
+                            <div class="card-title">Time Window</div>
+                            <div class="pattern-label">8:30 - 11:00 Eastern</div>
+                        </div>
+                    </div>
+                    <div class="quote">
+                        <p><em>"i've been teaching 8 30 to 11 o'clock in the morning eastern time you can find setups you can find optimal trade entries there"</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="economic-calendar">
+            <h2>Economic Calendar Framework</h2>
+
+            <div class="quote">
+                <p><em>"regardless of the information or the data that's released it can have a lot of impact and cause displacement in price and that's what we're looking for"</em></p>
+            </div>
+
+            <h3>What to Look For</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Impact Level</div>
+                            <div class="pattern-label">Medium or High Only</div>
+                        </div>
+                    </div>
+                    <p>Focus on medium impact or high impact economic events (indicated by red markers on economic calendars) that can cause displacement in price.</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Release Timing</div>
+                            <div class="pattern-label">London or Asia Sessions</div>
+                        </div>
+                    </div>
+                    <div class="quote">
+                        <p><em>"if it's set to release during the london session or if it's set to release during asia that time frame okay just sets the narrative"</em></p>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">What You Don't Need</div>
+                            <div class="pattern-label">Ignore Forecast/Actual Data</div>
+                        </div>
+                    </div>
+                    <p>The actual numbers, forecasts, and previous data are not relevant - only the timing and impact level of the event matter for this setup.</p>
+                </div>
+            </div>
+
+            <div class="time-window">
+                <div class="time-window-title">CRITICAL TIMING REQUIREMENT</div>
+                <p>All charts must be set to Eastern Time (New York Time) for consistency. The 8:30 AM - 11:00 AM window begins when the news embargo lifts at 8:30 AM Eastern.</p>
+            </div>
+        </section>
+
+        <section id="bearish-pattern">
+            <h2>Bearish Pattern Example</h2>
+
+            <div class="info-box">
+                <div class="info-box-title">Case Study: Australian Dollar - October 5th, 2020</div>
+                <p>Economic Event: RBA Rate Statement and Cash Rate at 11:30 PM Eastern (23:30 on chart)</p>
+            </div>
+
+            <h3>ICT Bearish Breaker Structure</h3>
+            <div class="quote">
+                <p><em>"this high this low and the higher high that's a pattern that i teach on this youtube channel which is my ict bearish breaker"</em></p>
+            </div>
+
+            <div class="diagram-container">
+                <svg viewBox="0 0 800 500" style="max-width: 700px; width: 100%;">
+                    <!-- Background -->
+                    <rect x="0" y="0" width="800" height="500" fill="none"/>
+                    
+                    <!-- Price structure -->
+                    <!-- Consolidation highs -->
+                    <line x1="50" y1="200" x2="300" y2="200" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="175" y="190" text-anchor="middle" fill="#ff4757" font-family="JetBrains Mono" font-size="11">Relative Equal Highs</text>
+                    <text x="175" y="215" text-anchor="middle" fill="#9898a8" font-family="JetBrains Mono" font-size="9">Buy Side Liquidity</text>
+                    
+                    <!-- Breakout candle at 23:30 -->
+                    <rect x="280" y="180" width="15" height="60" fill="none" stroke="#ff4757" stroke-width="2"/>
+                    <line x1="287" y1="170" x2="287" y2="240" stroke="#ff4757" stroke-width="2"/>
+                    <text x="310" y="175" fill="#ff4757" font-family="JetBrains Mono" font-size="10" font-weight="600">23:30</text>
+                    <text x="310" y="190" fill="#9898a8" font-family="JetBrains Mono" font-size="9">Rate Announcement</text>
+                    
+                    <!-- Arrow showing rejection -->
+                    <path d="M 295 185 L 310 200 L 325 215" stroke="#ff4757" stroke-width="2" fill="none" marker-end="url(#arrowred)"/>
+                    <defs>
+                        <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 Z" fill="#ff4757"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- Breaker structure labels -->
+                    <circle cx="320" cy="220" r="4" fill="#ffa502"/>
+                    <text x="340" y="225" fill="#ffa502" font-family="JetBrains Mono" font-size="10">High</text>
+                    
+                    <circle cx="360" cy="280" r="4" fill="#ffa502"/>
+                    <text x="380" y="285" fill="#ffa502" font-family="JetBrains Mono" font-size="10">Low (breaks here)</text>
+                    
+                    <circle cx="400" cy="190" r="4" fill="#ffa502"/>
+                    <text x="420" y="195" fill="#ffa502" font-family="JetBrains Mono" font-size="10">Higher High</text>
+                    
+                    <!-- Breaker level -->
+                    <line x1="360" y1="280" x2="650" y2="280" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                    <text x="505" y="270" text-anchor="middle" fill="#ffa502" font-family="Space Grotesk" font-size="12" font-weight="600">ICT Bearish Breaker Level</text>
+                    
+                    <!-- OTE zone -->
+                    <rect x="500" y="260" width="150" height="40" fill="rgba(255, 165, 2, 0.2)" stroke="#ffa502" stroke-width="1.5"/>
+                    <text x="575" y="285" text-anchor="middle" fill="#ffa502" font-family="JetBrains Mono" font-size="10">OTE: 62%-79%</text>
+                    
+                    <!-- New York session window -->
+                    <rect x="500" y="100" width="150" height="300" fill="rgba(46, 213, 115, 0.1)" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="575" y="90" text-anchor="middle" fill="#2ed573" font-family="JetBrains Mono" font-size="11" font-weight="600">8:30-11:00 Window</text>
+                    
+                    <!-- Entry candles in OTE -->
+                    <rect x="540" y="265" width="8" height="30" fill="#ff4757" opacity="0.7"/>
+                    <rect x="560" y="268" width="8" height="27" fill="#ff4757" opacity="0.7"/>
+                    
+                    <!-- Target -->
+                    <line x1="50" y1="380" x2="750" y2="380" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="400" y="395" text-anchor="middle" fill="#2ed573" font-family="JetBrains Mono" font-size="11">Sell Side Liquidity Target</text>
+                    <text x="400" y="410" text-anchor="middle" fill="#9898a8" font-family="JetBrains Mono" font-size="9">Relative Equal Lows</text>
+                </svg>
+            </div>
+
+            <h3>Bearish Pattern Workflow</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Identify Buy Side Liquidity</strong>
+                    <div class="quote">
+                        <p><em>"this liquidity that will be resting above here would be in the form of buy stops we call it buy side liquidity"</em></p>
+                    </div>
+                </li>
+                <li>
+                    <strong>Wait for the Run</strong>
+                    <div class="quote">
+                        <p><em>"we're not trying to forecast a move we're waiting to see does it run above that and will it stay above it well it doesn't it goes above it and rejects and breaks down"</em></p>
+                    </div>
+                </li>
+                <li>
+                    <strong>Identify the Breaker</strong>
+                    <div class="quote">
+                        <p><em>"if this low is taken out which it is taken out here and trades back up to it during a specific time of day"</em></p>
+                    </div>
+                </li>
+                <li>
+                    <strong>Wait for New York Session</strong>
+                    <div class="quote">
+                        <p><em>"you don't need to be up trading in london you can wait till new york session"</em></p>
+                    </div>
+                </li>
+                <li>
+                    <strong>Apply Optimal Trade Entry</strong>
+                    <div class="quote">
+                        <p><em>"we can have a short on two things the fact that we traded back up to the breaker which is this low and an optimal trade entry using this high here"</em></p>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Fibonacci Application</h3>
+            <div class="quote">
+                <p><em>"we're going to take that fib and all we're doing is getting a measurement of overbought oversold it's not the fib that's causing the magic here"</em></p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">London Session High to Low</div>
+                <p>The Fibonacci retracement is drawn from the London Kill Zone session high to the low formed ahead of the 8:30 New York session. The 62%-79% retracement zone creates the Optimal Trade Entry, which overlaps with the bearish breaker level.</p>
+            </div>
+
+            <div class="quote">
+                <p><em>"we have an overlap of seventy nine nine and nine pipettes see that right there with the standard deviation of negative five"</em></p>
+            </div>
+
+            <h3>Target Selection</h3>
+            <div class="quote">
+                <p><em>"we have an old level of equal lows as i teach again on this youtube channel so there's sell side liquidity on here"</em></p>
+            </div>
+        </section>
+
+        <section id="bullish-pattern">
+            <h2>Bullish Pattern Example</h2>
+
+            <div class="info-box">
+                <div class="info-box-title">Case Study: Australian Dollar - October 9th</div>
+                <p>Pattern: Bullish Breaker + Bullish Optimal Trade Entry into London Open Kill Zone</p>
+            </div>
+
+            <h3>Bullish Breaker Structure</h3>
+            <div class="quote">
+                <p><em>"we're looking at the 9th of october and you have a low high and low"</em></p>
+            </div>
+
+            <div class="diagram-container">
+                <svg viewBox="0 0 800 500" style="max-width: 700px; width: 100%;">
+                    <!-- Sell side liquidity run -->
+                    <line x1="50" y1="350" x2="250" y2="350" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="150" y="340" text-anchor="middle" fill="#2ed573" font-family="JetBrains Mono" font-size="11">Equal Lows</text>
+                    <text x="150" y="365" text-anchor="middle" fill="#9898a8" font-family="JetBrains Mono" font-size="9">Sell Side Liquidity Run</text>
+                    
+                    <!-- Breaker structure -->
+                    <circle cx="280" cy="340" r="4" fill="#ffa502"/>
+                    <text x="300" y="345" fill="#ffa502" font-family="JetBrains Mono" font-size="10">Low</text>
+                    
+                    <circle cx="340" cy="250" r="4" fill="#ffa502"/>
+                    <text x="360" y="255" fill="#ffa502" font-family="JetBrains Mono" font-size="10">High</text>
+                    
+                    <circle cx="400" cy="330" r="4" fill="#ffa502"/>
+                    <text x="420" y="335" fill="#ffa502" font-family="JetBrains Mono" font-size="10">Lower Low</text>
+                    <text x="420" y="350" fill="#9898a8" font-family="JetBrains Mono" font-size="9">(breaks below)</text>
+                    
+                    <!-- Bullish breaker level -->
+                    <line x1="400" y1="330" x2="700" y2="330" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                    <text x="550" y="320" text-anchor="middle" fill="#ffa502" font-family="Space Grotesk" font-size="12" font-weight="600">Bullish Breaker Level</text>
+                    
+                    <!-- OTE zone -->
+                    <rect x="500" y="310" width="150" height="40" fill="rgba(255, 165, 2, 0.2)" stroke="#ffa502" stroke-width="1.5"/>
+                    <text x="575" y="335" text-anchor="middle" fill="#ffa502" font-family="JetBrains Mono" font-size="10">OTE: 62%-79%</text>
+                    
+                    <!-- London Kill Zone window -->
+                    <rect x="500" y="150" width="150" height="300" fill="rgba(46, 213, 115, 0.1)" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="575" y="140" text-anchor="middle" fill="#2ed573" font-family="JetBrains Mono" font-size="11" font-weight="600">London Open KZ</text>
+                    
+                    <!-- Entry candles -->
+                    <rect x="540" y="315" width="8" height="30" fill="#2ed573" opacity="0.7"/>
+                    <rect x="560" y="318" width="8" height="27" fill="#2ed573" opacity="0.7"/>
+                    
+                    <!-- Buy side liquidity target -->
+                    <line x1="50" y1="150" x2="750" y2="150" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="400" y="140" text-anchor="middle" fill="#ff4757" font-family="JetBrains Mono" font-size="11">Buy Side Liquidity Target</text>
+                    <text x="400" y="125" text-anchor="middle" fill="#9898a8" font-family="JetBrains Mono" font-size="9">Relative Equal Highs</text>
+                </svg>
+            </div>
+
+            <h3>Bullish Pattern Workflow</h3>
+            <div class="quote">
+                <p><em>"you're going to use the up close candle prior to the swing lower creating a lower low on this price structure that is a run on the sell side liquidity if price goes above it trades back down to it this could act as bullishness"</em></p>
+            </div>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Identify Sell Side Liquidity Run</strong>
+                    <p>Price creates equal lows, then runs below them to take out sell side liquidity</p>
+                </li>
+                <li>
+                    <strong>Identify Bullish Breaker</strong>
+                    <p>Low, High, Lower Low structure - the up close candle prior to the swing creating the lower low becomes the breaker level</p>
+                </li>
+                <li>
+                    <strong>Apply Optimal Trade Entry</strong>
+                    <div class="quote">
+                        <p><em>"we have an optimal trade entry which is the low to high trades down to it with the kill zone there's where your trade is"</em></p>
+                    </div>
+                </li>
+                <li>
+                    <strong>Target Buy Side Liquidity</strong>
+                    <div class="quote">
+                        <p><em>"low a day expansion with bullishness attacking the draw on liquidity which is the buy side liquidity after it ran the equal lows down here"</em></p>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Target Precision</h3>
+            <div class="quote">
+                <p><em>"we have a projected high at 0.72431 and it's above this level here"</em> - <em>"the high on this price swing comes in at seven two four three and two so really close went one pip up beyond"</em></p>
+            </div>
+        </section>
+
+        <section id="framework">
+            <h2>Complete Framework</h2>
+
+            <h3>The Narrative</h3>
+            <div class="quote">
+                <p><em>"it's the narrative behind the specific level that's being referred to that's what makes this level as i teach it"</em></p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">Why Not Simple Support and Resistance?</div>
+                <div class="quote">
+                    <p><em>"i'm not teaching you support and resistance because if that's the case why not just use this low or these lows or this low or these lows here why aren't we referring to any of those it's the narrative"</em></p>
+                </div>
+            </div>
+
+            <h3>Pattern Overlap Requirements</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-icon">1</span>
+                        <div>
+                            <div class="card-title">Breaker Level</div>
+                            <div class="pattern-label bear-label">Bearish or Bullish</div>
+                        </div>
+                    </div>
+                    <p>The specific low (bearish breaker) or high (bullish breaker) that gets violated and then retested becomes the breaker level - extended in time into the New York session window.</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-icon">2</span>
+                        <div>
+                            <div class="card-title">Optimal Trade Entry</div>
+                            <div class="pattern-label">62%-79% Fib Zone</div>
+                        </div>
+                    </div>
+                    <p>Fibonacci retracement from session high to low (bearish) or low to high (bullish) creates the 62%-79% optimal entry zone that should overlap with the breaker level.</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <span class="card-icon">3</span>
+                        <div>
+                            <div class="card-title">Time Window</div>
+                            <div class="pattern-label bull-label">8:30-11:00 ET</div>
+                        </div>
+                    </div>
+                    <div class="quote">
+                        <p><em>"you have up to 11 o'clock to take to take the trade so we have an overlap of the breaker and optimal trade entry"</em></p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Frequency & Repeatability</h3>
+            <div class="quote">
+                <p><em>"you have a dandy of an opportunity that repeats a couple times a month"</em></p>
+            </div>
+
+            <div class="time-window">
+                <div class="time-window-title">SESSION SELECTION</div>
+                <div class="quote">
+                    <p><em>"just use the new york 8 30 to 11 o'clock and frame it with an optimal straight entry and a breaker"</em></p>
+                </div>
+                <p style="margin-top: 1rem;">You do not need to trade during London or Asian sessions - wait for the New York 8:30-11:00 window to use the volume that comes in during this time of day.</p>
+            </div>
+
+            <h3>Combined Pattern Benefits</h3>
+            <div class="quote">
+                <p><em>"combining two patterns to get precision elements reaching for liquidity pools above relative equal highs"</em></p>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="card-header">
+                        <div class="card-title">Structure</div>
+                    </div>
+                    <p>The breaker pattern provides the structural narrative - why this specific level matters based on how liquidity was engineered</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <div class="card-title">Precision</div>
+                    </div>
+                    <p>The optimal trade entry provides the refined entry zone using Fibonacci levels that align with institutional retracement levels</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-header">
+                        <div class="card-title">Timing</div>
+                    </div>
+                    <p>The 8:30-11:00 window provides the volume and institutional participation needed to drive price to the liquidity targets</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study Flashcards</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Click each card to reveal the answer (direct quotes from the teaching)</p>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What economic calendar information do you need to analyze for this setup?</div>
+                <div class="flashcard-answer">"i don't care what the actual is i don't care what the forecast is i don't know i don't care what the previous is i'm not concerned about that i'm looking at the red indication here that's a high impact market driver"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What time window is used for taking these trades?</div>
+                <div class="flashcard-answer">"i've been teaching 8 30 to 11 o'clock in the morning eastern time you can find setups you can find optimal trade entries there"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What is the ICT Bearish Breaker pattern structure?</div>
+                <div class="flashcard-answer">"this high this low and the higher high that's a pattern that i teach on this youtube channel which is my ict bearish breaker"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What happens when price runs above relative equal highs?</div>
+                <div class="flashcard-answer">"running above that does two things it takes traders that are short out by running their stops so it breaks their position it also puts traders on the long side on a breakout should they have pending orders resting above here"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">Are you trying to predict the breakout move?</div>
+                <div class="flashcard-answer">"we're not trying to forecast a move we're waiting to see does it run above that and will it stay above it well it doesn't it goes above it and rejects and breaks down"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">Why is this not just support and resistance?</div>
+                <div class="flashcard-answer">"i'm not teaching you support and resistance because if that's the case why not just use this low or these lows or this low or these lows here why aren't we referring to any of those it's the narrative"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What is the role of the Fibonacci retracement?</div>
+                <div class="flashcard-answer">"we're going to take that fib and all we're doing is getting a measurement of overbought oversold it's not the fib that's causing the magic here it's not i'm not trying to sell the idea that the market's working off of just the fib it's the narrative"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">Do you need to trade during the London session?</div>
+                <div class="flashcard-answer">"you don't need to be up trading in london you can wait till new york session"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What creates the short entry in the bearish example?</div>
+                <div class="flashcard-answer">"we can have a short on two things the fact that we traded back up to the breaker which is this low and an optimal trade entry using this high here"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">How do you identify a bullish breaker?</div>
+                <div class="flashcard-answer">"you're going to use the up close candle prior to the swing lower creating a lower low on this price structure that is a run on the sell side liquidity if price goes above it trades back down to it this could act as bullishness"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What sessions can economic events be released in for this setup?</div>
+                <div class="flashcard-answer">"if it's set to release during the london session or if it's set to release during asia that time frame okay just sets the narrative"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">How often do these setups occur?</div>
+                <div class="flashcard-answer">"you have a dandy of an opportunity that repeats a couple times a month"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                <div class="flashcard-question">What is the goal of combining these two patterns?</div>
+                <div class="flashcard-answer">"combining two patterns to get precision elements reaching for liquidity pools above relative equal highs"</div>
+                <div class="click-hint">Click to reveal</div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
