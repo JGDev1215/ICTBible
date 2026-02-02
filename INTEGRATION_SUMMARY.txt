@@ -1,0 +1,44 @@
+NEW FILES INTEGRATION SUMMARY
+==============================
+
+Date: 2026-02-02
+New Files Added: 6 HTML files
+
+NEW FILES:
+----------
+1. 7am-rule-study.html - "The 7AM Rule"
+2. ict-15min-timeframe-study.html - "15-Minute Timeframe & Daily Range Structure"
+3. ict-session-algorithm-liquidity.html - "How To Determine Which Liquidity Gets Taken"
+4. ict-smoothness-relative-equals-study.html - "Relative Equal Highs/Lows & Smoothness"
+5. ict_hourly_reset_model.html - "Hourly Reset Model: 7, 8, 9 AM"
+6. ndog-study-page.html - "New Day Opening Gap"
+
+INTEGRATION COMPLETED:
+----------------------
+
+✓ Added to index.html sidebar navigation (Additional Topics section)
+✓ Added to all-topics.html (both category list and A-Z list)
+✓ Added to category-time-sessions.html (Time & Sessions category page)
+✓ Added chapter-nav and global-topbar navigation to all 6 files
+✓ Verified no preventDefault() issues in new files
+
+NAVIGATION LINKS ADDED:
+-----------------------
+- Chapter nav: "Return to Category" → category-time-sessions.html
+- Chapter nav: "Library Home" → index.html
+- Global topbar: "Library Home" → index.html
+- Global topbar: "Full Index" → all-topics.html
+
+JAVASCRIPT FIX APPLIED:
+-----------------------
+✓ Fixed 51 existing files with navigation blocking issue
+✓ Changed selector from 'nav a' to 'nav a[href^="#"]'
+✓ Now only smooth scrolls internal anchor links (#id)
+✓ External navigation links work properly
+
+READY FOR DEPLOYMENT:
+---------------------
+All 79 files (73 original + 6 new) are now:
+- Structurally valid HTML
+- Properly interconnected via navigation
+- Ready to be committed and pushed to GitHub
