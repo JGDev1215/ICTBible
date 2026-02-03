@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Suspension Block - Study Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #24243a;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --text-muted: #6c6c7c;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --accent-purple: #a55eea;
+            --border-color: #2a2a3a;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0a0a0f 100%);
+            padding: 3rem 2rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-bull) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            background: var(--bg-card);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--accent-bull);
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quote p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .quote em {
+            font-style: italic;
+            color: var(--accent-gold);
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-gold);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .diagram-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(255, 165, 2, 0.2);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .flashcard-answer {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            opacity: 1;
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .flashcard.revealed .click-hint {
+            opacity: 0;
+        }
+
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .highlight-bull {
+            color: var(--accent-bull);
+            font-weight: 600;
+        }
+
+        .highlight-bear {
+            color: var(--accent-bear);
+            font-weight: 600;
+        }
+
+        .highlight-gold {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .flashcards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="index.html">Library Home</a>
+    </nav>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+<header>
+        <h1>ICT Suspension Block</h1>
+        <p class="subtitle">A powerful institutional reference point never taught before</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#structure">Structure</a>
+        <a href="#characteristics">Characteristics</a>
+        <a href="#visual">Visual Pattern</a>
+        <a href="#behavior">Price Behavior</a>
+        <a href="#inversion">Inversion</a>
+        <a href="#study">Study Cards</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <div class="quote">
+                <p><em>"This is my ICT suspension block."</em> (0:17)</p>
+            </div>
+            <div class="quote">
+                <p><em>"I've never taught it before. I've never given it to anybody."</em> (0:09-0:11)</p>
+            </div>
+            <div class="quote">
+                <p><em>"This is extremely strong. It's one of the most powerful."</em> (1:07-1:09)</p>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2>Structure & Formation</h2>
+            <div class="quote">
+                <p><em>"Whenever you have one single candle that has a volume of bounce to the low and a volume of balance to the high, that is going to act just like a fair value gap."</em> (0:43-0:52)</p>
+            </div>
+            <div class="quote">
+                <p><em>"It's being suspended between two volume imbalances. That's why I named it suspension block."</em> (1:00-1:07)</p>
+            </div>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Key Formation Rule</span>
+                </div>
+                <p><em>"The creation of this is again a volume of bounce at the top, a volume of bounce at the bottom."</em> (2:31-2:35)</p>
+            </div>
+        </section>
+
+        <section id="characteristics">
+            <h2>Characteristics</h2>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Wick Interaction</span>
+                </div>
+                <p><em>"It does not matter if there's wicks that had already crossed over that to the left of it. You simply don't even worry about it."</em> (0:52-0:58)</p>
+            </div>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Prior Price Activity</span>
+                </div>
+                <p><em>"If it looks like it's been redelivered or it's back and forth in the same area, it's still inefficient and it's being highlighted algorithmically because there's a volume of bounce to the lower and the higher end of it."</em> (2:38-2:47)</p>
+            </div>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Bullish vs Bearish</span>
+                </div>
+                <p><em>"The suspension block is extremely bullish or bearish if it's reversed and it's a down close candle and you have narrative and orderflow moving is lower reaching for liquidity."</em> (1:28-1:36)</p>
+            </div>
+        </section>
+
+        <section id="visual">
+            <h2>Visual Pattern Recognition</h2>
+            <div class="quote">
+                <p><em>"You would never look at that as a fair value. Not by the definitions of it initially given. This is a bullish fair gap, but this is not a bullish sphere gap up in its classic sense."</em> (0:22-0:34)</p>
+            </div>
+            <div class="quote">
+                <p><em>"And if you look real close, there is a volume of bounce at the top and a volume of bounce at the bottom. Even though this wick goes higher..."</em> (0:36-0:43)</p>
+            </div>
+
+            <h3>Example 1: Basic Bullish Suspension Block</h3>
+            <div class="diagram-container">
+                <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="600" height="400" fill="#1a1a24"/>
+                    
+                    <!-- Grid lines -->
+                    <line x1="0" y1="100" x2="600" y2="100" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="200" x2="600" y2="200" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="300" x2="600" y2="300" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Candles before suspension block -->
+                    <rect x="100" y="180" width="20" height="80" fill="#ff4757"/>
+                    <line x1="110" y1="150" x2="110" y2="260" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <rect x="140" y="200" width="20" height="60" fill="#ff4757"/>
+                    <line x1="150" y1="180" x2="150" y2="260" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- SUSPENSION BLOCK CANDLE -->
+                    <rect x="180" y="210" width="24" height="40" fill="#2ed573" stroke="#ffa502" stroke-width="3"/>
+                    <line x1="192" y1="190" x2="192" y2="250" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Volume imbalance markers -->
+                    <line x1="165" y1="210" x2="220" y2="210" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+                    <text x="230" y="215" font-family="JetBrains Mono" font-size="12" fill="#ffa502">Volume of balance (top)</text>
+                    
+                    <line x1="165" y1="250" x2="220" y2="250" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+                    <text x="230" y="255" font-family="JetBrains Mono" font-size="12" fill="#ffa502">Volume of bounce (bottom)</text>
+                    
+                    <!-- Suspension zone highlight -->
+                    <rect x="165" y="210" width="60" height="40" fill="#ffa502" opacity="0.15"/>
+                    
+                    <!-- Label -->
+                    <text x="192" y="280" font-family="Space Grotesk" font-size="14" font-weight="600" fill="#ffa502" text-anchor="middle">Suspension Block</text>
+                    <text x="192" y="295" font-family="JetBrains Mono" font-size="11" fill="#9898a8" text-anchor="middle">(Single candle)</text>
+                    
+                    <!-- Candles after - showing wick crossing over from left -->
+                    <rect x="220" y="195" width="20" height="45" fill="#2ed573"/>
+                    <line x1="230" y1="175" x2="230" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Arrow showing wick went higher -->
+                    <path d="M 230 175 L 235 185 M 230 175 L 225 185" stroke="#9898a8" stroke-width="1.5" fill="none"/>
+                    <text x="245" y="175" font-family="JetBrains Mono" font-size="11" fill="#9898a8">Wick goes higher</text>
+                    
+                    <!-- Candles showing price action -->
+                    <rect x="260" y="205" width="20" height="35" fill="#2ed573"/>
+                    <line x1="270" y1="200" x2="270" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="300" y="190" width="20" height="50" fill="#2ed573"/>
+                    <line x1="310" y1="185" x2="310" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Note about wicks -->
+                    <text x="300" y="350" font-family="Crimson Pro" font-size="13" fill="#9898a8" text-anchor="middle" font-style="italic">"It does not matter if there's wicks that had already crossed over that to the left of it."</text>
+                    
+                    <!-- Title -->
+                    <text x="300" y="30" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#e8e8ed" text-anchor="middle">Bullish Suspension Block Structure</text>
+                </svg>
+            </div>
+
+            <h3>Example 2: Multiple Re-entries to Suspension Block</h3>
+            <div class="quote">
+                <p><em>"It trades down to it here and then consequent encroachment over here and then one more time it dies down into it here."</em> (3:29-3:34)</p>
+            </div>
+            <div class="diagram-container">
+                <svg width="700" height="450" viewBox="0 0 700 450" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="700" height="450" fill="#1a1a24"/>
+                    
+                    <!-- Grid lines -->
+                    <line x1="0" y1="150" x2="700" y2="150" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="250" x2="700" y2="250" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="350" x2="700" y2="350" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Initial move down -->
+                    <rect x="80" y="180" width="18" height="70" fill="#ff4757"/>
+                    <line x1="89" y1="170" x2="89" y2="250" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <rect x="110" y="200" width="18" height="60" fill="#ff4757"/>
+                    <line x1="119" y1="190" x2="119" y2="260" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- SUSPENSION BLOCK -->
+                    <rect x="140" y="230" width="22" height="35" fill="#2ed573" stroke="#ffa502" stroke-width="3"/>
+                    <line x1="151" y1="220" x2="151" y2="265" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Suspension zone -->
+                    <rect x="125" y="230" width="550" height="35" fill="#ffa502" opacity="0.1"/>
+                    <line x1="125" y1="230" x2="675" y2="230" stroke="#ffa502" stroke-width="1" stroke-dasharray="3,3"/>
+                    <line x1="125" y1="265" x2="675" y2="265" stroke="#ffa502" stroke-width="1" stroke-dasharray="3,3"/>
+                    
+                    <!-- Rally 1 -->
+                    <rect x="175" y="210" width="18" height="45" fill="#2ed573"/>
+                    <line x1="184" y1="205" x2="184" y2="255" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="205" y="180" width="18" height="60" fill="#2ed573"/>
+                    <line x1="214" y1="175" x2="214" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- First re-entry -->
+                    <rect x="235" y="200" width="18" height="50" fill="#ff4757"/>
+                    <line x1="244" y1="195" x2="244" y2="250" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Label first touch -->
+                    <text x="244" y="285" font-family="JetBrains Mono" font-size="10" fill="#2ed573" text-anchor="middle">1st touch</text>
+                    <path d="M 244 275 L 244 265" stroke="#2ed573" stroke-width="1.5"/>
+                    
+                    <!-- Rally 2 -->
+                    <rect x="265" y="215" width="18" height="35" fill="#2ed573"/>
+                    <line x1="274" y1="210" x2="274" y2="250" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="295" y="190" width="18" height="50" fill="#2ed573"/>
+                    <line x1="304" y1="185" x2="304" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Second re-entry (consequent encroachment) -->
+                    <rect x="325" y="205" width="18" height="45" fill="#ff4757"/>
+                    <line x1="334" y1="200" x2="334" y2="250" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- CE line -->
+                    <line x1="125" y1="247" x2="675" y2="247" stroke="#a55eea" stroke-width="1" stroke-dasharray="2,2"/>
+                    <text x="680" y="250" font-family="JetBrains Mono" font-size="9" fill="#a55eea">CE</text>
+                    
+                    <!-- Label second touch -->
+                    <text x="334" y="285" font-family="JetBrains Mono" font-size="10" fill="#2ed573" text-anchor="middle">2nd touch (CE)</text>
+                    <path d="M 334 275 L 334 250" stroke="#2ed573" stroke-width="1.5"/>
+                    
+                    <!-- Rally 3 -->
+                    <rect x="355" y="220" width="18" height="35" fill="#2ed573"/>
+                    <line x1="364" y1="215" x2="364" y2="255" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="385" y="195" width="18" height="55" fill="#2ed573"/>
+                    <line x1="394" y1="190" x2="394" y2="250" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Third re-entry -->
+                    <rect x="415" y="210" width="18" height="45" fill="#ff4757"/>
+                    <line x1="424" y1="205" x2="424" y2="255" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Label third touch -->
+                    <text x="424" y="285" font-family="JetBrains Mono" font-size="10" fill="#2ed573" text-anchor="middle">3rd touch</text>
+                    <path d="M 424 275 L 424 255" stroke="#2ed573" stroke-width="1.5"/>
+                    
+                    <!-- Final rally -->
+                    <rect x="445" y="225" width="18" height="30" fill="#2ed573"/>
+                    <line x1="454" y1="220" x2="454" y2="255" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="475" y="200" width="18" height="50" fill="#2ed573"/>
+                    <line x1="484" y1="195" x2="484" y2="250" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="505" y="170" width="18" height="60" fill="#2ed573"/>
+                    <line x1="514" y1="165" x2="514" y2="230" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Title -->
+                    <text x="350" y="30" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#e8e8ed" text-anchor="middle">Multiple Re-entries to Suspension Block</text>
+                    <text x="350" y="410" font-family="Crimson Pro" font-size="12" fill="#9898a8" text-anchor="middle" font-style="italic">"It trades down to it here and then consequent encroachment over here and then one more time"</text>
+                </svg>
+            </div>
+
+            <h3>Example 3: Bearish Suspension Block (Inverted)</h3>
+            <div class="quote">
+                <p><em>"The suspension block is extremely bullish or bearish if it's reversed and it's a down close candle and you have narrative and orderflow moving is lower reaching for liquidity."</em> (1:28-1:36)</p>
+            </div>
+            <div class="diagram-container">
+                <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="600" height="400" fill="#1a1a24"/>
+                    
+                    <!-- Grid lines -->
+                    <line x1="0" y1="100" x2="600" y2="100" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="200" x2="600" y2="200" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="300" x2="600" y2="300" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Candles before - upward move -->
+                    <rect x="100" y="180" width="20" height="60" fill="#2ed573"/>
+                    <line x1="110" y1="170" x2="110" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="140" y="150" width="20" height="70" fill="#2ed573"/>
+                    <line x1="150" y1="140" x2="150" y2="220" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- BEARISH SUSPENSION BLOCK CANDLE (down close) -->
+                    <rect x="180" y="160" width="24" height="40" fill="#ff4757" stroke="#ffa502" stroke-width="3"/>
+                    <line x1="192" y1="150" x2="192" y2="210" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Volume imbalance markers -->
+                    <line x1="165" y1="160" x2="220" y2="160" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+                    <text x="230" y="165" font-family="JetBrains Mono" font-size="12" fill="#ffa502">Volume of bounce (top)</text>
+                    
+                    <line x1="165" y1="200" x2="220" y2="200" stroke="#ffa502" stroke-width="2" stroke-dasharray="4,4"/>
+                    <text x="230" y="205" font-family="JetBrains Mono" font-size="12" fill="#ffa502">Volume of balance (bottom)</text>
+                    
+                    <!-- Suspension zone highlight -->
+                    <rect x="165" y="160" width="60" height="40" fill="#ffa502" opacity="0.15"/>
+                    
+                    <!-- Label -->
+                    <text x="192" y="130" font-family="Space Grotesk" font-size="14" font-weight="600" fill="#ffa502" text-anchor="middle">Bearish Suspension Block</text>
+                    <text x="192" y="145" font-family="JetBrains Mono" font-size="11" fill="#9898a8" text-anchor="middle">(Down close candle)</text>
+                    
+                    <!-- Candles after - downward move -->
+                    <rect x="220" y="175" width="20" height="45" fill="#ff4757"/>
+                    <line x1="230" y1="170" x2="230" y2="220" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <rect x="260" y="190" width="20" height="50" fill="#ff4757"/>
+                    <line x1="270" y1="185" x2="270" y2="240" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <rect x="300" y="210" width="20" height="55" fill="#ff4757"/>
+                    <line x1="310" y1="205" x2="310" y2="265" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Arrow showing orderflow -->
+                    <path d="M 350 180 L 350 250" stroke="#ff4757" stroke-width="2" marker-end="url(#arrowhead-bear)"/>
+                    <text x="365" y="215" font-family="JetBrains Mono" font-size="11" fill="#ff4757">Orderflow lower</text>
+                    
+                    <defs>
+                        <marker id="arrowhead-bear" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                            <polygon points="0 0, 10 5, 0 10" fill="#ff4757"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- Title -->
+                    <text x="300" y="30" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#e8e8ed" text-anchor="middle">Bearish Suspension Block - Down Close Candle</text>
+                    <text x="300" y="360" font-family="Crimson Pro" font-size="12" fill="#9898a8" text-anchor="middle" font-style="italic">"Narrative and orderflow moving is lower reaching for liquidity"</text>
+                </svg>
+            </div>
+
+            <h3>Example 4: Suspension Block with Body Respect</h3>
+            <div class="quote">
+                <p><em>"Notice the body respecting it here."</em> (3:39-3:41)</p>
+            </div>
+            <div class="diagram-container">
+                <svg width="700" height="400" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="700" height="400" fill="#1a1a24"/>
+                    
+                    <!-- Grid lines -->
+                    <line x1="0" y1="100" x2="700" y2="100" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="200" x2="700" y2="200" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="300" x2="700" y2="300" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Initial candles -->
+                    <rect x="80" y="220" width="18" height="50" fill="#ff4757"/>
+                    <line x1="89" y1="210" x2="89" y2="270" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- SUSPENSION BLOCK -->
+                    <rect x="110" y="240" width="20" height="30" fill="#2ed573" stroke="#ffa502" stroke-width="3"/>
+                    <line x1="120" y1="230" x2="120" y2="270" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Suspension zone -->
+                    <rect x="95" y="240" width="580" height="30" fill="#ffa502" opacity="0.1"/>
+                    <line x1="95" y1="240" x2="675" y2="240" stroke="#ffa502" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    <line x1="95" y1="270" x2="675" y2="270" stroke="#ffa502" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    
+                    <!-- Rally -->
+                    <rect x="145" y="220" width="18" height="40" fill="#2ed573"/>
+                    <line x1="154" y1="215" x2="154" y2="260" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="175" y="195" width="18" height="50" fill="#2ed573"/>
+                    <line x1="184" y1="190" x2="184" y2="245" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Pullback with BODY RESPECT -->
+                    <rect x="205" y="210" width="18" height="38" fill="#ff4757"/>
+                    <!-- Wick goes INTO zone, but body stops AT the line -->
+                    <line x1="214" y1="205" x2="214" y2="240" stroke="#ff4757" stroke-width="2"/>
+                    <line x1="214" y1="248" x2="214" y2="260" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Highlight the body stopping -->
+                    <circle cx="214" cy="240" r="6" fill="none" stroke="#ffa502" stroke-width="2"/>
+                    <text x="214" y="225" font-family="JetBrains Mono" font-size="10" fill="#ffa502" text-anchor="middle" font-weight="600">Body stops here</text>
+                    
+                    <rect x="235" y="215" width="18" height="35" fill="#ff4757"/>
+                    <line x1="244" y1="210" x2="244" y2="240" stroke="#ff4757" stroke-width="2"/>
+                    <line x1="244" y1="250" x2="244" y2="265" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Another body respect example -->
+                    <circle cx="244" cy="240" r="6" fill="none" stroke="#ffa502" stroke-width="2"/>
+                    
+                    <rect x="265" y="218" width="18" height="33" fill="#ff4757"/>
+                    <line x1="274" y1="213" x2="274" y2="240" stroke="#ff4757" stroke-width="2"/>
+                    <line x1="274" y1="251" x2="274" y2="268" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <circle cx="274" cy="240" r="6" fill="none" stroke="#ffa502" stroke-width="2"/>
+                    
+                    <!-- Continuation higher -->
+                    <rect x="295" y="210" width="18" height="40" fill="#2ed573"/>
+                    <line x1="304" y1="205" x2="304" y2="250" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="325" y="185" width="18" height="55" fill="#2ed573"/>
+                    <line x1="334" y1="180" x2="334" y2="240" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="355" y="165" width="18" height="60" fill="#2ed573"/>
+                    <line x1="364" y1="160" x2="364" y2="225" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Title -->
+                    <text x="350" y="30" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#e8e8ed" text-anchor="middle">Bodies Respecting Suspension Block</text>
+                    <text x="350" y="365" font-family="Crimson Pro" font-size="13" fill="#9898a8" text-anchor="middle" font-style="italic">"Look at the bodies. That's technical science."</text>
+                </svg>
+            </div>
+
+            <h3>Example 5: Inversion - Suspension Block as Premium Array</h3>
+            <div class="quote">
+                <p><em>"Because we had a reversal when we come back down in, it's going to act as what? Just like an inversion fair value gap. It changes its characteristic."</em> (4:15-4:22)</p>
+            </div>
+            <div class="diagram-container">
+                <svg width="700" height="450" viewBox="0 0 700 450" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="700" height="450" fill="#1a1a24"/>
+                    
+                    <!-- Grid lines -->
+                    <line x1="0" y1="150" x2="700" y2="150" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="250" x2="700" y2="250" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    <line x1="0" y1="350" x2="700" y2="350" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Initial bullish move -->
+                    <rect x="80" y="260" width="18" height="40" fill="#2ed573"/>
+                    <line x1="89" y1="255" x2="89" y2="300" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- SUSPENSION BLOCK (initially bullish) -->
+                    <rect x="110" y="240" width="20" height="35" fill="#2ed573" stroke="#ffa502" stroke-width="3"/>
+                    <line x1="120" y1="230" x2="120" y2="275" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Suspension zone -->
+                    <rect x="95" y="240" width="580" height="35" fill="#2ed573" opacity="0.1"/>
+                    <line x1="95" y1="240" x2="675" y2="240" stroke="#2ed573" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    <line x1="95" y1="275" x2="675" y2="275" stroke="#2ed573" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    
+                    <!-- Continuation higher -->
+                    <rect x="145" y="220" width="18" height="45" fill="#2ed573"/>
+                    <line x1="154" y1="215" x2="154" y2="265" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="175" y="190" width="18" height="60" fill="#2ed573"/>
+                    <line x1="184" y1="185" x2="184" y2="250" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <rect x="205" y="165" width="18" height="65" fill="#2ed573"/>
+                    <line x1="214" y1="160" x2="214" y2="230" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- REVERSAL -->
+                    <rect x="235" y="180" width="18" height="60" fill="#ff4757"/>
+                    <line x1="244" y1="175" x2="244" y2="240" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <text x="244" y="160" font-family="Space Grotesk" font-size="12" fill="#ff4757" text-anchor="middle" font-weight="600">REVERSAL</text>
+                    
+                    <rect x="265" y="210" width="18" height="55" fill="#ff4757"/>
+                    <line x1="274" y1="205" x2="274" y2="265" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Now zone becomes PREMIUM (bearish resistance) -->
+                    <rect x="275" y="240" width="400" height="35" fill="#ff4757" opacity="0.1"/>
+                    
+                    <!-- Rally back TO suspension block (now resistance) -->
+                    <rect x="295" y="235" width="18" height="45" fill="#2ed573"/>
+                    <line x1="304" y1="230" x2="304" y2="280" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Touches CE of inverted block -->
+                    <line x1="275" y1="257.5" x2="675" y2="257.5" stroke="#a55eea" stroke-width="1.5" stroke-dasharray="2,2"/>
+                    <text x="680" y="261" font-family="JetBrains Mono" font-size="9" fill="#a55eea">CE</text>
+                    
+                    <rect x="325" y="245" width="18" height="35" fill="#2ed573"/>
+                    <line x1="334" y1="240" x2="334" y2="257" stroke="#2ed573" stroke-width="2"/>
+                    <!-- Body respects CE -->
+                    <line x1="334" y1="280" x2="334" y2="290" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <circle cx="334" cy="257" r="6" fill="none" stroke="#ffa502" stroke-width="2"/>
+                    <text x="334" y="225" font-family="JetBrains Mono" font-size="10" fill="#ffa502" text-anchor="middle">Body stops at CE</text>
+                    
+                    <!-- Rejection and move lower -->
+                    <rect x="355" y="255" width="18" height="45" fill="#ff4757"/>
+                    <line x1="364" y1="250" x2="364" y2="300" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <rect x="385" y="275" width="18" height="50" fill="#ff4757"/>
+                    <line x1="394" y1="270" x2="394" y2="325" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Label change -->
+                    <text x="450" y="255" font-family="Space Grotesk" font-size="13" fill="#ff4757" text-anchor="start" font-weight="600">NOW ACTS AS PREMIUM ARRAY</text>
+                    <text x="450" y="270" font-family="JetBrains Mono" font-size="10" fill="#9898a8" text-anchor="start">(Changed characteristic after reversal)</text>
+                    
+                    <!-- Title -->
+                    <text x="350" y="30" font-family="Space Grotesk" font-size="18" font-weight="600" fill="#e8e8ed" text-anchor="middle">Suspension Block Inversion</text>
+                    <text x="350" y="420" font-family="Crimson Pro" font-size="12" fill="#9898a8" text-anchor="middle" font-style="italic">"It changes its characteristic... the body's respecting it here"</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p><em>"It's very, very easy to spot. If you start scouring through your charts, you're going to see these things. They never have been noticed by you before."</em> (2:50-2:57)</p>
+            </div>
+        </section>
+
+        <section id="behavior">
+            <h2>Price Behavior</h2>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Support/Discount Sensitivity</span>
+                </div>
+                <p><em>"Rallies up, supports at the low of this suspension block there. So there's discount sensitivity rallies up discount sensitivity at the high of it."</em> (4:37-4:45)</p>
+            </div>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Body Respect</span>
+                </div>
+                <p><em>"Notice the body respecting it here. It trades to the 24,819 and a quarter."</em> (3:39-3:46)</p>
+            </div>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Multiple Touches</span>
+                </div>
+                <p><em>"It trades down to it here and then consequent encroachment over here and then one more time it dies down into it here."</em> (3:29-3:34)</p>
+            </div>
+        </section>
+
+        <section id="inversion">
+            <h2>Inversion Characteristics</h2>
+            <div class="quote">
+                <p><em>"See this lower volume of balance, upper volume imbalance, but because we had a reversal when we come back down in, it's going to act as what? Just like an inversion fair value gap. It changes its characteristic."</em> (4:13-4:22)</p>
+            </div>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Premium Array Behavior</span>
+                </div>
+                <p><em>"And because it's changed its character to that of being a premium array, the body's respecting it here. Look at the bodies."</em> (4:53-4:57)</p>
+            </div>
+            <div class="quote">
+                <p><em>"That's technical science. And realize, oh, look at the body stopping right there. That's technical science."</em> (4:58-5:04)</p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study Flashcards</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Click each card to reveal the answer (direct quote from transcript)</p>
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an ICT Suspension Block?</div>
+                    <div class="flashcard-answer">"Whenever you have one single candle that has a volume of bounce to the low and a volume of balance to the high, that is going to act just like a fair value gap." (0:43-0:52)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why is it called a "suspension" block?</div>
+                    <div class="flashcard-answer">"It's being suspended between two volume imbalances. That's why I named it suspension block." (1:00-1:07)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How powerful is the suspension block compared to other concepts?</div>
+                    <div class="flashcard-answer">"This is extremely strong. It's one of the most powerful." (1:07-1:09)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does it matter if wicks have already crossed through the area from the left?</div>
+                    <div class="flashcard-answer">"It does not matter if there's wicks that had already crossed over that to the left of it. You simply don't even worry about it." (0:52-0:58)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the required structural components of a suspension block?</div>
+                    <div class="flashcard-answer">"The creation of this is again a volume of bounce at the top, a volume of bounce at the bottom." (2:31-2:35)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Can a suspension block be bearish?</div>
+                    <div class="flashcard-answer">"The suspension block is extremely bullish or bearish if it's reversed and it's a down close candle and you have narrative and orderflow moving is lower reaching for liquidity." (1:28-1:36)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does prior price activity in the area invalidate a suspension block?</div>
+                    <div class="flashcard-answer">"If it looks like it's been redelivered or it's back and forth in the same area, it's still inefficient and it's being highlighted algorithmically because there's a volume of bounce to the lower and the higher end of it." (2:38-2:47)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does price typically behave at a suspension block?</div>
+                    <div class="flashcard-answer">"Rallies up, supports at the low of this suspension block there. So there's discount sensitivity rallies up discount sensitivity at the high of it." (4:37-4:45)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens when a suspension block inverts?</div>
+                    <div class="flashcard-answer">"Because we had a reversal when we come back down in, it's going to act as what? Just like an inversion fair value gap. It changes its characteristic." (4:15-4:22)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do candle bodies interact with an inverted suspension block?</div>
+                    <div class="flashcard-answer">"And because it's changed its character to that of being a premium array, the body's respecting it here. Look at the bodies." (4:53-4:57)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does this compare to a classic fair value gap?</div>
+                    <div class="flashcard-answer">"You would never look at that as a fair value. Not by the definitions of it initially given. This is a bullish fair gap, but this is not a bullish sphere gap up in its classic sense." (0:22-0:34)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How easy is it to identify suspension blocks on charts?</div>
+                    <div class="flashcard-answer">"It's very, very easy to spot. If you start scouring through your charts, you're going to see these things. They never have been noticed by you before." (2:50-2:57)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many times can price interact with a suspension block?</div>
+                    <div class="flashcard-answer">"It trades down to it here and then consequent encroachment over here and then one more time it dies down into it here." (3:29-3:34)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does body respect at a suspension block indicate?</div>
+                    <div class="flashcard-answer">"Notice the body respecting it here. It trades to the 24,819 and a quarter." (3:39-3:46)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What makes suspension block precision noteworthy?</div>
+                    <div class="flashcard-answer">"That's technical science. And realize, oh, look at the body stopping right there. That's technical science." (4:58-5:04)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the defining characteristic that creates the suspension effect?</div>
+                    <div class="flashcard-answer">"It's being suspended between two volume imbalances. That's why I named it suspension block." (1:00-1:07)</div>
+                    <span class="click-hint">Click to reveal</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
