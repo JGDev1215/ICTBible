@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Silver Bullet - Time Based Trading Model - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .time-window {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .time-window h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.75rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .time-window p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="ICT-Month8-WhenToAvoidLondonSession.html">Next Chapter</a>
+        <a href="ICT-Month4-OrderblockLecture.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>ICT Silver Bullet Trade Setup</h1>
+        <p>A time-based algorithmic trading model for all asset classes</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#framework">Framework</a>
+        <a href="#draws">Draws on Liquidity</a>
+        <a href="#london">London Open</a>
+        <a href="#am">AM Session</a>
+        <a href="#pm">PM Session</a>
+        <a href="#rules">Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"ICT Silver Bullet trade setup which is a time-based algorithmic trading model for all asset classes"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"You can get your setups there you can make your bread and butter you can make your ends meat... every single Market every single trading day will offer one of these"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="framework">
+            <h2>Minimum Trade Framework</h2>
+
+            <h3>Index Futures or Indices</h3>
+            <blockquote class="quote">
+                <p><em>"The minimum trade framework should be 10 points or 40 ticks for index futures or indices"</em></p>
+            </blockquote>
+
+            <h3>Forex Pairs</h3>
+            <blockquote class="quote">
+                <p><em>"The minimum trade framework should be 15 Pips for Forex payers for Forex Traders"</em></p>
+            </blockquote>
+
+            <h3>Critical Framework Clarification</h3>
+            <blockquote class="quote">
+                <p><em>"This framework is the best case price delivery that you expect to see not underscore not your actual trade entry to exit range"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If the entirety of the move that you foresee is likely to unfold next in whatever asset class you're trading that range is the framework but you're going to be looking for a trade within that framework that doesn't demand you to have the highest degree of Entry Precision or exit Precision"</em></p>
+            </blockquote>
+
+            <h3>Relationship Between Index Futures and Forex</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">10 Handles = 20 Pips</span>
+                </div>
+                <p><em>"10 handles for indices is the same to me as 20 Pips in Forex"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">5 Handles = 10 Pips</span>
+                </div>
+                <p><em>"Five handles for indices is the same to me as 10 Pips in Forex"</em></p>
+            </div>
+        </section>
+
+        <section id="draws">
+            <h2>Types of Draws on Liquidity</h2>
+            <blockquote class="quote">
+                <p><em>"The framework for many ICT Silver Bullet setups are as follows but they're not limited to"</em>:</p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">1. Previous Day High or Low</span>
+                </div>
+                <p><em>"Previous day high or low draw on liquidity meaning yesterday's high if we're bullish there's going to be buy stops or buy side liquidity resting above that we would be looking for a run to previous day's high that expansion is the draw in liquidity for buy side"</em></p>
+                <p><em>"If we are bearish we're expecting lower prices throughout the week and we see the previous days low as having sells side liquidity or self stops below it so we would look for potential setups that would expand down into that liquidity"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">2. Previous Session Highs and Lows</span>
+                </div>
+                <p><em>"Previous session highs and lows as draws on liquidity meaning that let's say you're sitting down in front of the charts and it's the am session in New York you would look at the high end or low of the London session that just passed and looked to a run on liquidity or retest of those old lows or highs"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3. Previous Weekly High or Low</span>
+                </div>
+                <p><em>"Previous weekly high or low as a draw in liquidity if we're bullish we would look for a run above the previous week's high or if we bearish we would look for a run below the previous week's low"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">4. New Week Opening Gap</span>
+                </div>
+                <p><em>"Returning to a current or old new week opening Gap so that would be treated as a draw on liquidity or an expansion away from the current or old new week opening Gap"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">5. Classic ICT Optimal Trade Entry</span>
+                </div>
+                <p><em>"A classic ICT optimal trade entry which has been for the longest time while doing this YouTube channel that's always been the classic Flagship pattern"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">6. Inefficiencies as Draws</span>
+                </div>
+                <p><em>"Your draw on liquidity could be a inefficiency above the marketplace when we're bullish or a inefficiency below the price when we're bearish"</em></p>
+                <p><em>"If we're bearish we could be aiming for a discount buy c b sell sign efficiency or some measure of fair value Gap that would be below current price action that would be your draw when bearish"</em></p>
+                <p><em>"If you're bullish you would be looking for a inefficiency above current price action which would be many times in the form of a civvy or sell side imbalance buy s def efficiency or variant of fair value Gap above current price action"</em></p>
+            </div>
+
+            <h3>Critical Note on Draw Selection</h3>
+            <blockquote class="quote">
+                <p><em>"Obviously the main emphasis is determining the next most likely draw in the price action so where is Price likely to go to next that's the number one goal for all of my students is to focus on that skill set first because all the entries and the exens and such that is the least important thing because if you don't know where price is trying to go to from the time you're sitting in looking at your charts whatever anoun this concept you use is probably going to fail"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="london">
+            <h2>London Open Silver Bullet</h2>
+
+            <div class="time-window">
+                <h4>3:00 AM - 4:00 AM</h4>
+                <p>New York Local Time</p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"First setup time is 3:00 a.m. to 4:00 a.m. now we're always referring to New York local time"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"This is the London open Silver Bullet"</em></p>
+            </blockquote>
+
+            <h3>What to Look For</h3>
+            <blockquote class="quote">
+                <p><em>"What we're looking for is a classic ICT fair value Gap the form between 3:00 a.m. and 400 a.m. New York local time"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The factor that which you are going to lean heavily on is the skill set of knowing where price is going to go to okay and it's not necessarily the bias you just predominantly have to consider where the next draw on liquidity is"</em></p>
+            </blockquote>
+
+            <h3>Entry Rules</h3>
+            <blockquote class="quote">
+                <p><em>"The entry is taken inside of that 60-minute window between 3:00 a.m. and 4:00 a.m. it does not mean that the trade is entered and is exited in the same 60-minute window in other words your trade many times will be held over the 4:00 hour and into 5:00 in the morning and maybe even rolling over into the New York session opening at 7 8:00 New York local time"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">London Open Silver Bullet Example (Bearish)</text>
+
+                <!-- Time labels -->
+                <text x="100" y="60" fill="#9898a8" font-size="14">3:00 AM</text>
+                <text x="650" y="60" fill="#9898a8" font-size="14">4:00 AM+</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Price action - bearish trend -->
+                <!-- Initial down move -->
+                <rect x="100" y="200" width="20" height="80" fill="#ff4757" opacity="0.7"/>
+                <line x1="110" y1="180" x2="110" y2="280" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Shift in market structure (break of low) -->
+                <line x1="150" y1="280" x2="150" y2="290" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="150" y="310" fill="#ffa502" font-size="12" text-anchor="middle">Break of Low</text>
+
+                <!-- Rally creating Fair Value Gap -->
+                <rect x="180" y="220" width="20" height="50" fill="#2ed573" opacity="0.7"/>
+                <line x1="190" y1="210" x2="190" y2="270" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="220" y="180" width="20" height="40" fill="#2ed573" opacity="0.7"/>
+                <line x1="230" y1="170" x2="230" y2="220" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Fair Value Gap highlighted -->
+                <rect x="205" y="220" width="50" height="50" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="280" y="245" fill="#ffa502" font-size="14" font-weight="bold">Fair Value Gap</text>
+
+                <!-- Down candle after gap -->
+                <rect x="260" y="200" width="20" height="60" fill="#ff4757" opacity="0.7"/>
+                <line x1="270" y1="190" x2="270" y2="260" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Retracement into gap (between 3-4am) -->
+                <rect x="300" y="210" width="20" height="40" fill="#2ed573" opacity="0.7"/>
+                <line x1="310" y1="200" x2="310" y2="250" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="340" y="220" width="20" height="35" fill="#2ed573" opacity="0.7"/>
+                <line x1="350" y1="210" x2="350" y2="255" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Entry marker -->
+                <circle cx="350" cy="240" r="8" fill="none" stroke="#ffa502" stroke-width="3"/>
+                <text x="370" y="245" fill="#ffa502" font-size="14" font-weight="bold">Entry in Gap</text>
+
+                <!-- Bodies stay inside gap notation -->
+                <text x="310" y="280" fill="#e8e8ed" font-size="12">Bodies stay inside</text>
+
+                <!-- Continuation down -->
+                <rect x="380" y="240" width="20" height="70" fill="#ff4757" opacity="0.7"/>
+                <line x1="390" y1="230" x2="390" y2="310" stroke="#ff4757" stroke-width="2"/>
+
+                <rect x="420" y="270" width="20" height="80" fill="#ff4757" opacity="0.7"/>
+                <line x1="430" y1="260" x2="430" y2="350" stroke="#ff4757" stroke-width="2"/>
+
+                <rect x="460" y="310" width="20" height="60" fill="#ff4757" opacity="0.7"/>
+                <line x1="470" y1="300" x2="470" y2="370" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Old swing low / sell side liquidity -->
+                <line x1="50" y1="380" x2="550" y2="380" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="560" y="385" fill="#ff4757" font-size="14" font-weight="bold">Sell Side Liquidity</text>
+
+                <!-- Target reached -->
+                <rect x="500" y="350" width="20" height="40" fill="#ff4757" opacity="0.7"/>
+                <line x1="510" y1="340" x2="510" y2="390" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Annotations -->
+                <text x="400" y="480" fill="#e8e8ed" font-size="14" text-anchor="middle">Market creates Fair Value Gap, shifts structure, reprices into gap = Entry</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"We had a shift in Market structure below this low here so this is your classic what optimal trade entry fair value Gap here the market shows the willingness to support this idea with the bodies staying inside that Gap"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="am">
+            <h2>AM Session Silver Bullet</h2>
+
+            <div class="time-window">
+                <h4>10:00 AM - 11:00 AM</h4>
+                <p>New York Local Time</p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"The second one in our continuing list of I Silver Bullet setups is the am session now this one is focusing on the 10:00 a.m. to 11:00 a.m. always New York local time"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">AM Session Silver Bullet Example (Bearish)</text>
+
+                <!-- Time labels -->
+                <text x="100" y="60" fill="#9898a8" font-size="14">10:00 AM</text>
+                <text x="650" y="60" fill="#9898a8" font-size="14">11:00 AM</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="420" x2="750" y2="420" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Relative equal lows -->
+                <line x1="50" y1="350" x2="500" y2="350" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="520" y="355" fill="#ff4757" font-size="14" font-weight="bold">Relative Equal Lows</text>
+                <text x="520" y="375" fill="#ff4757" font-size="12">(Sell Side Liquidity)</text>
+
+                <!-- Initial price action -->
+                <rect x="100" y="200" width="20" height="60" fill="#2ed573" opacity="0.7"/>
+                <line x1="110" y1="190" x2="110" y2="260" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="140" y="180" width="20" height="50" fill="#2ed573" opacity="0.7"/>
+                <line x1="150" y1="170" x2="150" y2="230" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Down move creating fair value gap -->
+                <rect x="180" y="220" width="20" height="70" fill="#ff4757" opacity="0.7"/>
+                <line x1="190" y1="210" x2="190" y2="290" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Fair Value Gap -->
+                <rect x="165" y="180" width="50" height="40" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="240" y="200" fill="#ffa502" font-size="14" font-weight="bold">Bearish Fair Value Gap</text>
+
+                <!-- Price trades up into gap (10-11am) -->
+                <rect x="220" y="250" width="20" height="50" fill="#2ed573" opacity="0.7"/>
+                <line x1="230" y1="240" x2="230" y2="300" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="260" y="220" width="20" height="45" fill="#2ed573" opacity="0.7"/>
+                <line x1="270" y1="210" x2="270" y2="265" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="300" y="190" width="20" height="40" fill="#2ed573" opacity="0.7"/>
+                <line x1="310" y1="180" x2="310" y2="230" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Entry marker -->
+                <circle cx="310" cy="200" r="8" fill="none" stroke="#ffa502" stroke-width="3"/>
+                <text x="330" y="205" fill="#ffa502" font-size="14" font-weight="bold">Sell Short in Gap</text>
+
+                <!-- Continuation down -->
+                <rect x="340" y="210" width="20" height="80" fill="#ff4757" opacity="0.7"/>
+                <line x1="350" y1="200" x2="350" y2="290" stroke="#ff4757" stroke-width="2"/>
+
+                <rect x="380" y="250" width="20" height="70" fill="#ff4757" opacity="0.7"/>
+                <line x1="390" y1="240" x2="390" y2="320" stroke="#ff4757" stroke-width="2"/>
+
+                <rect x="420" y="290" width="20" height="50" fill="#ff4757" opacity="0.7"/>
+                <line x1="430" y1="280" x2="430" y2="340" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Target -->
+                <rect x="460" y="320" width="20" height="30" fill="#ff4757" opacity="0.7"/>
+                <line x1="470" y1="310" x2="470" y2="350" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Framework annotation -->
+                <text x="400" y="400" fill="#e8e8ed" font-size="14" text-anchor="middle">Fair Value Gap forms, price retraces into it between 10-11 AM = Entry</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"We are looking at the E mini S&P once more and the idea is between 10:00 a.m. New York local time and 11: a.m. we wait for when the Market's bearish relative equal lows they sell side resting below that we have a fair value Gap bearish fair value Gap it trades up into it between 10:00 and 11 o' we can sell short there"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="pm">
+            <h2>PM Session Silver Bullet</h2>
+
+            <div class="time-window">
+                <h4>2:00 PM - 3:00 PM</h4>
+                <p>New York Local Time</p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Finally we have our last ICT Silver Bullet here which is framed on 2:00 p.m. to 300 p.m. New York local time and this is the PM session ICT Silver Bullet setup"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">PM Session Silver Bullet Example (Bullish)</text>
+
+                <!-- Time labels -->
+                <text x="100" y="60" fill="#9898a8" font-size="14">Before 2:00 PM</text>
+                <text x="550" y="60" fill="#9898a8" font-size="14">2:00-3:00 PM</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Initial down move into discount FVG -->
+                <rect x="100" y="250" width="20" height="80" fill="#ff4757" opacity="0.7"/>
+                <line x1="110" y1="240" x2="110" y2="330" stroke="#ff4757" stroke-width="2"/>
+
+                <rect x="140" y="280" width="20" height="70" fill="#ff4757" opacity="0.7"/>
+                <line x1="150" y1="270" x2="150" y2="350" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Higher time frame discount FVG -->
+                <rect x="125" y="320" width="50" height="40" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="100" y="380" fill="#2ed573" font-size="12">15min Discount</text>
+                <text x="100" y="395" fill="#2ed573" font-size="12">Fair Value Gap</text>
+
+                <!-- Shift higher (break of swing high) -->
+                <rect x="180" y="300" width="20" height="60" fill="#2ed573" opacity="0.7"/>
+                <line x1="190" y1="290" x2="190" y2="360" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="220" y="260" width="20" height="50" fill="#2ed573" opacity="0.7"/>
+                <line x1="230" y1="250" x2="230" y2="310" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Market structure shift line -->
+                <line x1="250" y1="250" x2="250" y2="240" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="255" y="235" fill="#ffa502" font-size="12">Shift in Market Structure</text>
+
+                <!-- Retracement creating FVG -->
+                <rect x="260" y="280" width="20" height="40" fill="#ff4757" opacity="0.7"/>
+                <line x1="270" y1="270" x2="270" y2="320" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Fair Value Gap on retracement -->
+                <rect x="245" y="280" width="50" height="35" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="320" y="298" fill="#ffa502" font-size="14" font-weight="bold">Fair Value Gap</text>
+
+                <!-- Rally going into 2pm -->
+                <rect x="300" y="250" width="20" height="40" fill="#2ed573" opacity="0.7"/>
+                <line x1="310" y1="240" x2="310" y2="290" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Drop into FVG between 2-3pm -->
+                <rect x="340" y="270" width="20" height="35" fill="#ff4757" opacity="0.7"/>
+                <line x1="350" y1="260" x2="350" y2="305" stroke="#ff4757" stroke-width="2"/>
+
+                <rect x="380" y="280" width="20" height="25" fill="#ff4757" opacity="0.7"/>
+                <line x1="390" y1="270" x2="390" y2="305" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Entry marker -->
+                <circle cx="390" cy="290" r="8" fill="none" stroke="#ffa502" stroke-width="3"/>
+                <text x="410" y="295" fill="#ffa502" font-size="14" font-weight="bold">Entry in Gap</text>
+
+                <!-- Bodies stay inside notation -->
+                <text x="350" y="330" fill="#e8e8ed" font-size="12">Bodies stay inside Gap</text>
+
+                <!-- Rally to targets -->
+                <rect x="420" y="250" width="20" height="40" fill="#2ed573" opacity="0.7"/>
+                <line x1="430" y1="240" x2="430" y2="290" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="460" y="210" width="20" height="50" fill="#2ed573" opacity="0.7"/>
+                <line x1="470" y1="200" x2="470" y2="260" stroke="#2ed573" stroke-width="2"/>
+
+                <rect x="500" y="170" width="20" height="45" fill="#2ed573" opacity="0.7"/>
+                <line x1="510" y1="160" x2="510" y2="215" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Relative equal highs -->
+                <line x1="250" y1="150" x2="650" y2="150" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="660" y="155" fill="#2ed573" font-size="12" font-weight="bold">Relative Equal Highs</text>
+                <text x="660" y="170" fill="#2ed573" font-size="11">(Buy Side Liquidity)</text>
+
+                <!-- Premium inefficiency annotation -->
+                <line x1="400" y1="120" x2="600" y2="120" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="610" y="125" fill="#2ed573" font-size="11">Premium Inefficiency</text>
+
+                <!-- Final target -->
+                <rect x="540" y="150" width="20" height="30" fill="#2ed573" opacity="0.7"/>
+                <line x1="550" y1="140" x2="550" y2="180" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Annotations -->
+                <text x="400" y="430" fill="#e8e8ed" font-size="14" text-anchor="middle">Shift higher, FVG forms, reprices into gap 2-3 PM = Entry</text>
+                <text x="400" y="450" fill="#e8e8ed" font-size="12" text-anchor="middle">Targets: Relative equal highs + Premium inefficiency</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"We traded down into a higher time frame 15minute discount fair value Gap... Market trades down into it shifts higher a swing has been broken to the upside so we have a shift in Market structure and a fair value Gap so any retracements back down into that look at the bodies staying inside that"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Going into 2:00 we rallied and we created a small little fair value Gap there the market drops down into that before taking out the relative equal highs buy side liquidity and or returning back to a premium sell side and balance buy side and efficiency or fair value Gap that would be above the market"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="rules">
+            <h2>Critical Rules & Guidelines</h2>
+
+            <h3>New York Local Time</h3>
+            <blockquote class="quote">
+                <p><em>"Whenever ever I'm referring to a specific time whether it be a window of time or a very specific time of the day you have to have your charts calibrated to New York local time wherever that is whenever that is in your area if we're observing daylight savings time then you observe Daylight Saving signs that way it removes all the uncertainty the confusion"</em></p>
+            </blockquote>
+
+            <h3>The 60-Minute Window</h3>
+            <blockquote class="quote">
+                <p><em>"These things are linked to a specific 60-minute interval or window in time every single trading day this pattern will form"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The trade is many times held in duration longer than the window that the framework and entry is derived from so it's not a in and out within the same hour it means that you're looking for the setup to form to get you into the trade within the scope of 10:00 to 11 o' near y local time"</em></p>
+            </blockquote>
+
+            <h3>Pattern Formation</h3>
+            <blockquote class="quote">
+                <p><em>"Every single trading day this pattern will form it may not be in the Forex Peri that you're trading it may not be in the Futures Contract that you're trading it may not be in the asset that you specifically looking at but it does form every single day"</em></p>
+            </blockquote>
+
+            <h3>Market Focus</h3>
+            <blockquote class="quote">
+                <p><em>"My advice is for you to be a specialist try to focus on one market because if you can do that one of these specific ICT Silver Bullet setups will form every single day meaning that if you just follow One Market just one market you can get your setups there"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If you don't get this set up in London you wait for it in the AM session if you don't get it there you wait for it in the PM session but every single Market every single trading day will offer one of these"</em></p>
+            </blockquote>
+
+            <h3>Not All Draws Will Exist</h3>
+            <blockquote class="quote">
+                <p><em>"Not all of these are going to be a factor you there will be times where the previous week's High has already been rated that morning and looking at it again may not be the ideal scenario so it might require you to look at a higher time frame liquidity pool or inefficiency above price if you know if you're if you're bullish"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Not all of them will exist on any given day not all of these will be in the charts but most days one of these criteria will be in play"</em></p>
+            </blockquote>
+
+            <h3>For New Students</h3>
+            <blockquote class="quote">
+                <p><em>"If you're new to my channel and you're seeing this you don't have enough to trade this pattern so you have to back test it while you're learning how to reprice action and determine where the next draw on liquidity is going to be for the next price swing for whatever asset class you're trading"</em></p>
+            </blockquote>
+
+            <h3>Sufficiency Statement</h3>
+            <blockquote class="quote">
+                <p><em>"You don't need to go into any other models you don't need to go into any other teachings you don't have to come back to my YouTube channel you'll never have to do any of that stuff anymore because you be independently minded and your analysis will be and Uniquely Yours you won't have to look at external sources like me or someone else to provide that to you you'll trust yourself which is a very empowering state of mind"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ICT Silver Bullet trade setup?</div>
+                    <div class="flashcard-answer">"ICT Silver Bullet trade setup which is a time-based algorithmic trading model for all asset classes"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the minimum trade framework for index futures?</div>
+                    <div class="flashcard-answer">"The minimum trade framework should be 10 points or 40 ticks for index futures or indices"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the minimum trade framework for Forex pairs?</div>
+                    <div class="flashcard-answer">"The minimum trade framework should be 15 Pips for Forex payers for Forex Traders"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does the framework represent?</div>
+                    <div class="flashcard-answer">"This framework is the best case price delivery that you expect to see not underscore not your actual trade entry to exit range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the relationship between 10 handles and Forex pips?</div>
+                    <div class="flashcard-answer">"10 handles for indices is the same to me as 20 Pips in Forex"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the relationship between 5 handles and Forex pips?</div>
+                    <div class="flashcard-answer">"Five handles for indices is the same to me as 10 Pips in Forex"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London Open Silver Bullet time window?</div>
+                    <div class="flashcard-answer">"First setup time is 3:00 a.m. to 4:00 a.m." (New York local time)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the AM Session Silver Bullet time window?</div>
+                    <div class="flashcard-answer">"The am session now this one is focusing on the 10:00 a.m. to 11:00 a.m. always New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the PM Session Silver Bullet time window?</div>
+                    <div class="flashcard-answer">"Finally we have our last ICT Silver Bullet here which is framed on 2:00 p.m. to 300 p.m. New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are you looking for in the London Open Silver Bullet?</div>
+                    <div class="flashcard-answer">"What we're looking for is a classic ICT fair value Gap the form between 3:00 a.m. and 400 a.m. New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the number one skill to focus on first?</div>
+                    <div class="flashcard-answer">"Where is Price likely to go to next that's the number one goal for all of my students is to focus on that skill set first because all the entries and the exens and such that is the least important thing"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does the trade have to be entered and exited within the same 60-minute window?</div>
+                    <div class="flashcard-answer">"It does not mean that the trade is entered and is exited in the same 60-minute window in other words your trade many times will be held over the 4:00 hour and into 5:00 in the morning and maybe even rolling over into the New York session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How often does this pattern form?</div>
+                    <div class="flashcard-answer">"Every single trading day this pattern will form... every single Market every single trading day will offer one of these"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many markets should you focus on?</div>
+                    <div class="flashcard-answer">"My advice is for you to be a specialist try to focus on one market because if you can do that one of these specific ICT Silver Bullet setups will form every single day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What if you don't get a setup in London?</div>
+                    <div class="flashcard-answer">"If you don't get this set up in London you wait for it in the AM session if you don't get it there you wait for it in the PM session"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Name three types of draws on liquidity.</div>
+                    <div class="flashcard-answer">"Previous day high or low draw on liquidity... previous session highs and lows as draws on liquidity... previous weekly high or low as a draw in liquidity"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time zone should you use for charting?</div>
+                    <div class="flashcard-answer">"Whenever ever I'm referring to a specific time whether it be a window of time or a very specific time of the day you have to have your charts calibrated to New York local time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does the body action tell you in a fair value gap?</div>
+                    <div class="flashcard-answer">"The market shows the willingness to support this idea with the bodies staying inside that Gap... the story is told by the bodies so it's telling you it's respecting this body balance efficiency or fair value Gap"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Is this model sufficient on its own?</div>
+                    <div class="flashcard-answer">"You don't need to go into any other models you don't need to go into any other teachings you don't have to come back to my YouTube channel you'll never have to do any of that stuff anymore"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should new students do before trading this pattern?</div>
+                    <div class="flashcard-answer">"If you're new to my channel and you're seeing this you don't have enough to trade this pattern so you have to back test it while you're learning how to reprice action and determine where the next draw on liquidity is going to be"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

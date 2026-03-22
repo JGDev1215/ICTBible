@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impulse Price Swings & Market Protraction - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .time-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-entries-management.html">Return to Category</a>
+        <a href="ict-2022-ep02-elements-of-a-trade-setup.html">Next Chapter</a>
+        <a href="index.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Impulse Price Swings & Market Protraction</h1>
+        <p>Very similar ideas but uniquely different</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definitions</a>
+        <a href="#protraction">Market Protraction</a>
+        <a href="#three-moves">Three Primary Moves</a>
+        <a href="#times">Time Elements</a>
+        <a href="#application">Trading Application</a>
+        <a href="#difference">Key Difference</a>
+        <a href="#study">Study & Review</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Impulse Price Swings - Definition</h2>
+
+            <blockquote class="quote">
+                <p><em>"when you look at price action you need to be thinking in terms of impulse price swings because inside the impulse price swings it's going to give you a lot of detail"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we have price swings moving from high down to a low to another high down to another low to a high to a low to another high making another low up to a high down to a low up to a high down to a low"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background grid -->
+                <line x1="50" y1="250" x2="750" y2="250" stroke="#2a2a3a" stroke-width="1"/>
+
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Impulse Price Swings Pattern</text>
+
+                <!-- Impulse price swing pattern -->
+                <!-- Down swing -->
+                <line x1="80" y1="80" x2="130" y2="180" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="80" cy="80" r="5" fill="#ff4757"/>
+                <circle cx="130" cy="180" r="5" fill="#ff4757"/>
+                <text x="80" y="70" fill="#e8e8ed" font-size="12" text-anchor="middle">High</text>
+                <text x="130" y="200" fill="#e8e8ed" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Up swing -->
+                <line x1="130" y1="180" x2="200" y2="100" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="200" cy="100" r="5" fill="#2ed573"/>
+                <text x="200" y="90" fill="#e8e8ed" font-size="12" text-anchor="middle">High</text>
+
+                <!-- Down swing -->
+                <line x1="200" y1="100" x2="270" y2="200" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="270" cy="200" r="5" fill="#ff4757"/>
+                <text x="270" y="220" fill="#e8e8ed" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Up swing -->
+                <line x1="270" y1="200" x2="340" y2="90" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="340" cy="90" r="5" fill="#2ed573"/>
+                <text x="340" y="80" fill="#e8e8ed" font-size="12" text-anchor="middle">High</text>
+
+                <!-- Down swing -->
+                <line x1="340" y1="90" x2="410" y2="190" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="410" cy="190" r="5" fill="#ff4757"/>
+                <text x="410" y="210" fill="#e8e8ed" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Up swing -->
+                <line x1="410" y1="190" x2="480" y2="110" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="480" cy="110" r="5" fill="#2ed573"/>
+                <text x="480" y="100" fill="#e8e8ed" font-size="12" text-anchor="middle">High</text>
+
+                <!-- Down swing -->
+                <line x1="480" y1="110" x2="550" y2="210" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="550" cy="210" r="5" fill="#ff4757"/>
+                <text x="550" y="230" fill="#e8e8ed" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Up swing -->
+                <line x1="550" y1="210" x2="620" y2="120" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="620" cy="120" r="5" fill="#2ed573"/>
+                <text x="620" y="110" fill="#e8e8ed" font-size="12" text-anchor="middle">High</text>
+
+                <!-- Down swing -->
+                <line x1="620" y1="120" x2="690" y2="220" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="690" cy="220" r="5" fill="#ff4757"/>
+                <text x="690" y="240" fill="#e8e8ed" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Labels -->
+                <text x="400" y="270" fill="#9898a8" font-size="14" text-anchor="middle">High to Low to High to Low Pattern</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"there are smaller more specific impulse price swings that have a lot more influence over the marketplace in the form of a manipulative move or market making manipulation"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="protraction">
+            <h2>Market Protraction - Definition</h2>
+
+            <blockquote class="quote">
+                <p><em>"market protraction is time sensitive it's an impulse price swing that is highly sensitive to a time of day"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we can look at time sensitive impulse price swings which is market protraction"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"there's usually a protractionary market phase that enters the marketplace and it's a small little impulse price swing that's counter the major direction that you're going to see after that specific time of day"</em></p>
+            </blockquote>
+
+            <h3>Judas Swing</h3>
+
+            <blockquote class="quote">
+                <p><em>"if we see a movement higher and more bearish we see that as market protraction or a judas swing it's a false rally to sell into"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"this is market protraction it seeks liquidity below the market over here clearing out lows and then rallies"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="three-moves">
+            <h2>Three Primary Protractionary Market Moves Every 24 Hours</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Move #1: Asian Session (0 GMT)</span>
+                    <span class="time-badge">0 GMT</span>
+                </div>
+                <blockquote class="quote">
+                    <p><em>"the first one is raid at zero gmt you'll see one little movement away or lower in other words up or down right at that at delineation in time"</em></p>
+                </blockquote>
+                <blockquote class="quote">
+                    <p><em>"i don't believe asia is that influential initially"</em></p>
+                </blockquote>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Move #2: London Session (Midnight New York)</span>
+                    <span class="time-badge">Midnight NY</span>
+                </div>
+                <blockquote class="quote">
+                    <p><em>"the other market protractionary state is in is in london"</em></p>
+                </blockquote>
+                <blockquote class="quote">
+                    <p><em>"initially right after midnight new york on this day we have a market move higher this market move here is a protractionary market phase where the market trades up initially at a specific time of day so there's an impulse price swing here but its design is to fake out the individuals that chase that initial move after midnight"</em></p>
+                </blockquote>
+                <blockquote class="quote">
+                    <p><em>"it's after 4 gmt on the forex ltd demo account"</em></p>
+                </blockquote>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Move #3: New York Session (7 AM New York)</span>
+                    <span class="time-badge">7 AM NY</span>
+                </div>
+                <blockquote class="quote">
+                    <p><em>"the second impulsive price swing starts in new york we delineate seven o'clock in the morning and we anticipate if the market has moved lower in london we're going to be looking for a retracement higher that impulsive price move higher is market protraction it's designed and intended for manipulation only it's to get traders to think that the the market's making a low in this case it rallies up and then trades down ultimately here again"</em></p>
+                </blockquote>
+                <blockquote class="quote">
+                    <p><em>"it has to happen after seven o'clock in the morning has to happen after seven o'clock in the morning and it has to happen after seven o'clock in the morning"</em></p>
+                </blockquote>
+            </div>
+
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Three Primary Protractionary Market Moves (24 Hours)</text>
+
+                <!-- Timeline -->
+                <line x1="100" y1="200" x2="800" y2="200" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- 0 GMT Marker -->
+                <line x1="150" y1="180" x2="150" y2="220" stroke="#ffa502" stroke-width="3"/>
+                <text x="150" y="170" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">0 GMT</text>
+                <text x="150" y="245" fill="#e8e8ed" font-size="12" text-anchor="middle">Asian Session</text>
+                <text x="150" y="265" fill="#9898a8" font-size="11" text-anchor="middle">Raid up or down</text>
+
+                <!-- Midnight NY Marker -->
+                <line x1="400" y1="180" x2="400" y2="220" stroke="#ffa502" stroke-width="3"/>
+                <text x="400" y="170" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Midnight NY</text>
+                <text x="400" y="245" fill="#e8e8ed" font-size="12" text-anchor="middle">London Session</text>
+                <text x="400" y="265" fill="#9898a8" font-size="11" text-anchor="middle">Fake out move</text>
+                <text x="400" y="280" fill="#9898a8" font-size="10" text-anchor="middle">(4 GMT Forex LTD)</text>
+
+                <!-- 7 AM NY Marker -->
+                <line x1="650" y1="180" x2="650" y2="220" stroke="#ffa502" stroke-width="3"/>
+                <text x="650" y="170" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">7 AM NY</text>
+                <text x="650" y="245" fill="#e8e8ed" font-size="12" text-anchor="middle">New York Session</text>
+                <text x="650" y="265" fill="#9898a8" font-size="11" text-anchor="middle">Manipulation move</text>
+
+                <!-- Example price movements -->
+                <!-- 0 GMT movement -->
+                <path d="M 130 120 L 150 100 L 170 130" stroke="#ff4757" stroke-width="2" fill="none"/>
+                <text x="150" y="95" fill="#ff4757" font-size="10" text-anchor="middle">Small raid</text>
+
+                <!-- Midnight NY movement -->
+                <path d="M 380 140 L 400 110 L 420 150" stroke="#2ed573" stroke-width="2" fill="none"/>
+                <text x="400" y="105" fill="#2ed573" font-size="10" text-anchor="middle">Protraction</text>
+
+                <!-- 7 AM NY movement -->
+                <path d="M 630 130 L 650 100 L 670 140" stroke="#2ed573" stroke-width="2" fill="none"/>
+                <text x="650" y="95" fill="#2ed573" font-size="10" text-anchor="middle">Counter move</text>
+
+                <!-- Note -->
+                <text x="450" y="330" fill="#9898a8" font-size="13" text-anchor="middle" font-style="italic">"Small little impulse price swing counter the major direction"</text>
+                <text x="450" y="355" fill="#ffa502" font-size="12" text-anchor="middle">These are manipulation moves designed to fake out traders</text>
+            </svg>
+        </section>
+
+        <section id="times">
+            <h2>Critical Time Elements</h2>
+
+            <blockquote class="quote">
+                <p><em>"by holding down control and tapping y on your keyboard you'll add the vertical delineations for zero gmt so zero gmt vertical line to another day divided basically"</em></p>
+            </blockquote>
+
+            <h3>After Midnight New York Time</h3>
+            <blockquote class="quote">
+                <p><em>"initially right after midnight new york on this day we have a market move higher this market move here is a protractionary market phase"</em></p>
+            </blockquote>
+
+            <h3>After 7 AM New York Time</h3>
+            <blockquote class="quote">
+                <p><em>"in new york session opening market goes into another projectionary market state right after the seven o'clock hour going into new york open small little retracement and market trades lower again seven o'clock in the morning the market goes into a small impulse price swing higher this is market protraction its intent is for for manipulation"</em></p>
+            </blockquote>
+
+            <h3>After 8 PM New York Time</h3>
+            <blockquote class="quote">
+                <p><em>"after midnight new york time after 7 a.m new york time and 8 p.m new york time there's usually a protractionary market phase that enters the marketplace"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Counter-Directional Nature</span>
+                </div>
+                <blockquote class="quote">
+                    <p><em>"its counter direction in other words if this move occurs at this time of day if it goes higher we think the opposite direction if it goes lower we think the opposite direction so if it initially moves higher and the market's been going lower we see that as manipulation or market protraction"</em></p>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="application">
+            <h2>Trading Application</h2>
+
+            <h3>Blending Impulse Price Swings with Time of Day</h3>
+
+            <blockquote class="quote">
+                <p><em>"so we're blending impulse price swings and then time of day"</em></p>
+            </blockquote>
+
+            <h3>Example: Selling at Premium After Protraction</h3>
+
+            <blockquote class="quote">
+                <p><em>"we see a market move down from a market impulse price swing so we can measure that swing down from the high we can use this one it's high down to this low it retraces back up above equilibrium so we go into a premium market at the 62 retracement level we can sell there with a move expecting to see a run below this low market goes into protractionary phase after an impulse price swing we can be a seller reaching for liquidity below the lows"</em></p>
+            </blockquote>
+
+            <h3>Manipulation Design</h3>
+
+            <blockquote class="quote">
+                <p><em>"market's going to seek to draw in participants on the wrong side of the marketplace or reach for liquidity"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"this would look like a low in this run up here would entice buyers in a new york session and then they reverse it"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"small minor little impulse price swing but its design is to manipulate the sentiment and or the thoughts of traders wanting to be participants"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Market Protraction Trading Example</text>
+
+                <!-- Price axis -->
+                <line x1="80" y1="100" x2="80" y2="450" stroke="#9898a8" stroke-width="2"/>
+                <line x1="80" y1="450" x2="720" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Impulse swing down -->
+                <path d="M 120 150 L 140 170 L 160 160 L 180 200 L 200 190 L 220 250 L 240 240 L 260 300" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="120" cy="150" r="6" fill="#ff4757"/>
+                <text x="120" y="140" fill="#ff4757" font-size="12" text-anchor="middle">High</text>
+                <circle cx="260" cy="300" r="6" fill="#ff4757"/>
+                <text x="260" y="320" fill="#ff4757" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Retracement to 62% (premium) -->
+                <path d="M 260 300 L 280 280 L 300 270 L 320 240 L 340 230 L 360 210" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <circle cx="360" cy="210" r="6" fill="#ffa502"/>
+                <text x="360" y="195" fill="#ffa502" font-size="12" text-anchor="middle">62% Premium</text>
+
+                <!-- Equilibrium line -->
+                <line x1="100" y1="225" x2="700" y2="225" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="710" y="230" fill="#9898a8" font-size="11">Equilibrium</text>
+
+                <!-- Time marker - 7 AM NY -->
+                <line x1="400" y1="100" x2="400" y2="450" stroke="#ffa502" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="400" y="90" fill="#ffa502" font-size="13" text-anchor="middle" font-weight="bold">7 AM NY</text>
+
+                <!-- Protractionary move at 7 AM -->
+                <path d="M 380 240 L 400 220 L 420 230" stroke="#2ed573" stroke-width="3" fill="none"/>
+                <text x="400" y="210" fill="#2ed573" font-size="11" text-anchor="middle">Protraction</text>
+                <text x="400" y="475" fill="#9898a8" font-size="10" text-anchor="middle">Fake move to manipulate traders</text>
+
+                <!-- Expansion down after protraction -->
+                <path d="M 420 230 L 440 270 L 460 260 L 480 310 L 500 300 L 520 360 L 540 350 L 560 390" stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="560" cy="390" r="6" fill="#ff4757"/>
+                <text x="560" y="410" fill="#ff4757" font-size="12" text-anchor="middle">Run below low</text>
+
+                <!-- Old low reference -->
+                <line x1="580" y1="410" x2="680" y2="410" stroke="#9898a8" stroke-width="1" stroke-dasharray="2,2"/>
+                <text x="630" y="425" fill="#9898a8" font-size="10" text-anchor="middle">Old low (liquidity target)</text>
+
+                <!-- Annotations -->
+                <text x="190" y="180" fill="#e8e8ed" font-size="11">Impulse swing down</text>
+                <text x="320" y="260" fill="#e8e8ed" font-size="11">Retracement to premium</text>
+                <text x="480" y="330" fill="#e8e8ed" font-size="11">Expansion after protraction</text>
+            </svg>
+        </section>
+
+        <section id="difference">
+            <h2>Key Difference: Impulse Swings vs. Market Protraction</h2>
+
+            <blockquote class="quote">
+                <p><em>"the difference in in determining impulse price swings and in market protraction is the fact that there is a time element applied to the small impulse swing after midnight new york time after 7 a.m new york time and 8 p.m new york time"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Summary of Difference</span>
+                </div>
+                <ul>
+                    <li><strong>Impulse Price Swings:</strong> <em>"when you look at price action you need to be thinking in terms of impulse price swings"</em></li>
+                    <li><strong>Market Protraction:</strong> <em>"market protraction is time sensitive it's an impulse price swing that is highly sensitive to a time of day"</em></li>
+                    <li><strong>Counter-Directional:</strong> <em>"it's a small little impulse price swing that's counter the major direction that you're going to see after that specific time of day"</em></li>
+                </ul>
+            </div>
+
+            <h3>Session Trading Application</h3>
+
+            <blockquote class="quote">
+                <p><em>"so for session trading and for session drills you can use this concept to help give you context in your practicing and also build your anticipatory price skills"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an impulse price swing?</div>
+                    <div class="flashcard-answer">"price swings moving from high down to a low to another high down to another low to a high to a low to another high making another low up to a high down to a low up to a high down to a low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is market protraction?</div>
+                    <div class="flashcard-answer">"market protraction is time sensitive it's an impulse price swing that is highly sensitive to a time of day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many primary protractionary market moves occur every 24 hours?</div>
+                    <div class="flashcard-answer">"there are three primary protractionary market moves every 24 hours"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens at 0 GMT (Asian session)?</div>
+                    <div class="flashcard-answer">"the first one is raid at zero gmt you'll see one little movement away or lower in other words up or down right at that at delineation in time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the protractionary move after midnight New York time?</div>
+                    <div class="flashcard-answer">"initially right after midnight new york on this day we have a market move higher this market move here is a protractionary market phase where the market trades up initially at a specific time of day so there's an impulse price swing here but its design is to fake out the individuals that chase that initial move after midnight"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens after 7 AM New York time?</div>
+                    <div class="flashcard-answer">"the second impulsive price swing starts in new york we delineate seven o'clock in the morning and we anticipate if the market has moved lower in london we're going to be looking for a retracement higher that impulsive price move higher is market protraction it's designed and intended for manipulation only"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How critical is the 7 AM New York time?</div>
+                    <div class="flashcard-answer">"it has to happen after seven o'clock in the morning has to happen after seven o'clock in the morning and it has to happen after seven o'clock in the morning"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a Judas swing?</div>
+                    <div class="flashcard-answer">"if we see a movement higher and more bearish we see that as market protraction or a judas swing it's a false rally to sell into"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the counter-directional nature of protraction?</div>
+                    <div class="flashcard-answer">"its counter direction in other words if this move occurs at this time of day if it goes higher we think the opposite direction if it goes lower we think the opposite direction"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the purpose of market protraction?</div>
+                    <div class="flashcard-answer">"market's going to seek to draw in participants on the wrong side of the marketplace or reach for liquidity"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the key difference between impulse price swings and market protraction?</div>
+                    <div class="flashcard-answer">"the difference in in determining impulse price swings and in market protraction is the fact that there is a time element applied to the small impulse swing after midnight new york time after 7 a.m new york time and 8 p.m new york time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do smaller specific impulse price swings do?</div>
+                    <div class="flashcard-answer">"there are smaller more specific impulse price swings that have a lot more influence over the marketplace in the form of a manipulative move or market making manipulation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the design of the protractionary move in the New York session?</div>
+                    <div class="flashcard-answer">"small minor little impulse price swing but its design is to manipulate the sentiment and or the thoughts of traders wanting to be participants"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you blend impulse swings with time in trading?</div>
+                    <div class="flashcard-answer">"so we're blending impulse price swings and then time of day"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How can this concept be used for practice?</div>
+                    <div class="flashcard-answer">"so for session trading and for session drills you can use this concept to help give you context in your practicing and also build your anticipatory price skills"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

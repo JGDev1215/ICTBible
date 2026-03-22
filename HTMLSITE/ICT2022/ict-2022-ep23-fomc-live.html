@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 23: FOMC Live Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary:   #07070e;
+    --bg-card:      #101019;
+    --bg-inset:     #090912;
+    --border:       rgba(255,255,255,0.07);
+    --text-primary: #e4e4ef;
+    --text-secondary: #8888a0;
+    --text-muted:   #4a4a62;
+    --accent-bear:  #ff4757;
+    --accent-bull:  #2ed573;
+    --accent-gold:  #ffa502;
+    --accent-blue:  #5d9cf5;
+    --glow-bear:    rgba(255,71,87,0.1);
+    --glow-bull:    rgba(46,213,115,0.1);
+    --glow-gold:    rgba(255,165,2,0.09);
+    --glow-blue:    rgba(93,156,245,0.09);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 65% 45% at 15% 20%, rgba(255,71,87,0.03) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 40% at 85% 70%, rgba(93,156,245,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,7,14,0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  nav ul { display: flex; list-style: none; overflow-x: auto; scrollbar-width: none; }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav ul li a {
+    display: block; padding: 0.85rem 1.05rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.69rem;
+    font-weight: 400; color: var(--text-muted);
+    text-decoration: none; text-transform: uppercase;
+    letter-spacing: 0.08em; white-space: nowrap;
+    transition: color 0.2s; border-bottom: 2px solid transparent;
+  }
+  nav ul li a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  header {
+    position: relative; z-index: 1;
+    padding: 5rem 2rem 4rem; max-width: 900px; margin: 0 auto;
+  }
+  .ep-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent-bear); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .ep-label::before { content: ''; width: 28px; height: 1px; background: var(--accent-bear); }
+  header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 700;
+    line-height: 1.1; color: var(--text-primary); margin-bottom: 1.5rem;
+  }
+  header h1 span { color: var(--accent-gold); }
+  .header-quote {
+    font-style: italic; font-size: 1.1rem; color: var(--text-secondary);
+    border-left: 3px solid var(--accent-bear); padding-left: 1.2rem;
+    max-width: 640px; line-height: 1.6;
+  }
+
+  main {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto; padding: 0 2rem 6rem;
+  }
+  section { margin-bottom: 4.5rem; padding-top: 1rem; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-gold); margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif; font-size: 1.7rem;
+    font-weight: 600; color: var(--text-primary); margin-bottom: 1.6rem; line-height: 1.2;
+  }
+  h3 {
+    font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem;
+    font-weight: 500; color: var(--text-secondary); margin-bottom: 1rem; margin-top: 1.8rem;
+  }
+
+  .quote {
+    border-left: 3px solid var(--border);
+    padding: 1rem 1.4rem; margin: 1.2rem 0;
+    background: var(--bg-inset); border-radius: 0 6px 6px 0;
+  }
+  .quote p { font-style: italic; color: var(--text-secondary); line-height: 1.65; }
+  .quote .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+  .quote.gold { border-left-color: var(--accent-gold); background: var(--glow-gold); }
+  .quote.bull  { border-left-color: var(--accent-bull); background: var(--glow-bull); }
+  .quote.bear  { border-left-color: var(--accent-bear); background: var(--glow-bear); }
+  .quote.blue  { border-left-color: var(--accent-blue); background: var(--glow-blue); }
+
+  /* Side-by-side compare */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .compare-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.4rem;
+  }
+  .compare-card.bear { border-top: 3px solid var(--accent-bear); }
+  .compare-card.bull { border-top: 3px solid var(--accent-bull); }
+  .compare-card.gold { border-top: 3px solid var(--accent-gold); }
+  .compare-card .card-title {
+    font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem;
+    font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 0.9rem; display: block;
+  }
+  .compare-card.bear .card-title { color: var(--accent-bear); }
+  .compare-card.bull .card-title { color: var(--accent-bull); }
+  .compare-card.gold .card-title { color: var(--accent-gold); }
+  .compare-card p { font-style: italic; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+  .compare-card .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.6rem; display: block; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+  .concept-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.3rem 1.4rem;
+  }
+  .card-title-plain {
+    font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent-gold); display: block; margin-bottom: 0.8rem;
+  }
+  .concept-card p { font-style: italic; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.6rem; display: block; }
+
+  .rule-block {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.4rem 1.6rem; margin: 1rem 0;
+  }
+  .rule-head {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem;
+  }
+  .rule-head.bear { color: var(--accent-bear); }
+  .rule-head.bull { color: var(--accent-bull); }
+  .rule-head.gold { color: var(--accent-gold); }
+  .rule-head.blue { color: var(--accent-blue); }
+  .rule-block p { font-style: italic; font-size: 0.97rem; color: var(--text-secondary); line-height: 1.65; }
+  .rule-block .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  .diagram-wrap {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 0.8rem; text-align: center;
+  }
+
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
+  .flashcard {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.4rem; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s; min-height: 120px; position: relative;
+  }
+  .flashcard:hover { border-color: rgba(255,165,2,0.2); }
+  .flashcard-question { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.45; padding-right: 1.5rem; }
+  .flashcard-answer { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-style: italic; font-size: 0.93rem; color: var(--accent-bull); line-height: 1.6; }
+  .flashcard.revealed { background: rgba(46,213,115,0.04); border-color: rgba(46,213,115,0.25); }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .fc-hint { position: absolute; top: 1.2rem; right: 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); }
+  .flashcard.revealed .fc-hint { color: var(--accent-bull); }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#vocabulary">Run vs Sweep</a></li>
+    <li><a href="#fomc-structure">FOMC Structure</a></li>
+    <li><a href="#fib-wicks-bodies">Wicks vs Bodies</a></li>
+    <li><a href="#stop-placement">Stop Placement</a></li>
+    <li><a href="#eight-trades">Eight Trades</a></li>
+    <li><a href="#fomc-warning">FOMC Warning</a></li>
+    <li><a href="#sequence">Trade Sequence</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="ep-label">2022 ICT Mentorship · Episode 23</div>
+  <h1>FOMC Live Analysis — <span>NQ Micro</span></h1>
+  <p class="header-quote">"this is just one piece one little piece of price action in the delivery that the algorithm will… likely repeat"</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════ OVERVIEW -->
+  <section id="overview">
+    <div class="section-label">Overview</div>
+    <h2>Context: Live FOMC Recording on NQ Micro</h2>
+
+    <div class="quote">
+      <p>"take a look at the e-mini micro nasdaq 100 index"</p>
+      <span class="ts">0:07–0:14</span>
+    </div>
+
+    <div class="quote gold">
+      <p>"this is kind of like the end of the road for the drop down before it runs tuesday's highs — that's what i'm thinking — this is fomc — i'm waited a few minutes for it to do its initial shakeout"</p>
+      <span class="ts">0:31–0:45</span>
+    </div>
+
+    <div class="quote">
+      <p>"notice i have that so it's not like me talking after the fact — you can see i'm doing everything here"</p>
+      <span class="ts">0:48–0:56</span>
+    </div>
+
+    <div class="quote">
+      <p>"the checkered flag area… that's like the end of the race for bears — they get into that then it should start the real move higher"</p>
+      <span class="ts">5:18–5:25</span>
+    </div>
+
+    <p style="color:var(--text-secondary);font-style:italic;margin-top:1.2rem;font-size:0.97rem;">Note: This episode is a live screen recording during an FOMC announcement. ICT is narrating chart annotations in real time on the E-Mini Micro Nasdaq 100. Specific price levels and chart colours referenced on screen are not reproducible from the transcript alone.</p>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ VOCABULARY: RUN vs SWEEP -->
+  <section id="vocabulary">
+    <div class="section-label">Explicit Vocabulary Distinction</div>
+    <h2>"Running" vs "Sweeping"</h2>
+
+    <div class="quote gold">
+      <p>"i try to pick my words carefully so that way you understand the distinction between what i'm expecting as a sweep and reverse back into the range or expansion move"</p>
+      <span class="ts">5:55–6:04</span>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card bear">
+        <span class="card-title">Sweeping</span>
+        <p><em>"sweeping is where it just goes above or below a low or high you know i mean like if we're going to sweep buy side that means it's going to go up a little bit and then go down and reverse"</em></p>
+        <span class="ts">5:32–5:41</span>
+      </div>
+      <div class="compare-card bull">
+        <span class="card-title">Running</span>
+        <p><em>"running tuesday's high means it runs right over top of it and it just doesn't look back"</em> / <em>"if i'm saying we're going to run an old high for relative equal highs that means we're going to run through it and continue"</em></p>
+        <span class="ts">5:28–5:48</span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"the vocabulary i'm using here is running the tuesday high — not sweeping the tuesday high"</p>
+      <span class="ts">4:43–4:49</span>
+    </div>
+
+    <div class="quote">
+      <p>"okay the vocabulary i'm using here is running the tuesday high not sweeping the tuesday high — the difference between sweeping would be like what it's done here — that will be a sweep — that's a real shallow little run above that red line that's tuesday's high okay so it swept that and we're coming back down"</p>
+      <span class="ts">4:43–5:01</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="a1" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#ff4757"/></marker>
+          <marker id="a2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#2ed573"/></marker>
+        </defs>
+
+        <!-- SWEEP side -->
+        <text x="100" y="25" fill="#ff4757" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.05em">SWEEP</text>
+        <text x="100" y="40" fill="var(--text-muted)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle">goes above → reverses</text>
+
+        <!-- Sweep high line -->
+        <line x1="40" y1="100" x2="200" y2="100" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="42" y="93" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">TUESDAY'S HIGH</text>
+
+        <!-- Sweep price action: up a little then reverses -->
+        <path d="M60 140 Q90 130 110 88 Q115 75 120 90 Q130 110 160 145" stroke="#ff4757" stroke-width="2" fill="none" marker-end="url(#a1)"/>
+        <text x="118" y="72" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">"a little bit above"</text>
+        <text x="118" y="82" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">then reverses</text>
+
+        <!-- Divider -->
+        <line x1="340" y1="20" x2="340" y2="200" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+        <!-- RUN side -->
+        <text x="510" y="25" fill="#2ed573" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.05em">RUN</text>
+        <text x="510" y="40" fill="var(--text-muted)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle">runs through → continues</text>
+
+        <!-- Run high line -->
+        <line x1="370" y1="100" x2="640" y2="100" stroke="#2ed573" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="372" y="93" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">TUESDAY'S HIGH</text>
+
+        <!-- Run price action: through and continues higher -->
+        <path d="M390 150 Q420 130 450 105 Q470 85 510 65 Q550 48 620 35" stroke="#2ed573" stroke-width="2" fill="none" marker-end="url(#a2)"/>
+        <text x="530" y="55" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">"runs right over top"</text>
+        <text x="530" y="66" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">"doesn't look back"</text>
+      </svg>
+      <p class="diagram-caption">Sweep: goes above high then reverses back into range — Run: goes through high and continues</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ FOMC STRUCTURE -->
+  <section id="fomc-structure">
+    <div class="section-label">FOMC Algorithmic Structure</div>
+    <h2>FOMC Delivery Pattern &amp; Timing</h2>
+
+    <div class="quote gold">
+      <p>"it's fomc it has like a knee-jerk reaction kind of like non-farm payroll — there's a initial leg then another leg then like a fake out leg and then a real setup comes"</p>
+      <span class="ts">1:48–2:01</span>
+    </div>
+
+    <div class="quote">
+      <p>"i'm looking for the drop down at fomc at two o'clock — once it drops down into that usually around 2 30 it finished its initial leg where it prices in whatever it's going to do either high or low and then starts to rally"</p>
+      <span class="ts">11:32–11:47</span>
+    </div>
+
+    <div class="quote">
+      <p>"you can see it's pretty much close to that in terms of algorithmic delivery — just a little bit past 2 30"</p>
+      <span class="ts">11:45–11:51</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="a3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ffa502"/></marker>
+          <marker id="a4" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2ed573"/></marker>
+          <marker id="a5" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff4757"/></marker>
+        </defs>
+
+        <!-- Timeline -->
+        <line x1="50" y1="165" x2="630" y2="165" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <line x1="130" y1="160" x2="130" y2="170" stroke="#ffa502" stroke-width="1.5"/>
+        <line x1="310" y1="160" x2="310" y2="170" stroke="#ffa502" stroke-width="1.5"/>
+        <line x1="490" y1="160" x2="490" y2="170" stroke="#2ed573" stroke-width="1.5"/>
+
+        <text x="130" y="183" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">2:00 PM</text>
+        <text x="130" y="194" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="7.5" text-anchor="middle">FOMC</text>
+        <text x="310" y="183" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">~2:30 PM</text>
+        <text x="310" y="194" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="7.5" text-anchor="middle">INITIAL LEG ENDS</text>
+        <text x="490" y="183" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">REAL SETUP</text>
+
+        <!-- FOMC knee jerk sequence -->
+        <!-- Initial leg down -->
+        <path d="M130 60 Q155 55 170 80 Q180 100 200 125" stroke="#ff4757" stroke-width="2" fill="none" marker-end="url(#a5)"/>
+        <text x="135" y="52" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">INITIAL LEG</text>
+
+        <!-- Another leg -->
+        <path d="M200 125 Q220 115 240 100 Q255 90 270 110" stroke="#ffa502" stroke-width="1.8" fill="none" marker-end="url(#a3)"/>
+        <text x="225" y="86" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8">ANOTHER LEG</text>
+
+        <!-- Fake out leg (drop to checkered area) -->
+        <path d="M270 110 Q285 125 310 145" stroke="#ff4757" stroke-width="2" fill="none" marker-end="url(#a5)"/>
+        <text x="315" y="132" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">FAKE OUT LEG</text>
+        <text x="315" y="145" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">"end of road for bears"</text>
+
+        <!-- Real setup — expansion higher -->
+        <path d="M310 145 Q370 130 420 100 Q470 65 540 35" stroke="#2ed573" stroke-width="2.5" fill="none" marker-end="url(#a4)"/>
+        <text x="450" y="55" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">REAL SETUP</text>
+        <text x="450" y="68" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">RUNS TUESDAY'S HIGH</text>
+      </svg>
+      <p class="diagram-caption">FOMC knee-jerk: initial leg → another leg → fake-out leg (end of road for bears) → real setup expansion higher</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ FIB WICKS VS BODIES -->
+  <section id="fib-wicks-bodies">
+    <div class="section-label">Fibonacci — Wicks vs Bodies</div>
+    <h2>When to Use Wicks vs Candle Bodies for Fibonacci</h2>
+
+    <div class="quote gold">
+      <p>"usually i'll use the highest open or close and the lowest open or close in the price swing when it's not expected to have a whole lot of volatility — because it's the fomc it's more likely to be much more volatile — that means the extreme of the ranges should be considered — that means now i'm going to use the wicks"</p>
+      <span class="ts">12:15–12:35</span>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card gold">
+        <span class="card-title">Normal Conditions → Bodies</span>
+        <p><em>"usually i'll use the highest open or close and the lowest open or close in the price swing when it's not expected to have a whole lot of volatility"</em></p>
+        <span class="ts">12:15–12:24</span>
+      </div>
+      <div class="compare-card bear">
+        <span class="card-title">High Volatility (FOMC) → Wicks</span>
+        <p><em>"because it's the fomc it's more likely to be much more volatile — that means the extreme of the ranges should be considered — that means now i'm going to use the wicks"</em></p>
+        <span class="ts">12:25–12:35</span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"you get asked a lot all the time you know in the comments like you know why does ict use the wicks and why does he use the bodies and what does he differentiate — i just taught you okay"</p>
+      <span class="ts">12:36–12:44</span>
+    </div>
+
+    <h3>Fibonacci Direction for Upside Objectives</h3>
+
+    <div class="quote">
+      <p>"i'm going to draw it from the low up to the high — i'm looking for upside objectives okay"</p>
+      <span class="ts">12:55–13:00</span>
+    </div>
+
+    <div class="quote">
+      <p>"low up to high here's one objective here's two objectives"</p>
+      <span class="ts">13:00–13:05</span>
+    </div>
+
+    <div class="quote">
+      <p>"i'm going to use the high initially at the 2 o'clock hour down to the low post 230 — that range i'm using the fibonacci to expand up to a target"</p>
+      <span class="ts">8:37–8:49</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ STOP PLACEMENT -->
+  <section id="stop-placement">
+    <div class="section-label">Stop Placement</div>
+    <h2>Stop Loss Placement</h2>
+
+    <div class="rule-block">
+      <div class="rule-head bear">Stop Placement Rule</div>
+      <p>"your stop would be right above that most recent green candle to the left of where we're right now"</p>
+      <span class="ts">2:52–2:57</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head bear">Revisit Stop Rule (on bounces)</div>
+      <p>"and again this thought would be placed at the high of the most recent green candle to the left"</p>
+      <span class="ts">3:30–3:35</span>
+    </div>
+
+    <div class="quote">
+      <p>"i can revisit the bottom and under that fair value gap and bump it kind of like a support resistance idea and that would be a shorting opportunity if it were to do that"</p>
+      <span class="ts">3:19–3:28</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ EIGHT TRADES -->
+  <section id="eight-trades">
+    <div class="section-label">Eight Trades in the Move</div>
+    <h2>"Eight Trades in This Whole Entire Thing"</h2>
+
+    <div class="quote gold">
+      <p>"there's technically one two three four five six seven eight — there's eight trades in this this whole entire thing"</p>
+      <span class="ts">9:53–10:07</span>
+    </div>
+
+    <div class="quote">
+      <p>"this might not be the real setup that you would be looking for it might be something one of the eight that i'll show you — but that's the unique idea that i want you to adopt as a student of mine — i don't want you all thinking well we all have to have the same setup — no you don't have to have the same setup"</p>
+      <span class="ts">10:20–10:36</span>
+    </div>
+
+    <div class="quote">
+      <p>"you're going to come to the conclusion that you know the things that you're looking for are going to be much more important when it's uniquely selected — not me pushing you into a mode saying this is how it's going to work every single time just for you because it's not going to work that way"</p>
+      <span class="ts">10:37–10:53</span>
+    </div>
+
+    <div class="quote">
+      <p>"you have to find a way to grow comfortable with the concepts and how that applies to the present market conditions and how you select your setup — and i'll show you eight of them in here that way you'll know that this is what you're looking for and it fits your criteria and you may not take any of the other seven out of the eight"</p>
+      <span class="ts">10:54–11:16</span>
+    </div>
+
+    <div class="quote gold">
+      <p>"the main one here is obviously the one i highlighted — it's the one that is the highest form of analysis that we can see exactly where it's going to draw to before it turns around"</p>
+      <span class="ts">11:16–11:24</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ FOMC WARNING -->
+  <section id="fomc-warning">
+    <div class="section-label">FOMC Risk Warning</div>
+    <h2>Warning: FOMC &amp; High-Impact News</h2>
+
+    <div class="rule-block">
+      <div class="rule-head bear">Do Not Trade FOMC Without Experience</div>
+      <p>"i don't want you thinking this is an invitation for you to try to trade fomc or like a non-farm payroll event — they're very very risky extremely risky"</p>
+      <span class="ts">15:51–16:02</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head gold">Best Use: Hindsight Study</div>
+      <p>"they're really fun to go back into and study from a hindsight perspective or if you can watch it live — it's a wonderful case study that we can look at how liquidity is taken how it runs to the other extreme of the range and how it starts to deliver institutional order flow"</p>
+      <span class="ts">16:02–16:18</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"that's a setup but that's a gambler's setup before the fomc announcement"</p>
+      <span class="ts">14:23–14:28</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ TRADE SEQUENCE WALKTHROUGH -->
+  <section id="sequence">
+    <div class="section-label">Trade Sequence Walkthrough (Post-FOMC)</div>
+    <h2>Trade Sequence as Described</h2>
+
+    <div class="quote">
+      <p>"run on liquidity drop down — start to drop even lower hit an order block — then rallies up hits the fair value gap that sets the stage for the decline down into the area i highlighted in advance said this was the end of the road for the bears — it starts to rally comes back down in rallies once more — takes off takes out tuesday's high much more meaningfully — and rallies again — pulls back into an imbalance here rallies again — pulls back into an imbalance here after taking our target and even continues to go higher from there"</p>
+      <span class="ts">13:38–14:13</span>
+    </div>
+
+    <div class="quote">
+      <p>"so we have the drop down then the fair value gap here so that's trade one — the return back to the fair value gap up here that's trade two — drops down in — below here you would close your short if it's a scalp — here is a long idea as a scalp to take us up into i said look what's resting above this high here and then into the fair value — that sets the short down into the objective i was looking for"</p>
+      <span class="ts">14:29–14:53</span>
+    </div>
+
+    <div class="quote">
+      <p>"all down close candles should be supporting price as it goes up and running out tuesday's highs in a much more meaningful manner"</p>
+      <span class="ts">16:18–16:25</span>
+    </div>
+
+    <div class="quote">
+      <p>"so you can couple what i've shown you here with what i've outright came and told you basically that i'm looking for the drop down at fomc at two o'clock"</p>
+      <span class="ts">11:26–11:34</span>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ══════════════════════════════════════════════ FLASHCARDS -->
+  <section id="study">
+    <div class="section-label">Self-Study</div>
+    <h2>Flashcards <span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;">— click to reveal</span></h2>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does "sweeping" a high mean versus "running" a high?</div>
+        <div class="flashcard-answer">"sweeping is where it just goes above or below a low or high… if we're going to sweep buy side that means it's going to go up a little bit and then go down and reverse" / "running tuesday's high means it runs right over top of it and it just doesn't look back"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the FOMC delivery pattern ICT describes?</div>
+        <div class="flashcard-answer">"it's fomc it has like a knee-jerk reaction kind of like non-farm payroll — there's a initial leg then another leg then like a fake out leg and then a real setup comes"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Around what time does the FOMC initial leg typically finish?</div>
+        <div class="flashcard-answer">"i'm looking for the drop down at fomc at two o'clock — once it drops down into that usually around 2 30 it finished its initial leg where it prices in whatever it's going to do either high or low and then starts to rally"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">When does ICT use wicks for Fibonacci, and when does he use bodies?</div>
+        <div class="flashcard-answer">"usually i'll use the highest open or close and the lowest open or close in the price swing when it's not expected to have a whole lot of volatility — because it's the fomc it's more likely to be much more volatile — that means the extreme of the ranges should be considered — that means now i'm going to use the wicks"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Which direction does ICT anchor the Fibonacci when looking for upside objectives?</div>
+        <div class="flashcard-answer">"i'm going to draw it from the low up to the high — i'm looking for upside objectives okay"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Where is the stop placed when entering a short?</div>
+        <div class="flashcard-answer">"your stop would be right above that most recent green candle to the left of where we're right now"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does ICT call the price area at the end of the bearish run before the turn?</div>
+        <div class="flashcard-answer">"the checkered flag area… that's like the end of the race for bears — they get into that then it should start the real move higher"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does ICT say about all students using the same setup?</div>
+        <div class="flashcard-answer">"i don't want you all thinking well we all have to have the same setup — no you don't have to have the same setup — in fact you're not — you're going to come to the conclusion that you know the things that you're looking for are going to be much more important when it's uniquely selected"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the "highest form of analysis" according to ICT in this episode?</div>
+        <div class="flashcard-answer">"the main one here is obviously the one i highlighted — it's the one that is the highest form of analysis that we can see exactly where it's going to draw to before it turns around"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does ICT recommend FOMC events are best used for?</div>
+        <div class="flashcard-answer">"they're really fun to go back into and study from a hindsight perspective or if you can watch it live — it's a wonderful case study that we can look at how liquidity is taken how it runs to the other extreme of the range and how it starts to deliver institutional order flow"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">How does ICT describe a trade taken right before the FOMC announcement?</div>
+        <div class="flashcard-answer">"that's a setup but that's a gambler's setup before the fomc announcement"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does ICT say about the Fibonacci range he measures for the FOMC upside target?</div>
+        <div class="flashcard-answer">"i'm going to use the high initially at the 2 o'clock hour down to the low post 230 — that range i'm using the fibonacci to expand up to a target"</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

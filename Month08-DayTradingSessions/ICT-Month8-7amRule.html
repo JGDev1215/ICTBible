@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 7AM Rule | ICT Study Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #0f0f16;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --border-color: #2a2a3a;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --text-muted: #68687a;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --accent-blue: #3498db;
+            --gradient-bear: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+            --gradient-bull: linear-gradient(135deg, #2ed573 0%, #26de81 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 1.5rem;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Quote Blocks */
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quote p {
+            color: var(--text-primary);
+            font-style: italic;
+            margin: 0;
+        }
+
+        .quote .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-style: normal;
+        }
+
+        /* Concept Cards */
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-gold);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .card-icon.bearish { background: rgba(255, 71, 87, 0.2); color: var(--accent-bear); }
+        .card-icon.bullish { background: rgba(46, 213, 115, 0.2); color: var(--accent-bull); }
+        .card-icon.neutral { background: rgba(255, 165, 2, 0.2); color: var(--accent-gold); }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .concept-card em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Key Points List */
+        .key-points {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-point {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .key-point:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .key-point:first-child {
+            padding-top: 0;
+        }
+
+        .point-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            min-width: 24px;
+        }
+
+        .point-content {
+            flex: 1;
+        }
+
+        .point-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* SVG Diagrams */
+        .diagram-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .diagram-container svg {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Flashcards */
+        .flashcard-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard::before {
+            content: 'Click to reveal';
+            position: absolute;
+            top: 0.75rem;
+            right: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s;
+        }
+
+        .flashcard.revealed::before {
+            opacity: 0;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .flashcard-answer {
+            color: var(--accent-bull);
+            font-style: italic;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            padding-top: 0;
+            border-top: 1px solid transparent;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 1rem;
+            border-top-color: var(--border-color);
+        }
+
+        /* Highlight */
+        .highlight {
+            background: rgba(255, 165, 2, 0.15);
+            padding: 0.1em 0.3em;
+            border-radius: 3px;
+            color: var(--accent-gold);
+        }
+
+        .bear { color: var(--accent-bear); }
+        .bull { color: var(--accent-bull); }
+
+        /* Time markers */
+        .time-marker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            background: rgba(255, 165, 2, 0.1);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .step-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            background: rgba(255, 165, 2, 0.1);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content em {
+            color: var(--text-secondary);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box .warning-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--accent-bear);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .warning-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 2rem 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            nav ul {
+                gap: 0.25rem 1rem;
+            }
+
+            nav a {
+                font-size: 0.7rem;
+            }
+
+            .diagram-container {
+                padding: 1rem;
+            }
+        }
+
+        /* Smooth scrolling offset for sticky nav */
+        section[id] {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="index.html">Library Home</a>
+    </nav>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+<header>
+        <div class="header-label">ICT AM Session Methodology</div>
+        <h1>The 7AM Rule</h1>
+        <p class="subtitle">"At 7 o'clock in the morning, that begins your hunt for relative equal highs or relative equal lows."</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#definition">Definition</a></li>
+            <li><a href="#time-framework">Time Framework</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#timeframes">Time Frames</a></li>
+            <li><a href="#liquidity">Liquidity</a></li>
+            <li><a href="#inefficiencies">Inefficiencies</a></li>
+            <li><a href="#volume-imbalance">Volume Imbalance</a></li>
+            <li><a href="#inversion">Inversion FVG</a></li>
+            <li><a href="#psychology">Psychology</a></li>
+            <li><a href="#study">Flashcards</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Section 1: Definition -->
+        <section id="definition">
+            <h2>Core Definition</h2>
+            
+            <div class="quote">
+                <p>"At 7 o'clock in the morning, what you're doing is you're that's your that's your beginning of the day. You're now starting to look for relative equal highs and lows."</p>
+            </div>
+
+            <div class="quote">
+                <p>"That's your punchin time. Okay? That's the earliest you can refer to in price."</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-icon neutral">⏰</span>
+                    <span class="card-title">7 O'clock Vertical Line</span>
+                </div>
+                <p><em>"You want to put a vertical line on that. It doesn't need to be a very bold color or anything like that. You want to just be able to annotate 7 o'clock."</em></p>
+            </div>
+        </section>
+
+        <!-- Section 2: Time Framework -->
+        <section id="time-framework">
+            <h2>Time Framework</h2>
+
+            <div class="warning-box">
+                <div class="warning-title">⚠ Critical Rule</div>
+                <p><em>"You don't want to look at anything prior to 7:00 because you are not versed in anything with the London session. I'm not expanding your your your focus and time beyond the scope of 7 o'clock in the morning, New York local time."</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"Do not look for your relative equal highs or lows prior to 7:00."</p>
+            </div>
+
+            <div class="quote">
+                <p>"The rules are very simple. You're waiting to see relative equal highs and relative equal lows form after, post 7 a.m. New York local time."</p>
+            </div>
+
+            <h3>London Session Reference (Advanced)</h3>
+
+            <div class="quote">
+                <p>"If you're looking at prior to anything at 7:00 in the morning, what you're really doing is you're referring to London Sessions price data and its profile."</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-icon neutral">📊</span>
+                    <span class="card-title">London Range Definition</span>
+                </div>
+                <p><em>"The London range is whatever the highest high and the lowest low was between 2:00 in the morning and 5:00 in the morning, Eastern Standard Time."</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"AM session characteristic is always first and foremost characteristic is retrade back into the London range."</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Process -->
+        <section id="process">
+            <h2>The Process</h2>
+
+            <div class="quote">
+                <p>"So, this starts the hunt for at 7 o'clock. Did we create a relative equal high yet? No, we just have one singular high. Do we have relative equal lows?"</p>
+            </div>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <strong>Start at 7 AM New York Time</strong>
+                        <em>"At 7 o'clock in the morning, that begins your hunt for relative equal highs or relative equal lows."</em>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <strong>Hunt on 15-Minute First</strong>
+                        <em>"And you start on what time frame first? The 15 minute time frame."</em>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <strong>Mental Note Only</strong>
+                        <em>"All you're doing is you're making a mental note of it. You're not annotating your chart because it's not there."</em>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <strong>Wait for Setup to Form</strong>
+                        <em>"Don't predict the setup. You have to wait for the setup. You have to wait for these signatures to form in price. You cannot anticipate them."</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-title">⚠ Do Not Lead Expectations</div>
+                <p><em>"You never never never lead your expectations with something that has not actually formed in the chart."</em></p>
+            </div>
+        </section>
+
+        <!-- Section 4: Time Frames -->
+        <section id="timeframes">
+            <h2>Time Frame Hierarchy</h2>
+
+            <div class="quote">
+                <p>"So, you work from the 15-minute time frame, look for relative equal highs, relative equal lows after 7 o'clock in the morning."</p>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point">
+                    <span class="point-number">01</span>
+                    <div class="point-content">
+                        <strong>15-Minute Time Frame</strong>
+                        <p><em>"What you're doing is you're looking at time first."</em> – Start here for initial hunt.</p>
+                    </div>
+                </div>
+                <div class="key-point">
+                    <span class="point-number">02</span>
+                    <div class="point-content">
+                        <strong>5-Minute Time Frame</strong>
+                        <p><em>"These two lows may be a factor for the five-minute chart. So, we're going to go to the five-minute chart."</em></p>
+                    </div>
+                </div>
+                <div class="key-point">
+                    <span class="point-number">03</span>
+                    <div class="point-content">
+                        <strong>1-Minute Time Frame</strong>
+                        <p><em>"So, we go down to a one minute chart... And here is the 7:00 delineation. And you're looking for relative equal highs."</em></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>"But the fractal element is only repeating and verifiable on the time frames I'm teaching you to focus on right now. We're not going anything higher than the 15-minute time frame."</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Liquidity Diagram -->
+        <section id="liquidity">
+            <h2>Liquidity Engagement</h2>
+
+            <div class="quote">
+                <p>"All you're doing is you're looking for areas where they can stop people out and go the other direction. That's essentially all you're doing."</p>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">Liquidity Engagement: Smooth to Jagged</div>
+                <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background grid -->
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1a1a24" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="700" height="350" fill="#0f0f16"/>
+                    <rect width="700" height="350" fill="url(#grid)"/>
+                    
+                    <!-- 7AM Line -->
+                    <line x1="100" y1="30" x2="100" y2="320" stroke="#ffa502" stroke-width="2" stroke-dasharray="8,4"/>
+                    <text x="100" y="22" fill="#ffa502" font-family="JetBrains Mono" font-size="11" text-anchor="middle">7:00 AM</text>
+                    
+                    <!-- Price action before 7AM (faded) -->
+                    <polyline points="30,200 50,180 70,220 90,190" fill="none" stroke="#3a3a4a" stroke-width="2" opacity="0.4"/>
+                    
+                    <!-- Two highs forming relative equal highs -->
+                    <circle cx="200" cy="100" r="6" fill="#ff4757"/>
+                    <text x="200" y="85" fill="#ff4757" font-family="JetBrains Mono" font-size="10" text-anchor="middle">High 1</text>
+                    
+                    <circle cx="280" cy="105" r="6" fill="#ff4757"/>
+                    <text x="280" y="90" fill="#ff4757" font-family="JetBrains Mono" font-size="10" text-anchor="middle">High 2</text>
+                    <text x="240" y="70" fill="#ffa502" font-family="Space Grotesk" font-size="11" text-anchor="middle">Relative Equal Highs</text>
+                    
+                    <!-- Smooth area annotation -->
+                    <rect x="160" y="95" width="150" height="25" fill="none" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,2" rx="4"/>
+                    <text x="235" y="140" fill="#9898a8" font-family="Crimson Pro" font-size="11" text-anchor="middle" font-style="italic">"area that's smooth"</text>
+                    
+                    <!-- Spike through highs (jagged) -->
+                    <polyline points="120,180 160,150 200,100 230,120 280,105 320,80 340,90" fill="none" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Jagged annotation -->
+                    <path d="M 310 75 L 340 65 L 345 80 L 365 70" fill="none" stroke="#ff4757" stroke-width="2"/>
+                    <text x="400" y="65" fill="#ff4757" font-family="JetBrains Mono" font-size="10">"made it jagged"</text>
+                    
+                    <!-- Drop after liquidity taken -->
+                    <polyline points="340,90 360,130 380,110 400,160 420,140 450,200 470,180 500,240 520,220 550,280" fill="none" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Buy stops annotation -->
+                    <rect x="300" y="55" width="60" height="18" fill="rgba(255,71,87,0.2)" rx="3"/>
+                    <text x="330" y="68" fill="#ff4757" font-family="JetBrains Mono" font-size="9" text-anchor="middle">BUY STOPS</text>
+                    
+                    <!-- Direction arrow -->
+                    <path d="M 560 270 L 620 300" stroke="#ff4757" stroke-width="2" marker-end="url(#arrowRed)"/>
+                    <defs>
+                        <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#ff4757"/>
+                        </marker>
+                    </defs>
+                    <text x="620" y="320" fill="#9898a8" font-family="Crimson Pro" font-size="11" font-style="italic">"where did it go directionally? Lower."</text>
+                    
+                    <!-- Legend -->
+                    <rect x="20" y="300" width="180" height="40" fill="#1a1a24" rx="6"/>
+                    <text x="30" y="318" fill="#9898a8" font-family="JetBrains Mono" font-size="9">ENGAGEMENT:</text>
+                    <text x="30" y="332" fill="#ffa502" font-family="Crimson Pro" font-size="10" font-style="italic">"This was an engagement for liquidity"</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p>"There's two different characteristics in price delivery that is a very very simple perception of what price has done. It took an area that's smooth and made it jagged."</p>
+            </div>
+
+            <div class="quote">
+                <p>"This was an engagement for liquidity. So what did it do? It took buy side. After it took that buy side, where did it go directionally? Lower."</p>
+            </div>
+
+            <h3>Relative Equal Highs - High Probability Signal</h3>
+
+            <div class="quote">
+                <p>"How do you know it's a high probability relative equal high? When the right side that is identified as a potential turning point for a quote unquote potential relative equal high, the right one is going to be slightly lower than the one on the left."</p>
+            </div>
+
+            <h3>What You're Looking For</h3>
+
+            <div class="quote">
+                <p>"You're looking for little periods of price action where obvious highs can be targeted, obvious lows can be targeted for liquidity purposes."</p>
+            </div>
+
+            <div class="quote">
+                <p>"You're watching to see how it attacks or tracks to a relative equal low or relative equal high."</p>
+            </div>
+        </section>
+
+        <!-- Section 6: Inefficiencies -->
+        <section id="inefficiencies">
+            <h2>Annotating Inefficiencies</h2>
+
+            <div class="quote">
+                <p>"Once you have either pan through and either identified what's available on any one of those time frames, or if there is none that's obvious, then what you do is you go through your charts and you annotate all of the inefficiencies."</p>
+            </div>
+
+            <div class="quote">
+                <p>"And in between them, or if there's nothing new to work off of, then you focus on all of the fair value gaps, the inefficiencies."</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-icon bearish">▼</span>
+                    <span class="card-title">SIBI - Sellside Imbalance Buyside Inefficiency</span>
+                </div>
+                <p><em>"A down close fair value gap is a cibby. Stands for sellside imbalance buyside inefficiency. That means it offered delivery on the downside."</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-icon bullish">▲</span>
+                    <span class="card-title">BISI - Buyside Imbalance Sellside Inefficiency</span>
+                </div>
+                <p><em>"A upclose candle right here. This is the opposite which is a bissy b i si buy side imbalance sellside inefficiency."</em></p>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">Fair Value Gap Structure</div>
+                <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="700" height="300" fill="#0f0f16"/>
+                    
+                    <!-- SIBI Example -->
+                    <text x="175" y="30" fill="#ff4757" font-family="Space Grotesk" font-size="14" font-weight="600" text-anchor="middle">SIBI (Down Close)</text>
+                    
+                    <!-- Candle 1 -->
+                    <line x1="100" y1="60" x2="100" y2="120" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="90" y="70" width="20" height="40" fill="#2ed573"/>
+                    <text x="100" y="140" fill="#9898a8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Candle 1</text>
+                    <text x="70" y="115" fill="#ffa502" font-family="JetBrains Mono" font-size="9">LOW →</text>
+                    
+                    <!-- FVG Zone -->
+                    <rect x="125" y="110" width="100" height="50" fill="rgba(255,71,87,0.15)" stroke="#ff4757" stroke-dasharray="4,2"/>
+                    <text x="175" y="138" fill="#ff4757" font-family="JetBrains Mono" font-size="10" text-anchor="middle">FVG</text>
+                    
+                    <!-- Candle 2 (down close) -->
+                    <line x1="175" y1="100" x2="175" y2="200" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="165" y="110" width="20" height="80" fill="#ff4757"/>
+                    <text x="175" y="220" fill="#9898a8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Down Close</text>
+                    
+                    <!-- Candle 3 -->
+                    <line x1="250" y1="155" x2="250" y2="260" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="240" y="180" width="20" height="60" fill="#ff4757"/>
+                    <text x="250" y="280" fill="#9898a8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Candle 3</text>
+                    <text x="280" y="165" fill="#ffa502" font-family="JetBrains Mono" font-size="9">← HIGH</text>
+                    
+                    <!-- Separator -->
+                    <line x1="350" y1="20" x2="350" y2="280" stroke="#2a2a3a" stroke-width="1"/>
+                    
+                    <!-- BISI Example -->
+                    <text x="525" y="30" fill="#2ed573" font-family="Space Grotesk" font-size="14" font-weight="600" text-anchor="middle">BISI (Up Close)</text>
+                    
+                    <!-- Candle 1 -->
+                    <line x1="450" y1="180" x2="450" y2="260" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="440" y="200" width="20" height="40" fill="#ff4757"/>
+                    <text x="450" y="278" fill="#9898a8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Candle 1</text>
+                    <text x="420" y="205" fill="#ffa502" font-family="JetBrains Mono" font-size="9">HIGH →</text>
+                    
+                    <!-- FVG Zone -->
+                    <rect x="475" y="130" width="100" height="60" fill="rgba(46,213,115,0.15)" stroke="#2ed573" stroke-dasharray="4,2"/>
+                    <text x="525" y="165" fill="#2ed573" font-family="JetBrains Mono" font-size="10" text-anchor="middle">FVG</text>
+                    
+                    <!-- Candle 2 (up close) -->
+                    <line x1="525" y1="80" x2="525" y2="190" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="515" y="100" width="20" height="80" fill="#2ed573"/>
+                    <text x="525" y="210" fill="#9898a8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Up Close</text>
+                    
+                    <!-- Candle 3 -->
+                    <line x1="600" y1="50" x2="600" y2="140" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="590" y="60" width="20" height="60" fill="#2ed573"/>
+                    <text x="600" y="158" fill="#9898a8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Candle 3</text>
+                    <text x="630" y="138" fill="#ffa502" font-family="JetBrains Mono" font-size="9">← LOW</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p>"It's inefficient in any movement back up inside that same range that creates this one single pass through until you get into this area here."</p>
+            </div>
+
+            <div class="quote">
+                <p>"Anything above this high up to this candlesticks low right there, that candlestick's low, all of that is inefficient and is inviting the opportunity for price to want to trade up into it."</p>
+            </div>
+
+            <h3>The Real Support and Resistance</h3>
+
+            <div class="quote">
+                <p>"So if you want to talk about support and resistance, these inefficiencies are the real support and resistance in price action."</p>
+            </div>
+
+            <div class="quote">
+                <p>"You'll see them kiss them, turn on a dime, go right to the level, stop, turn around, the bodies of them stop. Like, it's it's so precise."</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Volume Imbalance -->
+        <section id="volume-imbalance">
+            <h2>Volume Imbalance</h2>
+
+            <div class="quote">
+                <p>"The volume imbalance is as if the separation between one candlestick's body and the very next subsequent candlestick. If the bodies don't overlap or at least touch, there's a volume imbalance there."</p>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">Volume Imbalance Structure</div>
+                <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="600" height="280" fill="#0f0f16"/>
+                    
+                    <!-- Candle 1 -->
+                    <line x1="150" y1="50" x2="150" y2="140" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="140" y="60" width="20" height="60" fill="#2ed573"/>
+                    <text x="150" y="155" fill="#9898a8" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Body 1</text>
+                    
+                    <!-- Body bottom line -->
+                    <line x1="115" y1="120" x2="185" y2="120" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,2"/>
+                    <text x="100" y="124" fill="#ffa502" font-family="JetBrains Mono" font-size="9" text-anchor="end">Body Bottom</text>
+                    
+                    <!-- Volume Imbalance Gap -->
+                    <rect x="185" y="120" width="130" height="30" fill="rgba(255,165,2,0.2)" stroke="#ffa502" stroke-dasharray="4,2"/>
+                    <text x="250" y="140" fill="#ffa502" font-family="Space Grotesk" font-size="11" text-anchor="middle" font-weight="600">VOLUME IMBALANCE</text>
+                    
+                    <!-- Candle 2 -->
+                    <line x1="350" y1="140" x2="350" y2="250" stroke="#9898a8" stroke-width="2"/>
+                    <rect x="340" y="150" width="20" height="80" fill="#ff4757"/>
+                    <text x="350" y="265" fill="#9898a8" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Body 2</text>
+                    
+                    <!-- Body top line -->
+                    <line x1="315" y1="150" x2="385" y2="150" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,2"/>
+                    <text x="400" y="154" fill="#ffa502" font-family="JetBrains Mono" font-size="9">Body Top</text>
+                    
+                    <!-- Arrow showing gap -->
+                    <path d="M 250 165 L 250 200" stroke="#ffa502" stroke-width="2" marker-end="url(#arrowGold)"/>
+                    <defs>
+                        <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#ffa502"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- Quote box -->
+                    <rect x="50" y="200" width="500" height="60" fill="#1a1a24" rx="6"/>
+                    <text x="300" y="225" fill="#9898a8" font-family="Crimson Pro" font-size="12" text-anchor="middle" font-style="italic">"If the bodies don't overlap or at least touch,</text>
+                    <text x="300" y="245" fill="#9898a8" font-family="Crimson Pro" font-size="12" text-anchor="middle" font-style="italic">there's a volume imbalance there."</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p>"And it is very very influential in terms of reading price action in terms of precision elements. You have to incorporate that."</p>
+            </div>
+
+            <h3>Wicks and Volume Imbalance</h3>
+
+            <div class="quote">
+                <p>"The volume imbalance tells you to ignore any of the wick. This wick will not be all that influential."</p>
+            </div>
+
+            <div class="quote">
+                <p>"So the volume imbalance right there that tells you if you have that and any wick in there just completely disregard it only if it's a wick that's that's below the consequent encroachment which is the halfway point here. So any wick that reaches up to that level or less ignore any of those wicks. You have to take it to the body of the candle."</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-icon neutral">🖍</span>
+                    <span class="card-title">Wick Analogy</span>
+                </div>
+                <p><em>"It's like your child that colors with a crayon in a coloring book. They color sometimes outside the lines. You know that they messed that up."</em></p>
+                <p style="margin-top: 0.75rem;"><em>"Well, that's how I look at wicks. Yes, the algorithm repriced up into there a little bit. That's fine. Where's the body? Right there."</em></p>
+            </div>
+        </section>
+
+        <!-- Section 8: Inversion Fair Value Gaps -->
+        <section id="inversion">
+            <h2>Inversion Fair Value Gaps</h2>
+
+            <div class="quote">
+                <p>"All of my PDAs have an inversion aspect to them. Every single one of them. Every single one of them can reverse their role. Every single one of them."</p>
+            </div>
+
+            <div class="quote">
+                <p>"Inversion fair value gaps, the highest form of precision, the ones that are really, really trustworthy, the ones that have the highest degree of working in your favor, depends on your understanding of what I taught you yesterday and what I'm what I'm building on here."</p>
+            </div>
+
+            <h3>Context for Inversion</h3>
+
+            <div class="quote">
+                <p>"Whereas, we have an area that's smooth after 7 o'clock. So, the 7 o'clock in the morning starts the AM session. So now you start hunting on the 15-minute time frame, the five minute time frame, and the one minute time frame. You're hunting relative equal highs and lows to form after 7:00."</p>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">Inversion Fair Value Gap After Relative Equal Highs</div>
+                <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="700" height="350" fill="#0f0f16"/>
+                    
+                    <!-- Grid -->
+                    <defs>
+                        <pattern id="grid2" width="25" height="25" patternUnits="userSpaceOnUse">
+                            <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#1a1a24" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="700" height="350" fill="url(#grid2)"/>
+                    
+                    <!-- Labels -->
+                    <text x="50" y="30" fill="#ffa502" font-family="Space Grotesk" font-size="12" font-weight="600">POST 7:00 AM</text>
+                    
+                    <!-- Price rally up -->
+                    <polyline points="50,250 80,230 110,200 140,180 170,150 200,130 230,100 260,80" fill="none" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Relative Equal Highs -->
+                    <circle cx="260" cy="80" r="5" fill="#ff4757"/>
+                    <circle cx="310" cy="85" r="5" fill="#ff4757"/>
+                    <text x="285" y="60" fill="#ff4757" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Relative Equal Highs</text>
+                    <text x="285" y="45" fill="#9898a8" font-family="Crimson Pro" font-size="9" text-anchor="middle" font-style="italic">"right one slightly lower"</text>
+                    
+                    <!-- Spike through -->
+                    <polyline points="260,80 290,85 310,85 340,70 355,75" fill="none" stroke="#2ed573" stroke-width="2"/>
+                    
+                    <!-- Stop hunt label -->
+                    <rect x="340" y="55" width="60" height="16" fill="rgba(255,71,87,0.2)" rx="3"/>
+                    <text x="370" y="67" fill="#ff4757" font-family="JetBrains Mono" font-size="9" text-anchor="middle">STOPS</text>
+                    
+                    <!-- BISI Fair Value Gap in rally -->
+                    <rect x="180" y="110" width="50" height="35" fill="rgba(46,213,115,0.2)" stroke="#2ed573" stroke-dasharray="4,2"/>
+                    <text x="205" y="130" fill="#2ed573" font-family="JetBrains Mono" font-size="8" text-anchor="middle">BISI</text>
+                    
+                    <!-- Reversal down -->
+                    <polyline points="355,75 370,95 385,85 400,120 415,105 430,140 445,125 460,160 475,145 500,190 520,175 550,220 570,200 600,250" fill="none" stroke="#ff4757" stroke-width="2"/>
+                    
+                    <!-- Return to BISI (now inversion) -->
+                    <line x1="230" y1="125" x2="400" y2="125" stroke="#ffa502" stroke-width="1" stroke-dasharray="6,3"/>
+                    <text x="315" y="118" fill="#ffa502" font-family="JetBrains Mono" font-size="9" text-anchor="middle">INVERSION LEVEL</text>
+                    
+                    <!-- Annotation for inversion -->
+                    <rect x="380" y="100" width="140" height="45" fill="#1a1a24" rx="6"/>
+                    <text x="450" y="118" fill="#ffa502" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="600">Inversion FVG</text>
+                    <text x="450" y="135" fill="#9898a8" font-family="Crimson Pro" font-size="9" text-anchor="middle" font-style="italic">"role reversal"</text>
+                    
+                    <!-- Warning annotation -->
+                    <rect x="50" y="290" width="300" height="45" fill="rgba(255,71,87,0.1)" rx="6"/>
+                    <text x="60" y="310" fill="#ff4757" font-family="JetBrains Mono" font-size="9">⚠ DO NOT use BISI as a buy after stop hunt</text>
+                    <text x="60" y="325" fill="#9898a8" font-family="Crimson Pro" font-size="9" font-style="italic">"you might be lulled into thinking... go long"</text>
+                    
+                    <!-- Breaker range annotation -->
+                    <rect x="140" y="80" width="90" height="170" fill="none" stroke="#3498db" stroke-width="1" stroke-dasharray="4,2" rx="4"/>
+                    <text x="185" y="270" fill="#3498db" font-family="JetBrains Mono" font-size="9" text-anchor="middle">BREAKER</text>
+                </svg>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-title">⚠ Do Not Use BISI as Buy After Stop Hunt</div>
+                <p><em>"If you don't understand what you're looking for and you don't have the element of time, Dave, and you trade back down into this fair value gap, you might be lulled into thinking, well, wow, you know, this is an opportunity for me to take one of those ICD fair value gap buys and go long and then it's to your detriment that it reverses and and collapses on you."</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"That is an inversion fair value gap. So the market creates this fair value gap after this run here. You don't want to use that as a buy."</p>
+            </div>
+
+            <h3>Using the Inversion</h3>
+
+            <div class="quote">
+                <p>"If that's the case, your eye goes into this price run. Is there a fair value gap there? If there is, extend it forward and then wait for it to trade up there."</p>
+            </div>
+
+            <div class="quote">
+                <p>"Don't sell yourself short and only look for the return to the breaker or the low point because it's going to trade right back up into that."</p>
+            </div>
+
+            <h3>Focus on SIBI When Bearish</h3>
+
+            <div class="quote">
+                <p>"And once you have a a valid return here and it sells off, what you should be focusing on is all of the cibbies. All of the cibies until the narrative is likely to change bullish."</p>
+            </div>
+
+            <div class="quote">
+                <p>"Your focus goes to only looking for sellside imbalances. That means a down close candle that has a segment with the previous candle's low and the subsequent candle after it is has a high that doesn't connect. And the only bridge between those two points is the down close can lo in between. That's your fair value gap."</p>
+            </div>
+        </section>
+
+        <!-- Section 9: Psychology -->
+        <section id="psychology">
+            <h2>Psychology & Mindset</h2>
+
+            <div class="quote">
+                <p>"Experience will be given to you by exposure and repetition. That's the only way you glean the experience. You have to do these things and they are monotonous. They're boring. They feel like they're fruitless in the beginning."</p>
+            </div>
+
+            <div class="quote">
+                <p>"It feels like what am I even doing this for? And that's why I'm talking to you this way because you're going to want to not do this."</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-icon neutral">💪</span>
+                    <span class="card-title">Deferred Results</span>
+                </div>
+                <p><em>"But you have to submit yourself to the process that these results that you're wanting, you're going to have to wait for them. But you're still going to have to do a lot of work every single day working towards those results that will come later on."</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"Those results are a deferred result."</p>
+            </div>
+
+            <h3>The Algorithm</h3>
+
+            <div class="quote">
+                <p>"You're going to find out that there really is an algorithm. And it really is absolutely 100% manipulated and controlled and scripted until they manually intervene."</p>
+            </div>
+
+            <div class="quote">
+                <p>"What are they referring to? They have, if it's an algorithm, it has to refer to something it's happened in the past."</p>
+            </div>
+
+            <div class="quote">
+                <p>"So what I've done is I've created a language where you're either going to be reaching for old highs for the express purposes of taking out or engaging that liquidity that would be resting above it in the form of buy stops or going below a a low or equal lows for the express purposes of going down to engage the sell side of it or sell stops."</p>
+            </div>
+
+            <h3>Not Support and Resistance</h3>
+
+            <div class="quote">
+                <p>"I'm not a support and resistance trader. I don't teach my students to trade support and resistance. We look for liquidity and inefficiencies."</p>
+            </div>
+        </section>
+
+        <!-- Section 10: Flashcards -->
+        <section id="study">
+            <h2>Study Flashcards</h2>
+            
+            <div class="flashcard-grid">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time begins your hunt for relative equal highs or lows?</div>
+                    <div class="flashcard-answer">"At 7 o'clock in the morning, that begins your hunt for relative equal highs or relative equal lows."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time frame do you start on?</div>
+                    <div class="flashcard-answer">"And you start on what time frame first? The 15 minute time frame."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should you annotate potential setups before they form?</div>
+                    <div class="flashcard-answer">"You never never never lead your expectations with something that has not actually formed in the chart. Don't predict the setup. You have to wait for the setup."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a SIBI (Sellside Imbalance Buyside Inefficiency)?</div>
+                    <div class="flashcard-answer">"A down close fair value gap is a cibby. Stands for sellside imbalance buyside inefficiency. That means it offered delivery on the downside."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a BISI?</div>
+                    <div class="flashcard-answer">"A upclose candle right here. This is the opposite which is a bissy b i si buy side imbalance sellside inefficiency."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a volume imbalance?</div>
+                    <div class="flashcard-answer">"The volume imbalance is as if the separation between one candlestick's body and the very next subsequent candlestick. If the bodies don't overlap or at least touch, there's a volume imbalance there."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do with wicks when there's a volume imbalance?</div>
+                    <div class="flashcard-answer">"The volume imbalance tells you to ignore any of the wick. This wick will not be all that influential."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you identify a high probability relative equal high?</div>
+                    <div class="flashcard-answer">"When the right side that is identified as a potential turning point for a quote unquote potential relative equal high, the right one is going to be slightly lower than the one on the left."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens to a "smooth" area when liquidity is engaged?</div>
+                    <div class="flashcard-answer">"It took an area that's smooth and made it jagged."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London range?</div>
+                    <div class="flashcard-answer">"The London range is whatever the highest high and the lowest low was between 2:00 in the morning and 5:00 in the morning, Eastern Standard Time."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the AM session's first characteristic?</div>
+                    <div class="flashcard-answer">"AM session characteristic is always first and foremost characteristic is retrade back into the London range."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do these inefficiencies represent?</div>
+                    <div class="flashcard-answer">"So if you want to talk about support and resistance, these inefficiencies are the real support and resistance in price action."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you focus on when bearish after a valid return to inversion?</div>
+                    <div class="flashcard-answer">"And once you have a a valid return here and it sells off, what you should be focusing on is all of the cibbies. All of the cibies until the narrative is likely to change bullish."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do you look for instead of support and resistance?</div>
+                    <div class="flashcard-answer">"I'm not a support and resistance trader. I don't teach my students to trade support and resistance. We look for liquidity and inefficiencies."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you gain experience?</div>
+                    <div class="flashcard-answer">"Experience will be given to you by exposure and repetition. That's the only way you glean the experience."</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;">
+        ICT AM Session Study Guide — The 7AM Rule — All quotes from original transcript
+    </footer>
+</body>
+</html>

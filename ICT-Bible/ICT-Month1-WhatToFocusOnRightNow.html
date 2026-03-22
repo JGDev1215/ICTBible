@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What To Focus On Right Now - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-core-framework.html">Return to Category</a>
+        <a href="ICT-Month8-EssentialsToICTDaytrading.html">Next Chapter</a>
+        <a href="ICT-Month4-LiquidityPools.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>What To Focus On Right Now</h1>
+        <p>ICT Mentorship Core Content - Month 1 - Foundation & Mindset</p>
+    </header>
+
+    <nav>
+        <a href="#mindset">Mindset</a>
+        <a href="#perspectives">Two Perspectives</a>
+        <a href="#smart-money">Smart Money View</a>
+        <a href="#framework">Framework</a>
+        <a href="#focus">What To Focus On</a>
+        <a href="#charts">Chart Setup</a>
+        <a href="#practice">Daily Practice</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="mindset">
+            <h2>Mindset & Reverse Order Thinking</h2>
+
+            <blockquote class="quote">
+                <p><em>"we're going to continue continuing on our theme of understanding the mindset that you have to have going into the marketplace looking at things in a little bit reverse order then you're normally taught from a retail perspective"</em></p>
+                <span class="timestamp">(0:45)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"if you're new you actually have the advantage here for folks that have been trading for a while that have adopted bad habits or an understanding or a belief that they have an understanding it's going to be a little bit expensive for them because they're going to have to purge some of the things that they either subscribe to"</em></p>
+                <span class="timestamp">(1:04)</span>
+            </div>
+        </section>
+
+        <section id="perspectives">
+            <h2>Two Perspectives in the Marketplace</h2>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Market Efficiency Paradigm</text>
+
+                <!-- Dividing line -->
+                <line x1="400" y1="60" x2="400" y2="480" stroke="#2a2a3a" stroke-width="2" stroke-dasharray="5,5"/>
+
+                <!-- LEFT SIDE: UNINFORMED MONEY -->
+                <text x="200" y="80" fill="#ff4757" font-size="18" text-anchor="middle" font-weight="bold">Uninformed Money</text>
+                <text x="200" y="105" fill="#9898a8" font-size="14" text-anchor="middle">(Speculative / Dumb Money)</text>
+
+                <!-- Uninformed beliefs -->
+                <rect x="50" y="130" width="300" height="60" fill="#1a1a24" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="200" y="155" fill="#e8e8ed" font-size="13" text-anchor="middle">No acknowledgement of</text>
+                <text x="200" y="175" fill="#e8e8ed" font-size="13" text-anchor="middle">smart money entity</text>
+
+                <rect x="50" y="210" width="300" height="60" fill="#1a1a24" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="200" y="235" fill="#e8e8ed" font-size="13" text-anchor="middle">Indicators are the answer</text>
+                <text x="200" y="255" fill="#e8e8ed" font-size="13" text-anchor="middle">Price moves by indicators</text>
+
+                <rect x="50" y="290" width="300" height="60" fill="#1a1a24" stroke="#ff4757" stroke-width="2" rx="8"/>
+                <text x="200" y="315" fill="#e8e8ed" font-size="13" text-anchor="middle">Market is not rigged,</text>
+                <text x="200" y="335" fill="#e8e8ed" font-size="13" text-anchor="middle">controlled, or manipulated</text>
+
+                <!-- RIGHT SIDE: SMART MONEY -->
+                <text x="600" y="80" fill="#2ed573" font-size="18" text-anchor="middle" font-weight="bold">Smart Money</text>
+                <text x="600" y="105" fill="#9898a8" font-size="14" text-anchor="middle">(Informed / Liquidity Provider)</text>
+
+                <!-- Smart money perspective -->
+                <rect x="450" y="130" width="300" height="60" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="600" y="155" fill="#e8e8ed" font-size="13" text-anchor="middle">Knows there is large body</text>
+                <text x="600" y="175" fill="#e8e8ed" font-size="13" text-anchor="middle">of uninformed money</text>
+
+                <rect x="450" y="210" width="300" height="60" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="600" y="235" fill="#e8e8ed" font-size="13" text-anchor="middle">Everybody else is liquidity</text>
+                <text x="600" y="255" fill="#e8e8ed" font-size="13" text-anchor="middle">(Buy stops / Sell stops)</text>
+
+                <rect x="450" y="290" width="300" height="60" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="600" y="315" fill="#e8e8ed" font-size="13" text-anchor="middle">Price is delivered to engineer</text>
+                <text x="600" y="335" fill="#e8e8ed" font-size="13" text-anchor="middle">efficiency for smart money only</text>
+
+                <rect x="450" y="370" width="300" height="60" fill="#1a1a24" stroke="#2ed573" stroke-width="2" rx="8"/>
+                <text x="600" y="395" fill="#e8e8ed" font-size="13" text-anchor="middle">In control of price</text>
+                <text x="600" y="415" fill="#e8e8ed" font-size="13" text-anchor="middle">Banks set currency price</text>
+
+                <!-- Bottom note -->
+                <text x="400" y="465" fill="#ffa502" font-size="14" text-anchor="middle" font-style="italic">"Both perspectives create the market efficiency paradigm"</text>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"the perspective that the speculative uninformed money has is that number one they don't acknowledge that there's a smart money there is not an entity out there that has uh quote unquote the right things always on uh the right perspective or that a market is rigged or controlled or manipulated or has any influence over long-term price delivery"</em></p>
+                <span class="timestamp">(2:20)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"the uninformed money okay or those that are uninformed in regards to how smart money actually operates and exists in the in the marketplace their actual perspective really is that indicators are the answer and uninformed money their perspective holds belief that price moves by indicators influence"</em></p>
+                <span class="timestamp">(2:44)</span>
+            </div>
+        </section>
+
+        <section id="smart-money">
+            <h2>Smart Money Perspective</h2>
+
+            <blockquote class="quote">
+                <p><em>"we as informed traders our perspective is to hold the perspective of what a liquidity provider or smart money view is on the marketplace and they put a spotlight on the aspects of uninformed money because that's what makes the world go around in the marketplace the smart money is there to provide liquidity but they're doing it at a exchange premium"</em></p>
+                <span class="timestamp">(5:02)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"when we have a smart money perspective in the marketplace we actually use their perspective as everybody else is liquidity and price is delivered to engineer efficiency for the smart money entities only"</em></p>
+                <span class="timestamp">(6:14)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"to hold the perspective of a liquidity provider you are adopting a smart money perspective and everybody else is liquidity and the liquidity is going to be in the form of buy stops sell stops pending orders above and below the market highs that are most recently formed on your charts"</em></p>
+                <span class="timestamp">(6:33)</span>
+            </div>
+
+            <h3>Central Bank Control</h3>
+
+            <blockquote class="quote">
+                <p><em>"currency is owned by the bank and they set the price on the value of that bank note or that digit on your screen that says you have xyz number of dollars in or francs or pounds or whatever it is that you're uh you measuring your currency in that's east that value is set by the central bank that has printed that money"</em></p>
+                <span class="timestamp">(7:25)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"the central banks are in absolute control of what their price of their currency is and they can set it at any time at any price they want don't believe me look at what they did with the swiss franc and the euro when it was d-pegged instantaneous wipeout"</em></p>
+                <span class="timestamp">(8:03)</span>
+            </div>
+        </section>
+
+        <section id="framework">
+            <h2>Framework - Four Primary Drivers</h2>
+
+            <blockquote class="quote">
+                <p><em>"we're going to be focusing primarily on your understanding of these four primary drivers in price delivery it's retracement expansion reversal and consolidation"</em></p>
+                <span class="timestamp">(9:13)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retracement</span>
+                </div>
+                <p>One of the four primary drivers in price delivery</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Expansion</span>
+                </div>
+                <p>One of the four primary drivers in price delivery</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Reversal</span>
+                </div>
+                <p>One of the four primary drivers in price delivery</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Consolidation</span>
+                </div>
+                <p>One of the four primary drivers in price delivery</p>
+            </div>
+
+            <h3>Foundation First</h3>
+
+            <blockquote class="quote">
+                <p><em>"we can't teach specific contexts or topics without having a broad based understanding of foundation and that's what this entire month of september is doing it brings everybody to a reference point to start at the same location"</em></p>
+                <span class="timestamp">(9:34)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"understanding that the interbank price delivery algorithm okay to understand that it's going to have to come by exposure and exposure creates experience that experience is going to give you the understanding going into the charts seeing what they ex what they should be doing with price what you should be seeing in price"</em></p>
+                <span class="timestamp">(10:02)</span>
+            </div>
+        </section>
+
+        <section id="focus">
+            <h2>What Specifically To Focus On Right Now</h2>
+
+            <blockquote class="quote">
+                <p><em>"the first thing you need to know is there are very little things you should be bringing into your expectations and what your understanding should be in other words basically what i'm saying is you need to have no previous knowledge brought in with this kind of like put everything aside"</em></p>
+                <span class="timestamp">(11:11)</span>
+            </div>
+
+            <h3>Critical First Step: Daily Price Action Log</h3>
+
+            <blockquote class="quote">
+                <p><em>"the first thing you need to be doing is creating a daily price action log with price charts now i know some of you don't want to do this some of you have resisted me uh telling you for years to do this but i'm telling you you all are here and you've paid for this mentorship"</em></p>
+                <span class="timestamp">(12:03)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"i can tell you how i got it was doing the very things i'm going to tell you to do in this specific video it starts here if you skip this video if you skip what i'm teaching you in this video if you ignore what i'm telling you what to do in regards to what specific things you should start with right now it does not mean okay just because you've been trading longer than anybody else"</em></p>
+                <span class="timestamp">(12:24)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"go back to square one you're the new student do everything that's been described here and advise because this is where the money starts coming in if you have these things in place and you start right at this very core principle it will develop"</em></p>
+                <span class="timestamp">(13:10)</span>
+            </div>
+        </section>
+
+        <section id="charts">
+            <h2>Chart Setup Requirements</h2>
+
+            <h3>Daily Chart</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Daily Chart - Time Perspective</span>
+                </div>
+                <p><em>"your daily chart needs to show 12 months no less than nine months view you have to have that much perspective on your chart don't have so much of a perspective you have multiple years on your chart 12 months to nine months ideally"</em></p>
+                <span class="timestamp">(13:38)</span>
+            </div>
+
+            <h3>Four Hour Chart</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Four Hour Chart - Time Perspective</span>
+                </div>
+                <p><em>"you have a four hour chart and your four hour chart needs to have three months of price action viewed"</em></p>
+                <span class="timestamp">(13:52)</span>
+            </div>
+
+            <h3>60 Minute / One Hour Chart</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">One Hour Chart - Time Perspective</span>
+                </div>
+                <p><em>"the 60 minute chart or one hour chart has to have at least three weeks view"</em></p>
+                <span class="timestamp">(13:59)</span>
+            </div>
+
+            <h3>15 Minute Chart</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">15 Minute Chart - Time Perspective</span>
+                </div>
+                <p><em>"the 15 minute chart needs to have at least three to four days view that means for every chart here i'm recommending a specific amount of data that needs to be displayed for that respective time frame"</em></p>
+                <span class="timestamp">(14:06)</span>
+            </div>
+        </section>
+
+        <section id="practice">
+            <h2>Daily Practice - What To Note On Charts</h2>
+
+            <blockquote class="quote">
+                <p><em>"what you need to resist doing right now is you need to resist the urge to forecast price movements that's not for your stage of development right now do not try to rush ahead and try to figure out what the market's going to do next because that's going to be a problem for you and it's only going to lead to frustration"</em></p>
+                <span class="timestamp">(14:19)</span>
+            </div>
+
+            <h3>What To Note Specifically</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">1. Quick Movements From Specific Levels</span>
+                </div>
+                <p><em>"you need to note where price shown a quick movement from a specific level in other words if it's run quickly higher or lower from a particular level that's noteworthy you need to note that on your chart"</em></p>
+                <span class="timestamp">(14:45)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">2. Recent Highs and Lows Not Retested</span>
+                </div>
+                <p><em>"you need to also note recent highs and lows that haven't been retested that means if a high's formed on your chart if the price has not come back up to that level in recent time okay you need to make a special note of that because it's going to probably be influential going in the future vice versa just contrarily speaking you're going to be able to look for the lows that have formed that have not been recently traded to and that low will be influential later on in future price delivery as well"</em></p>
+                <span class="timestamp">(14:54)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3. Clean Highs (Two Equal Highs)</span>
+                </div>
+                <p><em>"note areas on the charts where price has left clean highs and clean lows basically that looks like two equal highs that formed in close proximity to one another um when we whenever we see a high go up and form and then it trades away from that for a little while and comes right back to it and doesn't make a new high or maybe it falls just a little bit shorter just a little bit above it i note that as a clean high and usually buy stops will form above that and the market will usually come back up there and run through that"</em></p>
+                <span class="timestamp">(15:23)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">4. Clean Lows (Double Bottoms / Equal Lows)</span>
+                </div>
+                <p><em>"the reverse is said for double bottoms or equal lows when a low is formed and another low is equally formed in close proximity to the initial one that's a big area for sell stops to pull or build up underneath those lows and the market tends to have a willingness to go down there and test that liquidity that means the market will go down into that area"</em></p>
+                <span class="timestamp">(16:01)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">5. Note Days of Week for Highs/Lows</span>
+                </div>
+                <p><em>"note what days the highs and the lows form and this is for the weekly range and you want to know what time of day that occurs what kill zone is it the high and low of the week forming in london or is it forming in new york because all those things are going to lend well to prognostication and what should happen going forward"</em></p>
+                <span class="timestamp">(16:36)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">6. Daily High and Daily Low - Every Day</span>
+                </div>
+                <p><em>"you want to note the daily high and the daily low every single trading day and you want to note when the daily high and the daily low forms for every individual uh trading day"</em></p>
+                <span class="timestamp">(16:56)</span>
+            </div>
+
+            <h3>Chart Organization</h3>
+
+            <blockquote class="quote">
+                <p><em>"you want to keep this chart okay in this format separate from all the other charts that i'm going to talk about now okay anything else we talk about in terms of what we're specifically looking for they don't get utilized on the same chart you create another chart so you're going to have two individual independent us swissy charts okay but you're going to carry the information on two separate charts that way you don't have charts that are too busy have too many things on there and you get confused"</em></p>
+                <span class="timestamp">(19:29)</span>
+            </div>
+
+            <h3>Professional Practice</h3>
+
+            <blockquote class="quote">
+                <p><em>"you're going to see actually how i do my charts how i log them and yes even after 23 years of trading i still do this it's important to do it it's understanding it's clarity it gives you perspective and it's what professionals do sorry it's just there's no way around it the folks that are really concerned about the market they have logs they keep journals these are the types of things they do"</em></p>
+                <span class="timestamp">(21:26)</span>
+            </div>
+
+            <h3>Analysis vs Execution Charts</h3>
+
+            <blockquote class="quote">
+                <p><em>"by having three charts okay because you're gonna have one that's executable in other words what you're watching on the setup right now because you never want to marry the ideas that you have in your analysis you need to reflect on them but you don't want to be so cast iron can't do it any other way it has to be that way"</em></p>
+                <span class="timestamp">(23:58)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"we try to get in sync with what the market's going to do whether it's going to be moving sideways whether it's going to go higher whether it's going to lower we don't know any of those uh directions with a great deal of certainty we just know probabilities and but we know how to go into the marketplace looking for these types of things over and over and over again they repeat and you'll be able to find those repeating uh occurrences in price action"</em></p>
+                <span class="timestamp">(24:40)</span>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the uninformed money's perspective on smart money?</div>
+                    <div class="flashcard-answer">"they don't acknowledge that there's a smart money there is not an entity out there that has uh quote unquote the right things always on uh the right perspective or that a market is rigged or controlled or manipulated or has any influence over long-term price delivery"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does uninformed money believe moves price?</div>
+                    <div class="flashcard-answer">"uninformed money their perspective holds belief that price moves by indicators influence okay and the influence of an indicator being overbought or sold that is what the precursor is to a market moving higher or lower"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the smart money perspective on everybody else?</div>
+                    <div class="flashcard-answer">"when we have a smart money perspective in the marketplace we actually use their perspective as everybody else is liquidity and price is delivered to engineer efficiency for the smart money entities only"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where is liquidity found according to smart money perspective?</div>
+                    <div class="flashcard-answer">"the liquidity is going to be in the form of buy stops sell stops pending orders above and below the market highs that are most recently formed on your charts"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Who controls the price of currency?</div>
+                    <div class="flashcard-answer">"currency is owned by the bank and they set the price on the value of that bank note... that value is set by the central bank that has printed that money"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the four primary drivers in price delivery?</div>
+                    <div class="flashcard-answer">"these four primary drivers in price delivery it's retracement expansion reversal and consolidation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the very first thing new students should be doing?</div>
+                    <div class="flashcard-answer">"the first thing you need to be doing is creating a daily price action log with price charts"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How much time perspective should a daily chart show?</div>
+                    <div class="flashcard-answer">"your daily chart needs to show 12 months no less than nine months view"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should students resist doing right now?</div>
+                    <div class="flashcard-answer">"you need to resist the urge to forecast price movements that's not for your stage of development right now do not try to rush ahead and try to figure out what the market's going to do next"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a "clean high" and why is it important?</div>
+                    <div class="flashcard-answer">"two equal highs that formed in close proximity to one another... i note that as a clean high and usually buy stops will form above that and the market will usually come back up there and run through that"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why note recent highs and lows that haven't been retested?</div>
+                    <div class="flashcard-answer">"if a high's formed on your chart if the price has not come back up to that level in recent time okay you need to make a special note of that because it's going to probably be influential going in the future"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does ICT still keep daily price logs after 23 years?</div>
+                    <div class="flashcard-answer">"yes even after 23 years of trading i still do this it's important to do it it's understanding it's clarity it gives you perspective and it's what professionals do"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should traders know with certainty vs probability?</div>
+                    <div class="flashcard-answer">"we don't know any of those uh directions with a great deal of certainty we just know probabilities and but we know how to go into the marketplace looking for these types of things over and over and over again they repeat"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What creates the market efficiency paradigm?</div>
+                    <div class="flashcard-answer">"once we understand that there's two distinct perspectives that's what creates the market efficiency paradigm"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why should students have no previous knowledge?</div>
+                    <div class="flashcard-answer">"you need to have no previous knowledge brought in with this kind of like put everything aside and assume it's very difficult for those who have already gone through different disciplines of trading because they have to try to forget what they already know"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

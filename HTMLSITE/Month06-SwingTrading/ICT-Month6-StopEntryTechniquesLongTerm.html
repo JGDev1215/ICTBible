@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Entry Techniques for Long-Term Traders - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-entries-management.html">Return to Category</a>
+        <a href="ICT_BIBLE__POSITION_TRADE_MANAGEMENT__2026-02-01.html">Next Chapter</a>
+        <a href="index.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Stop Entry Techniques for Long-Term Traders</h1>
+        <p>Using stop orders at daily candle openings to execute long-term positions based on monthly and weekly institutional order flow</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#buy-stops">Buy Stops</a>
+        <a href="#sell-stops">Sell Stops</a>
+        <a href="#order-block">Order Block Theory</a>
+        <a href="#position-scaling">Position Scaling</a>
+        <a href="#practical-rules">Practical Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"Stop entry techniques for long-term Traders"</em> - using stop orders to enter positions based on higher timeframe institutional order flow.</p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"We're trading on the higher time frame monthly and weekly but we're executing on The Daily"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="buy-stops">
+            <h2>Buying with Stop Orders</h2>
+
+            <h3>Prerequisites</h3>
+            <blockquote class="quote">
+                <p><em>"Preferably you're going to be looking for setups to have the monthly and or weekly suggesting institutional order flow would be seeking a PD array above daily market price"</em></p>
+            </blockquote>
+
+            <h3>Daily Chart Requirements</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Down Candle Formation</span>
+                </div>
+                <p><em>"The daily should post a bearish candle"</em></p>
+                <p><em>"The daily chart must close the candle with a down close"</em></p>
+                <p><em>"It is not valid while the daily chart candle is trading or forming"</em></p>
+            </div>
+
+            <h3>Entry Placement</h3>
+            <blockquote class="quote">
+                <p><em>"You're going to be placing a buy stop for an entry on Long positions"</em> at the bearish candle opening.</p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Buy Stop Entry on Down Candle</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Bearish Candle -->
+                <rect x="350" y="200" width="100" height="200" fill="none" stroke="#ff4757" stroke-width="2"/>
+                <line x1="400" y1="150" x2="400" y2="200" stroke="#ff4757" stroke-width="2"/>
+                <line x1="400" y1="400" x2="400" y2="420" stroke="#ff4757" stroke-width="2"/>
+
+                <!-- Labels -->
+                <text x="470" y="170" fill="#e8e8ed" font-size="14">High of the candle</text>
+                <line x1="400" y1="150" x2="460" y2="165" stroke="#9898a8" stroke-width="1"/>
+
+                <text x="470" y="220" fill="#e8e8ed" font-size="14">Opening (OPEN)</text>
+                <line x1="400" y1="200" x2="460" y2="215" stroke="#9898a8" stroke-width="1"/>
+
+                <text x="470" y="410" fill="#e8e8ed" font-size="14">Close</text>
+                <line x1="400" y1="400" x2="460" y2="405" stroke="#9898a8" stroke-width="1"/>
+
+                <text x="470" y="435" fill="#e8e8ed" font-size="14">Low of the candle</text>
+                <line x1="400" y1="420" x2="460" y2="430" stroke="#9898a8" stroke-width="1"/>
+
+                <!-- Buy Stop Arrow and Label -->
+                <line x1="150" y1="200" x2="340" y2="200" stroke="#2ed573" stroke-width="3" marker-end="url(#arrowgreen)"/>
+                <text x="80" y="180" fill="#2ed573" font-size="16" font-weight="bold">BUY STOP</text>
+                <text x="60" y="200" fill="#2ed573" font-size="14">Place at opening price</text>
+
+                <!-- Arrow marker -->
+                <defs>
+                    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#2ed573" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Concept Explanation</h3>
+            <blockquote class="quote">
+                <p><em>"The concept is is you're going to be using strength to get you long in the marketplace"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"Should price trade back up to that opening price and through it we should be turning the corner and should be training higher but if it doesn't trade back above the opening price you don't get a fill"</em></p>
+            </blockquote>
+
+            <h3>Successive Down Candles</h3>
+            <blockquote class="quote">
+                <p><em>"If you don't get a fill you just got to wait for another new down candle and you keep moving forward every time you get a new successive down candle you keep adding that new entry at the opening price"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"You would be consistently moving forward one new trading day every time a new candle paints and if you don't get a fill on The Daily you just go to the next daily candle once as long as there's another down candle you keep doing it"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="sell-stops">
+            <h2>Selling with Stop Orders</h2>
+
+            <h3>Prerequisites</h3>
+            <blockquote class="quote">
+                <p><em>"The monthly Andor weekly should suggest institutional order flow we be seeking a PD array below daily market price"</em></p>
+            </blockquote>
+
+            <h3>Daily Chart Requirements</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Up Candle Formation</span>
+                </div>
+                <p><em>"The daily should post a bullish candle"</em></p>
+                <p><em>"The daily chart must close the candle with a up close"</em></p>
+                <p><em>"It is not valid while the daily chart candle is trading into or forming"</em></p>
+            </div>
+
+            <h3>Entry Placement</h3>
+            <blockquote class="quote">
+                <p><em>"The sell stop is placed at the bullish candles open"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Sell Stop Entry on Up Candle</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Bullish Candle -->
+                <rect x="350" y="200" width="100" height="200" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <line x1="400" y1="150" x2="400" y2="200" stroke="#2ed573" stroke-width="2"/>
+                <line x1="400" y1="400" x2="400" y2="420" stroke="#2ed573" stroke-width="2"/>
+
+                <!-- Labels -->
+                <text x="470" y="170" fill="#e8e8ed" font-size="14">High of the candle</text>
+                <line x1="400" y1="150" x2="460" y2="165" stroke="#9898a8" stroke-width="1"/>
+
+                <text x="470" y="220" fill="#e8e8ed" font-size="14">Close</text>
+                <line x1="400" y1="200" x2="460" y2="215" stroke="#9898a8" stroke-width="1"/>
+
+                <text x="470" y="410" fill="#e8e8ed" font-size="14">Open of the candle</text>
+                <line x1="400" y1="400" x2="460" y2="405" stroke="#9898a8" stroke-width="1"/>
+
+                <text x="470" y="435" fill="#e8e8ed" font-size="14">Low of the candle</text>
+                <line x1="400" y1="420" x2="460" y2="430" stroke="#9898a8" stroke-width="1"/>
+
+                <!-- Sell Stop Arrow and Label -->
+                <line x1="150" y1="400" x2="340" y2="400" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowred)"/>
+                <text x="70" y="380" fill="#ff4757" font-size="16" font-weight="bold">SELL STOP</text>
+                <text x="60" y="400" fill="#ff4757" font-size="14">Place at opening price</text>
+
+                <!-- Arrow marker -->
+                <defs>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ff4757" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Concept Explanation</h3>
+            <blockquote class="quote">
+                <p><em>"The premise behind this is we're going to be expecting weakness to take us into the marketplace"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"When we see the opening price on that up candle traded to many times you're going to see that it never turns back from that that low it just keeps on going and and that opening price becomes a very good trigger for short selling or a sell program"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="order-block">
+            <h2>Order Block Theory Connection</h2>
+
+            <h3>Buy Stop = Bullish Order Block</h3>
+            <blockquote class="quote">
+                <p><em>"Think about this for a second order block Theory this would be a bullish order block a down candle is a bullish orderer block if price trades away from a down candle and we trade back down into that opening of the down candle that's also what a future entry long position"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"We're using this buying of strength idea the the mechanics behind it is is that should price trade back up to that opening price and through it we should be turning the corner and should be training higher"</em></p>
+            </blockquote>
+
+            <h3>Sell Stop = Bearish Order Block</h3>
+            <blockquote class="quote">
+                <p><em>"This same premise here is the entry price technique that we use to go short at a bearish order block which is the up candle right before the down price move we're going to sell on a stop right at that opening price"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Order Block Theory Connection</text>
+
+                <!-- Left side - Bullish Order Block -->
+                <text x="200" y="70" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">Down Candle = Bullish Order Block</text>
+                <rect x="150" y="100" width="60" height="120" fill="none" stroke="#ff4757" stroke-width="2"/>
+                <line x1="180" y1="90" x2="180" y2="100" stroke="#ff4757" stroke-width="2"/>
+                <line x1="180" y1="220" x2="180" y2="240" stroke="#ff4757" stroke-width="2"/>
+                <text x="180" y="270" fill="#e8e8ed" font-size="12" text-anchor="middle">Open = Buy Stop</text>
+                <line x1="150" y1="100" x2="120" y2="100" stroke="#2ed573" stroke-width="2"/>
+                <text x="70" y="105" fill="#2ed573" font-size="12">Entry</text>
+
+                <!-- Right side - Bearish Order Block -->
+                <text x="600" y="70" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">Up Candle = Bearish Order Block</text>
+                <rect x="550" y="100" width="60" height="120" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <line x1="580" y1="90" x2="580" y2="100" stroke="#2ed573" stroke-width="2"/>
+                <line x1="580" y1="220" x2="580" y2="240" stroke="#2ed573" stroke-width="2"/>
+                <text x="580" y="270" fill="#e8e8ed" font-size="12" text-anchor="middle">Open = Sell Stop</text>
+                <line x1="550" y1="220" x2="520" y2="220" stroke="#ff4757" stroke-width="2"/>
+                <text x="470" y="225" fill="#ff4757" font-size="12">Entry</text>
+            </svg>
+
+            <h3>Return to Opening Price</h3>
+            <blockquote class="quote">
+                <p><em>"When price moves away from the opening price and comes right back down you are looking for confirmation you're going to see new buying and that may be another opportunity for you to add new positions"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="position-scaling">
+            <h2>Position Scaling & Re-Entry</h2>
+
+            <h3>Initial Position Management</h3>
+            <blockquote class="quote">
+                <p><em>"Once this buy entry has been executed and you're long if you get several hundred Pips in your favor you can take some of that position off with the expectation that you may end up seeing a retracement back to that same opening price"</em></p>
+            </blockquote>
+
+            <h3>Re-Entry at Same Opening Price</h3>
+            <blockquote class="quote">
+                <p><em>"If it does you can put that same position that you took off in partial profits right back on at that same opening price and it gives you opportunity to get basically the the average in same cost for that long"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"Then you hold it for the remaining portion of your trade and you can do this every single time there's a new down candle that you enter on a buy stop at the opening price it's the same concept that's going forward every single time until you reach that monthly and or weekly PD array in the form of a premium market"</em></p>
+            </blockquote>
+
+            <h3>Building Larger Positions</h3>
+            <blockquote class="quote">
+                <p><em>"You can actually put more position in in and you can build in larger positions if you start with a small amount allocated to the initial position you can build in another position in other words if you go with a half position or half of your traditional size you can go and add more back in but have already profited on portions that otherwise may not have been viewed as an opportunity"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Position Scaling Concept</text>
+
+                <!-- Price chart -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Down candle (entry) -->
+                <rect x="100" y="200" width="40" height="100" fill="none" stroke="#ff4757" stroke-width="2"/>
+                <line x1="120" y1="200" x2="120" y2="180" stroke="#ff4757" stroke-width="2"/>
+                <text x="120" y="370" fill="#e8e8ed" font-size="12" text-anchor="middle">Entry 1</text>
+
+                <!-- Price moves up -->
+                <polyline points="140,250 200,180 260,200" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <text x="200" y="165" fill="#2ed573" font-size="12">Several hundred pips</text>
+                <text x="200" y="180" fill="#2ed573" font-size="12">Take partial profit</text>
+
+                <!-- Return to opening -->
+                <polyline points="260,200 320,250" fill="none" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="290" y="240" fill="#e8e8ed" font-size="12">Retracement to</text>
+                <text x="290" y="255" fill="#e8e8ed" font-size="12">same opening</text>
+
+                <!-- Re-entry -->
+                <circle cx="320" cy="250" r="8" fill="#2ed573" stroke="#ffa502" stroke-width="2"/>
+                <text x="320" y="280" fill="#2ed573" font-size="12" text-anchor="middle">Re-entry</text>
+                <text x="320" y="295" fill="#2ed573" font-size="12" text-anchor="middle">Same price</text>
+
+                <!-- Continue higher -->
+                <polyline points="320,250 400,150 500,120" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <text x="450" y="110" fill="#2ed573" font-size="12">Hold for monthly/weekly</text>
+                <text x="450" y="125" fill="#2ed573" font-size="12">PD array target</text>
+            </svg>
+        </section>
+
+        <section id="practical-rules">
+            <h2>Practical Rules & Guidelines</h2>
+
+            <h3>Long-Term Uptrend Rule</h3>
+            <blockquote class="quote">
+                <p><em>"While you're in a long-term uptrend every down candle promotes new buying opportunity for smart money so you'll be using this entry technique here to get in sync with those long-term trends"</em></p>
+            </blockquote>
+
+            <h3>PD Array Requirements</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Monthly/Weekly Prerequisites</span>
+                </div>
+                <p><em>"You have to have a monthly and or weekly institutional order flow reference point in the form of a PD array it means that has to be a we order block that's bearish above daily price it has to be a fair value Gap above daily price in the form of a weekly or monthly chart"</em></p>
+            </div>
+            <blockquote class="quote">
+                <p><em>"Something on the monthly and weekly preferably both is leading you to believe that price will be drawn up there on that time frame"</em></p>
+            </blockquote>
+
+            <h3>Waiting for Counter Move</h3>
+            <blockquote class="quote">
+                <p><em>"The daily you're going to be actually waiting for the move to go against that intended Direction that's why we're buying off of a down candle"</em></p>
+            </blockquote>
+
+            <h3>Premium/Discount Awareness</h3>
+            <blockquote class="quote">
+                <p><em>"The higher we get on the monthly and weekly range and get closer to those premium ranges the less likely these candles are going to promote strong buying so just be careful about that"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"You want to be buying preferably at equilibrium or less than the range that you would identify on the monthly and weekly charts"</em></p>
+            </blockquote>
+
+            <h3>When to Stop Using Technique</h3>
+            <blockquote class="quote">
+                <p><em>"Once it gets overbought if you will on those monthly and weekly charts then as long as that's not there we continuously follow along with the marketplace on a daily chart every down candle promotes new buying opportunities for smart money"</em></p>
+            </blockquote>
+
+            <h3>Missed Opportunities</h3>
+            <blockquote class="quote">
+                <p><em>"You may miss moves you may not get a fill you may get uh filled and then eventually get stopped out"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where do you place a buy stop entry for long positions?</div>
+                    <div class="flashcard-answer">"You're going to be placing a buy stop for an entry on Long positions at that price right here this is where you place your buy stop entry" - at the bearish candle opening</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the prerequisite for buying with stop orders?</div>
+                    <div class="flashcard-answer">"Preferably you're going to be looking for setups to have the monthly and or weekly suggesting institutional order flow would be seeking a PD array above daily market price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When is a daily candle valid for entry?</div>
+                    <div class="flashcard-answer">"The daily chart must close the candle with a down close it is not valid while the daily chart candle is trading or forming"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the concept behind using buy stops on down candles?</div>
+                    <div class="flashcard-answer">"The concept is is you're going to be using strength to get you long in the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens if you don't get filled on a buy stop?</div>
+                    <div class="flashcard-answer">"If you don't get a fill you just got to wait for another new down candle and you keep moving forward every time you get a new successive down candle you keep adding that new entry at the opening price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where do you place a sell stop for short positions?</div>
+                    <div class="flashcard-answer">"The sell stop is placed at the bullish candles open"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does a down candle relate to order block theory?</div>
+                    <div class="flashcard-answer">"Order block Theory this would be a bullish order block a down candle is a bullish orderer block if price trades away from a down candle and we trade back down into that opening of the down candle that's also what a future entry long position"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What timeframes are you trading on versus executing on?</div>
+                    <div class="flashcard-answer">"We're trading on the higher time frame monthly and weekly but we're executing on The Daily"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When can you re-enter at the same opening price?</div>
+                    <div class="flashcard-answer">"Once this buy entry has been executed and you're long if you get several hundred Pips in your favor you can take some of that position off with the expectation that you may end up seeing a retracement back to that same opening price if it does you can put that same position that you took off in partial profits right back on at that same opening price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What promotes new buying opportunities for smart money in a long-term uptrend?</div>
+                    <div class="flashcard-answer">"While you're in a long-term uptrend every down candle promotes new buying opportunity for smart money"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the premise behind selling with stop orders?</div>
+                    <div class="flashcard-answer">"The premise behind this is we're going to be expecting weakness to take us into the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should you preferably be buying in the monthly/weekly range?</div>
+                    <div class="flashcard-answer">"You want to be buying preferably at equilibrium or less than the range that you would identify on the monthly and weekly charts"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

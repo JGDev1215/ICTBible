@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICT Concepts Library | Imbalances vs Fair Value Gaps</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a24;
+      --text-primary: #e8e8ec;
+      --text-secondary: #9898a8;
+      --text-muted: #5a5a6a;
+      --accent-gold: #d4a855;
+      --accent-gold-dim: #a88a44;
+      --bullish: #26a69a;
+      --bullish-body: #1a7a70;
+      --bearish: #ef5350;
+      --bearish-body: #c43c3a;
+      --fvg-fill: rgba(212, 168, 85, 0.15);
+      --fvg-stroke: rgba(212, 168, 85, 0.6);
+      --cisd-line: #5c9eff;
+      --balanced-fill: rgba(138, 92, 246, 0.2);
+      --balanced-stroke: rgba(138, 92, 246, 0.6);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(212, 168, 85, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+
+    /* Layout */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-subtle);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    .nav-section {
+      padding: 16px 0;
+    }
+
+    .nav-section-title {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 8px 20px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 10px 20px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      border-left-color: var(--accent-gold-dim);
+    }
+
+    .nav-link.active {
+      color: var(--accent-gold);
+      background: var(--bg-tertiary);
+      border-left-color: var(--accent-gold);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 0;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 60px;
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 3.5rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--accent-gold);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* Sections */
+    .section {
+      padding: 60px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .section-number {
+      font-size: 0.7rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .section-intro {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+    }
+
+    /* Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .content-grid.reverse {
+      direction: rtl;
+    }
+
+    .content-grid.reverse > * {
+      direction: ltr;
+    }
+
+    .content-single {
+      max-width: 900px;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .chart-title {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Chart Legend */
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    /* Text Content */
+    .text-content h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .text-content p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .text-content ul {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+
+    .text-content li {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .text-content li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent-gold);
+    }
+
+    /* Quote Block */
+    .quote-block {
+      background: var(--bg-tertiary);
+      border-left: 3px solid var(--accent-gold);
+      padding: 16px 20px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .quote-block p {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .quote-block cite {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-style: normal;
+      display: block;
+      margin-top: 8px;
+    }
+
+    /* Key Point Box */
+    .key-point {
+      background: rgba(212, 168, 85, 0.08);
+      border: 1px solid var(--border-accent);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .key-point-label {
+      font-size: 0.65rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+
+    .key-point p {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    /* Warning Box */
+    .warning-box {
+      background: rgba(239, 83, 80, 0.08);
+      border: 1px solid rgba(239, 83, 80, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .warning-box-label {
+      font-size: 0.65rem;
+      color: var(--bearish);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+
+    .warning-box p {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    /* Steps List */
+    .steps-list {
+      counter-reset: step;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content h4 {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .step-content p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Comparison Grid */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .comparison-card {
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .comparison-card.correct {
+      border: 1px solid rgba(38, 166, 154, 0.3);
+    }
+
+    .comparison-card.wrong {
+      border: 1px solid rgba(239, 83, 80, 0.3);
+    }
+
+    .comparison-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .comparison-card.correct h4 {
+      color: var(--bullish);
+    }
+
+    .comparison-card.wrong h4 {
+      color: var(--bearish);
+    }
+
+    .comparison-card p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Summary Table */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .summary-table th,
+    .summary-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+    }
+
+    .summary-table th {
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+    }
+
+    .summary-table td {
+      color: var(--text-secondary);
+    }
+
+    .summary-table td:first-child {
+      color: var(--accent-gold);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 40px 60px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    /* Mobile menu toggle */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      width: 44px;
+      height: 44px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-menu-toggle:hover {
+      background: var(--bg-tertiary);
+      color: var(--accent-gold);
+    }
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 90;
+    }
+    .sidebar-overlay.active { display: block; }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .mobile-menu-toggle { display: flex; }
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        width: 280px;
+        transition: left 0.3s ease;
+        z-index: 100;
+      }
+      .sidebar.open { left: 0; }
+      .main-content {
+        margin-left: 0;
+      }
+      .hero {
+        padding: 40px 24px;
+        padding-top: 70px;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .section {
+        padding: 40px 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .mobile-menu-toggle { top: 12px; left: 12px; width: 40px; height: 40px; }
+      .hero { padding: 24px 16px; padding-top: 60px; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 1rem; }
+      .section { padding: 24px 16px; }
+      .section-title { font-size: 1.3rem; }
+      .nav-link { padding: 12px 20px; }
+    }
+  
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-liquidity-imbalance.html">Return to Category</a>
+        <a href="ict-2022-ep12-market-structure-precision-technicians.html">Next Chapter</a>
+        <a href="ict-2022-ep05-intraday-order-flow-daily-range.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<div class="app-container">
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">ICT Library</div>
+        <div class="sidebar-subtitle">Imbalances & Fair Value Gaps</div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Foundations</div>
+        <a href="#sibi-vs-fvg" class="nav-link">SIBI vs Fair Value Gap</a>
+        <a href="#cisd" class="nav-link">Change in State of Delivery</a>
+        <a href="#order-block" class="nav-link">Order Block Validation</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Advanced Concepts</div>
+        <a href="#unfilled-gaps" class="nav-link">Unfilled Inefficiencies</a>
+        <a href="#wicks-bodies" class="nav-link">Wicks vs Bodies Rule</a>
+        <a href="#balanced-range" class="nav-link">Balanced Price Range</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Models & Execution</div>
+        <a href="#mmsm" class="nav-link">Market Maker Sell Model</a>
+        <a href="#premium-discount" class="nav-link">Premium/Discount Arrays</a>
+        <a href="#turtle-soup" class="nav-link">Turtle Soup Integration</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Reference</div>
+        <a href="#framework" class="nav-link">Complete Framework</a>
+        <a href="#wrong-approach" class="nav-link">Common Mistakes</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>The Difference Between<br><span>Imbalances & Fair Value Gaps</span></h1>
+        <p class="hero-subtitle">Not every gap between three candles is a tradeable Fair Value Gap. Understanding this distinction separates profitable ICT traders from those who fail.</p>
+      </section>
+
+      <!-- Section 1: SIBI vs FVG -->
+      <section id="sibi-vs-fvg" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 01</div>
+          <h2>SIBI vs Fair Value Gap</h2>
+          <p class="section-intro">A critical distinction that most traders miss — the three-candle gap is just the starting point, not the complete picture.</p>
+        </div>
+
+        <div class="content-grid">
+          <div class="chart-container">
+            <div class="chart-title">Three-Candle Structure — Not Always Tradeable</div>
+            <svg class="chart-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid lines -->
+              <defs>
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="400" height="280" fill="url(#grid)"/>
+              
+              <!-- Price levels -->
+              <line x1="40" y1="60" x2="360" y2="60" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4"/>
+              <line x1="40" y1="120" x2="360" y2="120" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4"/>
+              <line x1="40" y1="180" x2="360" y2="180" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4"/>
+              
+              <!-- Candle 1 - Bullish before drop -->
+              <line x1="100" y1="70" x2="100" y2="140" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="88" y="90" width="24" height="40" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <text x="100" y="155" fill="#5a5a6a" font-size="10" text-anchor="middle">1</text>
+              
+              <!-- Candle 2 - Big bearish displacement -->
+              <line x1="180" y1="85" x2="180" y2="220" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="168" y="95" width="24" height="115" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              <text x="180" y="235" fill="#5a5a6a" font-size="10" text-anchor="middle">2</text>
+              
+              <!-- Candle 3 - After displacement -->
+              <line x1="260" y1="175" x2="260" y2="250" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="248" y="190" width="24" height="45" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              <text x="260" y="265" fill="#5a5a6a" font-size="10" text-anchor="middle">3</text>
+              
+              <!-- FVG Zone highlighting -->
+              <rect x="130" y="130" width="150" height="45" fill="rgba(212,168,85,0.15)" stroke="rgba(212,168,85,0.5)" stroke-width="1" stroke-dasharray="4"/>
+              
+              <!-- FVG labels -->
+              <line x1="115" y1="130" x2="130" y2="130" stroke="#d4a855" stroke-width="1"/>
+              <text x="110" y="134" fill="#d4a855" font-size="9" text-anchor="end">Candle 1 Low</text>
+              
+              <line x1="280" y1="175" x2="295" y2="175" stroke="#d4a855" stroke-width="1"/>
+              <text x="300" y="179" fill="#d4a855" font-size="9" text-anchor="start">Candle 3 High</text>
+              
+              <!-- FVG Label -->
+              <text x="205" y="158" fill="#d4a855" font-size="11" text-anchor="middle" font-weight="500">Fair Value Gap</text>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: #26a69a;"></div>
+                <span>Bullish Candle</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #ef5350;"></div>
+                <span>Bearish Candle</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(212,168,85,0.4);"></div>
+                <span>FVG Zone</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>The Real FVG Definition</h3>
+            <p>The Fair Value Gap is measured precisely — from the low of the candle before displacement to the high of the candle after displacement. This defined range is where institutional re-pricing occurs.</p>
+            
+            <div class="quote-block">
+              <p>"every little separation between three candles like this is not a fair value Gap it's not this is further Evidence that's indicate that you have to have more Intel about the other PD arrays"</p>
+            </div>
+
+            <h3>Measurement Rules</h3>
+            <ul>
+              <li><strong>High of FVG:</strong> The low of the candle before displacement</li>
+              <li><strong>Low of FVG:</strong> The high of the candle after displacement</li>
+            </ul>
+
+            <div class="key-point">
+              <div class="key-point-label">Key Concept</div>
+              <p>There is no single-trick explanation for a Fair Value Gap. You must understand other PD arrays and the complete context before trading any gap.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Change in State of Delivery -->
+      <section id="cisd" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 02</div>
+          <h2>Change in State of Delivery</h2>
+          <p class="section-intro">The exact price level where the market shifted from buy-side to sell-side delivery — the algorithmic reference point.</p>
+        </div>
+
+        <div class="content-grid reverse">
+          <div class="chart-container">
+            <div class="chart-title">CISD — Opening Price Reference</div>
+            <svg class="chart-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="300" fill="url(#grid)"/>
+              
+              <!-- CISD Line extending across -->
+              <line x1="40" y1="100" x2="360" y2="100" stroke="#5c9eff" stroke-width="1.5" stroke-dasharray="6,3"/>
+              <text x="365" y="104" fill="#5c9eff" font-size="9" text-anchor="start">CISD</text>
+              
+              <!-- Order Block Candle (up close before drop) -->
+              <rect x="68" y="100" width="24" height="60" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <line x1="80" y1="85" x2="80" y2="170" stroke="#26a69a" stroke-width="1.5"/>
+              <text x="80" y="185" fill="#5a5a6a" font-size="9" text-anchor="middle">OB</text>
+              
+              <!-- Opening price marker -->
+              <circle cx="68" cy="100" r="4" fill="#5c9eff"/>
+              <text x="55" y="95" fill="#5c9eff" font-size="8" text-anchor="end">Open</text>
+              
+              <!-- Displacement candle -->
+              <rect x="118" y="95" width="24" height="120" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              <line x1="130" y1="80" x2="130" y2="230" stroke="#ef5350" stroke-width="1.5"/>
+              
+              <!-- Return to CISD -->
+              <line x1="180" y1="140" x2="180" y2="230" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="168" y="150" width="24" height="65" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Retracement candles respecting CISD -->
+              <line x1="220" y1="105" x2="220" y2="180" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="208" y="115" width="24" height="50" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="260" y1="98" x2="260" y2="160" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="248" y="108" width="24" height="40" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Rejection from CISD -->
+              <line x1="300" y1="95" x2="300" y2="190" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="288" y="110" width="24" height="70" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Annotation arrow -->
+              <path d="M 220 90 Q 200 70 180 90" fill="none" stroke="#5c9eff" stroke-width="1"/>
+              <text x="200" y="65" fill="#5c9eff" font-size="8" text-anchor="middle">Algorithm returns</text>
+              <text x="200" y="75" fill="#5c9eff" font-size="8" text-anchor="middle">to this level</text>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: #5c9eff;"></div>
+                <span>CISD Level</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #1a7a70;"></div>
+                <span>Order Block</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>Definition</h3>
+            <p>The Change in State of Delivery marks the exact price level where the market shifted from one delivery mode to another. For a bearish scenario, this is where buy-side delivery (price moving up) transitioned to sell-side delivery (price moving down).</p>
+
+            <div class="quote-block">
+              <p>"if this is the change in state of delivery it means the price was offered going up so this is buy side delivery... then you have this displacement lower that over takes that candlesticks low your reference point goes right back to that opening price"</p>
+            </div>
+
+            <h3>Why CISD Matters</h3>
+            <p>The CISD is marked by the opening price of the order block candle — not the high, not the close. This is the algorithmic reference point.</p>
+
+            <div class="quote-block">
+              <p>"the algorithm is going to refer back to that price"</p>
+            </div>
+
+            <ul>
+              <li>Represents the last "fair" price before displacement</li>
+              <li>Algorithm uses it as reference for re-pricing</li>
+              <li>Defines boundary between premium and discount within the order block</li>
+            </ul>
+    </nav>
+      </section>
+
+      <!-- Section 3: Order Block Validation -->
+      <section id="order-block" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 03</div>
+          <h2>Order Block Validation</h2>
+          <p class="section-intro">A potential order block isn't confirmed until price validates it. Learn the two-step process: validation trigger and lower timeframe confirmation.</p>
+        </div>
+
+        <div class="content-grid">
+          <div class="chart-container">
+            <div class="chart-title">Multi-Candle Order Block & Validation</div>
+            <svg class="chart-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="320" fill="url(#grid)"/>
+              
+              <!-- Order block zone -->
+              <rect x="50" y="80" width="90" height="80" fill="rgba(38,166,154,0.1)" stroke="rgba(38,166,154,0.4)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="95" y="70" fill="#26a69a" font-size="9" text-anchor="middle">Full Order Block</text>
+              
+              <!-- Multi-candle run up (the full OB) -->
+              <line x1="65" y1="140" x2="65" y2="170" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="53" y="145" width="24" height="20" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="95" y1="115" x2="95" y2="160" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="83" y="120" width="24" height="30" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="125" y1="85" x2="125" y2="135" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="113" y="90" width="24" height="35" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Opening price line (CISD) -->
+              <line x1="53" y1="145" x2="360" y2="145" stroke="#5c9eff" stroke-width="1" stroke-dasharray="4"/>
+              <circle cx="53" cy="145" r="3" fill="#5c9eff"/>
+              <text x="365" y="149" fill="#5c9eff" font-size="8">Opening Price</text>
+              
+              <!-- Displacement candle -->
+              <line x1="165" y1="80" x2="165" y2="250" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="153" y="90" width="24" height="150" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Validation: price crosses below opening -->
+              <line x1="210" y1="130" x2="210" y2="220" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="198" y="140" width="24" height="65" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Validation marker -->
+              <circle cx="210" cy="150" r="6" fill="none" stroke="#d4a855" stroke-width="2"/>
+              <text x="230" y="140" fill="#d4a855" font-size="8">Validated!</text>
+              <text x="230" y="150" fill="#d4a855" font-size="7">(crossed below open)</text>
+              
+              <!-- Return candles respecting bodies -->
+              <line x1="255" y1="120" x2="255" y2="180" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="243" y="130" width="24" height="40" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="295" y1="118" x2="295" y2="175" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="283" y="128" width="24" height="35" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Bodies respect annotation -->
+              <text x="275" y="110" fill="#9898a8" font-size="8" text-anchor="middle">Bodies respect</text>
+              <text x="275" y="120" fill="#9898a8" font-size="8" text-anchor="middle">the level</text>
+              
+              <!-- Continuation lower -->
+              <line x1="335" y1="125" x2="335" y2="230" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="323" y="135" width="24" height="85" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(38,166,154,0.3);"></div>
+                <span>Full Order Block</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #5c9eff;"></div>
+                <span>Opening Price</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #d4a855;"></div>
+                <span>Validation Point</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>Multi-Candle Order Blocks</h3>
+            <p>When significant displacement occurs, the order block includes the entire run — not just the last candle before the move.</p>
+
+            <div class="quote-block">
+              <p>"because of this displacement lower we can't use this Candlestick High here to that candlestick's low we have to refer to the truest beginning point of the order block which is this run up"</p>
+            </div>
+
+            <h3>Validation Process</h3>
+            <div class="steps-list">
+              <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Validation Trigger</h4>
+                  <p>Price trades through the opening price. A close is NOT required.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Lower TF Confirmation</h4>
+                  <p>Drop to lower timeframe — observe if candle bodies respect the level.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quote-block">
+              <p>"what are the bodies doing what are they doing are they just going through it no they're respecting it... that means this up close candle becomes a valid bearish order block"</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Unfilled Inefficiencies -->
+      <section id="unfilled-gaps" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 04</div>
+          <h2>Unfilled Inefficiencies Confirm Bias</h2>
+          <p class="section-intro">Counter-intuitive truth: in directional moves, you DON'T want certain gaps to fill. Open gaps confirm heavy institutional pressure.</p>
+        </div>
+
+        <div class="content-grid reverse">
+          <div class="chart-container">
+            <div class="chart-title">Gaps That Should Stay Open</div>
+            <svg class="chart-svg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="320" fill="url(#grid)"/>
+              
+              <!-- CISD Line -->
+              <line x1="40" y1="130" x2="360" y2="130" stroke="#5c9eff" stroke-width="1.5" stroke-dasharray="6,3"/>
+              <text x="45" y="125" fill="#5c9eff" font-size="8">CISD</text>
+              
+              <!-- Bearish FVG Zone (above CISD) -->
+              <rect x="40" y="60" width="100" height="50" fill="rgba(239,83,80,0.1)" stroke="rgba(239,83,80,0.4)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="90" y="55" fill="#ef5350" font-size="8" text-anchor="middle">Bearish FVG</text>
+              
+              <!-- Unfilled gap 1 (above CISD - should stay open) -->
+              <rect x="150" y="75" width="60" height="25" fill="rgba(138,92,246,0.2)" stroke="rgba(138,92,246,0.5)" stroke-width="1"/>
+              <text x="180" y="90" fill="#8a5cf6" font-size="7" text-anchor="middle">UNFILLED</text>
+              
+              <!-- Unfilled gap 2 (above CISD - should stay open) -->
+              <rect x="220" y="100" width="50" height="20" fill="rgba(138,92,246,0.2)" stroke="rgba(138,92,246,0.5)" stroke-width="1"/>
+              <text x="245" y="113" fill="#8a5cf6" font-size="7" text-anchor="middle">UNFILLED</text>
+              
+              <!-- Price action respecting these levels -->
+              <line x1="80" y1="50" x2="80" y2="90" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="68" y="55" width="24" height="30" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="120" y1="70" x2="120" y2="200" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="108" y="80" width="24" height="110" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Wicks into unfilled zones but bodies don't fill -->
+              <line x1="170" y1="95" x2="170" y2="180" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="158" y="115" width="24" height="50" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="210" y1="100" x2="210" y2="190" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="198" y="120" width="24" height="55" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Continuation lower -->
+              <line x1="250" y1="135" x2="250" y2="230" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="238" y="145" width="24" height="75" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="290" y1="200" x2="290" y2="280" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="278" y="210" width="24" height="60" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Annotation -->
+              <path d="M 310 150 L 340 100" fill="none" stroke="#d4a855" stroke-width="1"/>
+              <text x="342" y="95" fill="#d4a855" font-size="8">Gaps stayed open =</text>
+              <text x="342" y="105" fill="#d4a855" font-size="8">Heavy selling pressure</text>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(138,92,246,0.4);"></div>
+                <span>Unfilled Gap (Bullish)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #5c9eff;"></div>
+                <span>CISD Level</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>The Counter-Intuitive Truth</h3>
+            <p>Most traders believe all gaps should fill. ICT teaches the opposite for directional bias confirmation.</p>
+
+            <div class="quote-block">
+              <p>"you don't want to see them fill in you don't want to see them fill in"</p>
+            </div>
+
+            <div class="quote-block">
+              <p>"you want to see these things stay open because that in indicates that we're really heavy"</p>
+            </div>
+
+            <h3>Context Determines Expectation</h3>
+            <p>If an inefficiency sits inside a bearish FVG AND above the CISD, it should NOT be expected to fill.</p>
+
+            <div class="key-point">
+              <div class="key-point-label">What Open Gaps Tell You</div>
+              <p>Unfilled inefficiencies above CISD in a bearish scenario signal heavy institutional selling pressure. The move is legitimate, not a trap. Lower prices are the probable target.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Wicks vs Bodies Rule -->
+      <section id="wicks-bodies" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 05</div>
+          <h2>Wicks vs Bodies Rule</h2>
+          <p class="section-intro">Higher timeframe bodies define boundaries. Wicks can exceed those boundaries — but only within specific limits.</p>
+        </div>
+
+        <div class="content-grid">
+          <div class="chart-container">
+            <div class="chart-title">One Standard Deviation Rule</div>
+            <svg class="chart-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="300" fill="url(#grid)"/>
+              
+              <!-- FVG Zone -->
+              <rect x="40" y="100" width="320" height="50" fill="rgba(212,168,85,0.15)" stroke="rgba(212,168,85,0.5)" stroke-width="1"/>
+              <text x="50" y="95" fill="#d4a855" font-size="9">FVG High</text>
+              <text x="50" y="160" fill="#d4a855" font-size="9">FVG Low</text>
+              
+              <!-- 1 SD above zone -->
+              <rect x="40" y="50" width="320" height="50" fill="rgba(212,168,85,0.05)" stroke="rgba(212,168,85,0.2)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="200" y="75" fill="#9898a8" font-size="8" text-anchor="middle">1 Standard Deviation (Wick Zone)</text>
+              
+              <!-- Candles with wicks exceeding but bodies respecting -->
+              <line x1="100" y1="60" x2="100" y2="180" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="88" y="105" width="24" height="60" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <text x="100" y="195" fill="#5a5a6a" font-size="8" text-anchor="middle">Wick above</text>
+              <text x="100" y="205" fill="#5a5a6a" font-size="8" text-anchor="middle">Body inside</text>
+              
+              <line x1="160" y1="55" x2="160" y2="175" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="148" y="100" width="24" height="55" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="220" y1="70" x2="220" y2="190" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="208" y="110" width="24" height="65" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Bearish rejection -->
+              <line x1="280" y1="65" x2="280" y2="220" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="268" y="115" width="24" height="95" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="340" y1="170" x2="340" y2="260" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="328" y="180" width="24" height="70" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Annotation for SD -->
+              <line x1="370" y1="50" x2="380" y2="50" stroke="#d4a855" stroke-width="1"/>
+              <line x1="380" y1="50" x2="380" y2="100" stroke="#d4a855" stroke-width="1"/>
+              <line x1="370" y1="100" x2="380" y2="100" stroke="#d4a855" stroke-width="1"/>
+              <text x="385" y="78" fill="#d4a855" font-size="8">= FVG</text>
+              <text x="385" y="88" fill="#d4a855" font-size="8">width</text>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(212,168,85,0.4);"></div>
+                <span>FVG Zone</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(212,168,85,0.1); border: 1px dashed rgba(212,168,85,0.3);"></div>
+                <span>1 SD Extension</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>The Core Principle</h3>
+            <p>Higher timeframe candle bodies define the boundaries. Wicks are permitted to exceed those boundaries within limits.</p>
+
+            <div class="quote-block">
+              <p>"the Wicks can do what they are allowed to do the damage that means they can color just outside the lines"</p>
+            </div>
+
+            <h3>One Standard Deviation Rule</h3>
+            <p>How far can a wick exceed the FVG boundary?</p>
+
+            <div class="quote-block">
+              <p>"how far can it go outside of the range that defines that fair value Gap and still be good how wide is the fair value Gap because the wick can do that range outside of it that's one standard deviation on the fair value Gap"</p>
+            </div>
+
+            <div class="key-point">
+              <div class="key-point-label">Practical Application</div>
+              <p>If the FVG is 10 points wide, wicks can extend up to 10 points beyond the boundary and the setup remains valid.</p>
+            </div>
+
+            <h3>Timeframe Translation</h3>
+            <p>What appears as a wick on a higher timeframe becomes bodies on a lower timeframe. Don't let this confuse you — the higher timeframe structure takes precedence.</p>
+
+            <div class="quote-block">
+              <p>"we're not going to look at the bodies of a one minute time frame when the higher time frame hourly 15 minute and 5 minute are showing just the Wicks"</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Balanced Price Range -->
+      <section id="balanced-range" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 06</div>
+          <h2>Balanced Price Range</h2>
+          <p class="section-intro">When multiple candles overlap in the same zone, they create a "wall" of delivered price action — both buy-side and sell-side have been serviced.</p>
+        </div>
+
+        <div class="content-grid reverse">
+          <div class="chart-container">
+            <div class="chart-title">Balanced Range — The "Wall"</div>
+            <svg class="chart-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="280" fill="url(#grid)"/>
+              
+              <!-- Balanced range zone -->
+              <rect x="60" y="80" width="180" height="60" fill="rgba(138,92,246,0.15)" stroke="rgba(138,92,246,0.5)" stroke-width="1"/>
+              <text x="150" y="70" fill="#8a5cf6" font-size="9" text-anchor="middle">Balanced Price Range</text>
+              
+              <!-- Overlapping candles creating the wall -->
+              <line x1="80" y1="75" x2="80" y2="150" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="68" y="85" width="24" height="50" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="110" y1="80" x2="110" y2="155" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="98" y="90" width="24" height="45" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="140" y1="78" x2="140" y2="148" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="128" y="88" width="24" height="48" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="170" y1="82" x2="170" y2="152" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="158" y="92" width="24" height="42" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="200" y1="76" x2="200" y2="145" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="188" y="86" width="24" height="46" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Price approaching balanced range -->
+              <line x1="260" y1="180" x2="260" y2="240" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="248" y="190" width="24" height="40" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="290" y1="150" x2="290" y2="210" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="278" y="160" width="24" height="40" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Rejection from balanced range -->
+              <line x1="320" y1="85" x2="320" y2="180" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="308" y="95" width="24" height="75" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="350" y1="140" x2="350" y2="230" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="338" y="150" width="24" height="70" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Arrow showing rejection -->
+              <path d="M 320 170 Q 330 190 340 175" fill="none" stroke="#d4a855" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+              <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#d4a855"/>
+                </marker>
+              </defs>
+              <text x="355" y="195" fill="#d4a855" font-size="8">Rejection</text>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(138,92,246,0.4);"></div>
+                <span>Balanced Range</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>Definition</h3>
+            <p>A Balanced Price Range occurs when multiple candles overlap in the same price zone, creating a "wall" of delivered price action.</p>
+
+            <div class="quote-block">
+              <p>"why is this balanced because we have this Candlestick opening trading up here we have this Candlestick opening and trading up here... so essentially what you're seeing is you're seeing a wall of price action that's been delivered here it's offered buy side and sell side all throughout this range"</p>
+            </div>
+
+            <h3>Behavioral Expectation</h3>
+            <p>Balanced ranges act as barriers. Price may touch them but struggles to penetrate.</p>
+
+            <div class="quote-block">
+              <p>"it might touch me but I'm not going anywhere I'm going to keep price from going any higher but the Wicks can do what they are allowed to do"</p>
+            </div>
+
+            <h3>Trading Implication</h3>
+            <ul>
+              <li>Expect rejection or consolidation</li>
+              <li>Wicks may pierce, bodies likely won't</li>
+              <li>Use as a target or reversal zone</li>
+            </ul>
+    </nav>
+      </section>
+
+      <!-- Section 7: Market Maker Sell Model -->
+      <section id="mmsm" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 07</div>
+          <h2>Market Maker Sell Model</h2>
+          <p class="section-intro">The complete structure from original consolidation through smart money reversal — with second stage distribution as the "unicorn" trade.</p>
+        </div>
+
+        <div class="content-single">
+          <div class="chart-container">
+            <div class="chart-title">MMSM Structure — Complete Sequence</div>
+            <svg class="chart-svg" viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="700" height="320" fill="url(#grid)"/>
+              
+              <!-- Original consolidation zone -->
+              <rect x="40" y="200" width="80" height="40" fill="rgba(92,158,255,0.1)" stroke="rgba(92,158,255,0.5)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="80" y="195" fill="#5c9eff" font-size="8" text-anchor="middle">Original</text>
+              <text x="80" y="185" fill="#5c9eff" font-size="8" text-anchor="middle">Consolidation</text>
+              
+              <!-- Phase 1: Original consolidation candles -->
+              <line x1="55" y1="205" x2="55" y2="235" stroke="#26a69a" stroke-width="1"/>
+              <rect x="47" y="210" width="16" height="20" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="80" y1="208" x2="80" y2="238" stroke="#ef5350" stroke-width="1"/>
+              <rect x="72" y="213" width="16" height="18" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="105" y1="203" x2="105" y2="236" stroke="#26a69a" stroke-width="1"/>
+              <rect x="97" y="208" width="16" height="22" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Phase 2: Stop hunt -->
+              <line x1="140" y1="215" x2="140" y2="260" stroke="#ef5350" stroke-width="1"/>
+              <rect x="132" y="225" width="16" height="25" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              <text x="140" y="275" fill="#ef5350" font-size="8" text-anchor="middle">Stop Hunt</text>
+              
+              <!-- Phase 3: Rally to original consolidation -->
+              <line x1="175" y1="190" x2="175" y2="245" stroke="#26a69a" stroke-width="1"/>
+              <rect x="167" y="200" width="16" height="35" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="200" y1="175" x2="200" y2="220" stroke="#26a69a" stroke-width="1"/>
+              <rect x="192" y="185" width="16" height="25" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Phase 4: First stage accumulation -->
+              <rect x="225" y="165" width="60" height="30" fill="rgba(38,166,154,0.1)" stroke="rgba(38,166,154,0.3)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="255" y="160" fill="#26a69a" font-size="7" text-anchor="middle">1st Stage Accum.</text>
+              
+              <line x1="240" y1="160" x2="240" y2="195" stroke="#26a69a" stroke-width="1"/>
+              <rect x="232" y="168" width="16" height="22" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="265" y1="163" x2="265" y2="193" stroke="#ef5350" stroke-width="1"/>
+              <rect x="257" y="170" width="16" height="18" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Phase 5: Rally higher -->
+              <line x1="300" y1="130" x2="300" y2="180" stroke="#26a69a" stroke-width="1"/>
+              <rect x="292" y="140" width="16" height="30" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Phase 6: Second stage reaccumulation -->
+              <rect x="325" y="115" width="60" height="30" fill="rgba(38,166,154,0.1)" stroke="rgba(38,166,154,0.3)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="355" y="110" fill="#26a69a" font-size="7" text-anchor="middle">2nd Stage Reaccum.</text>
+              
+              <line x1="340" y1="110" x2="340" y2="145" stroke="#26a69a" stroke-width="1"/>
+              <rect x="332" y="118" width="16" height="22" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="365" y1="112" x2="365" y2="143" stroke="#ef5350" stroke-width="1"/>
+              <rect x="357" y="120" width="16" height="18" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Phase 7: Rally to take high -->
+              <line x1="400" y1="65" x2="400" y2="130" stroke="#26a69a" stroke-width="1"/>
+              <rect x="392" y="75" width="16" height="45" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Old high line -->
+              <line x1="380" y1="85" x2="450" y2="85" stroke="#ef5350" stroke-width="1" stroke-dasharray="4"/>
+              <text x="455" y="89" fill="#ef5350" font-size="7">Old High</text>
+              
+              <!-- Phase 8: Smart Money Reversal -->
+              <rect x="420" y="55" width="80" height="45" fill="rgba(212,168,85,0.15)" stroke="rgba(212,168,85,0.5)" stroke-width="1"/>
+              <text x="460" y="50" fill="#d4a855" font-size="8" text-anchor="middle">Smart Money Reversal</text>
+              
+              <line x1="435" y1="50" x2="435" y2="95" stroke="#26a69a" stroke-width="1"/>
+              <rect x="427" y="58" width="16" height="30" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="460" y1="55" x2="460" y2="100" stroke="#ef5350" stroke-width="1"/>
+              <rect x="452" y="62" width="16" height="32" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="485" y1="60" x2="485" y2="100" stroke="#ef5350" stroke-width="1"/>
+              <rect x="477" y="65" width="16" height="28" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Phase 9: First stage distribution -->
+              <rect x="510" y="90" width="50" height="35" fill="rgba(239,83,80,0.1)" stroke="rgba(239,83,80,0.3)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="535" y="85" fill="#ef5350" font-size="7" text-anchor="middle">1st Stage Dist.</text>
+              
+              <line x1="520" y1="85" x2="520" y2="130" stroke="#ef5350" stroke-width="1"/>
+              <rect x="512" y="95" width="16" height="25" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="545" y1="90" x2="545" y2="125" stroke="#26a69a" stroke-width="1"/>
+              <rect x="537" y="98" width="16" height="20" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Phase 10: UNICORN - Second stage redistribution -->
+              <rect x="570" y="110" width="60" height="35" fill="rgba(212,168,85,0.2)" stroke="rgba(212,168,85,0.8)" stroke-width="2"/>
+              <text x="600" y="105" fill="#d4a855" font-size="8" text-anchor="middle" font-weight="bold">★ UNICORN ★</text>
+              <text x="600" y="158" fill="#d4a855" font-size="7" text-anchor="middle">2nd Stage Redist.</text>
+              
+              <line x1="585" y1="105" x2="585" y2="145" stroke="#ef5350" stroke-width="1"/>
+              <rect x="577" y="115" width="16" height="22" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="610" y1="110" x2="610" y2="142" stroke="#26a69a" stroke-width="1"/>
+              <rect x="602" y="118" width="16" height="18" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Aggressive move down -->
+              <line x1="645" y1="135" x2="645" y2="280" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="637" y="145" width="16" height="125" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Sell side target -->
+              <line x1="40" y1="240" x2="660" y2="240" stroke="rgba(239,83,80,0.3)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="665" y="244" fill="#ef5350" font-size="7">Sell Side</text>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(92,158,255,0.3);"></div>
+                <span>Original Consolidation</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(38,166,154,0.3);"></div>
+                <span>Accumulation</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(212,168,85,0.4);"></div>
+                <span>SMR / Unicorn</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(239,83,80,0.3);"></div>
+                <span>Distribution</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-grid" style="margin-top: 40px;">
+          <div class="text-content">
+            <h3>The Structure</h3>
+            <div class="steps-list">
+              <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Original Consolidation</h4>
+                  <p>The first "box" of tight price action — look for a perfect little box.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Stop Hunt (Optional)</h4>
+                  <p>A false break below consolidation to grab liquidity.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Rally to Original Consolidation</h4>
+                  <p>Price returns to touch the consolidation zone.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>First Stage Accumulation → Reaccumulation</h4>
+                  <p>Building positions for the move higher.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                  <h4>Smart Money Reversal</h4>
+                  <p>The distribution point where smart money starts selling.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>The Unicorn Trade</h3>
+            <p>Second stage distribution is the highest-probability, fastest-moving trade in the model.</p>
+
+            <div class="quote-block">
+              <p>"second stage distribution is your unicorn it is so quick it's so powerful if you trade the second stage redistribution... you are going to get the biggest the fastest the beautiful easy hold trade that you're looking for"</p>
+            </div>
+
+            <div class="key-point">
+              <div class="key-point-label">Unicorn Characteristics</div>
+              <p>Fastest moves. Cleanest price action. Easiest to hold. Targets reached quickly. This occurs AFTER first stage — the final loading before the major move.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: Premium/Discount Arrays -->
+      <section id="premium-discount" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 08</div>
+          <h2>Premium/Discount Array Usage</h2>
+          <p class="section-intro">The mean threshold divides the order block. Institutional activity concentrates in specific zones depending on directional bias.</p>
+        </div>
+
+        <div class="content-grid">
+          <div class="chart-container">
+            <div class="chart-title">Bearish Order Block — Premium/Discount Zones</div>
+            <svg class="chart-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="300" fill="url(#grid)"/>
+              
+              <!-- Order block full range -->
+              <rect x="60" y="60" width="280" height="100" fill="rgba(38,166,154,0.05)" stroke="rgba(38,166,154,0.3)" stroke-width="1"/>
+              
+              <!-- Upper half - Premium (avoid) -->
+              <rect x="60" y="60" width="280" height="50" fill="rgba(239,83,80,0.1)" stroke="none"/>
+              <text x="200" y="85" fill="#ef5350" font-size="9" text-anchor="middle">PREMIUM ZONE</text>
+              <text x="200" y="97" fill="#9898a8" font-size="7" text-anchor="middle">(Ideally untouched)</text>
+              
+              <!-- Mean threshold line -->
+              <line x1="60" y1="110" x2="340" y2="110" stroke="#d4a855" stroke-width="2"/>
+              <text x="345" y="114" fill="#d4a855" font-size="8">Mean Threshold</text>
+              
+              <!-- Lower half - Discount (entry zone) -->
+              <rect x="60" y="110" width="280" height="50" fill="rgba(38,166,154,0.15)" stroke="none"/>
+              <text x="200" y="135" fill="#26a69a" font-size="9" text-anchor="middle">DISCOUNT ZONE</text>
+              <text x="200" y="147" fill="#9898a8" font-size="7" text-anchor="middle">(Entry zone for shorts)</text>
+              
+              <!-- Order block candle reference -->
+              <line x1="80" y1="55" x2="80" y2="170" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="68" y="65" width="24" height="90" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <text x="80" y="185" fill="#5a5a6a" font-size="8" text-anchor="middle">OB Candle</text>
+              
+              <!-- Good entries in discount zone -->
+              <line x1="140" y1="100" x2="140" y2="180" stroke="#26a69a" stroke-width="1"/>
+              <rect x="132" y="115" width="16" height="50" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <circle cx="140" cy="125" r="4" fill="#26a69a"/>
+              <text x="155" y="128" fill="#26a69a" font-size="7">Entry ✓</text>
+              
+              <line x1="190" y1="105" x2="190" y2="175" stroke="#26a69a" stroke-width="1"/>
+              <rect x="182" y="118" width="16" height="45" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <circle cx="190" cy="128" r="4" fill="#26a69a"/>
+              
+              <line x1="240" y1="108" x2="240" y2="170" stroke="#26a69a" stroke-width="1"/>
+              <rect x="232" y="120" width="16" height="38" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <circle cx="240" cy="130" r="4" fill="#26a69a"/>
+              
+              <!-- Rejection and continuation -->
+              <line x1="290" y1="115" x2="290" y2="220" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="282" y="125" width="16" height="85" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="330" y1="185" x2="330" y2="270" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="322" y="195" width="16" height="65" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(239,83,80,0.3);"></div>
+                <span>Premium (Avoid)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(38,166,154,0.3);"></div>
+                <span>Discount (Entry)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #d4a855;"></div>
+                <span>Mean Threshold</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>The Rule</h3>
+            <p>When using a premium array (like a bearish order block for shorts):</p>
+
+            <div class="quote-block">
+              <p>"if it's a premium array we want to see the lower half of it utilized in the upper half ideally not touched it's working the lower half of the discount portion and it's under the mean threshold"</p>
+            </div>
+
+            <h3>Mean Threshold</h3>
+            <p>The halfway point of an order block is the mean threshold. For bearish setups:</p>
+
+            <div class="quote-block">
+              <p>"bearish up close candles at the halfway point and lower that's where all of your institutional buying and selling is going to be weight on"</p>
+            </div>
+
+            <h3>Practical Application</h3>
+            <ul>
+              <li><strong>Entry zone:</strong> Below the mean threshold (lower half of OB)</li>
+              <li><strong>Invalidation:</strong> Price closing above the upper half</li>
+              <li><strong>Ideal:</strong> Price never touches the upper half</li>
+            </ul>
+    </nav>
+      </section>
+
+      <!-- Section 9: Turtle Soup Integration -->
+      <section id="turtle-soup" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 09</div>
+          <h2>Turtle Soup Integration</h2>
+          <p class="section-intro">Use the Fair Value Gap as the entry mechanism for turtle soup setups — combining liquidity grabs with inefficiency fills.</p>
+        </div>
+
+        <div class="content-grid reverse">
+          <div class="chart-container">
+            <div class="chart-title">FVG Entry for Turtle Soup</div>
+            <svg class="chart-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <rect width="400" height="300" fill="url(#grid)"/>
+              
+              <!-- FVG Zone -->
+              <rect x="40" y="70" width="320" height="40" fill="rgba(212,168,85,0.15)" stroke="rgba(212,168,85,0.5)" stroke-width="1"/>
+              <text x="200" y="65" fill="#d4a855" font-size="9" text-anchor="middle">Fair Value Gap (Entry Zone)</text>
+              
+              <!-- Old high line -->
+              <line x1="40" y1="120" x2="360" y2="120" stroke="rgba(239,83,80,0.5)" stroke-width="1" stroke-dasharray="4"/>
+              <text x="365" y="124" fill="#ef5350" font-size="8">Old High</text>
+              
+              <!-- Price building toward old high -->
+              <line x1="80" y1="180" x2="80" y2="240" stroke="#26a69a" stroke-width="1"/>
+              <rect x="72" y="190" width="16" height="40" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="110" y1="160" x2="110" y2="210" stroke="#26a69a" stroke-width="1"/>
+              <rect x="102" y="170" width="16" height="30" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <line x1="140" y1="145" x2="140" y2="190" stroke="#26a69a" stroke-width="1"/>
+              <rect x="132" y="155" width="16" height="25" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Short-term high forms -->
+              <line x1="175" y1="125" x2="175" y2="175" stroke="#26a69a" stroke-width="1"/>
+              <rect x="167" y="135" width="16" height="30" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              <text x="175" y="120" fill="#5a5a6a" font-size="7" text-anchor="middle">ST High</text>
+              
+              <!-- Small pullback -->
+              <line x1="205" y1="140" x2="205" y2="185" stroke="#ef5350" stroke-width="1"/>
+              <rect x="197" y="150" width="16" height="25" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <!-- Pierce through old high - TURTLE SOUP -->
+              <line x1="240" y1="75" x2="240" y2="160" stroke="#26a69a" stroke-width="1.5"/>
+              <rect x="232" y="95" width="16" height="55" fill="#1a7a70" stroke="#26a69a" stroke-width="1"/>
+              
+              <!-- Turtle soup label -->
+              <circle cx="240" cy="85" r="8" fill="none" stroke="#d4a855" stroke-width="2"/>
+              <text x="260" y="78" fill="#d4a855" font-size="8">Turtle Soup!</text>
+              <text x="260" y="88" fill="#d4a855" font-size="7">Pierce + FVG Entry</text>
+              
+              <!-- Rejection candles -->
+              <line x1="275" y1="80" x2="275" y2="170" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="267" y="95" width="16" height="65" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="310" y1="140" x2="310" y2="230" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="302" y="150" width="16" height="70" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+              
+              <line x1="345" y1="200" x2="345" y2="280" stroke="#ef5350" stroke-width="1.5"/>
+              <rect x="337" y="210" width="16" height="60" fill="#c43c3a" stroke="#ef5350" stroke-width="1"/>
+            </svg>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(212,168,85,0.4);"></div>
+                <span>FVG (Entry Zone)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: rgba(239,83,80,0.5);"></div>
+                <span>Old High (Liquidity)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <h3>FVG as Entry Mechanism</h3>
+
+            <div class="quote-block">
+              <p>"you can use the fair value Gap to get into a turtle suit"</p>
+            </div>
+
+            <h3>The Setup Sequence</h3>
+            <div class="steps-list">
+              <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Identify the FVG Zone</h4>
+                  <p>Locate the higher timeframe fair value gap above current price.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Wait for Short-Term High</h4>
+                  <p>Let a short-term high form around your target time of day.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Time Alignment</h4>
+                  <p>Ensure you're in the correct session/killzone.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>Wait for the Pierce</h4>
+                  <p>Price pierces the short-term high — this is the turtle soup trigger.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                  <h4>Enter on the FVG</h4>
+                  <p>Use the FVG as your entry mechanism once the pierce occurs.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quote-block">
+              <p>"I'm waiting for them to give me a high a short-term high around time of day that I want to trade and then I'm going to wait for it to pierce that high that's Turtle suit"</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 10: Time Primacy -->
+      <section id="framework" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 10</div>
+          <h2>Complete Framework</h2>
+          <p class="section-intro">The hierarchical approach to ICT analysis — from higher timeframe context through execution.</p>
+        </div>
+
+        <div class="content-single">
+          <div class="key-point">
+            <div class="key-point-label">Time is Primary</div>
+            <p>"time is the most important factor before price does anything because if it ain't the right time price ain't going nowhere period"</p>
+          </div>
+
+          <div class="steps-list" style="margin-top: 30px;">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Identify the Higher Timeframe Context</h4>
+                <p>Where is price in the PD array matrix? What is the directional bias?</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Locate the Change in State of Delivery</h4>
+                <p>Mark the opening price of the order block. This is your algorithmic reference.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Validate the Order Block</h4>
+                <p>Wait for price to trade through the opening. Confirm with lower timeframe body respect.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Assess Inefficiencies</h4>
+                <p>Gaps above CISD (in bearish scenario) should stay open. Open gaps confirm heavy directional pressure.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h4>Apply the Wicks vs Bodies Rule</h4>
+                <p>Higher timeframe bodies set boundaries. Wicks can exceed by one standard deviation.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">6</div>
+              <div class="step-content">
+                <h4>Wait for Time Alignment</h4>
+                <p>Time is the primary factor. No setup works at the wrong time.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">7</div>
+              <div class="step-content">
+                <h4>Execute at Premium/Discount</h4>
+                <p>Use the lower half of bearish order blocks. Upper half ideally untouched.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">8</div>
+              <div class="step-content">
+                <h4>Target Using Market Structure</h4>
+                <p>Liquidity pools (equal highs/lows), original consolidation zones, balanced price ranges.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 11: Wrong Approach -->
+      <section id="wrong-approach" class="section">
+        <div class="section-header">
+          <div class="section-number">Section 11</div>
+          <h2>Common Mistakes</h2>
+          <p class="section-intro">The approaches that lead to failure — and why the ICT methodology differs from conventional gap trading.</p>
+        </div>
+
+        <div class="content-grid">
+          <div class="comparison-grid">
+            <div class="comparison-card wrong">
+              <h4>✗ Wrong Approach</h4>
+              <p>Looking for any imbalance to fill, then going long or short based solely on that fill.</p>
+            </div>
+            <div class="comparison-card correct">
+              <h4>✓ Correct Approach</h4>
+              <p>Understanding context, PD arrays, CISD, and whether gaps SHOULD fill before taking any trade.</p>
+            </div>
+          </div>
+
+          <div class="text-content">
+            <div class="warning-box">
+              <div class="warning-box-label">Critical Warning</div>
+              <p>"not look for an imbalance that completely CL in then I'm going to go long or short based on that that is the worst approach to doing that there's more likelihood that your trade's going to fail if you trade like that"</p>
+            </div>
+
+            <h3>Why Gap Fill Trading Fails</h3>
+            <ul>
+              <li>Ignores context (where in the PD array matrix)</li>
+              <li>Ignores directional bias confirmation</li>
+              <li>Ignores the "lay of the land"</li>
+              <li>Results in trading against institutional flow</li>
+            </ul>
+
+            <div class="key-point">
+              <div class="key-point-label">The ICT Difference</div>
+              <p>You don't want to see gaps fill — you want to see them stay open as confirmation of directional pressure. Context determines everything.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Reference Table -->
+      <section class="section">
+        <div class="section-header">
+          <div class="section-number">Reference</div>
+          <h2>Key Quotes Summary</h2>
+        </div>
+
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>Key Quote</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>No Single Trick</td>
+              <td>"there is no one trick pony explanation for a fair value Gap"</td>
+            </tr>
+            <tr>
+              <td>CISD Definition</td>
+              <td>"your reference point goes right back to that opening price that's the change in the state delivery"</td>
+            </tr>
+            <tr>
+              <td>Algorithm Reference</td>
+              <td>"the algorithm is going to refer back to that price"</td>
+            </tr>
+            <tr>
+              <td>Validation Rule</td>
+              <td>"it does not need to close below the opening price of that to validate that as a bearish order block"</td>
+            </tr>
+            <tr>
+              <td>Gap Fill Warning</td>
+              <td>"you don't want to see them fill in"</td>
+            </tr>
+            <tr>
+              <td>Heavy Pressure</td>
+              <td>"you want to see these things stay open because that in indicates that we're really heavy"</td>
+            </tr>
+            <tr>
+              <td>Wick Rule</td>
+              <td>"the wick can do that range outside of it that's one standard deviation"</td>
+            </tr>
+            <tr>
+              <td>Time Primacy</td>
+              <td>"time is the most important factor before price does anything"</td>
+            </tr>
+            <tr>
+              <td>Unicorn Trade</td>
+              <td>"second stage distribution is your unicorn"</td>
+            </tr>
+            <tr>
+              <td>Wrong Approach</td>
+              <td>"that is the worst approach to doing that there's more likelihood that your trade's going to fail"</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>ICT Concepts Library — Compiled from teaching on Imbalances and Fair Value Gaps</p>
+        <p style="margin-top: 8px; color: var(--text-muted);">All quotes are direct transcriptions from source material</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function closeMobileSidebar() {
+      sidebar.classList.remove('open');
+      sidebarOverlay.classList.remove('active');
+      mobileMenuToggle.textContent = '☰';
+    }
+
+    mobileMenuToggle.addEventListener('click', () => {
+      const isOpen = sidebar.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active', isOpen);
+      mobileMenuToggle.textContent = isOpen ? '✕' : '☰';
+    });
+
+    sidebarOverlay.addEventListener('click', closeMobileSidebar);
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Update active state
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+
+        // Close sidebar on mobile
+        if (window.innerWidth <= 900) closeMobileSidebar();
+      });
+    });
+
+    // Update active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+    </main>
+    </div>
+</body>
+</html>

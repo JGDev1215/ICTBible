@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Tops and Double Bottoms - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .comparison-table td {
+            background: var(--bg-card);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-price-action.html">Return to Category</a>
+        <a href="ICT_BIBLE__TRENDLINE_PHANTOMS__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Double Tops and Double Bottoms</h1>
+        <p>Understanding measured moves, clean highs and lows, and algorithmic price expansion</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#prerequisites">Prerequisites</a>
+        <a href="#structure">Structure</a>
+        <a href="#measured-moves">Measured Moves</a>
+        <a href="#psychology">Psychology</a>
+        <a href="#rules">Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"These two highs here in close proximity to one another"</em> - This is what constitutes a double top.</p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"Double bottom"</em> - Two lows in close proximity to one another.</p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"We never trust double bottoms and double tops because we understand that the market makers and the interbank algorithm will go through these old highs and old lows seeking liquidity below them in the form of cell stops above them in the form of buy stops"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites & Context</h2>
+
+            <h3>Liquidity Concepts Required</h3>
+            <blockquote class="quote">
+                <p><em>"I knew that there would be runs on stops above the highs and runs on stops below the lows"</em></p>
+            </blockquote>
+
+            <h3>What Retail Sees vs What Institutional Traders See</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retail Perspective - Double Top</span>
+                </div>
+                <p><em>"The retail universe is going to see this as double top so therefore there's resistance. Let's get short and put a protective buy stop above these highs and they're gonna be looking for the market to trade down into this low because support resistance says this is where support bounced so therefore price should reach all the way down to that level"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Institutional Perspective - Double Top</span>
+                </div>
+                <p><em>"Institutionally what we would be thinking is price definitely has buy stops above here. So traders that are already short back here we want them to drop their protective buy stops down here so we're gonna wait for price to drop lower close in this fair value gap and potentially hit this order block level down here. If price drops down to that level we could reasonably expect price to go back up and clear out these buy stops"</em></p>
+            </div>
+
+            <h3>Required Market Structure Knowledge</h3>
+            <ul>
+                <li><em>"Fair value gap"</em> - Liquidity void between candles</li>
+                <li><em>"Bullish order block"</em> - Last down candle before big move up</li>
+                <li><em>"Bearish order block"</em> - Last two up candles before move down</li>
+                <li><em>"Liquidity void"</em> - Gap in price delivery</li>
+            </ul>
+        </section>
+
+        <section id="structure">
+            <h2>Structure & Pattern Recognition</h2>
+
+            <h3>Double Top Formation</h3>
+            <blockquote class="quote">
+                <p><em>"We have a drop down in price with relatively equal highs in here"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Double Top Structure</text>
+
+                <!-- Price Axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- First Peak -->
+                <line x1="150" y1="450" x2="200" y2="100" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="200" cy="100" r="6" fill="#ffa502"/>
+                <text x="200" y="80" fill="#e8e8ed" font-size="14" text-anchor="middle">High 1</text>
+
+                <!-- Down to consolidation -->
+                <line x1="200" y1="100" x2="300" y2="300" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- Consolidation -->
+                <rect x="280" y="280" width="200" height="60" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="380" y="270" fill="#ffa502" font-size="14" text-anchor="middle">Consolidation</text>
+
+                <!-- Second Peak -->
+                <line x1="300" y1="300" x2="400" y2="100" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="400" cy="100" r="6" fill="#ffa502"/>
+                <text x="400" y="80" fill="#e8e8ed" font-size="14" text-anchor="middle">High 2</text>
+
+                <!-- Equal Highs Line -->
+                <line x1="200" y1="100" x2="400" y2="100" stroke="#ffa502" stroke-width="2" stroke-dasharray="10,5"/>
+                <text x="300" y="90" fill="#ffa502" font-size="14" text-anchor="middle">Relatively Equal Highs</text>
+
+                <!-- Buy Stops Above -->
+                <line x1="150" y1="60" x2="450" y2="60" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="300" y="50" fill="#2ed573" font-size="14" text-anchor="middle">Buy Stops Above</text>
+
+                <!-- Down move from second peak -->
+                <line x1="400" y1="100" x2="500" y2="350" stroke="#ff4757" stroke-width="3"/>
+
+                <!-- Fair Value Gap -->
+                <rect x="480" y="340" width="80" height="40" fill="#2ed573" opacity="0.2"/>
+                <text x="520" y="380" fill="#2ed573" font-size="12" text-anchor="middle">Fair Value Gap</text>
+
+                <!-- Bullish Order Block -->
+                <rect x="480" y="390" width="80" height="20" fill="#2ed573" opacity="0.3"/>
+                <text x="520" y="425" fill="#2ed573" font-size="12" text-anchor="middle">Bullish Order Block</text>
+
+                <!-- Rally back up -->
+                <line x1="500" y1="350" x2="600" y2="100" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Projection beyond -->
+                <line x1="600" y1="100" x2="650" y2="50" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="650" y="40" fill="#ffa502" font-size="14" text-anchor="middle">Measured Move</text>
+                <text x="650" y="55" fill="#ffa502" font-size="12" text-anchor="middle">Target</text>
+            </svg>
+
+            <h3>Double Bottom Formation</h3>
+            <blockquote class="quote">
+                <p><em>"Trader's going to see this as support. Price rallying away. Cell stops will build up below here"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Double Bottom Structure</text>
+
+                <!-- Price Axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- First Low -->
+                <line x1="150" y1="100" x2="200" y2="400" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="200" cy="400" r="6" fill="#ffa502"/>
+                <text x="200" y="430" fill="#e8e8ed" font-size="14" text-anchor="middle">Low 1</text>
+
+                <!-- Up to consolidation -->
+                <line x1="200" y1="400" x2="300" y2="250" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Consolidation -->
+                <rect x="280" y="230" width="200" height="60" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="380" y="220" fill="#ffa502" font-size="14" text-anchor="middle">Consolidation</text>
+
+                <!-- Second Low -->
+                <line x1="300" y1="250" x2="400" y2="400" stroke="#ff4757" stroke-width="3"/>
+                <circle cx="400" cy="400" r="6" fill="#ffa502"/>
+                <text x="400" y="430" fill="#e8e8ed" font-size="14" text-anchor="middle">Low 2</text>
+
+                <!-- Equal Lows Line -->
+                <line x1="200" y1="400" x2="400" y2="400" stroke="#ffa502" stroke-width="2" stroke-dasharray="10,5"/>
+                <text x="300" y="390" fill="#ffa502" font-size="14" text-anchor="middle">Equal Lows</text>
+
+                <!-- Cell Stops Below -->
+                <line x1="150" y1="440" x2="450" y2="440" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="300" y="460" fill="#ff4757" font-size="14" text-anchor="middle">Cell Stops Below</text>
+
+                <!-- Rally up -->
+                <line x1="400" y1="400" x2="500" y2="150" stroke="#2ed573" stroke-width="3"/>
+
+                <!-- Down expansion beyond -->
+                <line x1="400" y1="400" x2="550" y2="460" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="550" y="480" fill="#ffa502" font-size="14" text-anchor="middle">Measured Move Target</text>
+            </svg>
+        </section>
+
+        <section id="measured-moves">
+            <h2>Measured Moves & Algorithm Projections</h2>
+
+            <h3>The Core Principle</h3>
+            <blockquote class="quote">
+                <p><em>"In the marketplace there is a pretty reoccurring phenomenon that takes place about measured moves"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"I noticed that there was measured move ideas throughout all of price action"</em></p>
+            </blockquote>
+
+            <h3>How to Calculate Measured Moves</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">For Double Tops</span>
+                </div>
+                <p><em>"You're going to measure the high down to the low between the two peaks"</em></p>
+                <p style="margin-top: 1rem;"><em>"We can project that up here"</em></p>
+                <p style="margin-top: 1rem;"><em>"The algorithm is going to reach this far up because it's going to remember the range back here"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">For Double Bottoms</span>
+                </div>
+                <p><em>"Use the high down into the low. There's our range and we're going to project that down"</em></p>
+                <p style="margin-top: 1rem;"><em>"That'll give us our algorithm objective where price will look to expand and seek downside liquidity"</em></p>
+            </div>
+
+            <h3>Precision Examples from Transcript</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Example 1: Buy Stop Run</span>
+                </div>
+                <p><em>"So now we're going to take our level put it right on that candles opening right there. The price trades up hits it to the pip. The high comes in at 77.42 to open on this candle comes in at 77.42"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Example 2: Measured Move Target</span>
+                </div>
+                <p><em>"So we're looking for 74.45. Market rallies trades through here... The high comes in at 7446 off by one pip"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Example 3: Range Measurement</span>
+                </div>
+                <p><em>"The ranges in this case it's 48 pips so it's moving that far based on the movement inside of the double bottom or inside the consolidation"</em></p>
+            </div>
+
+            <h3>Visual Diagram: Measured Move Calculation</h3>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Measured Move Projection (Double Top)</text>
+
+                <!-- Step 1: Identify the double top -->
+                <text x="50" y="70" fill="#e8e8ed" font-size="16" font-weight="bold">Step 1: Identify Double Top</text>
+
+                <!-- First peak -->
+                <line x1="100" y1="300" x2="150" y2="120" stroke="#2ed573" stroke-width="2"/>
+                <circle cx="150" cy="120" r="5" fill="#ffa502"/>
+                <text x="150" y="105" fill="#ffa502" font-size="12" text-anchor="middle">Peak 1</text>
+
+                <!-- Down to low -->
+                <line x1="150" y1="120" x2="200" y2="280" stroke="#ff4757" stroke-width="2"/>
+                <circle cx="200" cy="280" r="5" fill="#ff4757"/>
+                <text x="200" y="300" fill="#ff4757" font-size="12" text-anchor="middle">Low Between</text>
+
+                <!-- Second peak -->
+                <line x1="200" y1="280" x2="250" y2="120" stroke="#2ed573" stroke-width="2"/>
+                <circle cx="250" cy="120" r="5" fill="#ffa502"/>
+                <text x="250" y="105" fill="#ffa502" font-size="12" text-anchor="middle">Peak 2</text>
+
+                <!-- Step 2: Measure the range -->
+                <text x="350" y="70" fill="#e8e8ed" font-size="16" font-weight="bold">Step 2: Measure Range</text>
+
+                <line x1="320" y1="120" x2="320" y2="280" stroke="#ffa502" stroke-width="3"/>
+                <line x1="315" y1="120" x2="325" y2="120" stroke="#ffa502" stroke-width="3"/>
+                <line x1="315" y1="280" x2="325" y2="280" stroke="#ffa502" stroke-width="3"/>
+                <text x="340" y="200" fill="#ffa502" font-size="14">Range = High to Low</text>
+
+                <!-- Step 3: Project above -->
+                <text x="500" y="70" fill="#e8e8ed" font-size="16" font-weight="bold">Step 3: Project Above</text>
+
+                <line x1="450" y1="300" x2="550" y2="120" stroke="#2ed573" stroke-width="2"/>
+                <circle cx="550" cy="120" r="5" fill="#ffa502"/>
+
+                <!-- Projection line -->
+                <line x1="550" y1="120" x2="550" y2="-40" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5"/>
+                <line x1="545" y1="-40" x2="555" y2="-40" stroke="#ffa502" stroke-width="3"/>
+                <text x="570" y="40" fill="#ffa502" font-size="14">Same Range</text>
+                <text x="570" y="55" fill="#ffa502" font-size="14">Projected Above</text>
+
+                <circle cx="550" cy="-40" r="6" fill="#2ed573"/>
+                <text x="550" y="-50" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">Target</text>
+
+                <!-- Bottom explanation -->
+                <rect x="50" y="350" width="700" height="200" fill="#1a1a24" stroke="#ffa502" stroke-width="2" rx="10"/>
+                <text x="400" y="380" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">Algorithm Behavior</text>
+
+                <text x="70" y="410" fill="#e8e8ed" font-size="14">"The algorithm is going to reach this far up because it's going to</text>
+                <text x="70" y="430" fill="#e8e8ed" font-size="14">remember the range back here"</text>
+
+                <text x="70" y="465" fill="#e8e8ed" font-size="14">"The algorithm will reach for these reference points based on the</text>
+                <text x="70" y="485" fill="#e8e8ed" font-size="14">double tops and double bottoms"</text>
+
+                <text x="70" y="520" fill="#2ed573" font-size="14" font-weight="bold">Result: Buy stops above double top + measured move target</text>
+            </svg>
+        </section>
+
+        <section id="psychology">
+            <h2>Market Psychology & Algorithm Logic</h2>
+
+            <h3>Why Double Tops/Bottoms Are Unreliable</h3>
+            <blockquote class="quote">
+                <p><em>"We never trust double bottoms and double tops because we understand that the market makers and the interbank algorithm will go through these old highs and old lows seeking liquidity below them in the form of cell stops above them in the form of buy stops"</em></p>
+            </blockquote>
+
+            <h3>Algorithm Memory</h3>
+            <blockquote class="quote">
+                <p><em>"The algorithm is going to know those reference points even if time has passed. It knows how to find these reference points by consolidation then it takes those projections and moves it above and below and expands down and above that far"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Notice the double top formed here and we had a reference point of this level based on these double top highs and the range projection inside of it. Price traded all this time until eventually over here it worked it out"</em></p>
+            </blockquote>
+
+            <h3>Why Spike Reversals Occur</h3>
+            <blockquote class="quote">
+                <p><em>"That's why you get these spike reversals on both sides of the marketplace and why you get the reactions as a consequence"</em></p>
+            </blockquote>
+
+            <h3>Retail vs Institutional Thinking</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Retail at Double Top</span>
+                </div>
+                <p><em>"Retail is going to think this is a cell and you're going to look for price to come back down to this support level"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Institutional at Double Top</span>
+                </div>
+                <p><em>"We're thinking it's going up to 74.45 the double top is here buy stops are above that and we're going to take the measurement that the algorithm is going to use and project that above to get its objective"</em></p>
+            </div>
+
+            <h3>Blending Retail and Institutional Concepts</h3>
+            <blockquote class="quote">
+                <p><em>"When I was going through my coming up as a trader I took a lot of the things I learned from institutional trading and retail trading and blended the two together and I knew that there would be runs on stops above the highs and runs on stops below the lows"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="rules">
+            <h2>Practical Trading Rules</h2>
+
+            <h3>Framing the Range</h3>
+            <blockquote class="quote">
+                <p><em>"When we use double tops and double bottoms we're framing the extremes of the current trading range"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Extreme ends of the range is where high probability trading is. In the middle of the range where there's low probability"</em></p>
+            </blockquote>
+
+            <h3>Charting Discipline</h3>
+            <blockquote class="quote">
+                <p><em>"Every time you look at your charts going forward you want to be highlighting these double tops and bottom areas because they're going to give you specific laser guided precision levels at which price will drive through above for the buy stops and below for the cell stops"</em></p>
+            </blockquote>
+
+            <h3>Time Frame Considerations</h3>
+            <blockquote class="quote">
+                <p><em>"On a 15 minute time frame for intraday trading where usually it's a 10 and 20 pip run on stock usually we expect a 20 pip 10 to 20 pip range run above and on high or 10 to 20 pip run below and oh low for stop runs"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"When we're using higher time frame charts like the hourly chart you can't use a 10 20 pip grade. You have to use other ideas and the algorithm will reach for these reference points based on the double tops and double bottoms"</em></p>
+            </blockquote>
+
+            <h3>Universal Application</h3>
+            <blockquote class="quote">
+                <p><em>"Go through your charts and I'm sure you'll be amazed at how many times you see this phenomenon take place and it's on all time frames so don't think just in a 15 minute or five minute basis or an hourly look across all the time frames and you'll see it's there"</em></p>
+            </blockquote>
+
+            <h3>Clean Levels for Future Reference</h3>
+            <blockquote class="quote">
+                <p><em>"Look for levels that are clean like this you may not have a trade today with that information but it will give you insights at a later time when we start to run through it or once we have run through that level then we can understand where it's going to reach for in a contrary in view"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If they've taken the buy stops already what side of the marketplace is going to reach for now the cell stops"</em></p>
+            </blockquote>
+
+            <h3>Key Rules Summary</h3>
+            <ul>
+                <li><em>"We never trust double bottoms and double tops"</em></li>
+                <li><em>"Highlight these double tops and bottom areas"</em> on your charts</li>
+                <li><em>"You want to be highlighting these double tops and bottom areas because they're going to give you specific laser guided precision levels"</em></li>
+                <li><em>"When we use double tops and double bottoms we're framing the extremes of the current trading range"</em></li>
+                <li><em>"Look across all the time frames"</em> - not just intraday</li>
+            </ul>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from ICT)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are double tops and double bottoms?</div>
+                    <div class="flashcard-answer">"These two highs here in close proximity to one another" (for double tops) and "two lows in close proximity to one another" (for double bottoms)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should we trust double tops and double bottoms as support/resistance?</div>
+                    <div class="flashcard-answer">"We never trust double bottoms and double tops because we understand that the market makers and the interbank algorithm will go through these old highs and old lows seeking liquidity below them in the form of cell stops above them in the form of buy stops"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you calculate a measured move for a double top?</div>
+                    <div class="flashcard-answer">"You're going to measure the high down to the low between the two peaks" and then "project that up here"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does the algorithm reach for these projected levels?</div>
+                    <div class="flashcard-answer">"The algorithm is going to reach this far up because it's going to remember the range back here"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is above a double top?</div>
+                    <div class="flashcard-answer">"Buy stops above that" - Short traders have "protective buy stop above this equal high or double top"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is below a double bottom?</div>
+                    <div class="flashcard-answer">"Cell stops will build up below here"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does the algorithm remember these levels even after time passes?</div>
+                    <div class="flashcard-answer">"The algorithm is going to know those reference points even if time has passed. It knows how to find these reference points by consolidation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where is high probability trading located?</div>
+                    <div class="flashcard-answer">"Extreme ends of the range is where high probability trading is in the middle of the range where there's low probability"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do double tops and bottoms help us frame?</div>
+                    <div class="flashcard-answer">"When we use double tops and double bottoms we're framing the extremes of the current trading range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do every time you look at your charts?</div>
+                    <div class="flashcard-answer">"Every time you look at your charts going forward you want to be highlighting these double tops and bottom areas because they're going to give you specific laser guided precision levels at which price will drive through above for the buy stops and below for the cell stops"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do measured moves work on all time frames?</div>
+                    <div class="flashcard-answer">"It's on all time frames so don't think just in a 15 minute or five minute basis or an hourly look across all the time frames and you'll see it's there"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do spike reversals happen at these levels?</div>
+                    <div class="flashcard-answer">"That's why you get these spike reversals on both sides of the marketplace and why you get the reactions as a consequence"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

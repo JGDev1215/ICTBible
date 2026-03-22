@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 40</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary:   #07070f;
+    --bg-card:      #0d0d1a;
+    --bg-raised:    #121220;
+    --bg-deep:      #0a0a15;
+    --border:       #19192c;
+    --border-dim:   #11111f;
+    --text-primary: #e0e0ea;
+    --text-secondary: #727294;
+    --text-dim:     #363656;
+    --accent-bear:  #dd4060;
+    --accent-bull:  #1db858;
+    --accent-gold:  #e99a00;
+    --accent-blue:  #3578c6;
+    --accent-purple:#8b64ea;
+    --font-body:    'Crimson Pro', Georgia, serif;
+    --font-head:    'Space Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 34% at 10% 0%, rgba(29,184,88,0.03) 0%, transparent 52%),
+      radial-gradient(ellipse 44% 28% at 90% 105%, rgba(53,120,198,0.03) 0%, transparent 52%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,7,15,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dim);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+
+  .nav-ep {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 0.9rem 1.4rem 0.9rem 0;
+    white-space: nowrap;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.9rem 0.85rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .ep-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(233,154,0,0.07);
+    border: 1px solid rgba(233,154,0,0.17);
+    padding: 0.3em 0.9em;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.75rem, 3.4vw, 2.65rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 em { color: var(--accent-gold); font-style: normal; }
+
+  .header-sub {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem 7rem;
+  }
+
+  section { margin-bottom: 5.5rem; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  section > h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  section > h3 {
+    font-family: var(--font-head);
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 2rem 0 1rem;
+  }
+
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 4px 4px 0;
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .quote.bear   { border-left-color: var(--accent-bear); }
+  .quote.bull   { border-left-color: var(--accent-bull); }
+  .quote.blue   { border-left-color: var(--accent-blue); }
+  .quote.purple { border-left-color: var(--accent-purple); }
+
+  .quote p { font-size: 1.02rem; line-height: 1.65; }
+  .quote em { color: var(--text-primary); font-style: italic; }
+
+  .ts {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+  }
+
+  .card-title.bear   { color: var(--accent-bear); }
+  .card-title.bull   { color: var(--accent-bull); }
+  .card-title.blue   { color: var(--accent-blue); }
+
+  .concept-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card p em { color: var(--text-primary); font-style: italic; }
+
+  .key-def {
+    background: rgba(233,154,0,0.04);
+    border: 1px solid rgba(233,154,0,0.16);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .key-def-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .key-def p { font-size: 1.02rem; line-height: 1.65; color: var(--text-primary); }
+  .key-def p em { font-style: italic; }
+
+  .key-def.bull { background: rgba(29,184,88,0.04); border-color: rgba(29,184,88,0.16); }
+  .key-def.bull .key-def-label { color: var(--accent-bull); }
+  .key-def.bear { background: rgba(221,64,96,0.04); border-color: rgba(221,64,96,0.16); }
+  .key-def.bear .key-def-label { color: var(--accent-bear); }
+  .key-def.blue { background: rgba(53,120,198,0.04); border-color: rgba(53,120,198,0.16); }
+  .key-def.blue .key-def-label { color: var(--accent-blue); }
+
+  /* Two-column grid */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .tc-cell {
+    background: var(--bg-card);
+    padding: 1.25rem 1.4rem;
+  }
+
+  .tc-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .tc-label.bear { color: var(--accent-bear); }
+  .tc-label.bull { color: var(--accent-bull); }
+
+  .tc-cell p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.55; font-style: italic; }
+  .tc-cell p em { color: var(--text-primary); }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 1rem; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+
+  .step:first-child { border-radius: 4px 4px 0 0; }
+  .step:last-child  { border-radius: 0 0 4px 4px; border-bottom: 1px solid var(--border); }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    background: var(--bg-deep);
+  }
+
+  .step-content {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .step-content strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-family: var(--font-head);
+    font-size: 0.84rem;
+  }
+
+  .step-content em { color: var(--text-primary); font-style: italic; }
+
+  /* Rule list */
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .rule-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.85rem 1.2rem 0.85rem 0.9rem;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+
+  .rule-list li .num {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+  }
+
+  /* Flashcards */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .flashcard:hover { border-color: rgba(233,154,0,0.22); background: var(--bg-raised); }
+
+  .flashcard-question {
+    font-family: var(--font-head);
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-right: 1.6rem;
+  }
+
+  .flashcard::after {
+    content: '▾';
+    position: absolute;
+    top: 1.05rem;
+    right: 1.1rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .flashcard.revealed::after { transform: rotate(180deg); color: var(--accent-gold); }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-dim);
+    font-size: 0.95rem;
+    color: var(--accent-gold);
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .fc-hint {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-ep">EP.40 — 2022</span>
+  <a href="#daily-bias">Daily Bias</a>
+  <a href="#weekly">Weekly Expansion</a>
+  <a href="#econ-cal">Economic Calendar</a>
+  <a href="#risk">Risk On/Off</a>
+  <a href="#swing">Swing High (3-bar)</a>
+  <a href="#london-close">London Close</a>
+  <a href="#forex-smt">Forex SMT</a>
+  <a href="#which-pair">Which Pair</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<header>
+  <div class="ep-badge">2022 ICT Mentorship · Episode 40</div>
+  <h1>Daily Bias Framework, <em>Weekly Expansion & the Economic Calendar</em></h1>
+  <p class="header-sub">
+    The simplified daily bias process — start from the weekly chart, use the economic calendar
+    to find high-probability days, apply risk-on/risk-off intermarket context, and how to
+    choose which pair to trade. USD/CAD and E-mini S&P.
+  </p>
+</header>
+
+<main>
+
+  <!-- ─── DAILY BIAS FRAMEWORK ─── -->
+  <section id="daily-bias">
+    <div class="section-label">Core Framework</div>
+    <h2>Daily Bias — The Simplified Rules</h2>
+
+    <div class="key-def bear">
+      <div class="key-def-label">Everyday Bias Is Unrealistic</div>
+      <p><em>"Everyday bias is unrealistic. If I go in looking for a specific predetermined daily bias before the market starts trading, invariably I'm going to have it incorrect."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">20:24</span>
+      <p><em>"I'm not trying to get a daily bias every single day. I'm trying to determine the likely weekly expansion."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">22:44</span>
+      <p><em>"In the beginning, all you're trying to do is determine: is it likely to expand higher? Is there going to be a big move, a flurry of activity going higher during the week? Or going lower during the week? And by itself — that is huge in terms of what you're trying to pick."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">The Keys to Daily Bias</span></div>
+      <p>ICT states: <em>"The keys to daily bias are simply this."</em> What follows are the rules he outlines in the remainder of the lecture — weekly expansion direction + economic calendar timing.</p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">26:34</span>
+      <p><em>"There is absolutely no expectation on my part to know the bias every single day of every single calendar trading day. I'm only focusing on these sweet spots — these low hanging fruit days where everything's coming together, all the stars are lining up."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── WEEKLY EXPANSION ─── -->
+  <section id="weekly">
+    <div class="section-label">Step 1</div>
+    <h2>Determine the Likely Weekly Expansion</h2>
+
+    <div class="quote">
+      <span class="ts">21:34</span>
+      <p><em>"I utilize a weekly chart and I study that — and I want to see: does it look like it's going to run to an old low? Does it look like it's going to run to an old high? Or is it running to an imbalance below the market price? Or is it trying to run to an imbalance above the market price? Or is it likely not to move because there's no data for it for that week?"</em></p>
+    </div>
+
+    <div class="key-def">
+      <div class="key-def-label">What You're Looking For on the Weekly</div>
+      <p><em>"I'm looking for the direction of an expansion move. I'm not trying to get the entire weekly range. I'm not trying to buy the weekly low and sell the weekly high."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">23:41</span>
+      <p><em>"It's as simple as: is it aiming for and gravitating towards an old high to run above it? Or is it gravitating towards an old low to run below it? Or is there an imbalance where it needs to come back and revisit? I don't even need to know that — all I need to know is what direction is it most likely to have the majority of the volume pushing through."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">24:24</span>
+      <p><em>"I want to find where is it likely to gun for this particular week — who's in the crosshairs? Have people been making money going long? Is there a low they're gonna try to run down and stop them out? That would be enough for me to frame an expansion going lower."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Top-Down Analysis Flow</span></div>
+      <p><em>"Identifying imbalances and price delivery top down — that means from the weekly down to the daily, down to the four hour, down to the one hour, to the 15 minute chart. And then once we get to the five minute chart you do the scalings from five, four, three, two and one — whichever has the clear obvious fair value gap for you based on the model's rules."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── ECONOMIC CALENDAR ─── -->
+  <section id="econ-cal">
+    <div class="section-label">Step 2</div>
+    <h2>Use the Economic Calendar to Find the Days</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Which Events to Focus On</div>
+      <p><em>"I focus on days that have high or medium impact calendar events — only."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">8:14</span>
+      <p><em>"Yellow events I'm not interested in. Red or medium impact — high or medium impact — those are the news drivers I'm looking for."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">25:48</span>
+      <p><em>"If you have a news driver that's coming out on a particular day — say Tuesday or Wednesday — and you're expecting the weekly range to expand lower, well on those medium impact or high impact news events I'm going to see hopefully something that is going to run up higher, go into a fair value gap or run above a short term high, run stops, then break down, show displacement, then create a fair value gap and I can go in short on that."</em></p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-content"><strong>Weekly chart:</strong> determine likely expansion direction — looking for old high/low runs or imbalances to reach for.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-content"><strong>Economic calendar:</strong> find the high or medium impact news events for that week in the market you trade. <em>"What day of the week and what time."</em></div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-content"><strong>Kill zone + news alignment:</strong> <em>"I'm doing that and looking for that setup and that directional price run inside my kill zones intraday at the same time the economic calendar is suggesting a high impact or medium impact news event is likely."</em></div>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <div class="step-content"><strong>Wait for setup after news:</strong> <em>"Really it's a matter of waiting for the news to hit the market and then create the setup. That's a little bit more conservative. There are times when it's so obvious that they're going to continue the move that starts ahead of the news driver — but it takes a little bit more experience."</em></div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <span class="ts">29:00</span>
+      <p><em>"You ever hear the old cliche: plan your trade and trade your plan? Well this is how you can do that with that model. You look for the economic calendar, the time of day, what kill zone, in the market you're expecting an expansion high or low on that weekly chart. There it is."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── RISK ON / RISK OFF ─── -->
+  <section id="risk">
+    <div class="section-label">Intermarket Context</div>
+    <h2>Risk On / Risk Off — Applied to Bias</h2>
+
+    <div class="two-col">
+      <div class="tc-cell">
+        <div class="tc-label bear">Risk Off</div>
+        <p><em>"Dollar higher and everything else going down."</em> Foreign currencies, index futures, stocks decline.</p>
+      </div>
+      <div class="tc-cell">
+        <div class="tc-label bull">Risk On</div>
+        <p><em>"Foreign currencies, index futures, stocks go higher. Dollar goes down."</em></p>
+      </div>
+    </div>
+
+    <div class="quote bull">
+      <span class="ts">41:14</span>
+      <p><em>"Dollar CAD — what is the currency's first pair in its name? Dollar. So if we're expecting it going down to a discount or running sell side liquidity, that means the bias is bearish. So if the bias is bearish on dollar CAD — that means it's a risk-on scenario. So the markets like S&P, Nasdaq, other foreign currencies are going to be easier to rally versus going down in dollar pairs."</em></p>
+    </div>
+
+    <div class="quote>">
+    </div>
+
+    <div class="quote">
+      <span class="ts">44:41</span>
+      <p><em>"It's the fact that it's risk on, risk off — that's all that it is. I was focusing primarily on dollar CAD because dollar CAD had its high impact news drivers for today. So I was using that in relationship to what I would expect in the S&P market."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Using Dollar CAD to Frame S&P Bias</span></div>
+      <p>With a bearish Dollar CAD bias (lower dollar = risk on): <em>"I found my trade by utilizing a market I'm not going to trade — but if it's going to give me insights and it's going to go lower, it helps me frame risk on, risk off."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── SWING HIGH (3-BAR PATTERN) ─── -->
+  <section id="swing">
+    <div class="section-label">Definition</div>
+    <h2>Swing High — 3-Bar Pattern</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Swing High Defined</div>
+      <p><em>"One candle, a higher candle high here on candle two, and candle three or day three — so this is what I dub a swing high."</em> Three-bar pattern: lower candle to the left, highest candle in the middle, lower candle to the right.</p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">5:00</span>
+      <p><em>"I'm not using a Williams fractal on MT4 — I don't use MT4. This is not MT4 platform. And five candles — if you're waiting for five candles you missed the boat."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">5:27</span>
+      <p><em>"A three-bar pattern — one candle the lower candle to the left, a lower candle to the right — that's a swing high. Pretty simple stuff."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── LONDON CLOSE PROFIT-TAKING HOUR ─── -->
+  <section id="london-close">
+    <div class="section-label">Time Concept</div>
+    <h2>London Close Profit-Taking Hour — 10 AM to 11 AM</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">London Close Window</div>
+      <p><em>"That time frame 10 to 11 — that's London close. So if you're looking for directional plays and you're in a trade, you want to have about 80 percent of your trade off between 10 o'clock and 11 o'clock in the morning. Because usually — not all the time but usually — that's when it creates the opposing end of the daily range."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">17:47</span>
+      <p><em>"So if it's creating the high of the session here, the low is likely to form between 10 o'clock and 11 o'clock — that's algorithmic."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">18:00</span>
+      <p><em>"Now there are some times if there's news events — sometimes Canadian dollar's influenced by crude oil numbers — and that would sometimes skew this time window 10 to 11. So on those days when there's crude oil inventory numbers coming out and I'm interested in trading the Loonie, I will trade with the expectation between 10 o'clock to noon and not have such a tight little window of 10 to 11."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">The Afternoon Continuation Window</span></div>
+      <p>On E-mini S&P — afternoon session targets: <em>"That would be between 1:30 and 4 o'clock in the afternoon New York local time."</em> This is where ICT expects afternoon continuation setups to deliver.</p>
+    </div>
+  </section>
+
+  <!-- ─── FOREX SMT BETWEEN CORRELATED PAIRS ─── -->
+  <section id="forex-smt">
+    <div class="section-label">Concept — Refined</div>
+    <h2>SMT Between Correlated Forex Pairs</h2>
+
+    <div class="quote>">
+    </div>
+
+    <div class="quote">
+      <span class="ts">45:27</span>
+      <p><em>"If you are trading forex — euro dollar versus cable, euro dollar would be a better trade than say pound dollar if there is an inability for one of them to go low — make a lower low — and one doesn't do that. That's showing you that's the relative strength leader — that would be the better buy in this situation."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">45:50</span>
+      <p><em>"Another instance would be aussie dollar and kiwi dollar — New Zealand dollar. If you're looking at situations like this and you find a currency that fails to make a lower low intraday when it's risk on — you would be buying the risk on, higher low currency."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title bull">The Rule</span></div>
+      <p>Within a correlated pair (EUR/USD + GBP/USD, or AUD/USD + NZD/USD): if both go down but one fails to make a lower low, that one is the relative strength leader. <em>"That's showing you that's the relative strength leader — that would be the better buy."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">46:55</span>
+      <p><em>"Just because the news driver is in, for instance, the euro — the better trade may be in pound dollar. If they both went down prior to the news event coming out for euro, and if pound dollar failed to make a lower low — I'm buying pound dollar, because they're going to most likely move in sympathy with one another because they're closely correlated."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── WHICH PAIR TO TRADE ─── -->
+  <section id="which-pair">
+    <div class="section-label">Decision Rule</div>
+    <h2>Which Pair to Trade — Starting Point</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">How to Choose</div>
+      <p><em>"A lot of you ask all the time: how do you know which pair to trade? How do you know which one to pick? I'm starting that with the economic calendar."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">46:22</span>
+      <p><em>"I'm not going to do anything except for focus on dollar CAD because the economic calendar suggested that's where the volatility would be for forex today."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">46:40</span>
+      <p><em>"Sometimes I may use that market — for instance instead of being dollar CAD today, if euro dollar had a high impact news event I would compare pound dollar and euro dollar for correlation. So I would look for SMT divergences to signal which one I'd rather be in."</em></p>
+    </div>
+
+    <ul class="rule-list">
+      <li>
+        <span class="num">01</span>
+        <span><strong style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-primary);">Start with the economic calendar.</strong> Find the market with a high or medium impact event. That market gets primary focus.</span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span><strong style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-primary);">Correlated pair comparison.</strong> If the news is in euro dollar, compare to pound dollar. Look for SMT divergence — the pair that shows the higher low is the better trade.</span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span><strong style="font-family:var(--font-head);font-size:0.85rem;color:var(--text-primary);">Use the driven market for intermarket bias.</strong> Even if you trade S&P, the dollar CAD news event gives you the risk-on/risk-off context for the morning session.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-label">Self-Test</div>
+    <h2>Flashcards</h2>
+    <p class="fc-hint">Click any card to reveal the direct transcript quote</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Is trying to determine daily bias every single day realistic?</div>
+        <div class="flashcard-answer">"Everyday bias is unrealistic. If I go in looking for a specific predetermined daily bias before the market starts trading, invariably I'm going to have it incorrect."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are you actually trying to determine for bias?</div>
+        <div class="flashcard-answer">"I'm not trying to get a daily bias every single day. I'm trying to determine the likely weekly expansion."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the weekly chart questions to answer?</div>
+        <div class="flashcard-answer">"Does it look like it's going to run to an old low? Does it look like it's going to run to an old high? Or is it running to an imbalance below the market price? Or is it trying to run to an imbalance above the market price?"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does "volume" mean in forex since there is no centralized volume?</div>
+        <div class="flashcard-answer">"When I say the volume — that means the interest, the chaos, the energy, all the activity, the action. Is it gonna be on the higher side reaching for buy side or is it gonna be on the lower side reaching for sell side?"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Which calendar events does ICT focus on for bias?</div>
+        <div class="flashcard-answer">"I focus on days that have high or medium impact calendar events — only."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why is waiting for the news driver to hit before entering more conservative?</div>
+        <div class="flashcard-answer">"Really it's a matter of waiting for the news to hit the market and then create the setup. That's a little bit more conservative. There are times when it's so obvious that they're going to continue the move that starts ahead of the news driver — but it takes a little bit more experience to find those setups and trust them."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a swing high and how many candles does it require?</div>
+        <div class="flashcard-answer">"One candle, a higher candle high here on candle two, and candle three or day three — so this is what I dub a swing high. A three-bar pattern — one candle the lower candle to the left, a lower candle to the right — that's a swing high."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the London close profit-taking hour and what does it typically produce?</div>
+        <div class="flashcard-answer">"That time frame 10 to 11 — that's London close. You want to have about 80 percent of your trade off between 10 o'clock and 11 o'clock in the morning. Because usually — not all the time but usually — that's when it creates the opposing end of the daily range."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What adjusts the London close window on days with crude oil numbers?</div>
+        <div class="flashcard-answer">"On those days when there's crude oil inventory numbers coming out and I'm interested in trading the Loonie, I will trade with the expectation between 10 o'clock to noon and not have such a tight little window of 10 to 11."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does bearish Dollar CAD imply for S&P and other markets?</div>
+        <div class="flashcard-answer">"If the bias is bearish on dollar CAD — that means it's a risk-on scenario. So the markets like S&P, Nasdaq, other foreign currencies are going to be easier to rally versus going down in dollar pairs."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you use correlated forex pairs for SMT to find the better trade?</div>
+        <div class="flashcard-answer">"Euro dollar would be a better trade than say pound dollar if there is an inability for one of them to go low — make a lower low — and one doesn't do that. That's showing you that's the relative strength leader — that would be the better buy."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">If euro has the news driver but pound dollar failed to make a lower low, which do you trade?</div>
+        <div class="flashcard-answer">"Just because the news driver is in, for instance, the euro — the better trade may be in pound dollar. If they both went down prior to the news event coming out for euro, and if pound dollar failed to make a lower low — I'm buying pound dollar."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the first step in choosing which pair to trade?</div>
+        <div class="flashcard-answer">"A lot of you ask all the time: how do you know which pair to trade? How do you know which one to pick? I'm starting that with the economic calendar."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT look for to confirm London creates the daily low (when bullish)?</div>
+        <div class="flashcard-answer">"London creates the higher the load most of the time — 70% of the time you're going to find that that is true, if your directional bias is correct."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the afternoon continuation window for index futures?</div>
+        <div class="flashcard-answer">"That would be between 1:30 and 4 o'clock in the afternoon New York local time."</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

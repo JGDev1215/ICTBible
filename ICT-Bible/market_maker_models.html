@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Market Maker Models — Algorithmic Price Delivery</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #1e1e2e;
+    --bg-nav: #0d0d15;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6a;
+    --accent-bear: #ff4757;
+    --accent-bull: #2ed573;
+    --accent-gold: #ffa502;
+    --accent-blue: #5352ed;
+    --border: #2a2a38;
+    --border-subtle: #1e1e2a;
+    --quote-border: #ffa502;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: linear-gradient(160deg, #0d0d18 0%, #0a0a0f 60%);
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,165,2,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-gold);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+    max-width: 800px;
+    margin-bottom: 24px;
+  }
+
+  header h1 span { color: var(--accent-gold); }
+
+  .header-subtitle {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--text-secondary);
+    max-width: 700px;
+    border-left: 2px solid var(--accent-gold);
+    padding-left: 16px;
+  }
+
+  .header-meta {
+    margin-top: 32px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-nav);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar { display: none; }
+
+  nav a {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 14px 18px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover {
+    color: var(--text-primary);
+    border-bottom-color: var(--accent-gold);
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  section {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin: 32px 0 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── QUOTE BLOCK ── */
+  .quote {
+    background: var(--bg-card);
+    border-left: 3px solid var(--accent-gold);
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+    position: relative;
+  }
+
+  .quote p {
+    font-style: italic;
+    color: var(--text-primary);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .quote .ts {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── CONCEPT CARD ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 22px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .concept-card:hover {
+    border-color: var(--accent-gold);
+    background: var(--bg-card-hover);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .card-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-dot.bull { background: var(--accent-bull); }
+  .card-dot.bear { background: var(--accent-bear); }
+  .card-dot.gold { background: var(--accent-gold); }
+  .card-dot.blue { background: var(--accent-blue); }
+
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+
+  .concept-card p {
+    font-style: italic;
+    font-size: 15.5px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .concept-card .ts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 10px;
+  }
+
+  /* ── TIMELINE / STAGES ── */
+  .stages {
+    position: relative;
+    padding-left: 32px;
+    margin: 24px 0;
+  }
+
+  .stages::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent-gold), var(--accent-bear));
+  }
+
+  .stage {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .stage::before {
+    content: '';
+    position: absolute;
+    left: -26px; top: 8px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-gold);
+    background: var(--bg-primary);
+  }
+
+  .stage.bear::before { border-color: var(--accent-bear); }
+  .stage.bull::before { border-color: var(--accent-bull); }
+
+  .stage-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 6px;
+  }
+
+  .stage.bear .stage-label { color: var(--accent-bear); }
+  .stage.bull .stage-label { color: var(--accent-bull); }
+
+  .stage .quote { margin: 6px 0 0; }
+
+  /* ── SVG DIAGRAM WRAPPER ── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 24px;
+    margin: 28px 0;
+    overflow-x: auto;
+  }
+
+  .diagram-wrap svg {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 16px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── TWO-COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
+
+  .col-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 22px;
+  }
+
+  .col-card h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .col-card.bull h4 { color: var(--accent-bull); border-bottom: 1px solid rgba(46,213,115,0.2); padding-bottom: 10px; }
+  .col-card.bear h4 { color: var(--accent-bear); border-bottom: 1px solid rgba(255,71,87,0.2); padding-bottom: 10px; }
+
+  .col-card p {
+    font-style: italic;
+    font-size: 15.5px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .col-card .ts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 10px;
+  }
+
+  /* ── FLASHCARDS ── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 22px;
+    cursor: pointer;
+    min-height: 110px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flashcard:hover {
+    border-color: var(--accent-gold);
+    background: var(--bg-card-hover);
+  }
+
+  .flashcard::after {
+    content: 'TAP TO REVEAL';
+    position: absolute;
+    bottom: 10px; right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+  }
+
+  .flashcard.revealed::after { content: 'REVEALED'; color: var(--accent-gold); }
+
+  .flashcard-question {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .flashcard-answer {
+    display: none;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--accent-gold);
+    line-height: 1.65;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  /* ── PREREQUISITE PILL LIST ── */
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-gold);
+    background: rgba(255,165,2,0.08);
+    border: 1px solid rgba(255,165,2,0.25);
+    border-radius: 3px;
+    padding: 5px 12px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── RULE BOX ── */
+  .rule-box {
+    background: rgba(255,165,2,0.05);
+    border: 1px solid rgba(255,165,2,0.2);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .rule-box p {
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.7;
+  }
+
+  .rule-box .ts { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: block; margin-top: 8px; }
+
+  /* ── TIME TABLE ── */
+  .time-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+  }
+
+  .time-table th {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .time-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .time-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-gold);
+    font-style: normal;
+    white-space: nowrap;
+  }
+
+  .time-table tr:last-child td { border-bottom: none; }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ HEADER -->
+<header>
+  <div class="header-label">ICT Mentorship 2023 · Final Public Teaching</div>
+  <h1>Market Maker <span>Models</span></h1>
+  <p class="header-subtitle">"Algorithmic price delivery in institutional price swings"</p>
+  <div class="header-meta">
+    <span class="meta-tag">MARKET MAKER SELL MODEL</span>
+    <span class="meta-tag">BUY / SELL SIDE DELIVERY</span>
+    <span class="meta-tag">ORIGINAL CONSOLIDATION</span>
+    <span class="meta-tag">TIME & PRICE</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════ NAV -->
+<nav>
+  <a href="#overview">Overview</a>
+  <a href="#prerequisites">Prerequisites</a>
+  <a href="#delivery">Buy/Sell Delivery</a>
+  <a href="#curve">The Curve</a>
+  <a href="#consolidation">Original Consolidation</a>
+  <a href="#sell-model">Sell Model Stages</a>
+  <a href="#buy-model">Buy Model Stages</a>
+  <a href="#balanced">Balanced Price Range</a>
+  <a href="#time">Time & Price</a>
+  <a href="#rules">Practical Rules</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════ MAIN -->
+<main>
+
+<!-- ── OVERVIEW ── -->
+<section id="overview">
+  <div class="section-label">Definition</div>
+  <h2>What Is a Market Maker Model?</h2>
+
+  <div class="quote">
+    <p>"This teaching is my market maker models. It's algorithmic price delivery in institutional price swings."</p>
+    <span class="ts">5:13</span>
+  </div>
+
+  <div class="quote">
+    <p>"In a lot of ways this is just basically my interpretation and creating a language around swing trading."</p>
+    <span class="ts">5:23</span>
+  </div>
+
+  <div class="quote">
+    <p>"When I say swing trading what I'm referring to is if I'm bullish I'm trading from discount to premium riding the coattails of buy side delivery. If I'm bearish I'm trading from premium to discount riding the coattails of sell side delivery."</p>
+    <span class="ts">5:30</span>
+  </div>
+
+  <div class="quote">
+    <p>"99% of the time when I'm taking a trade it's usually something like this — that's the framework behind it."</p>
+    <span class="ts">4:22</span>
+  </div>
+
+  <div class="quote">
+    <p>"These conceptual ideas can be applied to it — as long as there's a price feed attached to it and it can be traded."</p>
+    <span class="ts">10:23</span>
+  </div>
+</section>
+
+<!-- ── PREREQUISITES ── -->
+<section id="prerequisites">
+  <div class="section-label">Requirements</div>
+  <h2>What You Must Already Know</h2>
+
+  <div class="quote">
+    <p>"A market maker model is relying on your understanding of every PD array I've made available."</p>
+    <span class="ts">1:00</span>
+  </div>
+
+  <div class="quote">
+    <p>"If you don't know what a breaker is, if you don't know what a mitigation block is, if you don't know what an inversion fair value gap is — the observation of seeing it real time as a market maker buy or sell model may escape you at the time when you're looking at price action live."</p>
+    <span class="ts">1:16</span>
+  </div>
+
+  <div class="pill-list">
+    <span class="pill">PD Arrays (all)</span>
+    <span class="pill">Breaker</span>
+    <span class="pill">Mitigation Block</span>
+    <span class="pill">Inversion Fair Value Gap</span>
+    <span class="pill">Order Block</span>
+    <span class="pill">Fair Value Gap (SIBI / BISI)</span>
+    <span class="pill">Balanced Price Range</span>
+    <span class="pill">Relative Equal Highs / Lows</span>
+    <span class="pill">Draw on Liquidity</span>
+  </div>
+
+  <div class="quote">
+    <p>"When you're using a market maker sell and buy model you're looking at multiple draws on liquidity and you have to be more nimble."</p>
+    <span class="ts">17:57</span>
+  </div>
+
+  <div class="quote">
+    <p>"This is going to be very difficult for a lot of you… you have to understand all the things that I taught in mentorship. There's going to be multitudes of market maker sell and buy models that are going to escape you — you won't see them until after the fact."</p>
+    <span class="ts">2:13</span>
+  </div>
+</section>
+
+<!-- ── BUY / SELL DELIVERY ── -->
+<section id="delivery">
+  <div class="section-label">Core Distinction</div>
+  <h2>Buy Side Delivery vs. Sell Side Delivery</h2>
+
+  <div class="quote">
+    <p>"I want to draw a distinction between the liquidity and the delivery."</p>
+    <span class="ts">5:56</span>
+  </div>
+
+  <div class="two-col">
+    <div class="col-card bull">
+      <h4>Buy Side Delivery</h4>
+      <p>"When price is running higher it's offering buy side — it's giving the marketplace buy side as it's running higher."</p>
+      <span class="ts">10:41</span>
+    </div>
+    <div class="col-card bear">
+      <h4>Sell Side Delivery</h4>
+      <p>"When we're looking at price going lower — this here is what I refer to as sell side delivery."</p>
+      <span class="ts">11:41</span>
+    </div>
+  </div>
+
+  <div class="quote">
+    <p>"Liquidity above a single or a group of highs — that is buy side liquidity — that's orders that are pending whether they be a buyer to break out and go long or to protect a short position. So liquidity is a stagnant price level or levels where stops would reside. Buy side delivery is the actual animated movement of price moving higher."</p>
+    <span class="ts">11:06</span>
+  </div>
+
+  <div class="quote">
+    <p>"Markets go up for two primary reasons: one it goes up to engage buy stops which is buy side liquidity, or it goes up to an inefficiency."</p>
+    <span class="ts">14:19</span>
+  </div>
+
+  <div class="quote">
+    <p>"It's buy side delivery to the upside to engage liquidity, trap traders long and smart money would go short here and write it back down to stop out any individuals that were lucky enough to be long."</p>
+    <span class="ts">12:05</span>
+  </div>
+
+  <!-- DIAGRAM: Buy → Liquidity → Sell -->
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" width="680" height="320">
+      <defs>
+        <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#2ed573"/>
+        </marker>
+        <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#ff4757"/>
+        </marker>
+        <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#ffa502"/>
+        </marker>
+      </defs>
+
+      <!-- Buy side delivery line -->
+      <polyline points="60,240 180,240 320,80" fill="none" stroke="#2ed573" stroke-width="2.5" marker-end="url(#arrowG)"/>
+      <!-- Sell side delivery -->
+      <polyline points="320,80 460,80 580,240" fill="none" stroke="#ff4757" stroke-width="2.5" marker-end="url(#arrowR)"/>
+
+      <!-- Relative equal highs annotation -->
+      <line x1="160" y1="240" x2="200" y2="240" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="260" y1="240" x2="300" y2="240" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="170" y="260" font-family="JetBrains Mono" font-size="9" fill="#ffa502">Relative Equal Highs</text>
+      <text x="162" y="272" font-family="JetBrains Mono" font-size="9" fill="#ffa502">(Buy Side Liquidity)</text>
+
+      <!-- SIBI above highs -->
+      <rect x="285" y="52" width="70" height="18" fill="rgba(46,213,115,0.12)" stroke="#2ed573" stroke-width="1"/>
+      <text x="290" y="64" font-family="JetBrains Mono" font-size="8" fill="#2ed573">SIBI (FVG)</text>
+
+      <!-- Peak label -->
+      <circle cx="320" cy="80" r="5" fill="#ffa502"/>
+      <text x="328" y="76" font-family="JetBrains Mono" font-size="9" fill="#ffa502">Buy Side Taken</text>
+      <text x="328" y="88" font-family="JetBrains Mono" font-size="9" fill="#ffa502">Smart Money Short</text>
+
+      <!-- Curve divider line -->
+      <line x1="320" y1="20" x2="320" y2="300" stroke="#5a5a6a" stroke-width="1" stroke-dasharray="6,4"/>
+      <text x="310" y="16" font-family="JetBrains Mono" font-size="9" fill="#5a5a6a" text-anchor="middle">Curve</text>
+
+      <!-- Labels -->
+      <text x="130" y="195" font-family="Space Grotesk" font-size="11" fill="#2ed573" font-weight="600">BUY SIDE</text>
+      <text x="130" y="209" font-family="Space Grotesk" font-size="11" fill="#2ed573" font-weight="600">DELIVERY</text>
+
+      <text x="480" y="195" font-family="Space Grotesk" font-size="11" fill="#ff4757" font-weight="600">SELL SIDE</text>
+      <text x="480" y="209" font-family="Space Grotesk" font-size="11" fill="#ff4757" font-weight="600">DELIVERY</text>
+
+      <!-- Sell side target -->
+      <line x1="560" y1="240" x2="600" y2="240" stroke="#ff4757" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="540" y="260" font-family="JetBrains Mono" font-size="9" fill="#ff4757">Sell Side Liquidity</text>
+      <text x="540" y="272" font-family="JetBrains Mono" font-size="9" fill="#ff4757">(Stops on Longs)</text>
+    </svg>
+    <div class="diagram-caption">Buy Side Delivery → Liquidity Taken → Sell Side Delivery. Curve divides left (buy) from right (sell) side.</div>
+  </div>
+</section>
+
+<!-- ── THE CURVE ── -->
+<section id="curve">
+  <div class="section-label">Framework</div>
+  <h2>The Buy Side and Sell Side of the Curve</h2>
+
+  <div class="quote">
+    <p>"There's a buy and sell curve — buy side of the curve and the sell side of the curve."</p>
+    <span class="ts">5:04</span>
+  </div>
+
+  <div class="quote">
+    <p>"We're on the right side of the curve — that means this hypothetical invisible line where the market trades up during buy side delivery trades into our target where we anticipate the likelihood of a reversal. If the market starts to reverse then we use the highest high that it forms — to the left of that is what the buy side of the curve — that means everything leading to buy side delivery."</p>
+    <span class="ts">46:56</span>
+  </div>
+
+  <div class="quote">
+    <p>"Now on the left side is what the sell side of the curve — that means we're in sell side delivery. What is sell side delivery going to be aiming for? The original consolidation low. Why? Because it wants to reprice under the original accumulation for sell side liquidity."</p>
+    <span class="ts">47:23</span>
+  </div>
+
+  <div class="quote">
+    <p>"Anything on the right side of the curve that was offered as support or as a discount array needs to start acting as a premium array or resistance."</p>
+    <span class="ts">52:22</span>
+  </div>
+
+  <div class="quote">
+    <p>"You can fragmentize these price swings and make one segment of the market maker model whether it be a buy or sell model and that in itself may be your unique model that you trade — not that you're trying to trade the bottom of a market maker buy model to the top."</p>
+    <span class="ts">4:43</span>
+  </div>
+</section>
+
+<!-- ── ORIGINAL CONSOLIDATION ── -->
+<section id="consolidation">
+  <div class="section-label">Key Concept</div>
+  <h2>Original Consolidation</h2>
+
+  <div class="quote">
+    <p>"When I call an original consolidation that is where the market is accumulating."</p>
+    <span class="ts">27:31</span>
+  </div>
+
+  <div class="quote">
+    <p>"When I'm looking at original consolidations I'm looking for a repetitive overlapping or reoccurrence of a level that's being constantly referred back to inside of consolidation."</p>
+    <span class="ts">27:54</span>
+  </div>
+
+  <div class="quote">
+    <p>"What I did here — I seen these two candles here and then the body of this one and the body of this one. So right away my eye jumps to that because it's what — it's a smooth edge. So I want to use that as the high of the original consolidation. What's the low? The lowest low. See how easy that was."</p>
+    <span class="ts">27:37</span>
+  </div>
+
+  <div class="quote">
+    <p>"When I'm looking at consolidations I'm looking at levels that constantly repeat."</p>
+    <span class="ts">29:12</span>
+  </div>
+
+  <h3>Returning to Original Consolidation</h3>
+
+  <div class="quote">
+    <p>"That's how I teach my market maker sell model and buy model — the original consolidation. It can leave it, it doesn't have to touch it, but if it does that's usually a trade."</p>
+    <span class="ts">32:07</span>
+  </div>
+
+  <div class="quote">
+    <p>"This would be your original entry. So you could go long there. But sometimes it won't offer a return back to the original consolidation so it might just need a higher order entry."</p>
+    <span class="ts">32:17</span>
+  </div>
+
+  <div class="quote">
+    <p>"What is sell side delivery going to be aiming for? The original consolidation low. Why? Because it wants to reprice under the original accumulation for sell side liquidity — the stops that are resting below here for traders that rode this up."</p>
+    <span class="ts">47:32</span>
+  </div>
+
+  <!-- DIAGRAM: Original Consolidation -->
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" width="660" height="340">
+      <!-- OC Box -->
+      <rect x="40" y="200" width="130" height="80" fill="rgba(255,165,2,0.07)" stroke="#ffa502" stroke-width="1.5" stroke-dasharray="5,3" rx="2"/>
+      <text x="105" y="236" font-family="Space Grotesk" font-size="11" fill="#ffa502" font-weight="600" text-anchor="middle">ORIGINAL</text>
+      <text x="105" y="250" font-family="Space Grotesk" font-size="11" fill="#ffa502" font-weight="600" text-anchor="middle">CONSOLIDATION</text>
+      <text x="105" y="268" font-family="JetBrains Mono" font-size="9" fill="#5a5a6a" text-anchor="middle">smooth edge high</text>
+      <text x="105" y="282" font-family="JetBrains Mono" font-size="9" fill="#5a5a6a" text-anchor="middle">lowest low</text>
+
+      <!-- Dashed high/low lines extending right -->
+      <line x1="170" y1="200" x2="660" y2="200" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+      <line x1="170" y1="280" x2="660" y2="280" stroke="#ff4757" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+
+      <!-- Price leaves OC -->
+      <polyline points="170,200 220,200 330,80" fill="none" stroke="#2ed573" stroke-width="2" marker-end="url(#arrowG)"/>
+
+      <!-- Returns to OC -->
+      <polyline points="330,80 380,80 410,200" fill="none" stroke="#2ed573" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <circle cx="410" cy="200" r="5" fill="#ffa502"/>
+      <text x="418" y="196" font-family="JetBrains Mono" font-size="9" fill="#ffa502">Return to OC</text>
+      <text x="418" y="208" font-family="JetBrains Mono" font-size="9" fill="#ffa502">"usually a trade"</text>
+
+      <!-- Continues higher to target -->
+      <polyline points="410,200 480,200 540,80 580,50" fill="none" stroke="#2ed573" stroke-width="2" marker-end="url(#arrowG)"/>
+
+      <!-- Target label -->
+      <rect x="545" y="35" width="110" height="28" fill="rgba(46,213,115,0.1)" stroke="#2ed573" stroke-width="1" rx="2"/>
+      <text x="600" y="52" font-family="JetBrains Mono" font-size="9" fill="#2ed573" text-anchor="middle">Buy Side Target</text>
+
+      <!-- Arrow annotation: doesn't always return -->
+      <polyline points="220,200 280,200 330,100" fill="none" stroke="#5a5a6a" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrowGold)"/>
+      <text x="225" y="215" font-family="JetBrains Mono" font-size="9" fill="#5a5a6a">"might just need</text>
+      <text x="225" y="227" font-family="JetBrains Mono" font-size="9" fill="#5a5a6a">a higher order entry"</text>
+
+      <!-- OC Low label -->
+      <text x="40" y="296" font-family="JetBrains Mono" font-size="9" fill="#ff4757">Sell Side Liquidity Resting Below</text>
+    </svg>
+    <div class="diagram-caption">Original Consolidation — price may return to high of OC for entry, or offer a higher order entry without returning.</div>
+  </div>
+</section>
+
+<!-- ── SELL MODEL STAGES ── -->
+<section id="sell-model">
+  <div class="section-label">Market Maker Sell Model</div>
+  <h2>Stages of the Sell Model</h2>
+
+  <div class="quote">
+    <p>"For the sake of brevity everything I disclose in this teaching just reverse it for a market maker buy model — I'm going to focus primarily on a market maker sell model."</p>
+    <span class="ts">3:32</span>
+  </div>
+
+  <div class="stages">
+    <div class="stage bull">
+      <div class="stage-label">Buy Side of the Curve — Accumulation Phase</div>
+      <div class="quote">
+        <p>"When I call an original consolidation that is where the market is accumulating."</p>
+        <span class="ts">27:31</span>
+      </div>
+    </div>
+
+    <div class="stage bull">
+      <div class="stage-label">First Stage Accumulation</div>
+      <div class="quote">
+        <p>"This would be your original entry okay — so you could go long there."</p>
+        <span class="ts">32:17</span>
+      </div>
+      <div class="quote">
+        <p>"The bullish order block here would be your first stage accumulation for you."</p>
+        <span class="ts">37:47</span>
+      </div>
+    </div>
+
+    <div class="stage bull">
+      <div class="stage-label">Second Stage Reaccumulation</div>
+      <div class="quote">
+        <p>"This would be second stage reaccumulation here and it rallies up."</p>
+        <span class="ts">37:22</span>
+      </div>
+      <div class="quote">
+        <p>"Bullish fair value gap consequent encroachment — second stage reaccumulation right there."</p>
+        <span class="ts">42:19</span>
+      </div>
+    </div>
+
+    <div class="stage bear">
+      <div class="stage-label">Smart Money Reversal (Top of Sell Model)</div>
+      <div class="quote">
+        <p>"This is what I refer to as a smart money reversal. You are years away from ever being able to do that consistently."</p>
+        <span class="ts">43:33</span>
+      </div>
+      <div class="quote">
+        <p>"Essentially what you're doing is you're picking the tops in bearish markets."</p>
+        <span class="ts">43:48</span>
+      </div>
+    </div>
+
+    <div class="stage bear">
+      <div class="stage-label">First Stage Distribution</div>
+      <div class="quote">
+        <p>"That low is taken out right there. What does it create? Fair value gap. Between this candle's low, that candle's high — that could be a trade in itself. But this is a breaker. So how far is it going to go back up into it? Right there. So your bearish breaker — that is your first stage distribution."</p>
+        <span class="ts">48:12</span>
+      </div>
+    </div>
+
+    <div class="stage bear">
+      <div class="stage-label">Second Stage Redistribution ("Unicorn")</div>
+      <div class="quote">
+        <p>"That bearish order block is your second stage redistribution. This is going to be the fastest elevator ride of the move going down."</p>
+        <span class="ts">49:52</span>
+      </div>
+      <div class="quote">
+        <p>"Unicorn is second stage redistribution in a cell model — market maker cell model."</p>
+        <span class="ts">41:05</span>
+      </div>
+      <div class="quote">
+        <p>"When I say unicorn — meaning everything's in your favor. You got everything behind you, it's just so one-sided and you can see it. It's usually the most energetic swing high that it drops down from if you've classified everything correctly."</p>
+        <span class="ts">41:12</span>
+      </div>
+      <div class="quote">
+        <p>"If you miss this one you're probably going to be chasing price."</p>
+        <span class="ts">50:14</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Sell Model Diagram -->
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 780 400" xmlns="http://www.w3.org/2000/svg" width="740" height="400">
+      <defs>
+        <marker id="aG2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2ed573"/></marker>
+        <marker id="aR2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff4757"/></marker>
+      </defs>
+
+      <!-- OC Box -->
+      <rect x="20" y="260" width="110" height="70" fill="rgba(255,165,2,0.07)" stroke="#ffa502" stroke-width="1.5" stroke-dasharray="4,3" rx="2"/>
+      <text x="75" y="292" font-family="JetBrains Mono" font-size="9" fill="#ffa502" text-anchor="middle">ORIGINAL</text>
+      <text x="75" y="304" font-family="JetBrains Mono" font-size="9" fill="#ffa502" text-anchor="middle">CONSOLIDATION</text>
+
+      <!-- OC high/low dashed lines -->
+      <line x1="130" y1="260" x2="750" y2="260" stroke="#ffa502" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.35"/>
+      <line x1="130" y1="330" x2="750" y2="330" stroke="#ff4757" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.35"/>
+
+      <!-- 1st Accum entry point -->
+      <circle cx="155" cy="260" r="5" fill="#2ed573"/>
+      <text x="145" y="250" font-family="JetBrains Mono" font-size="8" fill="#2ed573" text-anchor="middle">1st Stage</text>
+      <text x="145" y="240" font-family="JetBrains Mono" font-size="8" fill="#2ed573" text-anchor="middle">Accum</text>
+
+      <!-- Rally up -->
+      <polyline points="155,260 210,260 280,130" fill="none" stroke="#2ed573" stroke-width="2"/>
+
+      <!-- 2nd Stage Reaccum (return) -->
+      <polyline points="280,130 310,130 340,260" fill="none" stroke="#2ed573" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <circle cx="340" cy="260" r="5" fill="#2ed573"/>
+      <text x="330" y="250" font-family="JetBrains Mono" font-size="8" fill="#2ed573" text-anchor="middle">2nd Stage</text>
+      <text x="330" y="240" font-family="JetBrains Mono" font-size="8" fill="#2ed573" text-anchor="middle">Reaccum</text>
+
+      <!-- Rally to buy side -->
+      <polyline points="340,260 400,260 480,70 520,55" fill="none" stroke="#2ed573" stroke-width="2" marker-end="url(#aG2)"/>
+
+      <!-- Buy side label -->
+      <text x="520" y="50" font-family="JetBrains Mono" font-size="9" fill="#ffa502">Buy Side Taken</text>
+
+      <!-- Curve line -->
+      <line x1="520" y1="20" x2="520" y2="380" stroke="#5a5a6a" stroke-width="1" stroke-dasharray="6,4" opacity="0.6"/>
+      <text x="515" y="15" font-family="JetBrains Mono" font-size="8" fill="#5a5a6a" text-anchor="middle">CURVE</text>
+
+      <!-- SMR label at peak -->
+      <circle cx="520" cy="55" r="5" fill="#ffa502"/>
+      <text x="532" y="52" font-family="JetBrains Mono" font-size="8" fill="#ffa502">Smart Money</text>
+      <text x="532" y="63" font-family="JetBrains Mono" font-size="8" fill="#ffa502">Reversal</text>
+
+      <!-- 1st Distribution -->
+      <polyline points="520,55 555,55 580,140" fill="none" stroke="#ff4757" stroke-width="2"/>
+      <circle cx="580" cy="140" r="5" fill="#ff4757"/>
+      <text x="590" y="137" font-family="JetBrains Mono" font-size="8" fill="#ff4757">1st Stage</text>
+      <text x="590" y="149" font-family="JetBrains Mono" font-size="8" fill="#ff4757">Distribution</text>
+      <text x="590" y="161" font-family="JetBrains Mono" font-size="8" fill="#ff4757">(Bearish Breaker)</text>
+
+      <!-- 2nd Redistribution / Unicorn -->
+      <polyline points="580,140 610,140 630,200" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <circle cx="630" cy="200" r="6" fill="#ff4757"/>
+      <text x="642" y="197" font-family="JetBrains Mono" font-size="8" fill="#ff4757">2nd Stage Redistribution</text>
+      <text x="642" y="209" font-family="JetBrains Mono" font-size="8" fill="#ff4757">UNICORN</text>
+      <text x="642" y="221" font-family="JetBrains Mono" font-size="8" fill="#5a5a6a">"fastest elevator ride"</text>
+
+      <!-- Sell side delivery down -->
+      <polyline points="630,200 650,200 660,330" fill="none" stroke="#ff4757" stroke-width="2.5" marker-end="url(#aR2)"/>
+
+      <!-- OC low / sell side target -->
+      <circle cx="660" cy="330" r="5" fill="#ff4757"/>
+      <text x="668" y="333" font-family="JetBrains Mono" font-size="8" fill="#ff4757">OC Low / Sell Side Target</text>
+
+      <!-- BUY SIDE label -->
+      <text x="280" y="370" font-family="Space Grotesk" font-size="11" fill="#2ed573" font-weight="600" text-anchor="middle">BUY SIDE OF CURVE</text>
+      <!-- SELL SIDE label -->
+      <text x="620" y="370" font-family="Space Grotesk" font-size="11" fill="#ff4757" font-weight="600" text-anchor="middle">SELL SIDE OF CURVE</text>
+    </svg>
+    <div class="diagram-caption">Full Market Maker Sell Model — from Original Consolidation through both stages of accumulation, Smart Money Reversal, and redistribution to sell side target.</div>
+  </div>
+</section>
+
+<!-- ── BUY MODEL STAGES (reverse) ── -->
+<section id="buy-model">
+  <div class="section-label">Market Maker Buy Model</div>
+  <h2>Applying It in Reverse</h2>
+
+  <div class="quote">
+    <p>"Everything here is shown in reverse if you were applying it to a market maker buy model."</p>
+    <span class="ts">3:45</span>
+  </div>
+
+  <div class="cards-grid">
+    <div class="concept-card">
+      <div class="card-header"><span class="card-dot bull"></span><span class="card-title">First Stage Accumulation</span></div>
+      <p><em>"You might not see this one down here and they see this and they want to wait to see if price rallies up to that point then they use this part as their model where they go short."</em></p>
+      <span class="ts">40:33 — sell model; reverse for buy</span>
+    </div>
+    <div class="concept-card">
+      <div class="card-header"><span class="card-dot bull"></span><span class="card-title">Second Stage Reaccumulation</span></div>
+      <p><em>"Bullish fair value gap consequent encroachment — second stage reaccumulation right there."</em></p>
+      <span class="ts">42:19</span>
+    </div>
+    <div class="concept-card">
+      <div class="card-header"><span class="card-dot bear"></span><span class="card-title">First Stage Distribution</span></div>
+      <p><em>"Your bearish breaker — that is your first stage distribution."</em></p>
+      <span class="ts">48:25</span>
+    </div>
+    <div class="concept-card">
+      <div class="card-header"><span class="card-dot bear"></span><span class="card-title">Second Stage Redistribution</span></div>
+      <p><em>"That bearish order block is your second stage redistribution. This is going to be the fastest elevator ride of the move going down."</em></p>
+      <span class="ts">49:52</span>
+    </div>
+  </div>
+
+  <div class="quote">
+    <p>"To find the easiest high-speed low resistance liquidity runs — they're going to always be the second stage redistribution in a market maker sell model."</p>
+    <span class="ts">41:49</span>
+  </div>
+</section>
+
+<!-- ── BALANCED PRICE RANGE ── -->
+<section id="balanced">
+  <div class="section-label">PD Array</div>
+  <h2>Balanced Price Range</h2>
+
+  <div class="quote">
+    <p>"A balanced price range is where the market has both a downside and upside — or sell side delivery and buy side delivery — that overlap one another in the same relative range in price."</p>
+    <span class="ts">24:40</span>
+  </div>
+
+  <div class="quote">
+    <p>"There's an overlapping between a SIBI and a BISI within the general area of the same price range."</p>
+    <span class="ts">25:12</span>
+  </div>
+
+  <div class="quote">
+    <p>"These are trapped traders — this in here is a trap trader or trap traders that would have been caught short."</p>
+    <span class="ts">25:24</span>
+  </div>
+
+  <div class="quote">
+    <p>"When we have a big decline, large range candle that's down, and then eventually — not like months later, not weeks later — but when it's a big drop and a handful of candlesticks like this, it's not a whole lot of candles, then eventually you know rip back higher — that means that this was someone that's been caught, their short, and they quickly repriced and leave them down there."</p>
+    <span class="ts">25:57</span>
+  </div>
+
+  <div class="quote">
+    <p>"In the classic days of commodity trading if you were to see old patterns like what would be considered an island reversal — this is the closest thing that I can kind of use to describe what's occurring when there is a balanced price range when it's extreme like this."</p>
+    <span class="ts">25:40</span>
+  </div>
+</section>
+
+<!-- ── TIME & PRICE ── -->
+<section id="time">
+  <div class="section-label">Time & Price</div>
+  <h2>When Time and Price Are in Agreement</h2>
+
+  <div class="quote">
+    <p>"When everything with price is in agreement with time — because time sets the stage then price does the act of precision — so it's time and price."</p>
+    <span class="ts">54:19</span>
+  </div>
+
+  <table class="time-table">
+    <thead>
+      <tr>
+        <th>Kill Zone / Time (NY local)</th>
+        <th>Role in Sell Model</th>
+        <th>Transcript Reference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>London Open</td>
+        <td><em>"London open rallies up right in here — we have an order block right there and then we have what, it rips into the buy side."</em></td>
+        <td>54:42</td>
+      </tr>
+      <tr>
+        <td>New York Open 7:00 AM – 9:00 AM</td>
+        <td><em>"Trading up into New York open 7 o'clock in the morning — there's your market reversal profile — part of a market maker sell model."</em></td>
+        <td>54:56</td>
+      </tr>
+      <tr>
+        <td>New York Open Kill Zone</td>
+        <td><em>"We have a breaker, we have a bearish order block — all within what — the New York open kill zone."</em></td>
+        <td>55:17</td>
+      </tr>
+      <tr>
+        <td>London Close 10:00 AM – 12:00 PM</td>
+        <td><em>"When can it arrive at the target of reaching below that? London close, 10 o'clock to noon New York local time."</em></td>
+        <td>57:00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="quote">
+    <p>"You have to know more than just a couple things to do the market maker sell model and buy models."</p>
+    <span class="ts">57:21</span>
+  </div>
+
+  <h3>Model Identification Within Kill Zones</h3>
+
+  <div class="quote">
+    <p>"This right here is model 2022 — buy side taken, shift in market structure, fair value gap, go short — that's model 2022. This right here trading up into that — that is the 7 o'clock in the morning to 9 o'clock in the morning New York open kill zone — silver bullet."</p>
+    <span class="ts">55:29</span>
+  </div>
+
+  <div class="quote">
+    <p>"Fair value gaps are always forming folks — you have to understand what the narrative is in play for that session or that operating time that you're using for your trading day."</p>
+    <span class="ts">55:59</span>
+  </div>
+</section>
+
+<!-- ── PRACTICAL RULES ── -->
+<section id="rules">
+  <div class="section-label">Rules & Principles</div>
+  <h2>Practical Rules Stated by ICT</h2>
+
+  <div class="rule-box">
+    <p>"The market is either running to liquidity, or it's running to inefficiencies, and if it's not doing that it's consolidating, and if it's not doing that it's highly manipulated."</p>
+    <span class="ts">28:36</span>
+  </div>
+
+  <div class="rule-box">
+    <p>"I don't trade support resistance — I attack support resistance. I attack liquidity above old highs, I attack liquidity below old lows, and I use inefficiencies as targets or means of entry to trade against those same ideas — which would be anti-retail theory."</p>
+    <span class="ts">30:30</span>
+  </div>
+
+  <div class="rule-box">
+    <p>"That is very advanced — and while I do have students that can do that like me, not many of them can. They can either trade the long side of the curve or they can sell short on the sell side of the curve — so it's a matter of them picking what they can see clearly based on their present understanding."</p>
+    <span class="ts">9:21</span>
+  </div>
+
+  <div class="rule-box">
+    <p>"Don't just limit your focus to that — look in close proximity just above these buy side liquidity highs that are relatively equal. How far can it go above it? Well looking over here there's no inefficiency here but there is one right there."</p>
+    <span class="ts">20:35</span>
+  </div>
+
+  <div class="rule-box">
+    <p>"When you're on the right side of the curve — on the sell side — anything on the right side of the curve that was offered as support or as a discount array needs to start acting as a premium array or resistance."</p>
+    <span class="ts">52:22</span>
+  </div>
+
+  <div class="rule-box">
+    <p>"Log them, journal them, mark them up — and then annotate them in a way where it looks like you seen it coming in journal just like that — so that way when you look at your journal it'll be in your own words that you saw it coming."</p>
+    <span class="ts">2:39</span>
+  </div>
+
+  <h3>Low Risk Short Entry Guidance</h3>
+
+  <div class="quote">
+    <p>"That is consequent encroachment of the 60-minute fair value gap SIBI — that's your low risk short. We're trusting that we've already mohawked above here with these wicks — so now we're back down in here — so any attempt to trade in the middle point of this shaded area here that could be your low risk short."</p>
+    <span class="ts">45:19</span>
+  </div>
+
+  <div class="quote">
+    <p>"Stop loss right above here. What happens if you get stopped out ICT? Same thing — wait for it to go lower, lead the fair value gap low, and if it can touch the bottom of it again I would use it as my entry."</p>
+    <span class="ts">45:39</span>
+  </div>
+</section>
+
+<!-- ── FLASHCARDS ── -->
+<section id="study">
+  <div class="section-label">Self-Testing</div>
+  <h2>Flashcards — Direct Quote Answers</h2>
+  <p style="color:var(--text-secondary); font-size:16px; margin-bottom:28px; font-style:italic;">Click each card to reveal the answer — all answers are direct transcript quotes.</p>
+
+  <div class="flashcard-grid">
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">In ICT's words, what is a market maker model?</div>
+      <div class="flashcard-answer">"This teaching is my market maker models. It's algorithmic price delivery in institutional price swings." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">5:13</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What is the distinction between buy side liquidity and buy side delivery?</div>
+      <div class="flashcard-answer">"Liquidity is a stagnant price level or levels where stops would reside. Buy side delivery is the actual animated movement of price moving higher." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">11:24</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">For what two primary reasons do markets go up?</div>
+      <div class="flashcard-answer">"Markets go up for two primary reasons: one it goes up to engage buy stops which is buy side liquidity, or it goes up to an inefficiency." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">14:19</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What defines the "original consolidation" and how do you find its high?</div>
+      <div class="flashcard-answer">"I seen these two candles here and then the body of this one and the body of this one. So right away my eye jumps to that because it's a smooth edge. So I want to use that as the high of the original consolidation. What's the low? The lowest low." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">27:37</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">Does price have to return to the original consolidation?</div>
+      <div class="flashcard-answer">"The original consolidation — it can leave it, it doesn't have to touch it, but if it does that's usually a trade." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">32:07</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What is the "unicorn" in a market maker sell model?</div>
+      <div class="flashcard-answer">"Unicorn is second stage redistribution in a cell model — market maker cell model." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">41:05</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">Which stage is described as "the fastest elevator ride of the move going down"?</div>
+      <div class="flashcard-answer">"That bearish order block is your second stage redistribution. This is going to be the fastest elevator ride of the move going down." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">49:52</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What does ICT mean by the "buy side of the curve"?</div>
+      <div class="flashcard-answer">"If the market starts to reverse then we use the highest high that it forms — to the left of that is what the buy side of the curve — that means everything leading to buy side delivery." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">47:12</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">On the sell side of the curve, what should discount arrays start acting as?</div>
+      <div class="flashcard-answer">"Anything on the right side of the curve that was offered as support or as a discount array needs to start acting as a premium array or resistance." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">52:22</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What is a balanced price range?</div>
+      <div class="flashcard-answer">"A balanced price range is where the market has both a downside and upside — or sell side delivery and buy side delivery — that overlap one another in the same relative range in price." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">24:40</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What time is the sell side target typically reached in the sell model example shown?</div>
+      <div class="flashcard-answer">"When can it arrive at the target of reaching below that? London close — 10 o'clock to noon New York local time." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">57:00</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What is ICT's role when it comes to support and resistance levels?</div>
+      <div class="flashcard-answer">"I don't trade support resistance — I attack support resistance. I attack liquidity above old highs, I attack liquidity below old lows, and I use inefficiencies as targets or means of entry." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">30:30</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What are the three things a market can do according to ICT's framework?</div>
+      <div class="flashcard-answer">"The market is either running to liquidity, or it's running to inefficiencies, and if it's not doing that it's consolidating — and if it's not doing that it's highly manipulated." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">28:36</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What does ICT say about trying to trade like him?</div>
+      <div class="flashcard-answer">"If you're trying to trade like me you're going to have to learn to do what I'm talking about here." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">7:13</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What does ICT say about sell side delivery's target in a sell model?</div>
+      <div class="flashcard-answer">"What is sell side delivery going to be aiming for? The original consolidation low. Why? Because it wants to reprice under the original accumulation for sell side liquidity — the stops that are resting below here for traders that rode this up." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">47:32</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What does ICT say about the bodies of candles when inside the original consolidation?</div>
+      <div class="flashcard-answer">"Look at the body right there. Yeah we had a wick here, we had a wick right there too, but look at the body stays inside that original consolidation — see that — that's characteristic to algorithmic price delivery." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">31:21</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">What does ICT say about his low risk short entry procedure if stopped out?</div>
+      <div class="flashcard-answer">"What happens if you get stopped out ICT? Same thing — wait for it to go lower, lead the fair value gap low, and if it can touch the bottom of it again I would use it as my entry." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">45:43</span></div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('revealed')">
+      <div class="flashcard-question">How does ICT describe what makes a "unicorn" setup?</div>
+      <div class="flashcard-answer">"Meaning everything's in your favor. You got everything behind you, it's just so one-sided and you can see it. It's usually the most energetic swing high that it drops down from if you've classified everything correctly and everything to the left on the buy side of the curve is identified correctly." <span class="ts" style="display:block;margin-top:6px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-muted);">41:12</span></div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Knowledge Library - Time & Sessions</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #08090c;
+            --bg-nav: #0d0f14;
+            --bg-nav-hover: #13161d;
+            --border: #1e2330;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8892a8;
+            --text-muted: #555d70;
+            --accent: #d4a855;
+            --accent-dim: rgba(212, 168, 85, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .global-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 18px;
+            background: var(--bg-nav);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(6px);
+        }
+        .global-brand {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .global-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .global-topbar a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        header {
+            padding: 28px 24px 10px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+
+        main {
+            padding: 18px 24px 48px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            background: var(--bg-nav);
+            transition: all 0.15s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            background: var(--bg-nav-hover);
+        }
+
+        .card a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 520px) {
+            .global-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="category-nav">
+        <a href="index.html">Back to Home</a>
+    </div>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="title">Time & Sessions</h1>
+        <p class="subtitle">Session models, timing windows, and delivery ranges.</p>
+    </header>
+
+    <main>
+        <div class="grid">
+            <div class="card">
+                <a href="ict-2022-ep05-intraday-order-flow-daily-range.html">Defining Daily Range</a>
+                <p>Asian, London, NY sessions & IPDA True Day</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-CentralBankDealersRange.html">Central Bank Dealers Range</a>
+                <p>2PM-8PM NY range & standard deviations</p>
+            </div>
+            <div class="card">
+                <a href="ict-2022-ep20-london-setup.html">London Killzone</a>
+                <p>London session timing & key setups</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-NewYorkKillzone.html">New York Killzone</a>
+                <p>NY session timing & key setups</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month10-OpeningRangeTheory.html">Opening Range Theory</a>
+                <p>9:30-10:00 ET range & First Presented FVG logic</p>
+            </div>
+            <div class="card">
+                <a href="ict-2022-ep03-internal-range-liquidity-mss.html">Opening Range & First FVG</a>
+                <p>Session opens & early FVG entry models</p>
+            </div>
+            <div class="card">
+                <a href="silver_bullet.html">Silver Bullet Time-Based Trading</a>
+                <p>Specific time windows for high-probability setups</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-WhenToAvoidLondonSession.html">When To Avoid London Session</a>
+                <p>Session filtering & risk avoidance rules</p>
+            </div>
+            <div class="card">
+                <a href="ict-2022-ep14-live-execution.html">2026 Live: Jan 29</a>
+                <p>Trading inside the range & 3/4 rule</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-7amRule.html">The 7AM Rule</a>
+                <p>Hunt for relative equal highs or lows starting at 7 AM</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month9-15MinTimeframeStudy.html">15-Minute Timeframe & Daily Range</a>
+                <p>Bellwether timeframe for key highs/lows & imbalances</p>
+            </div>
+            <div class="card">
+                <a href="ict-2022-ep04-internal-range-liquidity.html">Session Algorithm & Liquidity</a>
+                <p>Time-based algorithm for determining liquidity targets</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month4-SmoothnessRelativeEquals.html">Relative Equal Highs/Lows & Smoothness</a>
+                <p>Foundational algorithmic principle for price delivery</p>
+            </div>
+            <div class="card">
+                <a href="ict-2022-ep17-forex-model.html">Hourly Reset Model</a>
+                <p>7, 8, 9 AM hourly reset structure</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month10-NDOG.html">New Day Opening Gap (NDOG)</a>
+                <p>5-day rule for index price attraction</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-FridayAsianRangeStudy.html">Friday Asian Range</a>
+                <p>Algorithm looks at Friday's Asian range for the week</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-FirstHourTradingRange.html">First Hour Trading Range</a>
+                <p>Opening hour range & liquidity framework</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month10-MidnightOpeningRange.html">Midnight Opening Range</a>
+                <p>Midnight to open range for institutional targeting</p>
+            </div>
+            <div class="card">
+                <a href="ICT-Month8-TGIFSetup.html">TGIF Setup</a>
+                <p>Thank God It's Friday trading model</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

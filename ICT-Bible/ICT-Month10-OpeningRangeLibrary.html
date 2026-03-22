@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Concept Library: First FVG Inside Opening Range</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #131a2a;
+            --bg-card: #1a2335;
+            --text-primary: #e4e8f1;
+            --text-secondary: #8892a6;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --border-color: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: var(--bg-secondary);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 40px 16px;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            nav {
+                padding: 12px 16px;
+            }
+            nav ul {
+                gap: 6px;
+            }
+            nav a {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+            .container {
+                padding: 16px;
+            }
+            section h2 {
+                font-size: 1.4rem;
+            }
+            .text-content h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        .text-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .text-content p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .quote-box {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-purple);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-point {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-point strong {
+            color: var(--accent-blue);
+        }
+
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 350px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .checklist {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .checklist h4 {
+            margin-bottom: 15px;
+            color: var(--accent-green);
+        }
+
+        .checklist ul {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .checklist li::before {
+            content: "□";
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .stat-box .label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box strong {
+            color: var(--accent-red);
+        }
+
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 30px;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .step h4 {
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .interactive-chart {
+            position: relative;
+        }
+
+        .chart-annotation {
+            position: absolute;
+            background: var(--bg-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+        }
+
+        svg text {
+            font-family: inherit;
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="silver_bullet.html">Next Chapter</a>
+        <a href="ICT-Month4-OrderblockLecture.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>ICT Opening Range Framework</h1>
+        <p>The First Fair Value Gap Inside the Opening Range — A Complete Visual Guide</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#opening-range">Opening Range</a></li>
+            <li><a href="#org">Opening Range Gap</a></li>
+            <li><a href="#midpoint-rule">70% Midpoint Rule</a></li>
+            <li><a href="#first-fvg">First FVG</a></li>
+            <li><a href="#gap-fill">Gap Fill Logic</a></li>
+            <li><a href="#liquidity">Buy/Sell Side</a></li>
+            <li><a href="#entry">Entry Framework</a></li>
+            <li><a href="#checklist">Checklists</a></ul>
+    </nav>
+
+    <div class="container">
+
+        <!-- Section 1: Opening Range -->
+        <section id="opening-range">
+            <div class="section-header">
+                <h2>1. The Opening Range</h2>
+                <p>Understanding the 30-minute price discovery window</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="text-content">
+                    <h3>Definition</h3>
+                    <p>The Opening Range is a <strong>time-based construct</strong>, not a price pattern. It captures the market's initial price discovery during the first 30 minutes of Regular Trading Hours (RTH).</p>
+
+                    <div class="quote-box">
+                        "this is our opening range it's a time period okay it's a time period that begins at 9:30 and goes up to 10 o'clock that is the real opening range"
+                    </div>
+
+                    <h3>What to Track</h3>
+                    <p>During this 30-minute window, you build your roadmap for the day:</p>
+                    <ul style="margin-left: 20px; color: var(--text-secondary);">
+                        <li>Highest High formed between 9:30–10:00</li>
+                        <li>Lowest Low formed between 9:30–10:00</li>
+                        <li>The First FVG that forms in this window</li>
+                    </ul>
+
+                    <div class="key-point">
+                        <strong>Key Insight:</strong> Extend these levels through 3:45 PM ET. The algorithm respects them throughout the session.
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Opening Range Structure (9:30 - 10:00 ET)</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-opening-range">
+                        <!-- Background grid -->
+                        <defs>
+                            <pattern id="grid" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid)"/>
+                        
+                        <!-- Time labels -->
+                        <text x="50" y="340" fill="#8892a6" font-size="11">9:30</text>
+                        <text x="150" y="340" fill="#8892a6" font-size="11">9:40</text>
+                        <text x="250" y="340" fill="#8892a6" font-size="11">9:50</text>
+                        <text x="350" y="340" fill="#8892a6" font-size="11">10:00</text>
+                        <text x="450" y="340" fill="#8892a6" font-size="11">10:10</text>
+                        
+                        <!-- Opening Range shaded area -->
+                        <rect x="50" y="30" width="300" height="280" fill="rgba(59, 130, 246, 0.1)" stroke="none"/>
+                        
+                        <!-- Opening Range High line -->
+                        <line x1="50" y1="60" x2="480" y2="60" stroke="#10b981" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text x="385" y="55" fill="#10b981" font-size="10">OR High — Extend →</text>
+                        
+                        <!-- Opening Range Low line -->
+                        <line x1="50" y1="250" x2="480" y2="250" stroke="#ef4444" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text x="385" y="268" fill="#ef4444" font-size="10">OR Low — Extend →</text>
+                        
+                        <!-- Price candles simulation -->
+                        <!-- Candle 1 - 9:30 -->
+                        <line x1="70" y1="180" x2="70" y2="220" stroke="#10b981" stroke-width="1"/>
+                        <rect x="65" y="190" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Candle 2 -->
+                        <line x1="95" y1="170" x2="95" y2="200" stroke="#10b981" stroke-width="1"/>
+                        <rect x="90" y="175" width="10" height="15" fill="#10b981"/>
+                        
+                        <!-- Candle 3 -->
+                        <line x1="120" y1="140" x2="120" y2="180" stroke="#10b981" stroke-width="1"/>
+                        <rect x="115" y="150" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Candle 4 - Makes High -->
+                        <line x1="145" y1="60" x2="145" y2="160" stroke="#10b981" stroke-width="1"/>
+                        <rect x="140" y="80" width="10" height="70" fill="#10b981"/>
+                        
+                        <!-- Candle 5 -->
+                        <line x1="170" y1="90" x2="170" y2="150" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="165" y="100" width="10" height="40" fill="#ef4444"/>
+                        
+                        <!-- Candle 6 -->
+                        <line x1="195" y1="130" x2="195" y2="190" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="190" y="140" width="10" height="40" fill="#ef4444"/>
+                        
+                        <!-- Candle 7 -->
+                        <line x1="220" y1="170" x2="220" y2="230" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="215" y="180" width="10" height="40" fill="#ef4444"/>
+                        
+                        <!-- Candle 8 - Makes Low -->
+                        <line x1="245" y1="200" x2="245" y2="250" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="240" y="210" width="10" height="30" fill="#ef4444"/>
+                        
+                        <!-- Candle 9 -->
+                        <line x1="270" y1="190" x2="270" y2="230" stroke="#10b981" stroke-width="1"/>
+                        <rect x="265" y="200" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Candle 10 -->
+                        <line x1="295" y1="170" x2="295" y2="210" stroke="#10b981" stroke-width="1"/>
+                        <rect x="290" y="180" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Candle 11 - 10:00 -->
+                        <line x1="320" y1="160" x2="320" y2="200" stroke="#10b981" stroke-width="1"/>
+                        <rect x="315" y="170" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Post 10:00 candles -->
+                        <line x1="370" y1="150" x2="370" y2="185" stroke="#10b981" stroke-width="1"/>
+                        <rect x="365" y="160" width="10" height="15" fill="#10b981"/>
+                        
+                        <line x1="420" y1="140" x2="420" y2="175" stroke="#10b981" stroke-width="1"/>
+                        <rect x="415" y="150" width="10" height="15" fill="#10b981"/>
+                        
+                        <line x1="470" y1="130" x2="470" y2="160" stroke="#10b981" stroke-width="1"/>
+                        <rect x="465" y="140" width="10" height="12" fill="#10b981"/>
+                        
+                        <!-- Annotations -->
+                        <circle cx="145" cy="60" r="4" fill="#10b981"/>
+                        <text x="155" y="50" fill="#10b981" font-size="10" font-weight="bold">HIGH</text>
+                        
+                        <circle cx="245" cy="250" r="4" fill="#ef4444"/>
+                        <text x="255" y="265" fill="#ef4444" font-size="10" font-weight="bold">LOW</text>
+                        
+                        <!-- 10:00 marker -->
+                        <line x1="350" y1="30" x2="350" y2="320" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4"/>
+                        <text x="352" y="25" fill="#f59e0b" font-size="10">10:00 - OR Locked</text>
+                        
+                        <!-- Opening Range label -->
+                        <text x="150" y="305" fill="#3b82f6" font-size="12" font-weight="bold">← Opening Range (30 min) →</text>
+                    </svg>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="legend-color" style="background: rgba(59, 130, 246, 0.3);"></div> Opening Range Window</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #10b981;"></div> OR High</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> OR Low</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Opening Range Gap -->
+        <section id="org">
+            <div class="section-header">
+                <h2>2. Opening Range Gap (ORG)</h2>
+                <p>The price differential between settlement and open</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Premium Opening Range Gap</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-premium-org">
+                        <defs>
+                            <pattern id="grid2" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid2)"/>
+                        
+                        <!-- Previous Day Section -->
+                        <rect x="30" y="30" width="150" height="280" fill="rgba(139, 92, 246, 0.05)"/>
+                        <text x="70" y="325" fill="#8892a6" font-size="10">Previous Day</text>
+                        
+                        <!-- Current Day Section -->
+                        <rect x="200" y="30" width="280" height="280" fill="rgba(59, 130, 246, 0.05)"/>
+                        <text x="300" y="325" fill="#8892a6" font-size="10">Current Day (RTH)</text>
+                        
+                        <!-- Settlement Price Line -->
+                        <line x1="30" y1="200" x2="480" y2="200" stroke="#8b5cf6" stroke-width="2"/>
+                        <text x="35" y="195" fill="#8b5cf6" font-size="10">Settlement Price</text>
+                        
+                        <!-- Previous day candles -->
+                        <line x1="60" y1="170" x2="60" y2="230" stroke="#10b981" stroke-width="1"/>
+                        <rect x="55" y="180" width="10" height="40" fill="#10b981"/>
+                        
+                        <line x1="90" y1="160" x2="90" y2="210" stroke="#10b981" stroke-width="1"/>
+                        <rect x="85" y="170" width="10" height="30" fill="#10b981"/>
+                        
+                        <line x1="120" y1="180" x2="120" y2="220" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="115" y="185" width="10" height="25" fill="#ef4444"/>
+                        
+                        <line x1="150" y1="190" x2="150" y2="220" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="145" y="195" width="10" height="20" fill="#ef4444"/>
+                        
+                        <!-- Gap shaded area (Premium) -->
+                        <rect x="180" y="120" width="300" height="80" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,4"/>
+                        
+                        <!-- Midpoint line -->
+                        <line x1="180" y1="160" x2="480" y2="160" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+                        <text x="390" y="155" fill="#f59e0b" font-size="10">50% (Midpoint)</text>
+                        
+                        <!-- Opening tick -->
+                        <line x1="200" y1="120" x2="480" y2="120" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="205" y="115" fill="#3b82f6" font-size="10">9:30 Opening Tick</text>
+                        
+                        <!-- Current day candles gapped up -->
+                        <line x1="220" y1="90" x2="220" y2="130" stroke="#10b981" stroke-width="1"/>
+                        <rect x="215" y="100" width="10" height="20" fill="#10b981"/>
+                        
+                        <line x1="250" y1="80" x2="250" y2="115" stroke="#10b981" stroke-width="1"/>
+                        <rect x="245" y="90" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="280" y1="95" x2="280" y2="130" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="275" y="105" width="10" height="18" fill="#ef4444"/>
+                        
+                        <line x1="310" y1="115" x2="310" y2="155" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="305" y="125" width="10" height="22" fill="#ef4444"/>
+                        
+                        <line x1="340" y1="140" x2="340" y2="175" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="335" y="150" width="10" height="18" fill="#ef4444"/>
+                        
+                        <!-- Arrow showing gap measurement -->
+                        <line x1="190" y1="120" x2="190" y2="200" stroke="#3b82f6" stroke-width="2"/>
+                        <polygon points="190,120 185,130 195,130" fill="#3b82f6"/>
+                        <polygon points="190,200 185,190 195,190" fill="#3b82f6"/>
+                        <text x="165" y="165" fill="#3b82f6" font-size="11" font-weight="bold" transform="rotate(-90, 165, 165)">ORG</text>
+                        
+                        <!-- Label -->
+                        <rect x="350" y="60" width="120" height="25" fill="rgba(16, 185, 129, 0.2)" rx="4"/>
+                        <text x="360" y="77" fill="#10b981" font-size="11" font-weight="bold">PREMIUM GAP</text>
+                    </svg>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="legend-color" style="background: #8b5cf6;"></div> Settlement</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div> Opening Tick</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #f59e0b;"></div> 50% Midpoint</div>
+                    </div>
+                </div>
+
+                <div class="text-content">
+                    <h3>Construction</h3>
+                    <p>The Opening Range Gap measures the price differential between the <strong>previous day's settlement</strong> and <strong>today's opening tick</strong>.</p>
+
+                    <div class="quote-box">
+                        "you annotate it and you annotate the first tick opening price that is your opening range Gap"
+                    </div>
+
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Condition</th>
+                            <th>Implication</th>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #10b981;">Premium</strong></td>
+                            <td>Opens above settlement</td>
+                            <td>Gap up; inefficiency above equilibrium</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #ef4444;">Discount</strong></td>
+                            <td>Opens below settlement</td>
+                            <td>Gap down; inefficiency below equilibrium</td>
+                        </tr>
+                    </table>
+
+                    <div class="key-point">
+                        <strong>Immediate Action:</strong> At 9:30, annotate the ORG and calculate its midpoint using a fib tool.
+                    </div>
+
+                    <div class="quote-box">
+                        "as soon as you get the first ticket 9:30 you want to throw a fib on that just to get the midpoint"
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discount Gap Chart -->
+            <div class="chart-container" style="margin-top: 40px;">
+                <div class="chart-title">Discount Opening Range Gap</div>
+                <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-discount-org">
+                    <defs>
+                        <pattern id="grid3" width="50" height="35" patternUnits="userSpaceOnUse">
+                            <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="500" height="350" fill="url(#grid3)"/>
+                    
+                    <!-- Previous Day Section -->
+                    <rect x="30" y="30" width="150" height="280" fill="rgba(139, 92, 246, 0.05)"/>
+                    <text x="70" y="325" fill="#8892a6" font-size="10">Previous Day</text>
+                    
+                    <!-- Current Day Section -->
+                    <rect x="200" y="30" width="280" height="280" fill="rgba(59, 130, 246, 0.05)"/>
+                    <text x="300" y="325" fill="#8892a6" font-size="10">Current Day (RTH)</text>
+                    
+                    <!-- Settlement Price Line -->
+                    <line x1="30" y1="140" x2="480" y2="140" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="35" y="135" fill="#8b5cf6" font-size="10">Settlement Price</text>
+                    
+                    <!-- Previous day candles -->
+                    <line x1="60" y1="120" x2="60" y2="180" stroke="#ef4444" stroke-width="1"/>
+                    <rect x="55" y="130" width="10" height="40" fill="#ef4444"/>
+                    
+                    <line x1="90" y1="130" x2="90" y2="170" stroke="#ef4444" stroke-width="1"/>
+                    <rect x="85" y="135" width="10" height="25" fill="#ef4444"/>
+                    
+                    <line x1="120" y1="125" x2="120" y2="160" stroke="#10b981" stroke-width="1"/>
+                    <rect x="115" y="130" width="10" height="20" fill="#10b981"/>
+                    
+                    <line x1="150" y1="130" x2="150" y2="155" stroke="#10b981" stroke-width="1"/>
+                    <rect x="145" y="135" width="10" height="15" fill="#10b981"/>
+                    
+                    <!-- Gap shaded area (Discount) -->
+                    <rect x="180" y="140" width="300" height="80" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,4"/>
+                    
+                    <!-- Midpoint line -->
+                    <line x1="180" y1="180" x2="480" y2="180" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+                    <text x="390" y="175" fill="#f59e0b" font-size="10">50% (Midpoint)</text>
+                    
+                    <!-- Opening tick -->
+                    <line x1="200" y1="220" x2="480" y2="220" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="205" y="235" fill="#3b82f6" font-size="10">9:30 Opening Tick</text>
+                    
+                    <!-- Current day candles gapped down -->
+                    <line x1="220" y1="210" x2="220" y2="260" stroke="#ef4444" stroke-width="1"/>
+                    <rect x="215" y="220" width="10" height="30" fill="#ef4444"/>
+                    
+                    <line x1="250" y1="230" x2="250" y2="280" stroke="#ef4444" stroke-width="1"/>
+                    <rect x="245" y="245" width="10" height="25" fill="#ef4444"/>
+                    
+                    <line x1="280" y1="240" x2="280" y2="270" stroke="#10b981" stroke-width="1"/>
+                    <rect x="275" y="245" width="10" height="18" fill="#10b981"/>
+                    
+                    <line x1="310" y1="220" x2="310" y2="255" stroke="#10b981" stroke-width="1"/>
+                    <rect x="305" y="228" width="10" height="20" fill="#10b981"/>
+                    
+                    <line x1="340" y1="200" x2="340" y2="240" stroke="#10b981" stroke-width="1"/>
+                    <rect x="335" y="210" width="10" height="22" fill="#10b981"/>
+                    
+                    <!-- Arrow showing gap measurement -->
+                    <line x1="190" y1="140" x2="190" y2="220" stroke="#ef4444" stroke-width="2"/>
+                    <polygon points="190,140 185,150 195,150" fill="#ef4444"/>
+                    <polygon points="190,220 185,210 195,210" fill="#ef4444"/>
+                    <text x="165" y="185" fill="#ef4444" font-size="11" font-weight="bold" transform="rotate(-90, 165, 185)">ORG</text>
+                    
+                    <!-- Label -->
+                    <rect x="350" y="260" width="120" height="25" fill="rgba(239, 68, 68, 0.2)" rx="4"/>
+                    <text x="358" y="277" fill="#ef4444" font-size="11" font-weight="bold">DISCOUNT GAP</text>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Section 3: 70% Midpoint Rule -->
+        <section id="midpoint-rule">
+            <div class="section-header">
+                <h2>3. The 70% Midpoint Rule</h2>
+                <p>Statistical probability of gap midpoint being tagged</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="text-content">
+                    <div class="stat-box">
+                        <div class="number">70%</div>
+                        <div class="label">Probability the ORG midpoint gets tagged between 9:30–10:00</div>
+                    </div>
+
+                    <div class="quote-box">
+                        "the midpoint it's a 70% chance that that mid Gap level is going to get hit"
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Critical Clarification:</strong> This is NOT a win rate. This describes the probability of price reaching the level, not the probability of a profitable trade.
+                    </div>
+
+                    <div class="quote-box">
+                        "that doesn't mean that you're going to get a 70% chance of getting an entry that's profitable that never got stopped out that never had draw down"
+                    </div>
+
+                    <h3>Confluence Required</h3>
+                    <p>The 70% rule is a directional bias tool, not an entry signal. You still need technical confluence for timing.</p>
+
+                    <div class="quote-box">
+                        "there has to be something else in the chart that's technically supporting the idea that it will drop down there and how to time it"
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">70% Midpoint Tag Scenario</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-70-rule">
+                        <defs>
+                            <pattern id="grid4" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid4)"/>
+                        
+                        <!-- Time labels -->
+                        <text x="50" y="340" fill="#8892a6" font-size="10">9:30</text>
+                        <text x="175" y="340" fill="#8892a6" font-size="10">9:40</text>
+                        <text x="300" y="340" fill="#8892a6" font-size="10">9:50</text>
+                        <text x="425" y="340" fill="#8892a6" font-size="10">10:00</text>
+                        
+                        <!-- Settlement -->
+                        <line x1="30" y1="250" x2="480" y2="250" stroke="#8b5cf6" stroke-width="2"/>
+                        <text x="35" y="265" fill="#8b5cf6" font-size="9">Settlement</text>
+                        
+                        <!-- Opening Tick -->
+                        <line x1="50" y1="100" x2="480" y2="100" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="400" y="95" fill="#3b82f6" font-size="9">Opening Tick</text>
+                        
+                        <!-- Gap shading -->
+                        <rect x="50" y="100" width="430" height="150" fill="rgba(59, 130, 246, 0.1)"/>
+                        
+                        <!-- 50% Midpoint -->
+                        <line x1="50" y1="175" x2="480" y2="175" stroke="#f59e0b" stroke-width="3"/>
+                        <text x="400" y="190" fill="#f59e0b" font-size="10" font-weight="bold">50% MIDPOINT</text>
+                        
+                        <!-- Price action that tags midpoint -->
+                        <!-- Initial rally -->
+                        <line x1="70" y1="90" x2="70" y2="120" stroke="#10b981" stroke-width="1"/>
+                        <rect x="65" y="95" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="95" y1="75" x2="95" y2="105" stroke="#10b981" stroke-width="1"/>
+                        <rect x="90" y="80" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="120" y1="65" x2="120" y2="90" stroke="#10b981" stroke-width="1"/>
+                        <rect x="115" y="70" width="10" height="15" fill="#10b981"/>
+                        
+                        <!-- Reversal down -->
+                        <line x1="145" y1="70" x2="145" y2="110" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="140" y="80" width="10" height="25" fill="#ef4444"/>
+                        
+                        <line x1="170" y1="100" x2="170" y2="140" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="165" y="110" width="10" height="25" fill="#ef4444"/>
+                        
+                        <line x1="195" y1="130" x2="195" y2="165" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="190" y="140" width="10" height="20" fill="#ef4444"/>
+                        
+                        <!-- Tag the midpoint -->
+                        <line x1="220" y1="155" x2="220" y2="185" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="215" y="165" width="10" height="15" fill="#ef4444"/>
+                        
+                        <!-- Circle at tag point -->
+                        <circle cx="220" cy="175" r="8" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                        <text x="235" y="180" fill="#f59e0b" font-size="11" font-weight="bold">TAG!</text>
+                        
+                        <!-- Bounce -->
+                        <line x1="245" y1="160" x2="245" y2="185" stroke="#10b981" stroke-width="1"/>
+                        <rect x="240" y="165" width="10" height="15" fill="#10b981"/>
+                        
+                        <line x1="270" y1="145" x2="270" y2="175" stroke="#10b981" stroke-width="1"/>
+                        <rect x="265" y="150" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="295" y1="130" x2="295" y2="160" stroke="#10b981" stroke-width="1"/>
+                        <rect x="290" y="135" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="320" y1="115" x2="320" y2="145" stroke="#10b981" stroke-width="1"/>
+                        <rect x="315" y="120" width="10" height="18" fill="#10b981"/>
+                        
+                        <!-- 70% label -->
+                        <rect x="320" y="40" width="150" height="40" fill="rgba(245, 158, 11, 0.2)" rx="6"/>
+                        <text x="335" y="58" fill="#f59e0b" font-size="11">70% of days, this</text>
+                        <text x="335" y="72" fill="#f59e0b" font-size="11">midpoint gets tagged</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: First FVG -->
+        <section id="first-fvg">
+            <div class="section-header">
+                <h2>4. The First FVG — The Algorithmic Centerpiece</h2>
+                <p>The focal point for the entire daily range</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="chart-container">
+                    <div class="chart-title">First FVG Formation in Opening Range</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-first-fvg">
+                        <defs>
+                            <pattern id="grid5" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid5)"/>
+                        
+                        <!-- Opening Range shading -->
+                        <rect x="40" y="30" width="200" height="280" fill="rgba(59, 130, 246, 0.08)"/>
+                        <text x="90" y="320" fill="#3b82f6" font-size="10">Opening Range</text>
+                        
+                        <!-- Extension zone -->
+                        <rect x="240" y="30" width="240" height="280" fill="rgba(139, 92, 246, 0.05)"/>
+                        <text x="300" y="320" fill="#8b5cf6" font-size="10">Extend through 3:45 PM →</text>
+                        
+                        <!-- Candle 1 -->
+                        <line x1="60" y1="180" x2="60" y2="220" stroke="#10b981" stroke-width="1"/>
+                        <rect x="55" y="190" width="10" height="22" fill="#10b981"/>
+                        
+                        <!-- Candle 2 -->
+                        <line x1="90" y1="160" x2="90" y2="200" stroke="#10b981" stroke-width="1"/>
+                        <rect x="85" y="170" width="10" height="22" fill="#10b981"/>
+                        
+                        <!-- Candle 3 - Creates FVG -->
+                        <line x1="120" y1="120" x2="120" y2="175" stroke="#10b981" stroke-width="1"/>
+                        <rect x="115" y="130" width="10" height="38" fill="#10b981"/>
+                        
+                        <!-- FVG Box -->
+                        <rect x="115" y="160" width="365" height="20" fill="rgba(16, 185, 129, 0.3)" stroke="#10b981" stroke-width="2"/>
+                        <text x="260" y="175" fill="#10b981" font-size="11" font-weight="bold">FIRST FVG — CENTERPIECE</text>
+                        
+                        <!-- Arrow pointing to FVG -->
+                        <line x1="80" y1="170" x2="112" y2="170" stroke="#10b981" stroke-width="2"/>
+                        <polygon points="112,170 105,165 105,175" fill="#10b981"/>
+                        
+                        <!-- Candle 4 -->
+                        <line x1="150" y1="100" x2="150" y2="140" stroke="#10b981" stroke-width="1"/>
+                        <rect x="145" y="110" width="10" height="22" fill="#10b981"/>
+                        
+                        <!-- Candle 5 -->
+                        <line x1="180" y1="90" x2="180" y2="125" stroke="#10b981" stroke-width="1"/>
+                        <rect x="175" y="98" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Candle 6 - reversal -->
+                        <line x1="210" y1="95" x2="210" y2="130" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="205" y="105" width="10" height="20" fill="#ef4444"/>
+                        
+                        <!-- Post-OR candles showing FVG usage -->
+                        <line x1="260" y1="115" x2="260" y2="150" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="255" y="125" width="10" height="20" fill="#ef4444"/>
+                        
+                        <line x1="290" y1="140" x2="290" y2="175" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="285" y="150" width="10" height="20" fill="#ef4444"/>
+                        
+                        <!-- Price returns to FVG -->
+                        <line x1="320" y1="155" x2="320" y2="185" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="315" y="162" width="10" height="18" fill="#ef4444"/>
+                        
+                        <!-- Bounce from FVG -->
+                        <circle cx="320" cy="170" r="6" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                        
+                        <line x1="350" y1="145" x2="350" y2="175" stroke="#10b981" stroke-width="1"/>
+                        <rect x="345" y="152" width="10" height="16" fill="#10b981"/>
+                        
+                        <line x1="380" y1="130" x2="380" y2="160" stroke="#10b981" stroke-width="1"/>
+                        <rect x="375" y="138" width="10" height="16" fill="#10b981"/>
+                        
+                        <line x1="410" y1="115" x2="410" y2="145" stroke="#10b981" stroke-width="1"/>
+                        <rect x="405" y="122" width="10" height="16" fill="#10b981"/>
+                        
+                        <line x1="440" y1="100" x2="440" y2="130" stroke="#10b981" stroke-width="1"/>
+                        <rect x="435" y="108" width="10" height="16" fill="#10b981"/>
+                        
+                        <!-- Annotation -->
+                        <text x="330" y="210" fill="#f59e0b" font-size="10">Price returns to FVG</text>
+                        <text x="330" y="222" fill="#f59e0b" font-size="10">hours later → bounce</text>
+                    </svg>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="legend-color" style="background: rgba(16, 185, 129, 0.5);"></div> First FVG</div>
+                        <div class="legend-item"><div class="legend-color" style="background: rgba(59, 130, 246, 0.2);"></div> Opening Range</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #f59e0b;"></div> FVG Reaction</div>
+                    </div>
+                </div>
+
+                <div class="text-content">
+                    <h3>Why the First FVG Matters</h3>
+                    <p>Of all inefficiencies that form during the day, the <strong>first FVG inside the Opening Range holds special significance</strong>. The algorithm treats it as a reference point.</p>
+
+                    <div class="quote-box">
+                        "you look for the very first inefficiency the very first fair value Gap that forms in that 30 minutes that's the one that the algorithm is going to like it it's the centerpiece okay it's the focal point for the daily range"
+                    </div>
+
+                    <h3>Multi-Directional Utility</h3>
+                    <p>Until the market enters a strong trending condition, this FVG can be traded from both sides.</p>
+
+                    <div class="quote-box">
+                        "until we enter a trending day that fair value Gap can be used multiple times for multiple trades both directions"
+                    </div>
+
+                    <h3>Multi-Timeframe Scanning</h3>
+                    <p>Monitor across multiple timeframes to catch the FVG at its most precise level:</p>
+
+                    <table>
+                        <tr>
+                            <th>Timeframe</th>
+                            <th>Use Case</th>
+                        </tr>
+                        <tr><td>15 second</td><td>Precision entries</td></tr>
+                        <tr><td>30 second</td><td>Precision entries</td></tr>
+                        <tr><td>45 second</td><td>Balance of precision/noise</td></tr>
+                        <tr><td>1-5 minute</td><td>Primary analysis</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Gap Fill Logic -->
+        <section id="gap-fill">
+            <div class="section-header">
+                <h2>5. Gap Fill Logic & "Rocket Fuel"</h2>
+                <p>Why partial fills are more powerful than complete fills</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="text-content">
+                    <h3>Partial Fill = Retained Energy</h3>
+                    <p>A gap that partially fills but <strong>leaves a small portion open</strong> retains energy for continuation.</p>
+
+                    <div class="quote-box">
+                        "in a perfect world you want to leave a small portion of it open because every Gap invite the opportunity that it doesn't completely close in or fill in"
+                    </div>
+
+                    <h3>Complete Fill = Energy Depleted</h3>
+                    <p>When a gap completely fills, the stored inefficiency is resolved. This removes the magnetic draw.</p>
+
+                    <div class="quote-box">
+                        "you don't want to see them completely fill in because that's Rocket Fuel"
+                    </div>
+
+                    <h3>Failure to Reach Midpoint = Extreme Strength</h3>
+                    <p>If the market is bullish and price fails to retrace to the ORG midpoint, this signals exceptional strength.</p>
+
+                    <div class="quote-box">
+                        "what happens if it doesn't go down here and touch the midpoint of the Gap means it's really really bullish"
+                    </div>
+
+                    <div class="key-point">
+                        <strong>Trading Implication:</strong> When price leaves a small portion of the gap unfilled, expect stronger continuation moves. Complete fills often lead to reversals or consolidation.
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Gap Fill Scenarios</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-gap-fill">
+                        <defs>
+                            <pattern id="grid6" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid6)"/>
+                        
+                        <!-- Scenario 1: Partial Fill (Good) -->
+                        <text x="80" y="30" fill="#10b981" font-size="12" font-weight="bold">Partial Fill ✓</text>
+                        <text x="60" y="45" fill="#8892a6" font-size="9">"Rocket Fuel" Retained</text>
+                        
+                        <!-- Gap zone 1 -->
+                        <rect x="40" y="120" width="180" height="80" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="1"/>
+                        <line x1="40" y1="160" x2="220" y2="160" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4"/>
+                        <text x="145" y="155" fill="#f59e0b" font-size="8">50%</text>
+                        
+                        <!-- Price partially fills -->
+                        <line x1="60" y1="80" x2="60" y2="110" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="55" y="85" width="10" height="20" fill="#ef4444"/>
+                        
+                        <line x1="85" y1="100" x2="85" y2="135" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="80" y="108" width="10" height="22" fill="#ef4444"/>
+                        
+                        <line x1="110" y1="125" x2="110" y2="165" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="105" y="133" width="10" height="27" fill="#ef4444"/>
+                        
+                        <!-- Bounce before complete fill -->
+                        <line x1="135" y1="140" x2="135" y2="175" stroke="#10b981" stroke-width="1"/>
+                        <rect x="130" y="148" width="10" height="22" fill="#10b981"/>
+                        
+                        <!-- Strong continuation -->
+                        <line x1="160" y1="110" x2="160" y2="155" stroke="#10b981" stroke-width="1"/>
+                        <rect x="155" y="118" width="10" height="30" fill="#10b981"/>
+                        
+                        <line x1="185" y1="70" x2="185" y2="120" stroke="#10b981" stroke-width="1"/>
+                        <rect x="180" y="78" width="10" height="35" fill="#10b981"/>
+                        
+                        <!-- Arrow showing continuation -->
+                        <line x1="200" y1="80" x2="200" y2="50" stroke="#10b981" stroke-width="2"/>
+                        <polygon points="200,50 195,60 205,60" fill="#10b981"/>
+                        <text x="208" y="55" fill="#10b981" font-size="9">Strong</text>
+                        <text x="208" y="67" fill="#10b981" font-size="9">Move</text>
+                        
+                        <!-- Remaining gap portion highlighted -->
+                        <rect x="40" y="175" width="180" height="25" fill="rgba(16, 185, 129, 0.3)" stroke="#10b981" stroke-width="2"/>
+                        <text x="75" y="192" fill="#10b981" font-size="9" font-weight="bold">FUEL REMAINING</text>
+                        
+                        <!-- Divider -->
+                        <line x1="250" y1="50" x2="250" y2="300" stroke="#2d3748" stroke-width="2"/>
+                        
+                        <!-- Scenario 2: Complete Fill (Neutral) -->
+                        <text x="330" y="30" fill="#ef4444" font-size="12" font-weight="bold">Complete Fill ✗</text>
+                        <text x="320" y="45" fill="#8892a6" font-size="9">Energy Depleted</text>
+                        
+                        <!-- Gap zone 2 -->
+                        <rect x="280" y="120" width="180" height="80" fill="rgba(239, 68, 68, 0.1)" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,4"/>
+                        <line x1="280" y1="160" x2="460" y2="160" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4"/>
+                        
+                        <!-- Price completely fills -->
+                        <line x1="300" y1="80" x2="300" y2="110" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="295" y="85" width="10" height="20" fill="#ef4444"/>
+                        
+                        <line x1="325" y1="100" x2="325" y2="140" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="320" y="110" width="10" height="25" fill="#ef4444"/>
+                        
+                        <line x1="350" y1="130" x2="350" y2="175" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="345" y="142" width="10" height="28" fill="#ef4444"/>
+                        
+                        <line x1="375" y1="165" x2="375" y2="210" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="370" y="178" width="10" height="27" fill="#ef4444"/>
+                        
+                        <!-- Complete fill marker -->
+                        <circle cx="375" cy="200" r="6" fill="#ef4444"/>
+                        <text x="385" y="205" fill="#ef4444" font-size="9">Gap Closed</text>
+                        
+                        <!-- Weak/choppy continuation -->
+                        <line x1="400" y1="185" x2="400" y2="215" stroke="#10b981" stroke-width="1"/>
+                        <rect x="395" y="192" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="425" y1="190" x2="425" y2="220" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="420" y="198" width="10" height="16" fill="#ef4444"/>
+                        
+                        <line x1="450" y1="195" x2="450" y2="225" stroke="#10b981" stroke-width="1"/>
+                        <rect x="445" y="202" width="10" height="16" fill="#10b981"/>
+                        
+                        <!-- Choppy indicator -->
+                        <text x="405" y="250" fill="#8892a6" font-size="9">Choppy/Weak</text>
+                        <text x="405" y="262" fill="#8892a6" font-size="9">Price Action</text>
+                    </svg>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="legend-color" style="background: rgba(16, 185, 129, 0.5);"></div> Fuel Remaining</div>
+                        <div class="legend-item"><div class="legend-color" style="background: rgba(239, 68, 68, 0.3);"></div> Depleted Gap</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quadrant Analysis -->
+            <div class="chart-container" style="margin-top: 40px;">
+                <div class="chart-title">Quadrant Analysis for Scaling</div>
+                <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-quadrants">
+                    <defs>
+                        <pattern id="grid7" width="50" height="35" patternUnits="userSpaceOnUse">
+                            <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="500" height="350" fill="url(#grid7)"/>
+                    
+                    <!-- ORG with quadrants -->
+                    <rect x="100" y="60" width="300" height="240" fill="rgba(59, 130, 246, 0.08)"/>
+                    
+                    <!-- Quadrant lines -->
+                    <line x1="100" y1="60" x2="400" y2="60" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="410" y="65" fill="#3b82f6" font-size="10">Opening Tick (100%)</text>
+                    
+                    <line x1="100" y1="120" x2="400" y2="120" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="6,3"/>
+                    <text x="410" y="125" fill="#8b5cf6" font-size="10">75% Level</text>
+                    
+                    <line x1="100" y1="180" x2="400" y2="180" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="410" y="185" fill="#f59e0b" font-size="10" font-weight="bold">50% Midpoint</text>
+                    
+                    <line x1="100" y1="240" x2="400" y2="240" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="6,3"/>
+                    <text x="410" y="245" fill="#8b5cf6" font-size="10">25% Level</text>
+                    
+                    <line x1="100" y1="300" x2="400" y2="300" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="410" y="305" fill="#8b5cf6" font-size="10">Settlement (0%)</text>
+                    
+                    <!-- Partial targets -->
+                    <circle cx="250" cy="180" r="8" fill="#f59e0b"/>
+                    <text x="135" y="185" fill="#f59e0b" font-size="10" font-weight="bold">Partial #1</text>
+                    
+                    <circle cx="250" cy="240" r="8" fill="#10b981"/>
+                    <text x="135" y="245" fill="#10b981" font-size="10" font-weight="bold">Partial #2</text>
+                    
+                    <circle cx="250" cy="290" r="8" fill="#ef4444"/>
+                    <text x="115" y="295" fill="#ef4444" font-size="10" font-weight="bold">Gap Close (Risk)</text>
+                    
+                    <!-- Price path -->
+                    <path d="M 130 80 Q 150 100 170 110 Q 200 130 220 160 Q 240 175 250 180" 
+                          fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,2"/>
+                    
+                    <!-- Labels -->
+                    <rect x="50" y="100" width="40" height="60" fill="rgba(16, 185, 129, 0.2)" rx="4"/>
+                    <text x="55" y="125" fill="#10b981" font-size="8">Q4</text>
+                    <text x="55" y="137" fill="#10b981" font-size="8">75-100%</text>
+                    
+                    <rect x="50" y="160" width="40" height="60" fill="rgba(245, 158, 11, 0.2)" rx="4"/>
+                    <text x="55" y="185" fill="#f59e0b" font-size="8">Q3</text>
+                    <text x="55" y="197" fill="#f59e0b" font-size="8">50-75%</text>
+                    
+                    <rect x="50" y="220" width="40" height="60" fill="rgba(139, 92, 246, 0.2)" rx="4"/>
+                    <text x="55" y="245" fill="#8b5cf6" font-size="8">Q2</text>
+                    <text x="55" y="257" fill="#8b5cf6" font-size="8">25-50%</text>
+                    
+                    <rect x="50" y="280" width="40" height="40" fill="rgba(239, 68, 68, 0.2)" rx="4"/>
+                    <text x="55" y="300" fill="#ef4444" font-size="8">Q1</text>
+                    <text x="55" y="312" fill="#ef4444" font-size="8">0-25%</text>
+                </svg>
+                <div class="quote-box" style="margin-top: 20px;">
+                    "I'll have a runner that would hopefully probe any movement below the mid point of the Gap to see if I can get down to the lower quadrant and then all of a sudden you'll see that's where where my other partial was taken"
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Buy-Side/Sell-Side Delivery -->
+        <section id="liquidity">
+            <div class="section-header">
+                <h2>6. Buy-Side / Sell-Side Delivery</h2>
+                <p>Understanding how pre-market creates imbalance that RTH must reprice</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Liquidity Imbalance from Electronic Session</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-liquidity">
+                        <defs>
+                            <pattern id="grid8" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid8)"/>
+                        
+                        <!-- Time sections -->
+                        <rect x="30" y="30" width="120" height="280" fill="rgba(139, 92, 246, 0.08)"/>
+                        <text x="50" y="325" fill="#8b5cf6" font-size="9">Pre-Market</text>
+                        
+                        <rect x="150" y="30" width="330" height="280" fill="rgba(59, 130, 246, 0.05)"/>
+                        <text x="280" y="325" fill="#3b82f6" font-size="9">Regular Trading Hours (RTH)</text>
+                        
+                        <!-- Settlement line -->
+                        <line x1="30" y1="230" x2="480" y2="230" stroke="#8b5cf6" stroke-width="2"/>
+                        <text x="35" y="245" fill="#8b5cf6" font-size="9">Settlement</text>
+                        
+                        <!-- Gap zone -->
+                        <rect x="150" y="140" width="330" height="90" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="1"/>
+                        <text x="280" y="185" fill="#3b82f6" font-size="10">OPENING RANGE GAP</text>
+                        
+                        <!-- Pre-market price action (rallied through gap) -->
+                        <line x1="50" y1="220" x2="50" y2="250" stroke="#10b981" stroke-width="1"/>
+                        <rect x="45" y="225" width="10" height="20" fill="#10b981"/>
+                        
+                        <line x1="75" y1="190" x2="75" y2="230" stroke="#10b981" stroke-width="1"/>
+                        <rect x="70" y="198" width="10" height="25" fill="#10b981"/>
+                        
+                        <line x1="100" y1="150" x2="100" y2="200" stroke="#10b981" stroke-width="1"/>
+                        <rect x="95" y="160" width="10" height="32" fill="#10b981"/>
+                        
+                        <line x1="125" y1="120" x2="125" y2="165" stroke="#10b981" stroke-width="1"/>
+                        <rect x="120" y="130" width="10" height="28" fill="#10b981"/>
+                        
+                        <!-- Arrow showing buy-side delivered -->
+                        <path d="M 60 210 Q 90 180 120 150" fill="none" stroke="#10b981" stroke-width="2"/>
+                        <text x="45" y="175" fill="#10b981" font-size="9" font-weight="bold">BUY-SIDE</text>
+                        <text x="45" y="187" fill="#10b981" font-size="9" font-weight="bold">DELIVERED</text>
+                        
+                        <!-- X mark on sell-side -->
+                        <text x="45" y="265" fill="#ef4444" font-size="9" font-weight="bold">SELL-SIDE</text>
+                        <text x="45" y="277" fill="#ef4444" font-size="9" font-weight="bold">MISSING ✗</text>
+                        
+                        <!-- RTH opens and needs to reprice -->
+                        <line x1="170" y1="130" x2="170" y2="160" stroke="#10b981" stroke-width="1"/>
+                        <rect x="165" y="135" width="10" height="18" fill="#10b981"/>
+                        
+                        <line x1="200" y1="140" x2="200" y2="175" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="195" y="148" width="10" height="22" fill="#ef4444"/>
+                        
+                        <line x1="230" y1="165" x2="230" y2="205" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="225" y="175" width="10" height="25" fill="#ef4444"/>
+                        
+                        <!-- Fast drop to settlement -->
+                        <line x1="260" y1="195" x2="260" y2="240" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="255" y="208" width="10" height="27" fill="#ef4444"/>
+                        
+                        <!-- Circle at gap fill -->
+                        <circle cx="260" cy="230" r="6" fill="#f59e0b"/>
+                        
+                        <!-- Continuation after fill -->
+                        <line x1="290" y1="210" x2="290" y2="245" stroke="#10b981" stroke-width="1"/>
+                        <rect x="285" y="218" width="10" height="20" fill="#10b981"/>
+                        
+                        <line x1="320" y1="190" x2="320" y2="225" stroke="#10b981" stroke-width="1"/>
+                        <rect x="315" y="198" width="10" height="20" fill="#10b981"/>
+                        
+                        <!-- Fast movement annotation -->
+                        <rect x="330" y="180" width="130" height="50" fill="rgba(245, 158, 11, 0.1)" rx="6"/>
+                        <text x="340" y="198" fill="#f59e0b" font-size="10" font-weight="bold">FAST DELIVERY</text>
+                        <text x="340" y="212" fill="#f59e0b" font-size="9">1-2 candles to fill</text>
+                        <text x="340" y="224" fill="#f59e0b" font-size="9">when sell-side missing</text>
+                    </svg>
+                </div>
+
+                <div class="text-content">
+                    <h3>Pre-Market Creates Imbalance</h3>
+                    <p>If price traded through the ORG during the electronic session, it delivered one side of liquidity but <strong>not the other</strong>.</p>
+
+                    <div class="quote-box">
+                        "since we passed up through it here it's lacking sell side"
+                    </div>
+
+                    <h3>RTH Must Reprice</h3>
+                    <p>Regardless of what happened in pre-market, the Regular Trading Hours session <strong>must reprice</strong> the inefficiency.</p>
+
+                    <div class="quote-box">
+                        "it doesn't matter that we traded here in Electronic Training or pre-session it doesn't matter always give the opportunity for the day session which is 9:30 to 4:15 to repic into this area both sides since there's no trading between the settlement price and this candle's low there's no buying and selling booked at all zero"
+                    </div>
+
+                    <h3>Expected Price Behavior</h3>
+                    <p>When price moves to fill a gap that's missing sell-side delivery, expect <strong>fast, impulsive movement</strong>, not slow drift.</p>
+
+                    <div class="quote-box">
+                        "I would expect it to be quick and sudden to fill the Gap"
+                    </div>
+
+                    <div class="key-point">
+                        <strong>Key Insight:</strong> Slow, lethargic price action into a gap suggests the imbalance may not be genuine. Fast, impulsive moves confirm the algorithm is repricing the inefficiency.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Entry Framework -->
+        <section id="entry">
+            <div class="section-header">
+                <h2>7. Entry Framework</h2>
+                <p>Trading the First FVG with conditional logic</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="text-content">
+                    <h3>Conditional Logic (If/Then Statements)</h3>
+                    <p>Trading the first FVG requires <strong>conditional thinking</strong>, not prediction.</p>
+
+                    <div class="quote-box">
+                        "these are if and then statements okay when we were trading here I said okay we're at the top of the opening range Gap once it trades above it forces if we trade below here it will be a full a full Gap closure"
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <h4>Identify the First FVG</h4>
+                            <p>Mark the first FVG formed between 9:30–10:00 across multiple timeframes</p>
+                        </div>
+                        <div class="step">
+                            <h4>Wait for Displacement</h4>
+                            <p>Price must trade through the FVG first, showing initial momentum</p>
+                        </div>
+                        <div class="step">
+                            <h4>Wait for Retrace</h4>
+                            <p>Price returns back into the FVG zone</p>
+                        </div>
+                        <div class="step">
+                            <h4>Enter on Retrace</h4>
+                            <p>Enter with targets at ORG quadrants or full gap closure</p>
+                        </div>
+                    </div>
+
+                    <div class="quote-box">
+                        "how would we use that fair value Gap if that narrative and logic is in play wait for to trade down below it then trade back up into it"
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Entry Framework: Trade Through → Retrace → Entry</div>
+                    <svg class="chart-canvas" viewBox="0 0 500 350" id="chart-entry">
+                        <defs>
+                            <pattern id="grid9" width="50" height="35" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 35" fill="none" stroke="#2d3748" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="500" height="350" fill="url(#grid9)"/>
+                        
+                        <!-- FVG Zone -->
+                        <rect x="50" y="150" width="430" height="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="200" y="175" fill="#3b82f6" font-size="11" font-weight="bold">FIRST FVG</text>
+                        
+                        <!-- ORG High reference -->
+                        <line x1="50" y1="100" x2="480" y2="100" stroke="#10b981" stroke-width="1" stroke-dasharray="6,3"/>
+                        <text x="400" y="95" fill="#10b981" font-size="9">ORG High</text>
+                        
+                        <!-- Target: Gap closure -->
+                        <line x1="50" y1="280" x2="480" y2="280" stroke="#ef4444" stroke-width="1" stroke-dasharray="6,3"/>
+                        <text x="390" y="295" fill="#ef4444" font-size="9">Gap Closure Target</text>
+                        
+                        <!-- Step 1: Initial move down through FVG -->
+                        <line x1="80" y1="120" x2="80" y2="155" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="75" y="128" width="10" height="22" fill="#ef4444"/>
+                        
+                        <line x1="105" y1="145" x2="105" y2="185" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="100" y="155" width="10" height="25" fill="#ef4444"/>
+                        
+                        <line x1="130" y1="175" x2="130" y2="220" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="125" y="188" width="10" height="27" fill="#ef4444"/>
+                        
+                        <!-- Label: Trade Through -->
+                        <rect x="60" y="230" width="90" height="25" fill="rgba(239, 68, 68, 0.2)" rx="4"/>
+                        <text x="70" y="247" fill="#ef4444" font-size="10" font-weight="bold">1. TRADE THRU</text>
+                        
+                        <!-- Step 2: Retrace back into FVG -->
+                        <line x1="170" y1="195" x2="170" y2="230" stroke="#10b981" stroke-width="1"/>
+                        <rect x="165" y="202" width="10" height="22" fill="#10b981"/>
+                        
+                        <line x1="195" y1="175" x2="195" y2="210" stroke="#10b981" stroke-width="1"/>
+                        <rect x="190" y="182" width="10" height="22" fill="#10b981"/>
+                        
+                        <line x1="220" y1="155" x2="220" y2="190" stroke="#10b981" stroke-width="1"/>
+                        <rect x="215" y="162" width="10" height="22" fill="#10b981"/>
+                        
+                        <!-- Entry point marker -->
+                        <circle cx="245" cy="170" r="10" fill="none" stroke="#f59e0b" stroke-width="3"/>
+                        <text x="255" y="165" fill="#f59e0b" font-size="11" font-weight="bold">ENTRY</text>
+                        
+                        <!-- Label: Retrace -->
+                        <rect x="175" y="230" width="85" height="25" fill="rgba(16, 185, 129, 0.2)" rx="4"/>
+                        <text x="183" y="247" fill="#10b981" font-size="10" font-weight="bold">2. RETRACE</text>
+                        
+                        <!-- Candle at entry -->
+                        <line x1="245" y1="160" x2="245" y2="195" stroke="#10b981" stroke-width="1"/>
+                        <rect x="240" y="167" width="10" height="22" fill="#10b981"/>
+                        
+                        <!-- Step 3: Move to target -->
+                        <line x1="280" y1="180" x2="280" y2="220" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="275" y="190" width="10" height="25" fill="#ef4444"/>
+                        
+                        <line x1="310" y1="210" x2="310" y2="255" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="305" y="222" width="10" height="28" fill="#ef4444"/>
+                        
+                        <line x1="340" y1="245" x2="340" y2="290" stroke="#ef4444" stroke-width="1"/>
+                        <rect x="335" y="258" width="10" height="27" fill="#ef4444"/>
+                        
+                        <!-- Target hit -->
+                        <circle cx="340" cy="280" r="8" fill="#10b981"/>
+                        <text x="350" y="275" fill="#10b981" font-size="10" font-weight="bold">TARGET</text>
+                        
+                        <!-- Label: Target -->
+                        <rect x="310" y="305" width="100" height="25" fill="rgba(16, 185, 129, 0.2)" rx="4"/>
+                        <text x="318" y="322" fill="#10b981" font-size="10" font-weight="bold">3. GAP CLOSURE</text>
+                        
+                        <!-- Entry zone highlight -->
+                        <rect x="235" y="150" width="25" height="40" fill="rgba(245, 158, 11, 0.3)" stroke="#f59e0b" stroke-width="2"/>
+                    </svg>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> Displacement</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #10b981;"></div> Retrace</div>
+                        <div class="legend-item"><div class="legend-color" style="background: #f59e0b;"></div> Entry Zone</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Narrative Confirmation -->
+            <div class="key-point" style="margin-top: 30px;">
+                <strong>Narrative Confirmation:</strong> When price breaks back below the ORG high after rallying above it, the target becomes clear.
+            </div>
+
+            <div class="quote-box">
+                "if that's your fair value Gap and we went back below the opening range Gap High soon as we do that that is indicative of what seeking that where the sell side is and if it's going to go there it's going to be a full Gap closure"
+            </div>
+        </section>
+
+        <!-- Section 8: Checklists -->
+        <section id="checklist">
+            <div class="section-header">
+                <h2>8. Practical Application Checklists</h2>
+                <p>Step-by-step execution guide</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="checklist">
+                    <h4>Pre-Market Preparation (Before 9:30)</h4>
+                    <ul>
+                        <li>Mark previous day's settlement price (RTH close)</li>
+                        <li>Identify relevant daily/weekly PD arrays</li>
+                        <li>Note rejection blocks and liquidity pools</li>
+                        <li>Establish higher timeframe bias (weekly/daily DOL)</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <h4>At 9:30 ET — Immediate Actions</h4>
+                    <ul>
+                        <li>Mark the opening tick immediately</li>
+                        <li>Calculate and annotate the ORG midpoint</li>
+                        <li>Label the ORG as Premium or Discount</li>
+                        <li>Begin monitoring for the first FVG</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <h4>At 10:00 ET — Lock the Framework</h4>
+                    <ul>
+                        <li>Lock in the Opening Range High and Low</li>
+                        <li>Apply quadrants to the Opening Range</li>
+                        <li>Extend Opening Range levels through 3:45 PM</li>
+                        <li>Confirm the first FVG is marked and extended</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <h4>During the Session</h4>
+                    <ul>
+                        <li>Monitor for price interaction with the first FVG</li>
+                        <li>Apply if/then logic based on ORG level breaks</li>
+                        <li>Look for Turtle Soup patterns at rejection blocks</li>
+                        <li>Scale partials at quadrant levels</li>
+                        <li>Watch for fast delivery when liquidity is missing</li>
+                    </ul>
+    </nav>
+
+            <!-- Quick Reference Table -->
+            <table style="margin-top: 40px;">
+                <tr>
+                    <th>Concept</th>
+                    <th>Key Quote</th>
+                </tr>
+                <tr>
+                    <td>Opening Range Time</td>
+                    <td><em>"begins at 9:30 and goes up to 10 o'clock that is the real opening range"</em></td>
+                </tr>
+                <tr>
+                    <td>First FVG Importance</td>
+                    <td><em>"that's the one that the algorithm is going to like it it's the centerpiece"</em></td>
+                </tr>
+                <tr>
+                    <td>70% Probability</td>
+                    <td><em>"the midpoint it's a 70% chance that that mid Gap level is going to get hit"</em></td>
+                </tr>
+                <tr>
+                    <td>Not Win Rate</td>
+                    <td><em>"that doesn't mean that you're going to get a 70% chance of getting an entry that's profitable"</em></td>
+                </tr>
+                <tr>
+                    <td>Rocket Fuel</td>
+                    <td><em>"you don't want to see them completely fill in because that's Rocket Fuel"</em></td>
+                </tr>
+                <tr>
+                    <td>Fast Delivery</td>
+                    <td><em>"I would expect it to be quick and sudden to fill the Gap"</em></td>
+                </tr>
+                <tr>
+                    <td>RTH Repricing</td>
+                    <td><em>"always give the opportunity for the day session which is 9:30 to 4:15 to repic into this area"</em></td>
+                </tr>
+                <tr>
+                    <td>Entry Logic</td>
+                    <td><em>"wait for to trade down below it then trade back up into it"</em></td>
+                </tr>
+            </table>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>ICT Opening Range Framework — Educational Reference</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">This document is for educational purposes only. Trading involves substantial risk.</p>
+    </footer>
+
+        </li>
+        </ul>
+        </nav>
+    </div>
+    </section>
+    </div>
+    </li>
+    </ul>
+    </nav>
+</body>
+</html>

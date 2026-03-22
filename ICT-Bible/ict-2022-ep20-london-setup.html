@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 20: London Session Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary:   #08080f;
+    --bg-card:      #11111c;
+    --bg-card-alt:  #0e0e18;
+    --bg-inset:     #090913;
+    --border:       rgba(255,255,255,0.07);
+    --text-primary: #e4e4ef;
+    --text-secondary: #8888a0;
+    --text-muted:   #505068;
+    --accent-bear:  #ff4757;
+    --accent-bull:  #2ed573;
+    --accent-gold:  #ffa502;
+    --accent-blue:  #5d9cf5;
+    --glow-bear:    rgba(255,71,87,0.12);
+    --glow-bull:    rgba(46,213,115,0.12);
+    --glow-gold:    rgba(255,165,2,0.1);
+    --glow-blue:    rgba(93,156,245,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 10% 15%, rgba(46,213,115,0.03) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 85% 75%, rgba(255,165,2,0.025) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,8,15,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  nav ul { display: flex; gap: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav ul li a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  nav ul li a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .ep-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-bull);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .ep-label::before { content: ''; width: 28px; height: 1px; background: var(--accent-bull); }
+  header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+  header h1 span { color: var(--accent-bull); }
+  .header-quote {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-bull);
+    padding-left: 1.2rem;
+    max-width: 660px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+  section { margin-bottom: 4.5rem; padding-top: 1rem; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.6rem;
+    line-height: 1.2;
+  }
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    margin-top: 1.8rem;
+  }
+
+  /* ── QUOTES ── */
+  .quote {
+    border-left: 3px solid var(--border);
+    padding: 1rem 1.4rem;
+    margin: 1.2rem 0;
+    background: var(--bg-inset);
+    border-radius: 0 6px 6px 0;
+  }
+  .quote p { font-style: italic; color: var(--text-secondary); line-height: 1.65; }
+  .quote .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+  .quote.gold { border-left-color: var(--accent-gold); background: var(--glow-gold); }
+  .quote.bull  { border-left-color: var(--accent-bull); background: var(--glow-bull); }
+  .quote.bear  { border-left-color: var(--accent-bear); background: var(--glow-bear); }
+  .quote.blue  { border-left-color: var(--accent-blue); background: var(--glow-blue); }
+
+  /* ── CONCEPT CARDS ── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.4rem;
+    transition: border-color 0.2s;
+  }
+  .concept-card:hover { border-color: rgba(255,165,2,0.3); }
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+  .concept-card p { font-style: italic; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.6rem; display: block; }
+
+  /* ── RULE BLOCK ── */
+  .rule-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+    margin: 1rem 0;
+  }
+  .rule-block .rule-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .rule-block .rule-head.bear { color: var(--accent-bear); }
+  .rule-block .rule-head.bull { color: var(--accent-bull); }
+  .rule-block .rule-head.gold { color: var(--accent-gold); }
+  .rule-block .rule-head.blue { color: var(--accent-blue); }
+  .rule-block p { font-style: italic; font-size: 0.97rem; color: var(--text-secondary); line-height: 1.65; }
+  .rule-block .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  /* ── DIAGRAM ── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.8rem;
+    text-align: center;
+  }
+
+  /* ── STEP LIST ── */
+  .step-list { display: flex; flex-direction: column; gap: 0; margin: 1.2rem 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0 1rem;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 1.05rem;
+    top: 2.4rem;
+    bottom: -0.4rem;
+    width: 1px;
+    background: var(--border);
+  }
+  .step-num {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-gold);
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .step-body { padding-bottom: 1.4rem; }
+  .step-body .step-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .step-body .step-quote { font-style: italic; font-size: 0.93rem; color: var(--text-secondary); line-height: 1.6; }
+  .step-body .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.4rem; display: block; }
+
+  /* ── FLASHCARDS ── */
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 120px;
+    position: relative;
+  }
+  .flashcard:hover { border-color: rgba(46,213,115,0.2); }
+  .flashcard-question {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.45;
+    padding-right: 1.5rem;
+  }
+  .flashcard-answer {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+    font-size: 0.93rem;
+    color: var(--accent-bull);
+    line-height: 1.6;
+  }
+  .flashcard.revealed { background: rgba(46,213,115,0.04); border-color: rgba(46,213,115,0.25); }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .fc-hint { position: absolute; top: 1.2rem; right: 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.05em; }
+  .flashcard.revealed .fc-hint { color: var(--accent-bull); }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#london-killzone">London Kill Zone</a></li>
+    <li><a href="#intermarket">Inter-Market</a></li>
+    <li><a href="#false-breakout">False Breakout</a></li>
+    <li><a href="#setup-sequence">Setup Sequence</a></li>
+    <li><a href="#displacement">Displacement</a></li>
+    <li><a href="#entry">Entry &amp; Stop</a></li>
+    <li><a href="#targets">Targets</a></li>
+    <li><a href="#money-mgmt">Money Mgmt</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="ep-label">2022 ICT Mentorship · Episode 20</div>
+  <h1><span>London</span> Session Setup</h1>
+  <p class="header-quote">"this is not the model for my daughter this is not an addition to the model i'm just simply answering questions"</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════ OVERVIEW -->
+  <section id="overview">
+    <div class="section-label">Overview</div>
+    <h2>Context &amp; Purpose of This Episode</h2>
+
+    <div class="quote gold">
+      <p>"can i show an example of this working in london session for forex — no problem — to do that i set the stage with the analysis last night"</p>
+      <span class="ts">1:00–1:10</span>
+    </div>
+
+    <div class="quote">
+      <p>"understand this is not the model for my daughter this is not an addition to the model i'm just simply answering questions because i got a lot of them and i'm not trying to push this inside of the model for this youtube mentorship"</p>
+      <span class="ts">3:11–3:30</span>
+    </div>
+
+    <div class="quote">
+      <p>"this is just one piece one little piece of price action in the delivery that the algorithm will — likely not every single instance but it will likely repeat"</p>
+      <span class="ts">0:36–0:52</span>
+    </div>
+
+    <div class="quote">
+      <p>"without a safety net last night i outlined it for you i explained what it should do why it should take place and therefore we watch"</p>
+      <span class="ts">1:39–1:48</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ LONDON KILL ZONE -->
+  <section id="london-killzone">
+    <div class="section-label">London Open Kill Zone</div>
+    <h2>The London Open Kill Zone</h2>
+
+    <div class="quote gold">
+      <p>"that's our kill zone that i teach here on the youtube channel it's two o'clock in the morning to five o'clock in the morning new york local time"</p>
+      <span class="ts">8:09–8:15</span>
+    </div>
+
+    <div class="quote">
+      <p>"set it to local new york two o'clock at five o'clock in the morning that's the kill zone for london open — market comes down creates the low of the day"</p>
+      <span class="ts">8:22–8:31</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <!-- Background -->
+        <rect x="0" y="0" width="680" height="200" fill="transparent"/>
+
+        <!-- Timeline bar -->
+        <line x1="60" y1="160" x2="620" y2="160" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+        <!-- Tick marks -->
+        <line x1="60"  y1="155" x2="60"  y2="165" stroke="var(--text-muted)" stroke-width="1"/>
+        <line x1="200" y1="155" x2="200" y2="165" stroke="#2ed573" stroke-width="1.5"/>
+        <line x1="370" y1="155" x2="370" y2="165" stroke="#2ed573" stroke-width="1.5"/>
+        <line x1="540" y1="155" x2="540" y2="165" stroke="var(--text-muted)" stroke-width="1"/>
+        <line x1="620" y1="155" x2="620" y2="165" stroke="var(--text-muted)" stroke-width="1"/>
+
+        <text x="40"  y="178" fill="var(--text-muted)" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">MIDNIGHT</text>
+        <text x="200" y="178" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">2:00 AM</text>
+        <text x="370" y="178" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">5:00 AM</text>
+        <text x="540" y="178" fill="var(--text-muted)" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">8:00 AM</text>
+        <text x="620" y="178" fill="var(--text-muted)" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle">10:00 AM</text>
+        <text x="45"  y="193" fill="var(--text-muted)" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle">NY</text>
+        <text x="200" y="193" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle">NY LOCAL</text>
+        <text x="370" y="193" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle">NY LOCAL</text>
+
+        <!-- Kill zone shading -->
+        <rect x="200" y="30" width="170" height="128" fill="rgba(46,213,115,0.06)" rx="0"/>
+        <line x1="200" y1="30" x2="200" y2="158" stroke="#2ed573" stroke-width="1.5"/>
+        <line x1="370" y1="30" x2="370" y2="158" stroke="#2ed573" stroke-width="1.5"/>
+        <text x="285" y="50" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" letter-spacing="0.06em">LONDON OPEN</text>
+        <text x="285" y="63" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" letter-spacing="0.06em">KILL ZONE</text>
+
+        <!-- Price action sketch within kill zone -->
+        <path d="M200 90 Q220 80 240 85 Q260 88 280 125 Q300 140 320 120 Q340 105 370 95" stroke="#ffa502" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+        <text x="270" y="148" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle">CREATES LOW OF THE DAY</text>
+      </svg>
+      <p class="diagram-caption">London Open Kill Zone — 2:00 AM to 5:00 AM New York local time</p>
+    </div>
+
+    <div class="quote">
+      <p>"it creates the high of the day so in this price run we're to start stripping it down"</p>
+      <span class="ts">12:06–12:11</span>
+    </div>
+
+    <div class="quote">
+      <p>"we still have time see all this over here the kill zone for london open is still open — so we allow for that retracement higher"</p>
+      <span class="ts">14:21–14:29</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ INTER-MARKET -->
+  <section id="intermarket">
+    <div class="section-label">Inter-Market Relationships</div>
+    <h2>Dollar Index &amp; Euro — Inverse Relationship</h2>
+
+    <div class="quote blue">
+      <p>"if you're trading 4x it's important to relate your analysis in the trading market okay for instance if you're looking at euro that's your trading market — you have to have a barometer something to measure its movement with and that's market relationships"</p>
+      <span class="ts">9:19–9:37</span>
+    </div>
+
+    <div class="quote">
+      <p>"dollar coming down to a level outlined last night that it would be a bullish area it'd be a sensitive price point to see in advance higher — because its relationship with euro it's inverted so if dollar is going down to that level — then it's not a surprise to see euro rally higher as it's doing that"</p>
+      <span class="ts">9:40–10:06</span>
+    </div>
+
+    <div class="quote gold">
+      <p>"the teeter-totter effect or the inverse relationships that if the dollar is going to go higher that means that it's going to have weight introduced to euro and it should start to go lower"</p>
+      <span class="ts">16:21–16:32</span>
+    </div>
+
+    <div class="quote">
+      <p>"everybody should know that the euro is going to be the opposite direction of whatever the dollar is going to do"</p>
+      <span class="ts">17:45–17:49</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <!-- Dollar column -->
+        <rect x="60" y="30" width="240" height="120" fill="rgba(46,213,115,0.05)" rx="6" stroke="rgba(46,213,115,0.2)" stroke-width="1"/>
+        <text x="180" y="55" fill="#2ed573" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600" text-anchor="middle" letter-spacing="0.04em">DOLLAR INDEX</text>
+        <text x="180" y="78" fill="var(--text-secondary)" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-style="italic">"99.92 — buying opportunity"</text>
+        <text x="180" y="108" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="22" text-anchor="middle">↑</text>
+        <text x="180" y="140" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">DOLLAR BULLISH AT TARGET</text>
+
+        <!-- = INVERTED arrow -->
+        <text x="340" y="100" fill="var(--text-muted)" font-family="Space Grotesk,sans-serif" font-size="13" text-anchor="middle" font-weight="700">INVERTED</text>
+        <line x1="295" y1="95" x2="324" y2="95" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="356" y1="95" x2="385" y2="95" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="2,2"/>
+
+        <!-- Euro column -->
+        <rect x="390" y="30" width="240" height="120" fill="rgba(255,71,87,0.05)" rx="6" stroke="rgba(255,71,87,0.2)" stroke-width="1"/>
+        <text x="510" y="55" fill="#ff4757" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600" text-anchor="middle" letter-spacing="0.04em">EURO (EUR/USD)</text>
+        <text x="510" y="78" fill="var(--text-secondary)" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-style="italic">"goes up to previous week's high"</text>
+        <text x="510" y="108" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="22" text-anchor="middle">↓</text>
+        <text x="510" y="140" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">EURO REVERSES LOWER</text>
+      </svg>
+      <p class="diagram-caption">Dollar at buying level → Euro at shorting level — the inverse (teeter-totter) relationship</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ FALSE BREAKOUT -->
+  <section id="false-breakout">
+    <div class="section-label">False Breakout</div>
+    <h2>Previous Week's High as False Breakout</h2>
+
+    <div class="quote bear">
+      <p>"at the same instance right there that's when dollar hit the objective i told you last night that would be a buying opportunity for a dollar — if it's a buying opportunity for a dollar then it's a shorting opportunity at that very moment"</p>
+      <span class="ts">10:17–10:33</span>
+    </div>
+
+    <div class="quote">
+      <p>"this is a false breakout because my analysis was done and shared with you openly that that would be a buying opportunity for a dollar — setting the stage for what as i outlined i'm bearish foreign currency"</p>
+      <span class="ts">10:46–11:01</span>
+    </div>
+
+    <div class="quote">
+      <p>"it ran up above that old weekly high — the market trades lower and takes out that short term low — now some of you might see this short term low and say well why didn't you use that low instead of this one here — well the reason why is the fair value gap forms right here on this candle"</p>
+      <span class="ts">12:25–12:42</span>
+    </div>
+
+    <div class="quote">
+      <p>"just like this level here the market does not like to leave that — that is not efficient — now it's efficient for technical analysis retail 101 where they'll see that as resistance — it looks perfect that's what they want because the books teach that — the books are meant to trip you up"</p>
+      <span class="ts">6:36–6:57</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ SETUP SEQUENCE -->
+  <section id="setup-sequence">
+    <div class="section-label">Setup Sequence</div>
+    <h2>Step-by-Step Setup Sequence (London Short)</h2>
+
+    <div class="step-list">
+
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <div class="step-label">Dollar Index drops to outlined buying level</div>
+          <p class="step-quote">"i mentioned that we would drop below that 100 level… 99.95 99.92 level"</p>
+          <span class="ts">4:18–4:45</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <div class="step-label">Euro rallies to previous week's high during London Kill Zone</div>
+          <p class="step-quote">"euro runs all the way back up to the previous week's high… it went so far as to go up above the previous week's high"</p>
+          <span class="ts">9:06–10:16</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <div class="step-label">Identify the fair value gap on 2-minute chart</div>
+          <p class="step-quote">"2 minute has the very clean fair value gap so after it ran above that old weekly high the market trades lower and takes out that short term low"</p>
+          <span class="ts">12:21–12:33</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <div class="step-label">Wait for energetic displacement away from the fair value gap</div>
+          <p class="step-quote">"it hasn't really shown me what displacement — something energetic where it moves away from that fair value gap — that's the important factor"</p>
+          <span class="ts">12:49–12:57</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <div class="step-label">Shift in market structure — run through the short-term low</div>
+          <p class="step-quote">"it moves lower than that short term low now we have a shift in market structure"</p>
+          <span class="ts">13:02–13:06</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-body">
+          <div class="step-label">Price retraces up into the fair value gap — that is the entry</div>
+          <p class="step-quote">"it goes a little bit deeper we wait we don't chase it… so we allow for that retracement higher — your fill here"</p>
+          <span class="ts">14:15–14:31</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="a1" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#ff4757"/>
+          </marker>
+          <marker id="a2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#ffa502"/>
+          </marker>
+          <marker id="a3" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#2ed573"/>
+          </marker>
+        </defs>
+
+        <!-- Previous week's high line -->
+        <line x1="40" y1="70" x2="640" y2="70" stroke="#ffa502" stroke-width="1.2" stroke-dasharray="5,4"/>
+        <text x="42" y="63" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8.5" letter-spacing="0.05em">PREVIOUS WEEK'S HIGH</text>
+
+        <!-- Run up above prev week high -->
+        <path d="M80 120 Q130 85 180 62" stroke="#ffa502" stroke-width="1.8" fill="none" marker-end="url(#a2)"/>
+        <text x="65" y="135" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8">EURO RUNS ABOVE</text>
+        <text x="65" y="147" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8">OLD WEEKLY HIGH</text>
+
+        <!-- Parabolic gap candle label -->
+        <rect x="183" y="52" width="10" height="24" fill="#2ed573" opacity="0.7"/>
+        <line x1="188" y1="40" x2="188" y2="52" stroke="#2ed573" stroke-width="1.2"/>
+        <line x1="188" y1="76" x2="188" y2="90" stroke="#2ed573" stroke-width="1.2"/>
+
+        <!-- FVG zone -->
+        <rect x="200" y="72" width="70" height="22" fill="rgba(255,165,2,0.15)" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="203" y="86" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8">FAIR VALUE GAP</text>
+
+        <!-- Short-term low line -->
+        <line x1="190" y1="130" x2="420" y2="130" stroke="#8888a0" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="192" y="142" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">SHORT-TERM LOW</text>
+
+        <!-- Displacement lower through STL -->
+        <path d="M270 94 Q285 115 290 148" stroke="#ff4757" stroke-width="2.5" fill="none" marker-end="url(#a1)"/>
+        <text x="300" y="108" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">DISPLACEMENT —</text>
+        <text x="300" y="120" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">ENERGETIC MOVE</text>
+        <text x="300" y="152" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8">SHIFT IN MARKET STRUCTURE</text>
+
+        <!-- Price goes deeper -->
+        <path d="M290 148 Q310 165 330 178" stroke="#ff4757" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+        <text x="338" y="182" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">"goes a little bit deeper — we wait"</text>
+
+        <!-- Retracement back up to FVG -->
+        <path d="M330 178 Q355 140 372 88" stroke="#ffa502" stroke-width="2" fill="none" marker-end="url(#a2)"/>
+        <text x="375" y="84" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8.5">RETRACEMENT UP</text>
+        <text x="375" y="96" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8.5">INTO FVG — ENTRY</text>
+
+        <!-- Entry star marker -->
+        <circle cx="370" cy="82" r="5" fill="none" stroke="#ffa502" stroke-width="1.5"/>
+
+        <!-- Distribution lower to target -->
+        <path d="M372 88 Q430 150 500 250" stroke="#ff4757" stroke-width="2.5" fill="none" marker-end="url(#a1)"/>
+        <text x="510" y="245" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5">DISTRIBUTION LOWER</text>
+        <text x="510" y="258" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5">INTO IMBALANCE TARGET</text>
+
+        <!-- Fibonacci 50% note -->
+        <line x1="40" y1="183" x2="300" y2="183" stroke="rgba(93,156,245,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="42" y="196" fill="#5d9cf5" font-family="JetBrains Mono,monospace" font-size="7.5">50% FIBONACCI — FIRST TARGET</text>
+
+        <!-- London kill zone label -->
+        <rect x="40" y="280" width="580" height="22" fill="rgba(46,213,115,0.05)" rx="3" stroke="rgba(46,213,115,0.15)" stroke-width="1"/>
+        <text x="330" y="295" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" letter-spacing="0.06em">LONDON OPEN KILL ZONE  2:00 AM → 5:00 AM NY LOCAL TIME — KILL ZONE STILL OPEN</text>
+      </svg>
+      <p class="diagram-caption">London short setup sequence on 2-minute chart — false breakout of weekly high → FVG → displacement → retracement entry</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ DISPLACEMENT -->
+  <section id="displacement">
+    <div class="section-label">Displacement Requirement</div>
+    <h2>Displacement — The Critical Filter</h2>
+
+    <div class="quote gold">
+      <p>"it hasn't really moved away and hasn't really shown me what displacement — something energetic where it moves away from that fair value gap — that's the important factor"</p>
+      <span class="ts">12:49–12:57</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head bear">Do NOT enter on limit until displacement has occurred</div>
+      <p>"remember it's not going to be placed in the marketplace for a shorting opportunity or entry on limit anytime in here because it has to move away from the fair value gap"</p>
+      <span class="ts">13:53–14:03</span>
+    </div>
+
+    <div class="quote">
+      <p>"we have that run through this short term low we have displacement it was energetic move lower away from the fair value gap — it doesn't get to it here it goes a little bit deeper we wait we don't chase it we don't go in here thinking oh well i missed the move"</p>
+      <span class="ts">14:07–14:21</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head gold">Choosing Which Short-Term Low to Use</div>
+      <p>"the fair value gap forms right here on this candle once that candle closes the very next candle it opens essentially right at that low so it hasn't really moved away and hasn't really shown me what displacement"</p>
+      <span class="ts">12:40–12:56</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ ENTRY & STOP -->
+  <section id="entry">
+    <div class="section-label">Entry &amp; Stop Loss</div>
+    <h2>Entry, Stop &amp; Drawdown (Example)</h2>
+
+    <div class="quote">
+      <p>"maybe one pipette maybe a half a pip or maybe a full pip above this candle's high — that would be your entry but we're just going to use the actual candle high — that would be your limit order entry — hypothetically 1.0924 and four pipettes — that's your entry"</p>
+      <span class="ts">14:32–14:48</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"your stop also be above the high here that comes in at 1.0936 and a half"</p>
+      <span class="ts">14:49–14:54</span>
+    </div>
+
+    <div class="quote">
+      <p>"the heat or the drawdown that you absorb hypothetically if you would use that entry point is 1.09301 — so basically not even five pips… about five pips of drawdown"</p>
+      <span class="ts">14:55–15:17</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <span class="card-title">Entry (Example)</span>
+        <p><em>"hypothetically 1.0924 and four pipettes — that's your entry"</em></p>
+        <span class="ts">14:42–14:48</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">Stop (Example)</span>
+        <p><em>"your stop also be above the high here that comes in at 1.0936 and a half"</em></p>
+        <span class="ts">14:49–14:55</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">Max Drawdown (Example)</span>
+        <p><em>"the heat or the drawdown that you absorb hypothetically… is 1.09301 — so basically not even five pips"</em></p>
+        <span class="ts">14:55–15:09</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ TARGETS -->
+  <section id="targets">
+    <div class="section-label">Targets</div>
+    <h2>Profit Targets</h2>
+
+    <div class="quote blue">
+      <p>"if you did a fibonacci run from the low here by this one because it was the most energetic starting this price right here — that would be your parent price leg — 50 is around in here so that would be a nice objective initially — that would be your first target"</p>
+      <span class="ts">17:14–17:29</span>
+    </div>
+
+    <div class="quote">
+      <p>"if you're going to hold for the full day it could go down to this area here and lo and behold we have that imbalance — it trades right into that rather handsomely"</p>
+      <span class="ts">17:29–17:38</span>
+    </div>
+
+    <div class="quote">
+      <p>"the market starts to create its run up into the relative equal highs — sweeping that as a daily objective"</p>
+      <span class="ts">8:43–8:48</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ MONEY MANAGEMENT -->
+  <section id="money-mgmt">
+    <div class="section-label">Money Management</div>
+    <h2>Risk &amp; Position Sizing</h2>
+
+    <div class="quote gold">
+      <p>"you think about it in terms of fixed percentage risk on equity — so that means you're simply going to look at how much money you have in the account — take that times that by one percent — okay one percent is the maximum"</p>
+      <span class="ts">15:38–15:52</span>
+    </div>
+
+    <div class="quote bull">
+      <p>"preferably you should be doing a half a one percent or maybe a quarter of one percent — you're learning you're not trying to do a lot in the beginning you're trying to just simply trust the idea of seeing these moves"</p>
+      <span class="ts">15:52–16:03</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head bear">Do Not Think in Dollar Amounts</div>
+      <p>"if you're risking you know a thousand dollars per trade okay you're thinking about money-wise — don't do that — you think about it in terms of fixed percentage risk on equity"</p>
+      <span class="ts">15:32–15:43</span>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ══════════════════════════════════════════════ FLASHCARDS -->
+  <section id="study">
+    <div class="section-label">Self-Study</div>
+    <h2>Flashcards <span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;">— click to reveal</span></h2>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What are the hours of the London Open Kill Zone in New York local time?</div>
+        <div class="flashcard-answer">"it's two o'clock in the morning to five o'clock in the morning new york local time"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does ICT say you need as a "barometer" when trading EUR/USD?</div>
+        <div class="flashcard-answer">"you have to have a barometer something to measure its movement with and that's market relationships"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">How does ICT describe the Dollar Index / Euro relationship?</div>
+        <div class="flashcard-answer">"the teeter-totter effect or the inverse relationships that if the dollar is going to go higher that means that it's going to have weight introduced to euro and it should start to go lower"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the critical factor ICT emphasises before placing a limit entry on the fair value gap?</div>
+        <div class="flashcard-answer">"it hasn't really shown me what displacement — something energetic where it moves away from that fair value gap — that's the important factor"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Why does ICT NOT use the first short-term low to define the fair value gap in the example?</div>
+        <div class="flashcard-answer">"once that candle closes the very next candle it opens essentially right at that low so it hasn't really moved away and hasn't really shown me what displacement"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What happens after displacement breaks the short-term low?</div>
+        <div class="flashcard-answer">"it moves lower than that short term low now we have a shift in market structure"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">When price goes deeper than expected after displacement, what does ICT do?</div>
+        <div class="flashcard-answer">"it goes a little bit deeper we wait we don't chase it we don't go in here thinking oh well i missed the move"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Where exactly is the limit entry placed relative to the fair value gap candle?</div>
+        <div class="flashcard-answer">"maybe one pipette maybe a half a pip or maybe a full pip above this candle's high — that would be your entry but we're just going to use the actual candle high — that would be your limit order entry"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the maximum risk percentage ICT states?</div>
+        <div class="flashcard-answer">"take that times that by one percent — okay one percent is the maximum"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What risk percentage does ICT prefer for those learning?</div>
+        <div class="flashcard-answer">"preferably you should be doing a half a one percent or maybe a quarter of one percent"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the first profit target if using Fibonacci on the parent price leg?</div>
+        <div class="flashcard-answer">"50 is around in here so that would be a nice objective initially — that would be your first target"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the full-day target if holding the trade?</div>
+        <div class="flashcard-answer">"if you're going to hold for the full day it could go down to this area here and lo and behold we have that imbalance — it trades right into that rather handsomely"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Why does ICT consider the euro breakout above the previous week's high a false breakout?</div>
+        <div class="flashcard-answer">"this is a false breakout because my analysis was done and shared with you openly that that would be a buying opportunity for a dollar — setting the stage for what as i outlined i'm bearish foreign currency"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">How does ICT describe traditional resistance levels at equal highs?</div>
+        <div class="flashcard-answer">"just like this level here the market does not like to leave that — that is not efficient — now it's efficient for technical analysis retail 101 where they'll see that as resistance — it looks perfect that's what they want because the books teach that — the books are meant to trip you up"</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

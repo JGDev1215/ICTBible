@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship Ep. 3 — Internal Range Liquidity & Market Structure Shift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #111119;
+    --border: #2a2a3a;
+    --border-subtle: #1e1e2c;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6a;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-blue: #5352ed;
+    --accent-blue-dim: rgba(83,82,237,0.12);
+    --glow-bear: 0 0 24px rgba(255,71,87,0.18);
+    --glow-bull: 0 0 24px rgba(46,213,115,0.18);
+    --glow-gold: 0 0 24px rgba(255,165,2,0.18);
+    --radius: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── GRID TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,165,2,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,165,2,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 2rem;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  nav ul::-webkit-scrollbar { display: none; }
+
+  nav a {
+    display: block;
+    padding: 0.85rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem 3.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .header-label::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent-gold);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 1.4rem;
+  }
+
+  h1 span { color: var(--accent-gold); }
+
+  .header-subtitle {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 720px;
+    padding: 1rem 1.2rem;
+    border-left: 3px solid var(--accent-gold);
+    background: var(--accent-gold-dim);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  section:last-child { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.01em;
+  }
+
+  p { margin-bottom: 0.8rem; }
+
+  /* ─── QUOTE BLOCKS ─── */
+  .quote {
+    background: var(--bg-card);
+    border-left: 3px solid var(--border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1rem 1.3rem;
+    margin: 1rem 0;
+    position: relative;
+  }
+
+  .quote p {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .quote .ts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  .quote-gold { border-left-color: var(--accent-gold); background: var(--accent-gold-dim); }
+  .quote-bull { border-left-color: var(--accent-bull); background: var(--accent-bull-dim); }
+  .quote-bear { border-left-color: var(--accent-bear); background: var(--accent-bear-dim); }
+
+  /* ─── CONCEPT CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.3rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .concept-card:hover {
+    border-color: var(--accent-gold);
+    background: var(--bg-card-hover);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .card-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    flex-shrink: 0;
+  }
+
+  .card-dot.bear { background: var(--accent-bear); }
+  .card-dot.bull { background: var(--accent-bull); }
+
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+  }
+
+  .concept-card p {
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  /* ─── DIAGRAM CONTAINER ─── */
+  .diagram-wrap {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.8rem;
+    text-align: center;
+  }
+
+  /* ─── SESSION TABLE ─── */
+  .session-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .session-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+  }
+
+  .session-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .session-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .session-card p { font-size: 0.88rem; color: var(--text-secondary); margin: 0; }
+
+  /* ─── FLASHCARDS ─── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 100px;
+    user-select: none;
+  }
+
+  .flashcard:hover { border-color: var(--accent-gold); background: var(--bg-card-hover); }
+
+  .flashcard-question {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+    color: var(--accent-bull);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .flashcard.revealed {
+    border-color: var(--accent-bull);
+    background: var(--accent-bull-dim);
+  }
+
+  .reveal-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.7rem;
+    display: block;
+  }
+
+  .flashcard.revealed .reveal-hint { display: none; }
+
+  /* ─── PILL TAGS ─── */
+  .pill {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid;
+    vertical-align: middle;
+  }
+
+  .pill-gold { color: var(--accent-gold); border-color: var(--accent-gold); background: var(--accent-gold-dim); }
+  .pill-bear { color: var(--accent-bear); border-color: var(--accent-bear); background: var(--accent-bear-dim); }
+  .pill-bull { color: var(--accent-bull); border-color: var(--accent-bull); background: var(--accent-bull-dim); }
+
+  /* ─── RULE LIST ─── */
+  .rule-list {
+    list-style: none;
+    margin: 1.2rem 0;
+  }
+
+  .rule-list li {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.95rem;
+  }
+
+  .rule-list li:last-child { border-bottom: none; }
+
+  .rule-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent-gold);
+    flex-shrink: 0;
+    margin-top: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  .rule-list li em {
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 1.8rem 0;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#definition">Definition</a></li>
+    <li><a href="#mss-distinction">MSS vs Break</a></li>
+    <li><a href="#liquidity">Liquidity</a></li>
+    <li><a href="#structure">MSS Pattern</a></li>
+    <li><a href="#order-blocks">Order Blocks</a></li>
+    <li><a href="#sessions">Sessions</a></li>
+    <li><a href="#internal-rl">Internal Range Liq.</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="header-label">ICT 2022 Mentorship · Episode 3 · January 25, 2022</div>
+  <h1>Internal Range <span>Liquidity</span><br>& Market Structure Shift</h1>
+  <p class="header-subtitle">"This is the algorithmic perspective of a market structure shift intraday."</p>
+</header>
+
+<main>
+
+  <!-- ─── DEFINITION ─── -->
+  <section id="definition">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Topic Definition</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This is the internal range liquidity and market structure shift lecture."</p>
+      <span class="ts">0:28</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This is the algorithmic perspective of a market structure shift intraday."</p>
+      <span class="ts">4:14</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This is it. There's absolutely nothing else that you need to know about it. I promise you if they add anything to it it's just because they want to sound and look different but this is the algorithmic perspective of a market structure shift intraday."</p>
+      <span class="ts">4:06</span>
+    </div>
+  </section>
+
+  <!-- ─── MSS VS BREAK ─── -->
+  <section id="mss-distinction">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Market Structure Shift vs. Market Structure Break</h2>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"For intraday I want you to think about intraday market structure shifts because it's not necessarily a break in market structure that leads to prolonged multi-day movement."</p>
+      <span class="ts">2:33</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"If you see a market structure that's bearish and it's broken to the downside intraday that may just lead to an intraday price leg that may eventually see that high be taken out in the same day. So that's why I'm using the term market structure shift, not market structure break."</p>
+      <span class="ts">2:49</span>
+    </div>
+
+    <div class="quote">
+      <p>"When I'm gonna lean on that term market structure break it means a little bit more in context versus an intraday shift in market structure just means that there's likely a downside draw or an upside draw intraday by saying the term shift. So there's a little bit of semantics there."</p>
+      <span class="ts">3:14</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>The Condition Required</h3>
+
+    <div class="quote quote-gold">
+      <p>"You don't force it. You're not trying to get ahead of it."</p>
+      <span class="ts">9:24</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"You're anticipating a market structure shift. You're not forcing it."</p>
+      <span class="ts">9:18</span>
+    </div>
+
+    <div class="quote">
+      <p>"When this run above these relative equal highs happens right there you're anticipating a market structure shift."</p>
+      <span class="ts">9:18</span>
+    </div>
+  </section>
+
+  <!-- ─── LIQUIDITY ─── -->
+  <section id="liquidity">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Buy Stops &amp; Sell Stops</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bear"></div><span class="card-title">Sell Stops</span></div>
+        <p><em>"This old low — below that is sell stops."</em></p>
+        <span class="ts">1:24</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bull"></div><span class="card-title">Buy Stops</span></div>
+        <p><em>"Relative equal highs — above that is buy stops."</em></p>
+        <span class="ts">1:37</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot"></div><span class="card-title">Logic of Buy Stops Above Highs</span></div>
+        <p><em>"Above old highs — a neophyte perspective will be these are unknown orders so therefore that's a flawed perspective on price action. How do you know there's liquidity up there? How do you know there's buy stops up there? It's just logic."</em></p>
+        <span class="ts">7:36</span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Whenever I see equal highs like this and if it's higher than an old high over here I'm going to use that."</p>
+      <span class="ts">1:44</span>
+    </div>
+
+    <div class="quote">
+      <p>"The sell side liquidity — you can see that the market trades down, hits that, runs through it, then rallies all the way back up, clearing equal highs. So the buy stops have been taken here."</p>
+      <span class="ts">1:55</span>
+    </div>
+
+    <h3>Engineering Liquidity</h3>
+
+    <div class="quote quote-bull">
+      <p>"These highs right here is just staying below that low, it's building up more interest that this is what resistance. That is engineering liquidity. That way, when this runs above it, those individuals that know what you're learning today, they know that that's a pool of liquidity for buyers coming in at a high price. Why is that useful? Because smart money that bought down here — that's where they sell. To high seeking buyers."</p>
+      <span class="ts">28:38</span>
+    </div>
+  </section>
+
+  <!-- ─── MSS PATTERN ─── -->
+  <section id="structure">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>The Market Structure Shift Pattern</h2>
+    </div>
+
+    <h3>Short-Term High Formation</h3>
+
+    <div class="quote">
+      <p>"We have this high on this candle, then we have the candle right after that here the highest one, and then the lower high of this candle here. So that's a swing high. Very simple little pattern but it means a lot when it's in the proper context."</p>
+      <span class="ts">9:54</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"When this high is broken with this particular candle right there that is significant only on the basis that we have taken liquidity out of the marketplace. That's it."</p>
+      <span class="ts">10:10</span>
+    </div>
+
+    <h3>The Only Condition That Makes It Significant</h3>
+
+    <div class="quote quote-bear">
+      <p>"When this high is taken out right there on that candle that's significant — only, only if this run down here has traded into sell stops. Okay, below an old low, some kind — it could be a double bottom, it could be a single low — but it's got to be trading under some retail idea that would be viewed as support."</p>
+      <span class="ts">6:56</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"Up here the same thing — we're trading above highs."</p>
+      <span class="ts">7:31</span>
+    </div>
+
+    <h3>Sequence: Sell-Side Driven MSS (Bullish)</h3>
+
+    <!-- BULLISH MSS DIAGRAM -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#9898a8"/>
+          </marker>
+          <marker id="arr-gold" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#ffa502"/>
+          </marker>
+          <marker id="arr-bull" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#2ed573"/>
+          </marker>
+        </defs>
+
+        <!-- bg -->
+        <rect width="760" height="320" fill="#0f0f18" rx="6"/>
+
+        <!-- labels font -->
+        <style>
+          .svg-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; fill: #9898a8; }
+          .svg-label-gold { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; fill: #ffa502; }
+          .svg-label-bull { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; fill: #2ed573; }
+          .svg-label-bear { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; fill: #ff4757; }
+          .svg-label-sm { font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #5a5a6a; }
+        </style>
+
+        <!-- OLD LOW zone (sell stops) -->
+        <rect x="60" y="200" width="90" height="16" fill="rgba(255,71,87,0.08)" rx="2"/>
+        <line x1="60" y1="208" x2="150" y2="208" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="62" y="197" class="svg-label-bear">Old Low</text>
+        <text x="62" y="229" class="svg-label-sm">[ sell stops below ]</text>
+
+        <!-- price comes down, sweeps sell stops -->
+        <!-- candle body down run 1 -->
+        <rect x="90" y="155" width="8" height="50" fill="#ff4757" opacity="0.7" rx="1"/>
+        <line x1="94" y1="155" x2="94" y2="140" stroke="#ff4757" stroke-width="1"/>
+        <line x1="94" y1="205" x2="94" y2="220" stroke="#ff4757" stroke-width="1"/>
+
+        <!-- down candle 2 -->
+        <rect x="104" y="175" width="8" height="38" fill="#ff4757" opacity="0.7" rx="1"/>
+        <line x1="108" y1="175" x2="108" y2="160" stroke="#ff4757" stroke-width="1"/>
+        <line x1="108" y1="213" x2="108" y2="226" stroke="#ff4757" stroke-width="1"/>
+
+        <!-- sweep low -->
+        <rect x="118" y="188" width="8" height="28" fill="#ff4757" opacity="0.7" rx="1"/>
+        <line x1="122" y1="188" x2="122" y2="173" stroke="#ff4757" stroke-width="1"/>
+        <line x1="122" y1="216" x2="122" y2="232" stroke="#ff4757" stroke-width="1"/>
+
+        <!-- sweep annotation -->
+        <text x="107" y="248" class="svg-label-bear">Trades into sell stops</text>
+
+        <!-- short-term high formed BEFORE sweep -->
+        <!-- swing high marker: lower high, higher high, lower high pattern -->
+        <rect x="54" y="145" width="8" height="28" fill="#3a3a50" rx="1"/>
+        <rect x="66" y="132" width="8" height="41" fill="#3a3a50" rx="1"/>
+        <rect x="78" y="139" width="8" height="34" fill="#3a3a50" rx="1"/>
+        <!-- swing high line -->
+        <line x1="62" y1="132" x2="78" y2="132" stroke="#ffa502" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="32" y="130" class="svg-label-gold">Short-term High</text>
+        <line x1="62" y1="130" x2="62" y2="126" stroke="#ffa502" stroke-width="0.7" marker-end="url(#arr-gold)"/>
+
+        <!-- rally up from sell stops -->
+        <rect x="132" y="175" width="8" height="28" fill="#2ed573" opacity="0.6" rx="1"/>
+        <rect x="144" y="155" width="8" height="38" fill="#2ed573" opacity="0.7" rx="1"/>
+        <rect x="156" y="138" width="8" height="45" fill="#2ed573" opacity="0.8" rx="1"/>
+
+        <!-- break of short-term high -->
+        <rect x="170" y="122" width="8" height="52" fill="#2ed573" opacity="0.9" rx="1"/>
+        <line x1="170" y1="122" x2="180" y2="122" stroke="#2ed573" stroke-width="1.5"/>
+        <!-- break label -->
+        <text x="182" y="126" class="svg-label-bull">Short-term High broken</text>
+        <text x="182" y="138" class="svg-label-bull">= Market Structure Shift Bullish</text>
+
+        <!-- horizontal dashed from short-term high to break candle -->
+        <line x1="74" y1="132" x2="170" y2="132" stroke="#ffa502" stroke-width="0.7" stroke-dasharray="4,3"/>
+
+        <!-- FVG zone after break -->
+        <rect x="180" y="104" width="14" height="20" fill="rgba(46,213,115,0.15)" rx="1"/>
+        <line x1="180" y1="104" x2="194" y2="104" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="2,2"/>
+        <line x1="180" y1="124" x2="194" y2="124" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="2,2"/>
+        <text x="196" y="110" class="svg-label-bull">Fair Value Gap</text>
+        <text x="196" y="122" class="svg-label-sm">[ after MSS ]</text>
+
+        <!-- OB: series of down candles -->
+        <text x="65" y="102" class="svg-label-gold">Series of down-closed candles</text>
+        <text x="65" y="114" class="svg-label-sm">= continuous order block</text>
+        <text x="65" y="124" class="svg-label-sm">opening price = buy entry level</text>
+
+        <!-- price seeks buy stops after MSS -->
+        <line x1="212" y1="85" x2="240" y2="60" stroke="#9898a8" stroke-width="1" marker-end="url(#arr)"/>
+        <text x="242" y="64" class="svg-label">Market seeks buy stops</text>
+
+        <!-- draw on liquidity arrows above -->
+        <rect x="300" y="46" width="80" height="12" fill="rgba(46,213,115,0.06)" rx="2"/>
+        <line x1="300" y1="52" x2="380" y2="52" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="302" y="44" class="svg-label-bull">Buy stops above here</text>
+        <text x="302" y="72" class="svg-label-sm">draw on liquidity</text>
+
+        <!-- right side: price continues up -->
+        <rect x="220" y="74" width="8" height="22" fill="#2ed573" opacity="0.8" rx="1"/>
+        <rect x="232" y="63" width="8" height="28" fill="#2ed573" opacity="0.8" rx="1"/>
+        <rect x="244" y="54" width="8" height="32" fill="#2ed573" opacity="0.8" rx="1"/>
+        <rect x="256" y="46" width="8" height="36" fill="#2ed573" opacity="0.8" rx="1"/>
+
+        <!-- x axis label -->
+        <text x="30" y="285" class="svg-label-sm">TIME →</text>
+        <line x1="45" y1="275" x2="720" y2="275" stroke="#2a2a3a" stroke-width="1"/>
+
+        <!-- chart label -->
+        <text x="580" y="295" class="svg-label-sm">2-minute / 1-minute chart (NQ)</text>
+      </svg>
+      <p class="diagram-caption">Bullish Market Structure Shift: Sell stops traded into → Short-term high broken → Fair value gap forms</p>
+    </div>
+
+    <h3>When the Swing High Is Broken</h3>
+
+    <div class="quote quote-bull">
+      <p>"So when it broke this short term high this is more meaningful and then the market will start to seek buy stops, okay, or buy side liquidity that would rest above here."</p>
+      <span class="ts">10:21</span>
+    </div>
+
+    <h3>Bearish MSS: After Buy Stops Taken</h3>
+
+    <div class="quote quote-bear">
+      <p>"So now we have a shift in market structure that is now bearish only because we've taken buy stops."</p>
+      <span class="ts">18:00</span>
+    </div>
+
+    <div class="quote">
+      <p>"The buy stops above here — that was taken. This swing low forms once this candle closes, so this candle we're watching, does it go below that short term low? It does. So now we have a shift in market structure that is now bearish."</p>
+      <span class="ts">17:53</span>
+    </div>
+
+    <h3>The Light Bulb Moment</h3>
+
+    <div class="quote quote-gold">
+      <p>"When the market rallies above — when does that happen? On this candle right here. See that little light bulb. That's when you're thinking okay now I have a condition in the marketplace that I might see an opportunity intraday. Let's see if there's further evidence to that."</p>
+      <span class="ts">13:28</span>
+    </div>
+
+    <div class="quote">
+      <p>"High is taken here. We traded above it. It does not need to close above that."</p>
+      <span class="ts">13:47</span>
+    </div>
+  </section>
+
+  <!-- ─── ORDER BLOCKS ─── -->
+  <section id="order-blocks">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Order Blocks</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"What is an order block? It's just change in the state of delivery. Okay, it's a change in the state of delivery."</p>
+      <span class="ts">24:28</span>
+    </div>
+
+    <h3>Continuous Order Block</h3>
+
+    <div class="quote">
+      <p>"See these down closed candles, see that — that's all one continuous order block."</p>
+      <span class="ts">15:04</span>
+    </div>
+
+    <div class="quote">
+      <p>"Where's the open on that series of down closed candles right here? That's the price level extending out in time."</p>
+      <span class="ts">15:18</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"So inside this fair value gap this opening price on the order block — that's your buy plus three pips or whatever for spread and that's what you would use for a limit order."</p>
+      <span class="ts">15:27</span>
+    </div>
+
+    <h3>How Change of State Works</h3>
+
+    <div class="quote">
+      <p>"The market's being offered higher higher higher in these two up close candles. How did this series of up close candles begin? With this candle's opening right there. That opening — once this candle trades below it — that changes the state of delivery. So you go back to that point of reference right there. And that's why it's sensitive. The algorithm remembers that right there."</p>
+      <span class="ts">24:36</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"Same thing here — buy side is being offered until that opening price is violated right there. Then the change of state of delivery occurs. Now the market's going to be doing what? Offering sell side liquidity. What's that mean? It's going to start going lower and attacking the sell stops."</p>
+      <span class="ts">26:14</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"All these down closed candles the opening on that candle starts this series of delivery on the downside. When that opening price gets violated here, it changes its state of delivery. Now it was offering sell side, when it goes above that opening now it's offering buy side. What will it be doing after that? It will be looking for buy stops buy stops buy stops because it's offering buy side liquidity."</p>
+      <span class="ts">25:11</span>
+    </div>
+
+    <h3>What Makes a High Probability Bearish Order Block</h3>
+
+    <div class="quote quote-bear">
+      <p>"Why is this a good bearish order block? Because it has that gap. And it's taken liquidity. And there's a market structure shift. There's your high frequency, high power, high probability bearish order block."</p>
+      <span class="ts">23:55</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot"></div><span class="card-title">Three Requirements</span></div>
+        <p><em>"It has that gap. And it's taken liquidity. And there's a market structure shift."</em></p>
+        <span class="ts" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);display:block;margin-top:0.4rem;">23:55</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot"></div><span class="card-title">Fair Value Gap Trigger</span></div>
+        <p><em>"Once that candle closes and this candle opens you're gonna monitor this candle and you want to see as soon as this candle closes does it create that fair value gap."</em></p>
+        <span class="ts" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);display:block;margin-top:0.4rem;">13:56</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot"></div><span class="card-title">Fair Value Gap Defined</span></div>
+        <p><em>"That's a candle with a high one single pass up, next candle has a low it doesn't completely overlap all this. That's a fair value — real simple."</em></p>
+        <span class="ts" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);display:block;margin-top:0.4rem;">14:08</span>
+      </div>
+    </div>
+
+    <h3>Two Fair Value Gaps Present</h3>
+
+    <div class="quote">
+      <p>"Whenever there's two fair value gaps like this — the idea is I'm going to let it trade down to that lower one, I'll sacrifice that better entry. And if it trades down there and trades into it and then comes right back up into that green box, the first higher fair value gap, I'll enter when it's in there and expect that the lower one won't be retraded to."</p>
+      <span class="ts">42:04</span>
+    </div>
+  </section>
+
+  <!-- ─── SESSIONS ─── -->
+  <section id="sessions">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Session Highs &amp; Lows</h2>
+    </div>
+
+    <div class="quote">
+      <p>"Every time I tell you just always set it with New York local time."</p>
+      <span class="ts">33:02</span>
+    </div>
+
+    <div class="session-grid">
+      <div class="session-card">
+        <div class="session-name">London Session</div>
+        <div class="session-time">2:00 AM – 5:00 AM</div>
+        <p>New York local time</p>
+      </div>
+      <div class="session-card">
+        <div class="session-name">New York Session</div>
+        <div class="session-time">7:00 AM – 10:00 AM</div>
+        <p>New York local time</p>
+      </div>
+      <div class="session-card">
+        <div class="session-name">Asia Session</div>
+        <div class="session-time">7:00 PM – 9:00 PM</div>
+        <p>New York local time</p>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Those are the three times of the day that I'm looking for specific key highs and key lows. And any intraday high and low forming right before the equities open at 9:30."</p>
+      <span class="ts">33:40</span>
+    </div>
+
+    <h3>Hours of Operation</h3>
+
+    <div class="quote">
+      <p>"The hours of operation again are generally between 8:30 in the morning until 11, but it can be extended to New York lunch, noon. I do not tend to take trades after noon local time in New York. That hour is usually very problematic and it's just it's better not to even look for any kind of setups. Wait until one o'clock — preferably really 1:30 to 4 o'clock, then you get that afternoon trend."</p>
+      <span class="ts">33:52</span>
+    </div>
+
+    <div class="quote">
+      <p>"Typically you'll see between two o'clock and three o'clock there's a setup that usually forms in the afternoon trend or setup in that period of the time of the day."</p>
+      <span class="ts">34:18</span>
+    </div>
+
+    <div class="quote">
+      <p>"The market's going to probably sweep above those highs or sweep below those lows and create situations like this."</p>
+      <span class="ts">33:14</span>
+    </div>
+  </section>
+
+  <!-- ─── INTERNAL RANGE LIQUIDITY ─── -->
+  <section id="internal-rl">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Internal Range Liquidity — Defined</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"Internal range liquidity is looking for short-term lows or short-term highs inside a price leg that we're retracing back into. That's all it means. Internal range liquidity is a short term high or low with stops above or below it, or an imbalance in that same range of price action."</p>
+      <span class="ts">35:02</span>
+    </div>
+
+    <h3>Targets When Short</h3>
+
+    <div class="quote">
+      <p>"What are you looking for? Below here sell stops, below here sell stops, below here sell stops and in this fair value gap here."</p>
+      <span class="ts">18:13</span>
+    </div>
+
+    <h3>The 50% Level Target</h3>
+
+    <div class="quote">
+      <p>"This is below the 50 level of this high and that low. So 50 is what we're targeting now. This candle's low was the high end or first objective inside this gap."</p>
+      <span class="ts">19:43</span>
+    </div>
+
+    <div class="quote">
+      <p>"You're looking for low hanging fruit — the easiest target to get to. You're not trying to be perfect and you grow into eventually holding to see if it will fill in that gap."</p>
+      <span class="ts">20:01</span>
+    </div>
+
+    <h3>State of Delivery — Sell Side</h3>
+
+    <div class="quote quote-bear">
+      <p>"Now it's offering sell side — what's that mean? It's going to match up sell stops. It's going to keep going below old lows, into an imbalance, until we get down to a discount."</p>
+      <span class="ts">31:22</span>
+    </div>
+
+    <h3>Algorithm Delivering Price</h3>
+
+    <div class="quote">
+      <p>"High frequency algorithms are hammering, they're just throwing orders in — buy buy buy buy buy. That is not okay here's an important thing — that is not causing the market to go higher. It's just volume that's coming in. The algorithms that deliver price — that offer price — they're constantly offering the price in the marketplace. That's what's beginning to spool and go higher."</p>
+      <span class="ts">21:15</span>
+    </div>
+
+    <div class="quote">
+      <p>"When price starts to rally — all this is is a default to the algorithm constantly offering price at a higher price."</p>
+      <span class="ts">22:23</span>
+    </div>
+
+    <h3>Homework Assigned</h3>
+
+    <div class="quote">
+      <p>"Your homework is you're going to go through your e-mini futures intraday charts and you'll be looking for stop hunts that lead to market structure shifts intraday. You're going to log your examples with your own annotations for your study journal. So what I showed with the break in the market going higher and lower above old highs or lower below an old low — that's running for stops — that's a stop hunt. Then you're looking for that signature for the market structure shift on the three, two and or one minute charts."</p>
+      <span class="ts">35:44</span>
+    </div>
+
+    <div class="quote">
+      <p>"If you look for that between 8:30 in the morning to noon New York local time in the e-mini markets or if you're watching the micro markets the same logic exists."</p>
+      <span class="ts">36:16</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"The more you do it and you annotate your charts the more experience you're going to have. And it's pseudo experience yes, but you're teaching your brain."</p>
+      <span class="ts">36:35</span>
+    </div>
+  </section>
+
+  <!-- ─── FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Study Flashcards</h2>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.85rem;font-family:'JetBrains Mono',monospace;margin-bottom:1rem;">Click any card to reveal the answer — direct transcript quotes only.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why is an intraday market structure shift called a "shift" and not a "break"?</div>
+        <div class="flashcard-answer">"It's not necessarily a break in market structure that leads to prolonged multi-day movement… an intraday shift in market structure just means that there's likely a downside draw or an upside draw intraday."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the only condition that makes a short-term high being broken "significant"?</div>
+        <div class="flashcard-answer">"Only, only if this run down here has traded into sell stops. Okay below an old low some kind — it could be a double bottom it could be a single low — but it's got to be trading under some retail idea that would be viewed as support."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the definition of an order block?</div>
+        <div class="flashcard-answer">"It's just change in the state of delivery. Okay, it's a change in the state of delivery."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where is the entry price on a bullish order block?</div>
+        <div class="flashcard-answer">"Where's the open on that series of down closed candles right here — that's the price level extending out in time. So inside this fair value gap this opening price on the order block — that's your buy plus three pips or whatever for spread and that's what you would use for a limit order."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the three things that make a high probability bearish order block?</div>
+        <div class="flashcard-answer">"It has that gap. And it's taken liquidity. And there's a market structure shift. There's your high frequency high power high probability bearish order block."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is internal range liquidity?</div>
+        <div class="flashcard-answer">"Internal range liquidity is looking for short-term lows or short-term highs inside a price leg that we're retracing back into. That's all it means. Internal range liquidity is a short term high or low with stops above or below it, or an imbalance in that same range of price action."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Does the candle breaking the short-term high need to close above it?</div>
+        <div class="flashcard-answer">"High is taken here. We traded above it. It does not need to close above that."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does the algorithm do once change of state of delivery to buy side occurs?</div>
+        <div class="flashcard-answer">"When it goes above that opening now it's offering buy side. What will it be doing after that? It will be looking for buy stops buy stops buy stops because it's offering buy side liquidity."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When two fair value gaps are present, how does ICT approach entry?</div>
+        <div class="flashcard-answer">"I'm going to let it trade down to that lower one, I'll sacrifice that better entry. And if it trades down there and trades into it and then comes right back up into that green box, the first higher fair value gap, I'll enter when it's in there and expect that the lower one won't be retraded to."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the London, New York, and Asia session windows in New York local time?</div>
+        <div class="flashcard-answer">"London session — two o'clock to five o'clock in the morning. New York session is seven o'clock in the morning to ten o'clock in the morning. Asia — seven p.m. to nine p.m."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the primary trading window for this methodology?</div>
+        <div class="flashcard-answer">"The hours of operation again are generally between 8:30 in the morning until 11 but it can be extended to New York lunch noon. I do not tend to take trades after noon local time in New York. That hour is usually very problematic."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the market doing when price is rallying — is it buying pressure causing it?</div>
+        <div class="flashcard-answer">"High frequency algorithms are hammering, they're just throwing orders in — buy buy buy buy buy. That is not causing the market to go higher. It's just volume that's coming in. The algorithms that deliver price — that offer price — they're constantly offering the price in the marketplace. That's what's beginning to spool and go higher."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the market structure shift homework assignment?</div>
+        <div class="flashcard-answer">"You're going to go through your e-mini futures intraday charts and you'll be looking for stop hunts that lead to market structure shifts intraday. You're going to log your examples with your own annotations for your study journal… on the three, two and or one minute charts."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the first objective / low-hanging-fruit target when entering a trade?</div>
+        <div class="flashcard-answer">"You're looking for low hanging fruit — the easiest target to get to. You're not trying to be perfect and you grow into eventually holding to see if it will fill in that gap."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does ICT keep a clean chart when trading?</div>
+        <div class="flashcard-answer">"I allow myself to be flexible whereas if you have all these things you're putting on your chart you're only only seeing your will be done. So I keep my charts clean."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why is back testing and logging examples so important?</div>
+        <div class="flashcard-answer">"The more you do it and you annotate your charts the more experience you're going to have… because you're looking at it and you're seeing it over and over again repetitively, when you have a period of time where nothing feels like it's working and you feel confused you want to go back through your study journal and look at these examples because it will encourage you."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

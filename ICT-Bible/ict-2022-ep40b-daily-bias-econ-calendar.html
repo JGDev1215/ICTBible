@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Episode 40 — Daily Bias, Economic Calendar &amp; Intermarket Relationships</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #13131c;
+    --border: #2a2a3a;
+    --border-subtle: #1f1f2e;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6e;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-cyan: #00b4d8;
+    --accent-cyan-dim: rgba(0,180,216,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Crimson Pro', Georgia, serif; font-size: 18px; line-height: 1.7; }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(0,180,216,0.013) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,0.013) 1px, transparent 1px);
+    background-size: 50px 50px; pointer-events: none; z-index: 0;
+  }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-subtle); padding: 0 2rem; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.12em; padding: 1rem 1.2rem 1rem 0; white-space: nowrap; border-right: 1px solid var(--border-subtle); margin-right: 0.6rem; flex-shrink: 0; }
+  nav a { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; padding: 1rem 0.8rem; white-space: nowrap; flex-shrink: 0; transition: color 0.2s; }
+  nav a:hover { color: var(--accent-gold); }
+
+  header { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 3rem; }
+  .episode-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+  .episode-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent-cyan); }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .header-quote { font-family: 'Crimson Pro', serif; font-size: 1.25rem; font-style: italic; color: var(--text-secondary); border-left: 3px solid var(--accent-cyan); padding-left: 1.2rem; max-width: 700px; line-height: 1.6; }
+
+  main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+  section { margin-bottom: 4rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-subtle); }
+  .section-number { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
+  h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; }
+  h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--text-primary); margin: 1.8rem 0 0.8rem; }
+
+  .quote { background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-gold); padding: 1.2rem 1.5rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .quote p { font-family: 'Crimson Pro', serif; font-size: 1.05rem; color: var(--text-primary); line-height: 1.65; }
+  .quote.bear { border-left-color: var(--accent-bear); }
+  .quote.bull { border-left-color: var(--accent-bull); }
+  .quote.cyan { border-left-color: var(--accent-cyan); }
+  .timestamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  .callout { background: var(--accent-gold-dim); border: 1px solid rgba(255,165,2,0.2); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start; }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .callout p em { color: var(--text-primary); font-style: italic; }
+  .callout.cyan { background: var(--accent-cyan-dim); border-color: rgba(0,180,216,0.2); }
+  .callout.bull { background: var(--accent-bull-dim); border-color: rgba(46,213,115,0.2); }
+  .callout.bear { background: var(--accent-bear-dim); border-color: rgba(255,71,87,0.2); }
+
+  .concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .concept-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.4rem; transition: background 0.2s, border-color 0.2s; }
+  .concept-card:hover { background: var(--bg-card-hover); border-color: var(--accent-gold); }
+  .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+  .card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold); }
+  .concept-card p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .concept-card p em { font-style: italic; color: var(--text-primary); }
+
+  .diagram-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
+  .diagram-caption { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; }
+
+  .rule-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1rem 0; }
+  .rule-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.9rem 1.2rem; background: var(--bg-inset); border: 1px solid var(--border-subtle); border-radius: 6px; }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-dot.bear { background: var(--accent-bear); }
+  .rule-dot.bull { background: var(--accent-bull); }
+  .rule-dot.cyan { background: var(--accent-cyan); }
+  .rule-item p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.5; }
+  .rule-item p em { font-style: italic; color: var(--text-primary); }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 3rem 0; }
+
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .flashcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.3rem 1.5rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; min-height: 100px; position: relative; overflow: hidden; }
+  .flashcard::after { content: 'TAP TO REVEAL'; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--text-muted); position: absolute; bottom: 0.7rem; right: 0.9rem; }
+  .flashcard.revealed::after { display: none; }
+  .flashcard:hover { border-color: var(--accent-cyan); background: var(--bg-card-hover); }
+  .flashcard-question { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+  .flashcard-answer { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-family: 'Crimson Pro', serif; font-size: 1rem; font-style: italic; color: var(--accent-bull); line-height: 1.55; }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .flashcard-ts { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 0.4rem; font-style: normal; }
+
+  .study-intro { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+  @media (max-width: 640px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    main { padding: 0 1.2rem 4rem; }
+    .flashcard-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-label">EP. 40</span>
+    <a href="#daily-bias-rules">Daily Bias Rules</a>
+    <a href="#weekly-direction">Weekly Expansion Direction</a>
+    <a href="#econ-calendar">Economic Calendar</a>
+    <a href="#london-close">London Close 10–11</a>
+    <a href="#kill-zones">New York Kill Zones</a>
+    <a href="#risk-on-off">Risk On / Risk Off</a>
+    <a href="#intermarket">Intermarket Relationships</a>
+    <a href="#smt-pairs">SMT for Pair Selection</a>
+    <a href="#everyday-trader">The Everyday Trader Problem</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <div class="episode-tag">2022 ICT Mentorship &mdash; Episode 40</div>
+  <h1>Daily Bias, Economic Calendar<br>&amp; Intermarket Relationships</h1>
+  <p class="header-quote"><em>"everyday bias is unrealistic... i'm not trying to get a daily bias every single day i'm trying to determine the likely weekly expansion"</em></p>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. DAILY BIAS RULES                         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="daily-bias-rules">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Daily Bias — The Actual Rules</h2>
+    </div>
+
+    <div class="quote cyan">
+      <p><em>"everyday bias is unrealistic if i go in looking for a specific predetermined daily bias before the market starts trading invariably i'm going to have it incorrect"</em></p>
+      <span class="timestamp">20:44</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i'm not trying to get a daily bias every single day i'm trying to determine the likely weekly expansion and again what is that i utilize a weekly chart and i studied that and i want to see does it look like it's going to run to an old low does it look like it's going to run to an old high or is it running to a imbalance below the market price or is it trying to run to an imbalance above the market price"</em></p>
+      <span class="timestamp">21:29</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"in the beginning all you're trying to do is determine is it likely to expand higher is there going to be a big move a flurry of activity going higher during the week or going lower during the week and by itself that is huge in terms of what you're trying to pick"</em></p>
+      <span class="timestamp">22:47</span>
+    </div>
+
+    <div class="callout cyan">
+      <span class="callout-icon">◈</span>
+      <p>This is the explicit statement ICT makes about daily bias: not expected every day, not predetermined before market open. The actual process starts with the weekly chart to determine expansion direction — then let the daily and intraday setups confirm within that frame.</p>
+    </div>
+
+    <div class="quote">
+      <p><em>"it's already given you permission not to know the daily bias outside of these rules so you want to trade every single day because you want to be the everyday trader i don't want to be the everyday trader"</em></p>
+      <span class="timestamp">27:39</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. WEEKLY EXPANSION DIRECTION               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="weekly-direction">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Weekly Expansion Direction — What to Look For</h2>
+    </div>
+
+    <div class="quote>
+      <p><em>"i'm looking for the direction of an expansion move i'm not trying to get the entire weekly range i'm not trying to buy the weekly low and sell the weekly high i can but that's not what i'm trying to do"</em></p>
+      <span class="timestamp">22:22</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"i'm trying to look for where is the bulk of that volatility going to be pushing higher or lower and why would it be like that and it's as simple as what i mentioned earlier is it aiming for and gravitating towards an old high to run above it or is it gravitating towards an old low to run below it or is there an imbalance where it needs to come back and revisit that"</em></p>
+      <span class="timestamp">23:33</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"i don't even need to know that all i need to know is what direction is it most likely to have the majority of the volume pushing through"</em></p>
+      <span class="timestamp">24:01</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"this is how you can do that with that model you look for the economic calendar the time of day what kill zone in the market you're expecting an expansion high or low on that weekly chart"</em></p>
+      <span class="timestamp">29:19</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Old High Above</span></div>
+        <p>Is price gravitating toward an old high to run above it? → Bullish weekly expansion</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Old Low Below</span></div>
+        <p>Is price gravitating toward an old low to run below it? → Bearish weekly expansion</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Imbalance</span></div>
+        <p><em>"is there an imbalance where it needs to come back and revisit that because it might just drop down to a fair value gap to go higher longer term"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. ECONOMIC CALENDAR                        -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="econ-calendar">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Economic Calendar — High &amp; Medium Impact Only</h2>
+    </div>
+
+    <div class="quote cyan">
+      <p><em>"i focus on days that have high or medium impact calendar events only"</em></p>
+      <span class="timestamp">25:23</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"yellow events i'm not interested in red or medium impact high or medium impact those are the news drivers i'm looking for"</em></p>
+      <span class="timestamp">8:14</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"if you go through your economic calendar in fact you can look at next month's economic counter they're already there where are the high impact or medium impact news events for the markets that you trade what day of the week and what time"</em></p>
+      <span class="timestamp">25:30</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"so if you have a news driver that's coming out on a particular day say tuesday or wednesday and you're expecting the weekly range to expand lower well on those medium impact or high impact news events i'm going to see hopefully something that is going to run up higher go into a fair value gap or run above a short term high run stops then break down show displacement then create a fair value gap and i can go in short on that"</em></p>
+      <span class="timestamp">25:51</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"the best setups occur when these calendar events are in play and they originate around that same time"</em></p>
+      <span class="timestamp">30:01</span>
+    </div>
+
+    <div class="callout>
+      <span class="callout-icon">◆</span>
+      <p><em>"sometimes there may be a move that happens prior to the economic calendar event occurring and that's just going to be a missed opportunity so you have to use something else some other pair something else that you got the trade with"</em></p>
+    </div>
+
+    <h3>How to Use the Calendar for Pair Selection</h3>
+    <div class="quote>
+      <p><em>"how do you know which pair to trade how do you know which one to pick i'm starting that with the economic calendar"</em></p>
+      <span class="timestamp">46:27</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"or is it likely not to move because there's no data for it for that week and other markets have high impact or medium impact news that would be more interesting and the algorithm will be working those pairs or markets and the pairs or markets that don't have a high impact or medium impact driver will probably be a lackluster market environment"</em></p>
+      <span class="timestamp">21:53</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. LONDON CLOSE 10–11                       -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="london-close">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>London Close — 10 to 11 AM New York Time</h2>
+    </div>
+
+    <div class="quote cyan">
+      <p><em>"that time frame 10 to 11 that's london close so if you're looking for directional plays and you're in a trade you want to have about 80 percent of your trade off between 10 o'clock and 11 o'clock in the morning because usually not all the time but usually that's when it creates the opposing end of the daily range"</em></p>
+      <span class="timestamp">17:29</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"so if it's creating the high of the session here the low is likely to form between 10 o'clock and 11 o'clock that's algorithmic"</em></p>
+      <span class="timestamp">17:46</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"i promise you i have students for days and days and days and years and years now that will confirm that this has not just been form fitted for this example i've always taught that 10 o'clock until 11 o'clock in the morning is london closed profit taking hour"</em></p>
+      <span class="timestamp">18:18</span>
+    </div>
+
+    <h3>Exception — Canadian Dollar / Crude Oil</h3>
+    <div class="quote>
+      <p><em>"sometimes canadian dollars influenced by crude oil numbers and that would sometimes skew this time window 10 to 11 so on those days when there's crude oil inventory numbers coming out and i'm interested in trading the loony i will trade with the expectation between 10 o'clock to noon and not have such a tight little window of 10 to 11"</em></p>
+      <span class="timestamp">18:01</span>
+    </div>
+
+    <div class="callout cyan">
+      <span class="callout-icon">◈</span>
+      <p>Rule: have ~80% of your trade off between 10–11 AM New York. Exception: crude oil inventory days when trading CAD pairs → extend window to 10 AM–noon.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. NEW YORK KILL ZONE (FOREX)               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="kill-zones">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>New York Kill Zone — Forex</h2>
+    </div>
+
+    <div class="quote>
+      <p><em>"once we ran up initially at seven o'clock in the morning what is seven o'clock in the morning new york time that's the beginning of my ict new york kill zone it's extended to 10 o'clock in the morning when it's 4x so 7 o'clock to 10 in the morning near the local time"</em></p>
+      <span class="timestamp">8:32</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"during the new york kill zone it gave you the setup that i teach in this model delivered to the fair value gap and delivered to the south side of koji pool"</em></p>
+      <span class="timestamp">12:17</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Forex NY Kill Zone</span></div>
+        <p><em>"7 o'clock to 10 in the morning new york local time"</em></p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Index Futures Morning Session</span></div>
+        <p><em>"from 8 30 in the morning to 11 this is specific to index futures for the morning session"</em></p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">London Creates Low</span></div>
+        <p><em>"london creates the higher the load most of the time 70 of time you're going to find that that is true if your directional bias is correct"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. RISK ON / RISK OFF                       -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="risk-on-off">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Risk On / Risk Off</h2>
+    </div>
+
+    <div class="quote bull">
+      <p><em>"risk on that means foreign currencies index futures stocks go higher dollar goes down"</em></p>
+      <span class="timestamp">45:06</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"risk off is dollar higher and everything else going down"</em></p>
+      <span class="timestamp">45:13</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"if you go into your day with those ideas risk on risk off it makes it a lot easier to look for supporting ideas with intermarket relationships correlations between assets"</em></p>
+      <span class="timestamp">45:17</span>
+    </div>
+
+    <!-- RISK ON / OFF DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Risk On vs Risk Off — What Moves With Dollar</div>
+      <svg viewBox="0 0 700 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Risk On block -->
+        <rect x="20" y="30" width="310" height="100" rx="6" fill="rgba(46,213,115,0.1)" stroke="rgba(46,213,115,0.35)" stroke-width="1.5"/>
+        <text x="175" y="55" text-anchor="middle" font-size="11" fill="#2ed573" font-family="'JetBrains Mono',monospace">RISK ON</text>
+        <text x="175" y="75" text-anchor="middle" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">Dollar ↓</text>
+        <text x="175" y="92" text-anchor="middle" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Foreign currencies ↑</text>
+        <text x="175" y="108" text-anchor="middle" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Index futures / stocks ↑</text>
+        <text x="175" y="124" text-anchor="middle" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"dollar goes down it's easy for spoos to go higher"</text>
+
+        <!-- Risk Off block -->
+        <rect x="370" y="30" width="310" height="100" rx="6" fill="rgba(255,71,87,0.1)" stroke="rgba(255,71,87,0.35)" stroke-width="1.5"/>
+        <text x="525" y="55" text-anchor="middle" font-size="11" fill="#ff4757" font-family="'JetBrains Mono',monospace">RISK OFF</text>
+        <text x="525" y="75" text-anchor="middle" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">Dollar ↑</text>
+        <text x="525" y="92" text-anchor="middle" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Foreign currencies ↓</text>
+        <text x="525" y="108" text-anchor="middle" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Index futures / stocks ↓</text>
+        <text x="525" y="124" text-anchor="middle" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"dollar higher and everything else going down"</text>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 7. INTERMARKET RELATIONSHIPS                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="intermarket">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Intermarket Relationships — Dollar CAD &amp; S&P</h2>
+    </div>
+
+    <div class="quote>
+      <p><em>"dollar cad what is the currency's first pair in its name dollar so if we're expecting as i was hinting it on twitter it going down to a discount or running sell side liquidity that means the bias is bearish so if the bias is bearish on dollar cad that means that it's a risk-on scenario so the markets like s p nasdaq other foreign currencies are going to be easier to rally"</em></p>
+      <span class="timestamp">40:54</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"i don't need to go to the dollar itself when i have a high impact news event or one dollar cad i can go right to that and cut to the chase and determine what the bias is for the morning session"</em></p>
+      <span class="timestamp">41:35</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"as a forex trader you could be selling short if you're not an s p trader or if you're not trading forex like me this is the long one s p"</em></p>
+      <span class="timestamp">43:03</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"here is that movement up in the s p at the 9 30 time period when the dollar cad was trading down into its discount here so lower dollar cad higher s p"</em></p>
+      <span class="timestamp">42:51</span>
+    </div>
+
+    <div class="callout bull">
+      <span class="callout-icon">◈</span>
+      <p>The method: use the currency with the high-impact news event to determine risk-on/risk-off. Then apply that reading to the correlated market (e.g., bearish USD = bullish S&P). <em>"I found my trade by utilizing a market i'm not going to trade but if it's going to give me insights and it's going to go lower it helps me frame risk on risk off"</em></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 8. SMT FOR PAIR SELECTION                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="smt-pairs">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>SMT Divergence for Pair Selection</h2>
+    </div>
+
+    <div class="quote>
+      <p><em>"if you are trading like forex euro dollar versus cable uh euro dollar would be a better trade than say pound dollar if there is an inability for one of them to go low make a lower low and one doesn't do that that's showing you that's the relative strength leader that would be the better buy in this situation here"</em></p>
+      <span class="timestamp">45:28</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"if you're looking at situations like this and you find a currency that fails to make a lower low intraday when it's risk on you would be buying the risk on higher low currency"</em></p>
+      <span class="timestamp">45:57</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"just because the news driver is in for instance the euro the better trade may be in pound dollar if they both went down prior to the news event coming out for euro and if pound dollar failed to make a lower low i'm buying pound dollar because they're going to most likely move in sympathy with one another because they're closely correlated"</em></p>
+      <span class="timestamp">47:02</span>
+    </div>
+
+    <div class="callout>
+      <span class="callout-icon">◈</span>
+      <p>Application: Euro has high-impact news. Compare EUR/USD vs GBP/USD. If both went down but GBP/USD failed to make a lower low — <em>"i'm buying pound dollar because they're going to most likely move in sympathy."</em> The one that fails to make a lower low in risk-on = the relative strength leader = the better buy.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 9. THE EVERYDAY TRADER PROBLEM              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="everyday-trader">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>The Everyday Trader Problem</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"the everyday trader is more prone to have losing trades because they are trying to do something every single day when there are times when you should not be trading at all and that's what makes me different from all the other educators out there because i have made a career out of knowing how not to destroy myself"</em></p>
+      <span class="timestamp">27:54</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"trading is not an olympic sport it's not an olympic event and they don't give out gold medals for over trading but they do blow accounts"</em></p>
+      <span class="timestamp">30:19</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"eventually doing that enough and if you don't know what you're doing you're going to blow your account and that's hopefully what i'm trying to prevent you from enduring"</em></p>
+      <span class="timestamp">30:34</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 10. FLASHCARDS                              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <h2>Self-Study Flashcards</h2>
+    </div>
+    <p class="study-intro">Click any card to reveal the answer — all answers are direct quotes from the transcript.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Is it realistic to have a daily bias every single day?</div>
+        <div class="flashcard-answer">"everyday bias is unrealistic if i go in looking for a specific predetermined daily bias before the market starts trading invariably i'm going to have it incorrect"<span class="flashcard-ts">20:44</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the actual starting point for finding bias?</div>
+        <div class="flashcard-answer">"i'm not trying to get a daily bias every single day i'm trying to determine the likely weekly expansion and again what is that i utilize a weekly chart and i studied that and i want to see does it look like it's going to run to an old low does it look like it's going to run to an old high"<span class="flashcard-ts">21:29</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What type of calendar events does ICT focus on for setups?</div>
+        <div class="flashcard-answer">"i focus on days that have high or medium impact calendar events only"<span class="flashcard-ts">25:23</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the London Close profit-taking hour and what does it typically produce?</div>
+        <div class="flashcard-answer">"10 o'clock until 11 o'clock in the morning is london closed profit taking hour... that's when it creates the opposing end of the daily range so if it's creating the high of the session here the low is likely to form between 10 o'clock and 11 o'clock that's algorithmic"<span class="flashcard-ts">17:46 / 18:18</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How much of the trade should be off between 10–11 AM?</div>
+        <div class="flashcard-answer">"you want to have about 80 percent of your trade off between 10 o'clock and 11 o'clock in the morning because usually not all the time but usually that's when it creates the opposing end of the daily range"<span class="flashcard-ts">17:37</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the New York Kill Zone for Forex?</div>
+        <div class="flashcard-answer">"seven o'clock in the morning new york time that's the beginning of my ict new york kill zone it's extended to 10 o'clock in the morning when it's 4x so 7 o'clock to 10 in the morning"<span class="flashcard-ts">8:34</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is Risk On?</div>
+        <div class="flashcard-answer">"risk on that means foreign currencies index futures stocks go higher dollar goes down"<span class="flashcard-ts">45:06</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is Risk Off?</div>
+        <div class="flashcard-answer">"risk off is dollar higher and everything else going down"<span class="flashcard-ts">45:13</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How does bearish Dollar CAD relate to the S&P?</div>
+        <div class="flashcard-answer">"if the bias is bearish on dollar cad that means that it's a risk-on scenario so the markets like s p nasdaq other foreign currencies are going to be easier to rally"<span class="flashcard-ts">41:06</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you select which correlated pair to trade using SMT?</div>
+        <div class="flashcard-answer">"if you find a currency that fails to make a lower low intraday when it's risk on you would be buying the risk on higher low currency... they're going to most likely move in sympathy with one another because they're closely correlated"<span class="flashcard-ts">45:57 / 47:11</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say about the "everyday trader"?</div>
+        <div class="flashcard-answer">"the everyday trader is more prone to have losing trades because they are trying to do something every single day when there are times when you should not be trading at all"<span class="flashcard-ts">27:54</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does back-logging every day eventually reveal?</div>
+        <div class="flashcard-answer">"when that happens over time you're going to see that the best setups occur when these calendar events are in play and they originate around that same time and what will happen is it'll convince you to say okay i don't need to be the everyday trader"<span class="flashcard-ts">29:57</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

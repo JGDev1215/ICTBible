@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Episode 16 — Multiple Setups Inside Trading Sessions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #13131c;
+    --border: #2a2a3a;
+    --border-subtle: #1f1f2e;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6e;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-blue: #3d7aed;
+    --accent-blue-dim: rgba(61,122,237,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── GRID LINES BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,165,2,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,165,2,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── STICKY NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 1rem 1.2rem 1rem 0;
+    white-space: nowrap;
+    border-right: 1px solid var(--border-subtle);
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 1rem 0.8rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent-gold); }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .episode-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .episode-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent-gold);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .header-quote {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 1.2rem;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  section {
+    margin-bottom: 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 1.8rem 0 0.8rem;
+  }
+
+  /* ── QUOTE BLOCKS ── */
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--accent-gold);
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .quote p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    line-height: 1.65;
+  }
+
+  .quote p em {
+    font-style: italic;
+    color: var(--text-primary);
+  }
+
+  .timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  /* ── BEAR / BULL / GOLD QUOTE VARIANTS ── */
+  .quote.bear { border-left-color: var(--accent-bear); }
+  .quote.bull { border-left-color: var(--accent-bull); }
+  .quote.blue { border-left-color: var(--accent-blue); }
+
+  /* ── CONCEPT CARDS ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .concept-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-gold);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-gold);
+  }
+
+  .concept-card p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .concept-card p em {
+    font-style: italic;
+    color: var(--text-primary);
+  }
+
+  /* ── RULE PILLS ── */
+  .rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin: 1rem 0;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.9rem 1.2rem;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+  }
+
+  .rule-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .rule-dot.bear { background: var(--accent-bear); }
+  .rule-dot.bull { background: var(--accent-bull); }
+
+  .rule-item p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .rule-item p em {
+    font-style: italic;
+    color: var(--text-primary);
+  }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8em;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-subtle);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    color: var(--accent-gold);
+  }
+
+  /* ── SVG DIAGRAMS ── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  svg text {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── FLASHCARDS ── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flashcard::after {
+    content: 'TAP TO REVEAL';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    position: absolute;
+    bottom: 0.7rem;
+    right: 0.9rem;
+  }
+
+  .flashcard.revealed::after { display: none; }
+
+  .flashcard:hover {
+    border-color: var(--accent-gold);
+    background: var(--bg-card-hover);
+  }
+
+  .flashcard-question {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--accent-bull);
+    line-height: 1.55;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .flashcard-ts {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-style: normal;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 3rem 0;
+  }
+
+  /* ── CALLOUT BOX ── */
+  .callout {
+    background: var(--accent-gold-dim);
+    border: 1px solid rgba(255,165,2,0.2);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .callout-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .callout p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .callout p em {
+    color: var(--text-primary);
+    font-style: italic;
+  }
+
+  .callout.bear { background: var(--accent-bear-dim); border-color: rgba(255,71,87,0.2); }
+  .callout.bull { background: var(--accent-bull-dim); border-color: rgba(46,213,115,0.2); }
+  .callout.blue { background: var(--accent-blue-dim); border-color: rgba(61,122,237,0.2); }
+
+  /* ── STUDY HEADER ── */
+  .study-intro {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    main { padding: 0 1.2rem 4rem; }
+    .flashcard-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-label">EP. 16</span>
+    <a href="#sessions">Sessions</a>
+    <a href="#opening-prices">Opening Prices</a>
+    <a href="#judas">Judas Swing</a>
+    <a href="#morning-setups">Morning Setups</a>
+    <a href="#fib">Fib Projection</a>
+    <a href="#pm-session">PM Session</a>
+    <a href="#old-highs">Old Highs</a>
+    <a href="#algorithm">Algorithm</a>
+    <a href="#backtesting">Backtesting</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <div class="episode-tag">2022 ICT Mentorship &mdash; Episode 16</div>
+  <h1>Multiple Setups Inside<br>Trading Sessions</h1>
+  <p class="header-quote"><em>"all you're looking for is liquidity imbalances time of day that's it that's all this game is all about"</em></p>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. SESSION STRUCTURE                        -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="sessions">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Session Structure</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"there's a morning session and there's a pm session when you're working with the new york index futures"</em></p>
+      <span class="timestamp">0:19</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"8 30 in morning to noon that's essentially the morning session"</em></p>
+      <span class="timestamp">0:41</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"the new york lunch hour between noon and 1 o'clock p.m new york local time"</em></p>
+      <span class="timestamp">0:33</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"there can be multiple setups inside of that"</em></p>
+      <span class="timestamp">0:47</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"in the morning session you typically have two to three setups because you have volatility coming in at the opening opening being 9 30 new york local time"</em></p>
+      <span class="timestamp">19:00</span>
+    </div>
+
+    <!-- DAY STRUCTURE DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">New York Trading Day Structure</div>
+      <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;">
+        <!-- timeline bar background -->
+        <rect x="20" y="52" width="720" height="26" rx="4" fill="#13131c" stroke="#2a2a3a" stroke-width="1"/>
+
+        <!-- Overnight / pre-session: midnight to 8:30 -->
+        <rect x="20" y="52" width="180" height="26" rx="4" fill="rgba(90,90,110,0.25)" stroke="#2a2a3a" stroke-width="1"/>
+        <!-- Morning session: 8:30 to 12:00 -->
+        <rect x="200" y="52" width="240" height="26" rx="4" fill="rgba(46,213,115,0.18)" stroke="rgba(46,213,115,0.35)" stroke-width="1"/>
+        <!-- Lunch: noon to 1pm -->
+        <rect x="440" y="52" width="80" height="26" rx="4" fill="rgba(255,165,2,0.18)" stroke="rgba(255,165,2,0.35)" stroke-width="1"/>
+        <!-- PM session: 1pm to close -->
+        <rect x="520" y="52" width="220" height="26" rx="4" fill="rgba(61,122,237,0.18)" stroke="rgba(61,122,237,0.35)" stroke-width="1"/>
+
+        <!-- Labels inside bars -->
+        <text x="110" y="70" text-anchor="middle" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">OVERNIGHT</text>
+        <text x="320" y="70" text-anchor="middle" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">MORNING SESSION</text>
+        <text x="480" y="70" text-anchor="middle" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">LUNCH</text>
+        <text x="630" y="70" text-anchor="middle" font-size="9" fill="#3d7aed" font-family="'JetBrains Mono',monospace">PM SESSION</text>
+
+        <!-- Time markers below -->
+        <line x1="20" y1="82" x2="20" y2="92" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="20" y="104" text-anchor="middle" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">12 AM</text>
+
+        <line x1="200" y1="82" x2="200" y2="92" stroke="#2ed573" stroke-width="1"/>
+        <text x="200" y="104" text-anchor="middle" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">8:30</text>
+
+        <line x1="280" y1="82" x2="280" y2="92" stroke="#9898a8" stroke-width="1"/>
+        <text x="280" y="104" text-anchor="middle" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">9:30</text>
+
+        <line x1="440" y1="82" x2="440" y2="92" stroke="#ffa502" stroke-width="1"/>
+        <text x="440" y="104" text-anchor="middle" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">12:00</text>
+
+        <line x1="520" y1="82" x2="520" y2="92" stroke="#ffa502" stroke-width="1"/>
+        <text x="520" y="104" text-anchor="middle" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">1:00 PM</text>
+
+        <line x1="740" y1="82" x2="740" y2="92" stroke="#2a2a3a" stroke-width="1"/>
+        <text x="740" y="104" text-anchor="middle" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">CLOSE</text>
+
+        <!-- Midnight opening price marker -->
+        <line x1="20" y1="40" x2="20" y2="52" stroke="#ffa502" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="22" y="36" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Opening Price (Midnight)</text>
+
+        <!-- 8:30 opening price marker -->
+        <line x1="200" y1="40" x2="200" y2="52" stroke="#2ed573" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="202" y="36" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Opening Price (8:30)</text>
+      </svg>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">⚠</span>
+      <p><em>"i don't want to take entries during the lunch hour between noon and 1 o'clock but you can take profits if you're doing like a partial"</em> <span class="timestamp" style="display:inline;margin-top:0;">— 23:15</span></p>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. OPENING PRICES                           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="opening-prices">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>The Two Opening Prices</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"there's two if you're trading index futures the opening price is midnight at new york time... and then there's another opening price at 8 30 in the morning"</em></p>
+      <span class="timestamp">5:17</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"as soon as you have 8 30 beginning a new candle it could be a one minute candle it could be a three minute candle an hourly candle 15 minute candle whatever that opening price is that's what you want to note at 8 30"</em></p>
+      <span class="timestamp">5:43</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"it doesn't matter what candle you use"</em></p>
+      <span class="timestamp">5:35</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"the majority of your analysis should be framed on your daily chart where is it likely to go where is the expansion likely to take price higher or lower that's the main thing you're trying to look for because that's going to carve out your bias"</em></p>
+      <span class="timestamp">14:53</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. JUDAS SWING / MANIPULATION               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="judas">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Manipulation / Judas Swing</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"if you're bearish ideally you want to see the market trade above that opening price this is going to be manipulation"</em></p>
+      <span class="timestamp">6:00</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"the manipulation is the running above a key level when we are bearish we're expecting this to go lower"</em></p>
+      <span class="timestamp">6:07</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"all of this is basically market protraction where it's a judas swing okay the market's going in the opposing direction that it's likely to go to later in the day so later in the day we expect this to go lower"</em></p>
+      <span class="timestamp">6:15</span>
+    </div>
+
+    <!-- JUDAS SWING DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Bearish Judas Swing — Price Above Opening Price Before Selling Off</div>
+      <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Opening price line -->
+        <line x1="40" y1="130" x2="660" y2="130" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="44" y="125" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Opening Price (8:30 or Midnight)</text>
+
+        <!-- Price action: starts below OP, then rises above (Judas), then collapses -->
+        <!-- Pre-OP movement — roughly flat/slightly up to OP area -->
+        <polyline
+          points="60,145 100,140 140,135 180,132 220,130"
+          fill="none" stroke="#9898a8" stroke-width="1.5"/>
+
+        <!-- Judas swing — runs ABOVE opening price -->
+        <polyline
+          points="220,130 260,118 300,105 330,95 350,90"
+          fill="none" stroke="#ff4757" stroke-width="2"/>
+
+        <!-- Arrow up label -->
+        <text x="354" y="88" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Market trades above Opening Price</text>
+        <text x="354" y="100" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">"this is going to be manipulation"</text>
+
+        <!-- Reversal and sell-off -->
+        <polyline
+          points="350,90 380,110 410,125 450,145 490,165 530,185 570,200"
+          fill="none" stroke="#ff4757" stroke-width="2"/>
+
+        <!-- Down arrow indicator -->
+        <text x="574" y="198" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">↓ sells off lower</text>
+
+        <!-- Opening price label right side -->
+        <text x="604" y="128" font-size="9" fill="rgba(255,165,2,0.7)" font-family="'JetBrains Mono',monospace">OP</text>
+
+        <!-- "Bearish bias — expected direction" arrow at bottom -->
+        <text x="40" y="225" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Bearish bias established on daily chart</text>
+
+        <!-- legend dots -->
+        <circle cx="46" cy="55" r="4" fill="#ff4757"/>
+        <text x="55" y="59" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">Judas Swing / Manipulation</text>
+        <circle cx="46" cy="73" r="4" fill="#9898a8"/>
+        <text x="55" y="77" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">Pre-opening drift</text>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. MORNING SESSION SETUPS                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="morning-setups">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Morning Session Setups — Fair Value Gaps</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"that can be very tricky if you're not really sure what you're doing you can get caught up in the initial volatility and offside real quick and it can run against you aggressively and hurt you"</em></p>
+      <span class="timestamp">19:11</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i prefer to see my students look for the initial move to kind of like qualify what you're expected lower prices right so does it give it here yes it does"</em></p>
+      <span class="timestamp">19:24</span>
+    </div>
+
+    <h3>Setup 1</h3>
+    <div class="quote">
+      <p><em>"the first fair value gap here right there because we have this short term low broken with the run lower so there's displacement there obvious displacement very energetic and we have this candle is high this candle is low and the market returns back up into it you can go short there"</em></p>
+      <span class="timestamp">22:37</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"and look for what's the first objective that fulcrum point that short term low aim for the liquidity so your target would be there"</em></p>
+      <span class="timestamp">22:56</span>
+    </div>
+
+    <h3>Setup 2</h3>
+    <div class="quote">
+      <p><em>"another short term low taken fair value got there we trade back up into it that's a short"</em></p>
+      <span class="timestamp">23:53</span>
+    </div>
+
+    <h3>Setup 3</h3>
+    <div class="quote">
+      <p><em>"we have the imbalance here after we aggressively move lower and then retrace back up"</em></p>
+      <span class="timestamp">24:32</span>
+    </div>
+
+    <!-- FVG SHORT SETUP DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Fair Value Gap Short Entry — Short-term Low Taken, FVG Forms, Price Returns</div>
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Prior price action — relative equal low level -->
+        <line x1="40" y1="120" x2="200" y2="120" stroke="rgba(255,71,87,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="42" y="115" font-size="9" fill="rgba(255,71,87,0.7)" font-family="'JetBrains Mono',monospace">Short-term Low</text>
+
+        <!-- candle before displacement — builds up left of swing low -->
+        <line x1="120" y1="100" x2="120" y2="140" stroke="#9898a8" stroke-width="1"/>
+        <rect x="116" y="106" width="8" height="20" fill="#9898a8" rx="1"/>
+
+        <line x1="145" y1="98" x2="145" y2="135" stroke="#9898a8" stroke-width="1"/>
+        <rect x="141" y="104" width="8" height="18" fill="#9898a8" rx="1"/>
+
+        <!-- Displacement candle — breaks below short-term low aggressively -->
+        <line x1="180" y1="85" x2="180" y2="165" stroke="#ff4757" stroke-width="1.5"/>
+        <rect x="175" y="118" width="10" height="40" fill="#ff4757" rx="1"/>
+        <text x="192" y="162" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Displacement</text>
+        <text x="192" y="174" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">"obvious displacement very energetic"</text>
+
+        <!-- Next candle — creates FVG body low -->
+        <line x1="210" y1="145" x2="210" y2="185" stroke="#ff4757" stroke-width="1.5"/>
+        <rect x="205" y="152" width="10" height="26" fill="#ff4757" rx="1"/>
+        <text x="212" y="143" font-size="8" fill="#9898a8" font-family="'JetBrains Mono',monospace">high of this candle</text>
+        <!-- FVG upper bound line from prior candle low -->
+        <line x1="175" y1="165" x2="310" y2="165" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="316" y="168" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">high of this candle</text>
+
+        <!-- FVG lower bound -->
+        <line x1="205" y1="152" x2="310" y2="152" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="316" y="155" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">low of this candle</text>
+
+        <!-- FVG shaded zone -->
+        <rect x="175" y="152" width="135" height="13" fill="rgba(255,165,2,0.12)" rx="0"/>
+        <text x="222" y="162" font-size="8" fill="#ffa502" font-family="'JetBrains Mono',monospace" text-anchor="middle">FAIR VALUE GAP</text>
+
+        <!-- Price retracing back up into FVG -->
+        <polyline
+          points="220,185 250,180 270,172 285,162 295,158"
+          fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="298" y="152" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">market returns back up into it</text>
+
+        <!-- Short entry marker -->
+        <circle cx="295" cy="158" r="5" fill="none" stroke="#ff4757" stroke-width="1.5"/>
+        <text x="299" y="130" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">↓ "you can go short there"</text>
+
+        <!-- Target arrow down -->
+        <line x1="295" y1="164" x2="295" y2="230" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2"/>
+        <polygon points="290,228 295,240 300,228" fill="#ff4757"/>
+        <text x="305" y="220" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">"aim for the liquidity"</text>
+        <text x="305" y="232" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">(short-term low / fulcrum point)</text>
+
+      </svg>
+    </div>
+
+    <div class="quote">
+      <p><em>"so it's also showing you how if you miss your entry how can you get back in line with the marketplace and still participate in these moves"</em></p>
+      <span class="timestamp">26:47</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"there are going to be days where we don't have this many retracements back and back and back and then goes lower it'll be just one or two and it just keeps on going or many times it'll be just right at the opening and that's it you missed it it just goes right to where you thought it was gonna go for the day"</em></p>
+      <span class="timestamp">26:57</span>
+    </div>
+
+    <h3>Partial Profit Management</h3>
+    <div class="quote">
+      <p><em>"you could do like say you did two contracts entry here short here too you can take one off here let it ride and then see if you can get that lower time frame objective later in the day"</em></p>
+      <span class="timestamp">23:05</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"if you have a limit order at the order block level plus you know a couple points it could feel during the lunch hour you don't need to be babysitting it being in front of it then because you've already funded your position and trade by taking one off"</em></p>
+      <span class="timestamp">23:31</span>
+    </div>
+
+    <h3>On Missing Trades</h3>
+    <div class="quote">
+      <p><em>"none of you should be upset that you missed the trade... they are like buses okay mass transit buses that come by like a schedule you know every certain time of the hour a day these buses are going to come around these trades are just like that you can set your clock to them"</em></p>
+      <span class="timestamp">27:22</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"your number one goal is to understand where is it likely to go to where is it likely to reach for if you have that understood it becomes so easy to know what you're looking for"</em></p>
+      <span class="timestamp">27:51</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. FIBONACCI SWING PROJECTION               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="fib">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Fibonacci Swing Projection — Fulcrum Point</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"i want you to take a look at this framework from this high down this low and this being a fulcrum point that being if this high trades to this low and we break this low how far can we go down"</em></p>
+      <span class="timestamp">4:58</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"measuring this high down to that low that same measurement of distance and we expect that projected lower"</em></p>
+      <span class="timestamp">8:53</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"this is my swing trading model and i'm applying it to targeting"</em></p>
+      <span class="timestamp">9:01</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"the way you do it is you take your fibonacci and you anchor it to the highest body it could be open or closed it doesn't make a difference but you anchor it on that notice i'm not putting on the high here and i'm doing the same thing with the lowest open or closed in this swing low"</em></p>
+      <span class="timestamp">9:07</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i'm measuring the distance in terms of range with the bodies of the candles"</em></p>
+      <span class="timestamp">9:26</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"i'm showing you how the algorithm is going to read the price okay the wicks and the tails are all distractions"</em></p>
+      <span class="timestamp">9:41</span>
+    </div>
+
+    <!-- FIBONACCI DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Fibonacci Body Measurement — Swing Projection Below Fulcrum Point</div>
+      <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Candle range for the swing high (highest body) -->
+        <line x1="80" y1="40" x2="80" y2="90" stroke="#9898a8" stroke-width="1.5"/>
+        <rect x="74" y="50" width="12" height="28" fill="#9898a8" rx="1"/>
+
+        <!-- Highest BODY marker -->
+        <line x1="40" y1="50" x2="300" y2="50" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="304" y="54" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Highest Body (Fib anchor point)</text>
+        <text x="304" y="66" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"anchor it to the highest body"</text>
+
+        <!-- Wick above — dimmer, labeled as distraction -->
+        <line x1="80" y1="40" x2="80" y2="50" stroke="rgba(90,90,110,0.4)" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="90" y="44" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">wick — "distractions"</text>
+
+        <!-- Price action moving down toward swing low -->
+        <polyline points="80,78 130,90 170,105 210,120 240,140 260,160 280,178" fill="none" stroke="#ff4757" stroke-width="1.5"/>
+
+        <!-- Swing low candle -->
+        <line x1="300" y1="162" x2="300" y2="210" stroke="#9898a8" stroke-width="1.5"/>
+        <rect x="294" y="172" width="12" height="30" fill="#9898a8" rx="1"/>
+
+        <!-- Lowest BODY marker -->
+        <line x1="40" y1="202" x2="420" y2="202" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="424" y="206" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Lowest Body (Fib anchor point)</text>
+        <text x="424" y="218" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"lowest open or closed"</text>
+
+        <!-- Wick below — dimmer -->
+        <line x1="300" y1="202" x2="300" y2="210" stroke="rgba(90,90,110,0.4)" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="310" y="214" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">wick — "distractions"</text>
+
+        <!-- Measurement brace -->
+        <line x1="54" y1="50" x2="54" y2="202" stroke="rgba(255,165,2,0.4)" stroke-width="1"/>
+        <line x1="48" y1="50" x2="60" y2="50" stroke="rgba(255,165,2,0.4)" stroke-width="1"/>
+        <line x1="48" y1="202" x2="60" y2="202" stroke="rgba(255,165,2,0.4)" stroke-width="1"/>
+        <text x="30" y="132" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace" transform="rotate(-90,30,132)">Range</text>
+
+        <!-- Projected target below -->
+        <line x1="40" y1="354" x2="420" y2="354" stroke="rgba(255,71,87,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="424" y="358" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Projected Target (same range below)</text>
+
+        <!-- Projection arrow -->
+        <line x1="300" y1="210" x2="300" y2="306" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <polygon points="295,302 300,314 305,302" fill="#ff4757"/>
+
+        <!-- Same measurement brace for projection -->
+        <line x1="54" y1="202" x2="54" y2="314" stroke="rgba(255,71,87,0.3)" stroke-width="1"/>
+        <line x1="48" y1="202" x2="60" y2="202" stroke="rgba(255,71,87,0.3)" stroke-width="1"/>
+        <line x1="48" y1="314" x2="60" y2="314" stroke="rgba(255,71,87,0.3)" stroke-width="1"/>
+        <text x="14" y="264" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace" transform="rotate(-90,14,264)">Projected</text>
+
+        <text x="310" y="304" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">"we expect that projected lower"</text>
+
+        <!-- Fulcrum label -->
+        <text x="310" y="228" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Fulcrum Point</text>
+
+      </svg>
+    </div>
+
+    <div class="quote">
+      <p><em>"the precision element is only going to be beneficial if you have all the other narrative incorporated with your analysis that being the market's likely to go lower because we ran out those relative equal highs on the daily chart"</em></p>
+      <span class="timestamp">12:52</span>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">◆</span>
+      <p><em>"these are just targets but they are more meaningful when you apply and layer other things in analysis like the purpose of running to liquidity below those relatively equal lows into a discount array which is the bullish daily order block when you bring that together you get these types of results"</em></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. PM SESSION                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="pm-session">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>PM Session Buy Side Liquidity Pool</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"that is the pm session buy side liquidity pool"</em></p>
+      <span class="timestamp">28:44</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"this high here was the most energetic one in the morning session it took us all the way down to what target we were looking for the daily bullish order block because it's friday because it hit the daily time frame objective it's in a discount market it's really traded lower end of week there's going to be a retracement back into the weekly range"</em></p>
+      <span class="timestamp">28:50</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"what can it aim for well you can aim for the liquidity resting right here because a lot of people are going to say well you know this is the place where my stop should be at because i want to hold on to this thing over the weekend"</em></p>
+      <span class="timestamp">29:14</span>
+    </div>
+
+    <div class="quote bull">
+      <p><em>"the market's going to move from what a discount to a premium that's what the market does that's the algorithm does it seeks discount to premium premium to discount"</em></p>
+      <span class="timestamp">30:28</span>
+    </div>
+
+    <h3>Engineering Buy Side Liquidity</h3>
+    <div class="quote">
+      <p><em>"this is engineering buy side liquidity on the basis of sell side flow sellers coming in the marketplace these sellers they're going to have a counterparty in the form of smart money buying it they want to sell short because they see relative equal lows breaking the trends been down"</em></p>
+      <span class="timestamp">33:42</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"when it's only traded down to where the algorithm says this is what we wanted and now we're going to reprice higher we're going to move from a discount to a premium the premium intraday is going to be this area here and that's going to be where the market draws to for the afternoon session buy side liquidity"</em></p>
+      <span class="timestamp">34:09</span>
+    </div>
+
+    <h3>PM Setups</h3>
+    <div class="quote bull">
+      <p><em>"we have market structure breaking we come back down into the mitigation block and we also have the imbalance here they got there so we can be a buyer here"</em></p>
+      <span class="timestamp">34:40</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"here's your favorite value gap shift in market structure there retraces back up into the fair value gap you can be a seller there and aim for this low or the order block or you can wait for a confirmation entry"</em></p>
+      <span class="timestamp">37:17</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 7. OLD HIGHS AS DISCOUNT ARRAYS             -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="old-highs">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Old Highs as Discount Arrays</h2>
+    </div>
+
+    <div class="quote bull">
+      <p><em>"old highs are a discount array if we trade above an old high that old high becomes a discount array"</em></p>
+      <span class="timestamp">35:41</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"this is where not all the time but this is where old highs being broken become support that's why sometimes the books have it right that's why sometimes your analysis will be right about specific key highs and lows but notice they're not always consistent and that's the problem"</em></p>
+      <span class="timestamp">35:50</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you want to know what makes a old high or an old low real supportive resistance when you have the logic when i'm framing here because we know the likelihood of the market's going to draw up into this area here because that's where the buy stops are resting above the marketplace when it hit the order block down here"</em></p>
+      <span class="timestamp">36:06</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 8. THE ALGORITHM                            -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="algorithm">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>The Algorithm's Logic</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"all you're looking for is liquidity imbalances time of day that's it that's all this game is all about"</em></p>
+      <span class="timestamp">42:23</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"they do it on the basis of time then price"</em></p>
+      <span class="timestamp">31:00</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"it seeks discount to premium premium to discount within that logic the market is reaching for liquidity in the form of buy stops and sell stops and or imbalances or the creation of an imbalance fair value gaps or returning back to a fair value gap"</em></p>
+      <span class="timestamp">30:38</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"the algorithm is not going to try to follow some retail logic stuff it's based on where is the money where's the money who's the most easy prey right now and where is the majority of the money and that's where it's going to run for that's all it's going to do"</em></p>
+      <span class="timestamp">42:29</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"it's not your buying and selling pressure okay it's not the effects of the dom"</em></p>
+      <span class="timestamp">31:14</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"it has absolutely nothing to do with ratios it has nothing to do with anything harmonic nothing supply and demand zone nothing to do with elliott wave nothing to do with white golf nothing to do with gan"</em></p>
+      <span class="timestamp">43:25</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">What the algorithm seeks</span></div>
+        <p><em>"it seeks discount to premium premium to discount"</em></p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Basis of delivery</span></div>
+        <p><em>"they do it on the basis of time then price"</em></p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Three things to look for</span></div>
+        <p><em>"liquidity imbalances time of day that's it"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 9. BACKTESTING                              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="backtesting">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Backtesting Methodology</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"back testing is you in a mode of discovery that proves efficacy if you can't see things repeating then you got to go back into the core content lessons of this youtube channel and figured out what it is i'm teaching conceptually"</em></p>
+      <span class="timestamp">40:26</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you are not trying to do things correctly in back testing"</em></p>
+      <span class="timestamp">40:21</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you go through your charts just like i'm doing here and you annotate them now in all these areas where there's empty space here or over here you're putting in little notations and you're typing them out"</em></p>
+      <span class="timestamp">38:55</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you should frankly be doing this at least a minimum of a year okay make it a practice of doing all that even when you start trading with live funds"</em></p>
+      <span class="timestamp">40:53</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"your trade journal should always have annotations you should always have charts saved and just constantly referring to what you witnessed in price"</em></p>
+      <span class="timestamp">41:02</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"record it like you saw it happening and knew it was going to happen in advance that's called self-talk okay you're literally tricking your brain into seeing your annotations as something that you foreseen coming"</em></p>
+      <span class="timestamp">41:13</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"never put negative comments in your annotation don't say like oh i was stupid i missed this oh i'm so dumb"</em></p>
+      <span class="timestamp">42:07</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 10. FLASHCARDS                              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <h2>Self-Study Flashcards</h2>
+    </div>
+    <p class="study-intro">Click any card to reveal the answer — all answers are direct quotes from the transcript.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the two opening prices ICT references when trading index futures?</div>
+        <div class="flashcard-answer">"there's two if you're trading index futures the opening price is midnight at new york time... and then there's another opening price at 8 30 in the morning"<span class="flashcard-ts">5:17</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When you're bearish, what does it mean when price trades above the opening price?</div>
+        <div class="flashcard-answer">"if you're bearish ideally you want to see the market trade above that opening price this is going to be manipulation"<span class="flashcard-ts">6:00</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a Judas Swing?</div>
+        <div class="flashcard-answer">"all of this is basically market protraction where it's a judas swing okay the market's going in the opposing direction that it's likely to go to later in the day"<span class="flashcard-ts">6:15</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What timeframe candle do you use to identify the 8:30 opening price?</div>
+        <div class="flashcard-answer">"as soon as you have 8 30 beginning a new candle it could be a one minute candle it could be a three minute candle an hourly candle 15 minute candle whatever that opening price is that's what you want to note at 8 30"<span class="flashcard-ts">5:43</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How many setups can typically be found in the morning session?</div>
+        <div class="flashcard-answer">"in the morning session you typically have two to three setups because you have volatility coming in at the opening opening being 9 30 new york local time"<span class="flashcard-ts">19:00</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the New York lunch hour and what is the rule on entries during it?</div>
+        <div class="flashcard-answer">"i don't want to take entries during the lunch hour between noon and 1 o'clock but you can take profits if you're doing like a partial"<span class="flashcard-ts">23:15</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Describe the FVG short entry structure as stated in this lesson.</div>
+        <div class="flashcard-answer">"we have this short term low broken with the run lower so there's displacement there obvious displacement very energetic and we have this candle is high this candle is low and the market returns back up into it you can go short there"<span class="flashcard-ts">22:41</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How does ICT anchor the Fibonacci for a swing projection?</div>
+        <div class="flashcard-answer">"the way you do it is you take your fibonacci and you anchor it to the highest body it could be open or closed it doesn't make a difference... i'm doing the same thing with the lowest open or closed in this swing low"<span class="flashcard-ts">9:07</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What role do wicks and tails play in ICT's Fibonacci measurement?</div>
+        <div class="flashcard-answer">"i'm showing you how the algorithm is going to read the price okay the wicks and the tails are all distractions"<span class="flashcard-ts">9:41</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the PM session buy side liquidity pool?</div>
+        <div class="flashcard-answer">"that is the pm session buy side liquidity pool... this high here was the most energetic one in the morning session it took us all the way down to what target we were looking for the daily bullish order block"<span class="flashcard-ts">28:44</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does the algorithm seek in terms of premium and discount?</div>
+        <div class="flashcard-answer">"it seeks discount to premium premium to discount within that logic the market is reaching for liquidity in the form of buy stops and sell stops and or imbalances or the creation of an imbalance fair value gaps or returning back to a fair value gap"<span class="flashcard-ts">30:38</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What do old highs become after being broken?</div>
+        <div class="flashcard-answer">"old highs are a discount array if we trade above an old high that old high becomes a discount array"<span class="flashcard-ts">35:41</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the only three things you need to look for?</div>
+        <div class="flashcard-answer">"all you're looking for is liquidity imbalances time of day that's it that's all this game is all about"<span class="flashcard-ts">42:23</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is backtesting described as?</div>
+        <div class="flashcard-answer">"back testing is you in a mode of discovery that proves efficacy if you can't see things repeating then you got to go back into the core content lessons"<span class="flashcard-ts">40:26</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say about missing a trade?</div>
+        <div class="flashcard-answer">"none of you should be upset that you missed the trade... they are like buses okay mass transit buses that come by like a schedule you know every certain time of the hour a day these buses are going to come around"<span class="flashcard-ts">27:22</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">On what basis does the algorithm deliver price?</div>
+        <div class="flashcard-answer">"they do it on the basis of time then price"<span class="flashcard-ts">31:00</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the self-talk technique for trade journal annotations?</div>
+        <div class="flashcard-answer">"record it like you saw it happening and knew it was going to happen in advance that's called self-talk okay you're literally tricking your brain into seeing your annotations as something that you foreseen coming"<span class="flashcard-ts">41:13</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the fulcrum point concept in targeting?</div>
+        <div class="flashcard-answer">"measuring this high down to that low that same measurement of distance and we expect that projected lower"<span class="flashcard-ts">8:53</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

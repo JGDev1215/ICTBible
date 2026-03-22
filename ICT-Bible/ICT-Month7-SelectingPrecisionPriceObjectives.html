@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecting Precision Price Objectives - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-bull);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-liquidity-imbalance.html">Return to Category</a>
+        <a href="category-liquidity-imbalance.html">Next Chapter</a>
+        <a href="ict-2022-ep05-intraday-order-flow-daily-range.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Pattern Recognition: Selecting Precision Price Objectives</h1>
+        <p>Using daily bias, Fibonacci retracements, and target scaling for precision entries and exits</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#swing-identification">Swing Identification</a>
+        <a href="#daily-bias">Daily Bias</a>
+        <a href="#fibonacci">Fibonacci Application</a>
+        <a href="#targets">Target Scaling</a>
+        <a href="#parent-subordinate">Parent vs Subordinate</a>
+        <a href="#liquidity">Liquidity Runs</a>
+        <a href="#indicators">Indicators Context</a>
+        <a href="#fomc">FOMC Timing</a>
+        <a href="#inversion">Inversion Levels</a>
+        <a href="#study">Study & Review</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <blockquote class="quote">
+                <div class="timestamp">(2:33)</div>
+                <p><em>"today I want to talk about selecting precision price objectives in other words where the price may go"</em></p>
+            </div>
+            <blockquote class="quote">
+                <div class="timestamp">(7:13)</div>
+                <p><em>"this is foundational for directional bias for day trading"</em></p>
+            </div>
+        </section>
+
+        <section id="swing-identification">
+            <h2>Swing Low Identification</h2>
+
+            <h3>Disregarding Sunday Candles</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(3:55)</div>
+                <p><em>"currently if you look at this candle here this one would probably throw a throw most of you off that aren't really simply looking at the pattern as it generic formula where it's a candle that has a higher low on either side of it that's a swing low"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(4:19)</div>
+                <p><em>"we have a lower low then we have a higher low skipping the candle right here why am i skipping that well it's because it's a Sunday candle"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(4:26)</div>
+                <p><em>"this Kindler here kind of like this disregard it dismissed it don't think it's there at all if you have a platform it doesn't have this on the candles you are at an advantage"</em></p>
+            </div>
+
+            <h3>Pattern Definition</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(4:57)</div>
+                <p><em>"if we disregard this candle right here we have the pattern which is the swing low we have a lower low here than the candle before and the candle after it"</em></p>
+            </div>
+        </section>
+
+        <section id="daily-bias">
+            <h2>Daily Bias Using Previous Day's High Runs</h2>
+
+            <h3>The Foundational Rule</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(5:07)</div>
+                <p><em>"once we have that our thought process is to look for price to want to target runs on liquidity above the previous day's high it's just that simple"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(6:52)</div>
+                <p><em>"the next day we're gonna be looking for price to trade above this candles high it does so okay now the next day we're gonna look for the same phenomenon to take place we're gonna look for the previous day's high to be traded through"</em></p>
+            </div>
+
+            <h3>Purpose of the Concept</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(7:47)</div>
+                <p><em>"is it giving you the low of the day to get in no that's not its function it's not its purpose this concepts responsibility really is just to give you where is price most likely not panacea not be all end all not an absolution most likely going to direction higher low"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(8:07)</div>
+                <p><em>"we know what we're focusing on the market wanting to go above the previous day's high so that gives us a directional bias on the day"</em></p>
+            </div>
+
+            <h3>When It Changes</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(12:32)</div>
+                <p><em>"if we have a day for instance tomorrow say we have a day that creates a lower high well that chain just a whole directional bias now doesn't it we would switch gears and start looking for reasons to see a run on the previous day's low for the liquidity resting below that"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(13:20)</div>
+                <p><em>"if it doesn't do that after the formation of the daily swing high then we may be consolidating or it could be just a retracement to go higher again and once we take out the swing height it formed it's high and then everything resumes back in this model"</em></p>
+            </div>
+
+            <h3>Back of Business Card Framework</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(13:45)</div>
+                <p><em>"it's a closest thing I can give you that can be written on the back of a business card that is so good it blows the doors off of most retail stuff"</em></p>
+            </div>
+        </section>
+
+        <section id="fibonacci">
+            <h2>Fibonacci Application Using Candle Bodies</h2>
+
+            <h3>Why Use Bodies, Not Wicks</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(11:04)</div>
+                <p><em>"I taught you to use the bodies of the candles not the wicks because that's where everyone's price actions going to be different so I focused primarily on the the bulk of the volume being inside the body of the candle okay that's the reason why I'm choosing to do that"</em></p>
+            </div>
+
+            <h3>Impulse Price Swing Framework</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(11:22)</div>
+                <p><em>"we have this model here okay this whole framework of a price swing this is an impulse price swing or impulse price leg interchangeable terms"</em></p>
+            </div>
+
+            <h3>Optimal Trade Entry Levels</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(11:31)</div>
+                <p><em>"when price trades back down to the 62% treatment level 17.5 level or 79% level that gives us an area to anticipate potential buying opportunities"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Fibonacci Retracement Levels</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="100" x2="50" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Horizontal levels -->
+                <line x1="50" y1="100" x2="750" y2="100" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="60" y="95" fill="#2ed573" font-size="14">100% - High (Body)</text>
+
+                <line x1="50" y1="188" x2="750" y2="188" stroke="#ffa502" stroke-width="2"/>
+                <text x="60" y="183" fill="#ffa502" font-size="14">79% Level</text>
+
+                <line x1="50" y1="220" x2="750" y2="220" stroke="#ffa502" stroke-width="2"/>
+                <text x="60" y="215" fill="#ffa502" font-size="14">70.5% Level (Sweet Spot)</text>
+
+                <line x1="50" y1="270" x2="750" y2="270" stroke="#ffa502" stroke-width="2"/>
+                <text x="60" y="265" fill="#ffa502" font-size="14">62% Retracement Level</text>
+
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="60" y="445" fill="#2ed573" font-size="14">0% - Low (Body)</text>
+
+                <!-- Price action illustration -->
+                <!-- Impulse move up -->
+                <path d="M 100,450 L 150,400 L 180,420 L 230,350 L 280,370 L 350,100"
+                      stroke="#2ed573" stroke-width="3" fill="none"/>
+
+                <!-- Retracement down -->
+                <path d="M 350,100 L 400,150 L 430,180 L 480,220 L 500,240"
+                      stroke="#ff4757" stroke-width="3" fill="none"/>
+
+                <!-- Bounce zone annotation -->
+                <rect x="480" y="188" width="40" height="82" fill="rgba(255,165,2,0.2)" stroke="#ffa502" stroke-width="2"/>
+                <text x="550" y="235" fill="#e8e8ed" font-size="14">Optimal Trade Entry Zone</text>
+                <text x="550" y="255" fill="#9898a8" font-size="12">(62%, 70.5%, 79%)</text>
+
+                <!-- Continuation up -->
+                <path d="M 500,240 L 550,180 L 600,150 L 650,120 L 700,90"
+                      stroke="#2ed573" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+
+                <text x="550" y="110" fill="#2ed573" font-size="14">Expected Continuation</text>
+            </svg>
+        </section>
+
+        <section id="targets">
+            <h2>Target Scaling Framework</h2>
+
+            <h3>Four Target Levels</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(11:51)</div>
+                <p><em>"we have targets of target one we have the old high which is your first scale out so this is where you take your first scaling and adjust your stop to reduce risk then here's your next target here target one then target two and then there's a symmetrical price link"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">First Profit / First Scale Out</span>
+                </div>
+                <p><em>"the old high which is your first scale out so this is where you take your first scaling and adjust your stop to reduce risk"</em> (11:51)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Target 1</span>
+                </div>
+                <p><em>"here's your next target here target one"</em> (12:00)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Target 2</span>
+                </div>
+                <p><em>"then target two"</em> (12:03)</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Symmetrical Price Swing / Measured Move</span>
+                </div>
+                <p><em>"and then there's a symmetrical price link okay as price unfolds reaching for previous day's high and the seeking the liquidity above each respective previous day's high"</em> (12:05)</p>
+            </div>
+
+            <h3>Taking Profits at Each Level</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(12:15)</div>
+                <p><em>"each time it does that you need to be looking to take profits because at some point this whole dynamic over here on the daily could potentially change"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Target Scaling: Four Target Levels</text>
+
+                <!-- Entry point -->
+                <circle cx="100" cy="350" r="6" fill="#2ed573"/>
+                <text x="100" y="380" fill="#2ed573" font-size="14" text-anchor="middle">Entry</text>
+                <text x="100" y="395" fill="#9898a8" font-size="12" text-anchor="middle">(OTE Zone)</text>
+
+                <!-- Price movement -->
+                <path d="M 100,350 L 250,200" stroke="#2ed573" stroke-width="3" fill="none"/>
+
+                <!-- First Profit -->
+                <line x1="50" y1="200" x2="750" y2="200" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+                <circle cx="250" cy="200" r="8" fill="#ffa502"/>
+                <text x="250" y="180" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">First Profit</text>
+                <text x="250" y="230" fill="#9898a8" font-size="12" text-anchor="middle">Old High</text>
+                <text x="250" y="245" fill="#9898a8" font-size="11" text-anchor="middle">Scale out & adjust stop</text>
+
+                <!-- Target 1 -->
+                <line x1="50" y1="150" x2="750" y2="150" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+                <circle cx="400" cy="150" r="8" fill="#ffa502"/>
+                <text x="400" y="130" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Target 1</text>
+
+                <!-- Target 2 -->
+                <line x1="50" y1="100" x2="750" y2="100" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+                <circle cx="550" cy="100" r="8" fill="#ffa502"/>
+                <text x="550" y="80" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Target 2</text>
+
+                <!-- Symmetrical Price Swing -->
+                <line x1="50" y1="60" x2="750" y2="60" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <circle cx="700" cy="60" r="8" fill="#2ed573"/>
+                <text x="700" y="40" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">Symmetrical Price Swing</text>
+                <text x="700" y="90" fill="#9898a8" font-size="11" text-anchor="middle">(Measured Move)</text>
+
+                <!-- Extended path -->
+                <path d="M 250,200 L 400,150 L 550,100 L 700,60" stroke="#2ed573" stroke-width="3" fill="none" stroke-dasharray="8,4"/>
+            </svg>
+        </section>
+
+        <section id="parent-subordinate">
+            <h2>Parent vs Subordinate Price Swings</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(29:17)</div>
+                <p><em>"we have an impulse leg and we have a parent impulse leg that means this high to this low is to the parent price swing but there are subordinate price swings inside that larger move"</em></p>
+            </div>
+
+            <h3>Fractal Breakdown</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(29:33)</div>
+                <p><em>"since this move from here to here is the most dominant price leg every price leg can be broken down into smaller price legs or fractals"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(29:43)</div>
+                <p><em>"if the retracement is the fractal we're going to define okay inside that retracement there's going to be smaller retracements a little lesser degree"</em></p>
+            </div>
+
+            <h3>Nested Price Ranges</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(29:50)</div>
+                <p><em>"this high down to this low is another smaller move of that this high to that low is another micro price range this is a micro price range from this highs of this low here's another one this high - this low and how they nest out builds market structure"</em></p>
+            </div>
+
+            <h3>Precision Using Parent Swing</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(30:32)</div>
+                <p><em>"we use the parent price swing as I just outlined below based on the bodies the high based on the bodies smack dab on it you can't get any cleaner than that"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Parent vs Subordinate Price Swings</text>
+
+                <!-- Parent swing -->
+                <line x1="100" y1="400" x2="700" y2="100" stroke="#2ed573" stroke-width="4" opacity="0.5"/>
+                <text x="400" y="220" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">PARENT PRICE SWING</text>
+                <text x="400" y="240" fill="#9898a8" font-size="12" text-anchor="middle">(Most dominant price leg)</text>
+
+                <!-- Subordinate swings nested within -->
+                <path d="M 100,400 L 200,300 L 280,340 L 380,220 L 450,260 L 550,160 L 620,180 L 700,100"
+                      stroke="#ffa502" stroke-width="2" fill="none"/>
+
+                <!-- Micro ranges -->
+                <circle cx="200" cy="300" r="4" fill="#ff4757"/>
+                <circle cx="280" cy="340" r="4" fill="#ff4757"/>
+                <circle cx="380" cy="220" r="4" fill="#ff4757"/>
+                <circle cx="450" cy="260" r="4" fill="#ff4757"/>
+                <circle cx="550" cy="160" r="4" fill="#ff4757"/>
+                <circle cx="620" cy="180" r="4" fill="#ff4757"/>
+
+                <text x="150" y="460" fill="#ff4757" font-size="14">Subordinate Price Swings</text>
+                <text x="150" y="478" fill="#9898a8" font-size="11">(Smaller fractals within parent move)</text>
+
+                <!-- Annotation box -->
+                <rect x="50" y="320" width="180" height="60" fill="rgba(26,26,36,0.9)" stroke="#ffa502" stroke-width="1" rx="5"/>
+                <text x="140" y="340" fill="#e8e8ed" font-size="12" text-anchor="middle">Each subordinate swing</text>
+                <text x="140" y="356" fill="#9898a8" font-size="11" text-anchor="middle">contains smaller</text>
+                <text x="140" y="372" fill="#9898a8" font-size="11" text-anchor="middle">retracements</text>
+            </svg>
+        </section>
+
+        <section id="liquidity">
+            <h2>Liquidity Runs & Stop Hunts</h2>
+
+            <h3>Consolidation Breakdown</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(15:14)</div>
+                <p><em>"inside this hole consolidation we had one run above these highs got people trapped chasing longs on breakouts"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(15:55)</div>
+                <p><em>"we have a consolidation we have a false move here or break above both highs they sell off of that and they run back down below what side of the market place below the consolidation lows"</em></p>
+            </div>
+
+            <h3>Stop Hunt Below Consolidation</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(16:07)</div>
+                <p><em>"if we have the understanding or expectation that the daily chart is predisposed to move higher each trading day looking for its respective previous day's high to be taken out we have a bias that means it's most likely going to go higher so anytime we drop down our thought process should be switching to okay it's probably going down to knock out weak bulls or trip in rushing bears"</em></p>
+            </div>
+
+            <h3>The Bus Analogy</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(21:29)</div>
+                <p><em>"imagine you want to get somewhere okay and the bus is full but your big strong guy okay you're a bully you can go on that bus snatch semi other seat throw them onto the street and then take their seat over well that's what the market makers do you had your seat on the bus you've been getting closer to your destination you get real close to the destination up we got a detour can't go any further"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(22:03)</div>
+                <p><em>"the guy comes in knocked off the bus and takes your seat and then ultimately goes where you want to go ultimately but you can't get there so you've given up profit and you give it up your seat on the bus and you never got to the destination you were intended to go"</em></p>
+            </div>
+
+            <h3>Double Bottom Stop Loss Location</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(20:11)</div>
+                <p><em>"the textbooks teach this is a double bottom so as price ran up where would they place their stop-loss on their long position right below there so when we see drops or declines against the higher time frame daily chart that is giving us clues that it's most likely going to go higher than the previous day's high anytime we drop down below old lows that's the most likely a stop run"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Liquidity Run Below Consolidation</text>
+
+                <!-- Consolidation box -->
+                <rect x="150" y="150" width="500" height="150" fill="rgba(42,42,58,0.3)" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="400" y="175" fill="#9898a8" font-size="14" text-anchor="middle">Consolidation Range</text>
+
+                <!-- False breakout above -->
+                <path d="M 200,250 L 350,200 L 450,140 L 480,180"
+                      stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="450" y="120" fill="#ff4757" font-size="13">False Break</text>
+                <text x="450" y="135" fill="#9898a8" font-size="11">(Trapped longs)</text>
+
+                <!-- Consolidation lows -->
+                <line x1="150" y1="300" x2="650" y2="300" stroke="#ffa502" stroke-width="2"/>
+                <text x="150" y="320" fill="#ffa502" font-size="12">Equal Lows</text>
+
+                <!-- Stop hunt below -->
+                <path d="M 480,180 L 520,220 L 560,280 L 600,340"
+                      stroke="#ff4757" stroke-width="3" fill="none"/>
+                <circle cx="600" cy="340" r="8" fill="#ff4757"/>
+
+                <!-- Stop loss zone -->
+                <line x1="150" y1="340" x2="650" y2="340" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="400" y="365" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Stop Losses Below Lows</text>
+                <text x="400" y="382" fill="#9898a8" font-size="11" text-anchor="middle">(Where textbook traders place stops)</text>
+
+                <!-- Reversal up -->
+                <path d="M 600,340 L 650,280 L 700,200 L 720,140"
+                      stroke="#2ed573" stroke-width="3" fill="none"/>
+                <text x="680" y="120" fill="#2ed573" font-size="14">Reversal After Stop Run</text>
+
+                <!-- Annotation -->
+                <text x="400" y="420" fill="#e8e8ed" font-size="13" text-anchor="middle">"going down to knock out weak bulls or trip in rushing bears"</text>
+            </svg>
+        </section>
+
+        <section id="indicators">
+            <h2>Bullish Divergence in Context</h2>
+
+            <h3>When Indicators Work</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(18:05)</div>
+                <p><em>"if you blend what I'm gonna show you here you're gonna see that the indicators work then and that's the times when we see them in textbooks where they work it's favorable to have been a follower of that perception that's what tricks people"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(18:17)</div>
+                <p><em>"it doesn't give you the context of when to use the indicator and they'll tell you when the moving averages are going up it's a bull market so there look for the bullish divergence well sometimes that works and sometimes it doesn't"</em></p>
+            </div>
+
+            <h3>Using Daily Bias Context</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(18:34)</div>
+                <p><em>"if we know what we're looking for in terms of how the market will reach for liquidity as I defined on a daily chart we know that that's what we should be focusing on any other retrace sense of any kind until it changes to tune or storyline that's on a daily chart everything going down on the lower timeframes is simply new buying opportunities"</em></p>
+            </div>
+
+            <h3>Where Divergence Works</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(19:40)</div>
+                <p><em>"this whole move here was not by coincidence it's not by new randomness and it also comes by way of a bullish divergence there's where your bullish divergence works in momentum indicators we're extremely oversold and we're below old lows"</em></p>
+            </div>
+        </section>
+
+        <section id="fomc">
+            <h2>FOMC Timing & Optimal Entry</h2>
+
+            <h3>FOMC as Volatility Injection</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(26:47)</div>
+                <p><em>"what time of day is this if I show it to you like that FOMC that's an FOMC came out"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(27:03)</div>
+                <p><em>"if we see this we know that that big rush of an injection of volatility coming in by way of FOMC minutes it can cause either continuation or a reversal"</em></p>
+            </div>
+
+            <h3>70.5% Sweet Spot at FOMC</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(26:37)</div>
+                <p><em>"it goes right to 70 point five which is a sweet spot on an optimal trade injury price hits that during what time of day what time of day is this"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(27:12)</div>
+                <p><em>"in this case we watched it drop down ahead of FOMC and then when the minutes came out boom price continues on the path of what was already outlined earlier in the week by using the Fibonacci and using what I taught you for the daily chart when there's a swing low look for previous day's highs to be taken out"</em></p>
+            </div>
+
+            <h3>Static vs Dynamic Targets</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(27:49)</div>
+                <p><em>"these are static targets they didn't move they're not dynamic okay this one here had to be slightly dynamic because we had a break in this range so they create a larger price range to trade inside out"</em></p>
+            </div>
+        </section>
+
+        <section id="inversion">
+            <h2>Inversion Levels: 132.60 Example</h2>
+
+            <h3>Take Profit Becomes Support</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(36:08)</div>
+                <p><em>"this level here one thirty two sixty okay if you go into my optimal trade entry failed optimal trade entry video for cable and you see where I actually mitigate the loss at the five minute mark you'll see me actually adjust my take profit to that level"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(37:47)</div>
+                <p><em>"thirty to sixty was the level to take profit at and then it becomes an inversion level where the next setup takes place"</em></p>
+            </div>
+
+            <h3>Asian Range & London Kill Zone</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(37:42)</div>
+                <p><em>"here's a chore range hi Asian range low and price comes out of the ancient range and doesn't go above the Asian range high but rolls over okay and then we have a nice retracement up right here"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(38:30)</div>
+                <p><em>"this move is your London set up here's your London open kill zone down here"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <div class="timestamp">(38:41)</div>
+                <p><em>"look what level it's hanging off of thirty to sixty ok thirty to sixty was the level to take profit at and then it becomes an inversion level where the next setup takes place"</em></p>
+            </div>
+
+            <h3>Study Challenge</h3>
+            <blockquote class="quote">
+                <div class="timestamp">(38:53)</div>
+                <p><em>"so I'm gonna leave you with that portion of price action in this study what's so significant about one thirty to sixty why it was a catalyst for take profits and why did the market turn around at that level on show a London open kill zone so with aa small trade entry rate at that level"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Inversion Level: 132.60 GBP/USD</text>
+
+                <!-- Time zones -->
+                <rect x="80" y="80" width="200" height="360" fill="rgba(42,42,58,0.2)" stroke="#9898a8" stroke-width="1"/>
+                <text x="180" y="100" fill="#9898a8" font-size="13" text-anchor="middle">Asian Range</text>
+
+                <rect x="280" y="80" width="200" height="360" fill="rgba(255,69,87,0.1)" stroke="#ff4757" stroke-width="2"/>
+                <text x="380" y="100" fill="#ff4757" font-size="13" text-anchor="middle" font-weight="bold">London Kill Zone</text>
+
+                <!-- 132.60 level -->
+                <line x1="80" y1="260" x2="720" y2="260" stroke="#ffa502" stroke-width="3"/>
+                <text x="600" y="250" fill="#ffa502" font-size="16" font-weight="bold">132.60 Inversion Level</text>
+
+                <!-- Price action -->
+                <!-- Previous day up move to 132.60 -->
+                <path d="M 100,380 L 140,340 L 180,300 L 220,260"
+                      stroke="#2ed573" stroke-width="2" fill="none"/>
+                <circle cx="220" cy="260" r="6" fill="#2ed573"/>
+                <text x="160" y="400" fill="#2ed573" font-size="12">Take Profit Exit</text>
+
+                <!-- Asian range high -->
+                <line x1="80" y1="180" x2="280" y2="180" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="180" y="170" fill="#9898a8" font-size="11">Asian High</text>
+
+                <!-- Asian range low -->
+                <line x1="80" y1="340" x2="280" y2="340" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="180" y="355" fill="#9898a8" font-size="11">Asian Low</text>
+
+                <!-- Price comes out and rolls over -->
+                <path d="M 220,260 L 260,240 L 300,200 L 340,140"
+                      stroke="#ff4757" stroke-width="2" fill="none"/>
+                <text x="280" y="125" fill="#ff4757" font-size="11">Doesn't break Asian high</text>
+
+                <!-- Retracement to OTE -->
+                <path d="M 340,140 L 380,200 L 420,240 L 450,260"
+                      stroke="#ffa502" stroke-width="2" fill="none"/>
+
+                <!-- OTE zone around 132.60 -->
+                <rect x="420" y="240" width="60" height="40" fill="rgba(255,165,2,0.2)" stroke="#ffa502" stroke-width="2"/>
+                <text x="450" y="225" fill="#ffa502" font-size="12" text-anchor="middle">OTE Zone</text>
+                <text x="450" y="295" fill="#9898a8" font-size="10" text-anchor="middle">62%-79%</text>
+
+                <!-- London kill zone entry -->
+                <circle cx="450" cy="260" r="6" fill="#2ed573"/>
+                <text x="510" y="265" fill="#2ed573" font-size="13">London Entry at 132.60</text>
+
+                <!-- Move down -->
+                <path d="M 450,260 L 500,320 L 550,380 L 600,400"
+                      stroke="#2ed573" stroke-width="3" fill="none"/>
+
+                <!-- Annotation -->
+                <text x="400" y="470" fill="#e8e8ed" font-size="13" text-anchor="middle">"Take profit level becomes inversion level where next setup takes place"</text>
+            </svg>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do we disregard Sunday candles when identifying swing lows?</div>
+                    <div class="flashcard-answer">"it's because it's a Sunday candle okay so this Kindler here kind of like this disregard it dismissed it don't think it's there at all if you have a platform it doesn't have this on the candles you are at an advantage" (4:19-4:34)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the foundational rule for daily bias after identifying a swing low?</div>
+                    <div class="flashcard-answer">"once we have that our thought process is to look for price to want to target runs on liquidity above the previous day's high it's just that simple" (5:07-5:18)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do we use candle bodies instead of wicks for Fibonacci?</div>
+                    <div class="flashcard-answer">"I taught you to use the bodies of the candles not the wicks because that's where everyone's price actions going to be different so I focused primarily on the the bulk of the volume being inside the body of the candle" (11:04-11:19)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the three optimal trade entry retracement levels?</div>
+                    <div class="flashcard-answer">"when price trades back down to the 62% treatment level 17.5 level or 79% level that gives us an area to anticipate potential buying opportunities" (11:31-11:41)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the four target levels in order?</div>
+                    <div class="flashcard-answer">"we have the old high which is your first scale out... then here's your next target here target one then target two and then there's a symmetrical price link" (11:51-12:07)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a parent price swing vs subordinate price swings?</div>
+                    <div class="flashcard-answer">"this high to this low is to the parent price swing but there are subordinate price swings inside that larger move... every price leg can be broken down into smaller price legs or fractals" (29:20-29:40)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the thought process when price drops below consolidation lows during a bullish bias?</div>
+                    <div class="flashcard-answer">"anytime we drop down our thought process should be switching to okay it's probably going down to knock out weak bulls or trip in rushing bears" (16:24-16:35)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where do textbook traders place their stops on a double bottom long?</div>
+                    <div class="flashcard-answer">"the textbooks teach this is a double bottom so as price ran up where would they place their stop-loss on their long position right below there" (20:11-20:20)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the context for when bullish divergence indicators work?</div>
+                    <div class="flashcard-answer">"there's where your bullish divergence works in momentum indicators we're extremely oversold and we're below old lows" (19:40-19:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Which optimal trade entry level is the "sweet spot"?</div>
+                    <div class="flashcard-answer">"it goes right to 70 point five which is a sweet spot on an optimal trade injury" (26:37-26:43)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What can FOMC minutes cause in price action?</div>
+                    <div class="flashcard-answer">"that big rush of an injection of volatility coming in by way of FOMC minutes it can cause either continuation or a reversal" (27:03-27:12)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an inversion level?</div>
+                    <div class="flashcard-answer">"thirty to sixty was the level to take profit at and then it becomes an inversion level where the next setup takes place" (37:47-37:51)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What changes the daily directional bias from bullish to bearish?</div>
+                    <div class="flashcard-answer">"if we have a day for instance tomorrow say we have a day that creates a lower high well that chain just a whole directional bias now doesn't it we would switch gears and start looking for reasons to see a run on the previous day's low" (12:32-12:45)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the purpose of the daily bias concept?</div>
+                    <div class="flashcard-answer">"this concepts responsibility really is just to give you where is price most likely not panacea not be all end all not an absolution most likely going to direction higher low" (7:51-8:05)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does this daily bias framework compare to retail methods?</div>
+                    <div class="flashcard-answer">"it's a closest thing I can give you that can be written on the back of a business card that is so good it blows the doors off of most retail stuff" (13:45-13:53)</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

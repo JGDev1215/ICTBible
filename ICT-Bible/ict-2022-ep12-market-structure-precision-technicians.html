@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship · Episode 12 · Market Structure for Precision Technicians</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary:    #0a0a0f;
+    --bg-secondary:  #0f0f16;
+    --bg-card:       #1a1a24;
+    --bg-card-hover: #1f1f2e;
+    --border:        #2a2a3a;
+    --border-light:  #333348;
+    --text-primary:  #e8e8ed;
+    --text-secondary:#9898a8;
+    --text-muted:    #5a5a72;
+    --accent-bear:   #ff4757;
+    --accent-bull:   #2ed573;
+    --accent-gold:   #ffa502;
+    --accent-blue:   #4a9eff;
+    --accent-purple: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center;
+    overflow-x: auto;
+  }
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted);
+    text-decoration: none; padding: 1rem 0.9rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  header {
+    padding: 5rem 2rem 4rem;
+    max-width: 920px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .ep-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent-gold);
+    margin-bottom: 1.2rem;
+  }
+  header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.15; margin-bottom: 1.5rem;
+  }
+  .header-quote {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.15rem; font-style: italic;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 1.2rem; max-width: 700px;
+  }
+
+  main { max-width: 920px; margin: 0 auto; padding: 0 2rem 6rem; }
+  section {
+    padding-top: 4.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 3rem;
+  }
+  section:last-child { border-bottom: none; }
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent-gold); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  h2::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--border-light), transparent);
+  }
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem; font-weight: 500;
+    color: var(--text-primary); margin: 2rem 0 0.8rem;
+  }
+  p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+  .quote {
+    background: var(--bg-card);
+    border-left: 3px solid var(--accent-gold);
+    padding: 1rem 1.4rem; margin: 1.2rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .quote p { margin: 0; font-style: italic; color: var(--text-primary); font-size: 1rem; }
+  .quote-bear  { border-left-color: var(--accent-bear); }
+  .quote-bull  { border-left-color: var(--accent-bull); }
+  .quote-blue  { border-left-color: var(--accent-blue); }
+  .quote-purple{ border-left-color: var(--accent-purple); }
+  .ts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; color: var(--text-muted);
+    letter-spacing: 0.05em; display: block; margin-top: 0.5rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem; margin: 1.5rem 0;
+  }
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.2rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .concept-card:hover { background: var(--bg-card-hover); border-color: var(--border-light); }
+  .card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent-gold);
+    display: block; margin-bottom: 0.7rem;
+  }
+  .card-title.bear   { color: var(--accent-bear); }
+  .card-title.bull   { color: var(--accent-bull); }
+  .card-title.blue   { color: var(--accent-blue); }
+  .card-title.purple { color: var(--accent-purple); }
+  .concept-card p { font-style: italic; color: var(--text-primary); font-size: 0.95rem; margin: 0; }
+
+  .rule-list { list-style: none; padding: 0; margin: 1.2rem 0; }
+  .rule-list li {
+    display: flex; gap: 0.8rem; padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary); font-size: 0.96rem;
+  }
+  .rule-list li:last-child { border-bottom: none; }
+  .rule-list li::before { content: '▸'; color: var(--accent-gold); flex-shrink: 0; margin-top: 0.05em; }
+  .rule-list em { color: var(--text-primary); font-style: italic; }
+
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem; margin: 1.8rem 0;
+    overflow-x: auto;
+  }
+  .diagram-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;
+  }
+  svg text { font-family: 'JetBrains Mono', monospace; }
+
+  /* KEY PRINCIPLE BOX */
+  .key-principle {
+    background: rgba(167,139,250,0.07);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 8px; padding: 1.2rem 1.5rem;
+    margin: 1.8rem 0;
+  }
+  .key-principle .kp-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent-purple);
+    margin-bottom: 0.6rem; display: block;
+  }
+  .key-principle p { margin: 0; font-style: italic; color: var(--text-primary); }
+
+  #study { border-bottom: none; }
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem; margin-top: 1.5rem;
+  }
+  .flashcard {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.3rem; cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    min-height: 100px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .flashcard:hover { background: var(--bg-card-hover); border-color: var(--border-light); }
+  .flashcard-question {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem; font-weight: 500;
+    color: var(--text-primary); line-height: 1.4;
+  }
+  .flashcard-answer {
+    display: none; margin-top: 0.9rem; padding-top: 0.9rem;
+    border-top: 1px solid var(--border-light);
+    font-style: italic; color: var(--accent-gold);
+    font-size: 0.93rem; line-height: 1.5;
+  }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .flashcard.revealed { border-color: var(--accent-gold); }
+  .reveal-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; color: var(--text-muted);
+    letter-spacing: 0.08em; margin-top: 0.6rem; text-transform: uppercase;
+  }
+  .flashcard.revealed .reveal-hint { display: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#narrative">Market Narrative</a>
+  <a href="#swing-labels">Swing Labels</a>
+  <a href="#interterm">Intermediate Term</a>
+  <a href="#weakness">Weakness Signal</a>
+  <a href="#order-flow">Institutional Order Flow</a>
+  <a href="#order-block">Order Block</a>
+  <a href="#entries">Aggressive Entry</a>
+  <a href="#fib-target">Fib Target</a>
+  <a href="#daily-supremacy">Daily Chart</a>
+  <a href="#two-principles">Two Principles</a>
+  <a href="#rules">Rules</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<header>
+  <div class="ep-label">2022 ICT Mentorship · Episode 12</div>
+  <h1>Market Structure for Precision Technicians</h1>
+  <p class="header-quote">"imbalance rebalance run for liquidity that's it it does not do anything else"</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 · THE MARKET NARRATIVE QUESTION
+  ══════════════════════════════════════════ -->
+  <section id="narrative">
+    <h2>The One Question Before Every Session</h2>
+
+    <div class="key-principle">
+      <span class="kp-label">The Number One Question</span>
+      <p>"what is the current market narrative what is it likely to be doing right now I don't care about patterns in price action I don't care about anything harmonic I'm not looking for any kind of Elliot waves I'm not looking for any kind of ratio idea I'm not looking for anything that you can attribute to a retail mindset nothing except for those two questions is it likely to go up for stops or go down for stops or is it going to go higher to rebalance or lower to rebalance"</p>
+      <span class="ts">6:48</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <span class="card-title bull">Up for Liquidity</span>
+        <p><em>"is it likely to go up for buy side liquidity or buy stops"</em></p>
+        <span class="ts">6:18</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title bear">Down for Liquidity</span>
+        <p><em>"is it likely to go lower to sweep out short-term lows for sell side liquidity or sell stops"</em></p>
+        <span class="ts">6:33</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">Up to Rebalance</span>
+        <p><em>"is it likely go up to rebalance an imbalance which is like a fair value Gap"</em></p>
+        <span class="ts">6:22</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">Down to Rebalance</span>
+        <p><em>"is it likely to go down to rebalance and old imbalance or a fair value Gap below market price"</em></p>
+        <span class="ts">6:40</span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"we don't do technical analysis we do technical science okay you have to be able to relate to certain things way out and measure what these factors are within price action which is not based on hypothetical guesswork"</p>
+      <span class="ts">16:12</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 · SWING LABELS
+  ══════════════════════════════════════════ -->
+  <section id="swing-labels">
+    <h2>Market Structure Swing Labels</h2>
+
+    <div class="quote">
+      <p>"I've outlined Market structure in the idea of long-term High long-term low short-term High short-term low and in between those two swing points there's an intermediate term High and an intermediate term low"</p>
+      <span class="ts">5:44</span>
+    </div>
+
+    <div class="quote">
+      <p>"I'm looking at the highs and I'm looking at the relationships between each swing High each swing low and I'm coming to a conclusion studying one swing at a time"</p>
+      <span class="ts">9:09</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label">Three-tier swing hierarchy — bearish example</div>
+      <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:720px">
+        <rect width="720" height="280" fill="#0f0f16" rx="6"/>
+
+        <!-- Long-term high (left) -->
+        <circle cx="80" cy="50" r="5" fill="#ff4757"/>
+        <text x="80" y="38" text-anchor="middle" font-size="9" fill="#ff4757">Long-term High</text>
+        <line x1="80" y1="55" x2="80" y2="90" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- Price path down from LTH -->
+        <polyline points="80,90 140,145 200,110 260,160 320,125 380,170 440,135 500,175 560,130 620,165 660,200" fill="none" stroke="#9898a8" stroke-width="1.5"/>
+
+        <!-- Short-term high 1 -->
+        <circle cx="200" cy="110" r="3.5" fill="#ffa502"/>
+        <text x="200" y="100" text-anchor="middle" font-size="8" fill="#ffa502">STH</text>
+
+        <!-- Intermediate-term high (rebalance point) -->
+        <circle cx="320" cy="125" r="5" fill="#a78bfa"/>
+        <text x="320" y="113" text-anchor="middle" font-size="9" fill="#a78bfa">Interm. Term High</text>
+        <text x="320" y="103" text-anchor="middle" font-size="8" fill="#a78bfa" opacity="0.8">(rebalanced imbalance)</text>
+
+        <!-- Short-term high 2 -->
+        <circle cx="440" cy="135" r="3.5" fill="#ffa502"/>
+        <text x="440" y="123" text-anchor="middle" font-size="8" fill="#ffa502">STH</text>
+
+        <!-- Short-term low 1 -->
+        <circle cx="140" cy="145" r="3.5" fill="#ffa502"/>
+        <text x="140" y="157" text-anchor="middle" font-size="8" fill="#ffa502">STL</text>
+
+        <!-- Intermediate-term low (rebalance point) -->
+        <circle cx="260" cy="160" r="5" fill="#a78bfa"/>
+        <text x="260" y="174" text-anchor="middle" font-size="9" fill="#a78bfa">Interm. Term Low</text>
+        <text x="260" y="184" text-anchor="middle" font-size="8" fill="#a78bfa" opacity="0.8">(rebalanced imbalance)</text>
+
+        <!-- Short-term low 2 -->
+        <circle cx="380" cy="170" r="3.5" fill="#ffa502"/>
+        <text x="380" y="182" text-anchor="middle" font-size="8" fill="#ffa502">STL</text>
+
+        <!-- Short-term low 3 -->
+        <circle cx="500" cy="175" r="3.5" fill="#ffa502"/>
+        <text x="500" y="187" text-anchor="middle" font-size="8" fill="#ffa502">STL</text>
+
+        <!-- Long-term low -->
+        <circle cx="660" cy="200" r="5" fill="#ff4757"/>
+        <text x="660" y="215" text-anchor="middle" font-size="9" fill="#ff4757">Long-term Low</text>
+
+        <!-- ITH rule annotation -->
+        <line x1="200" y1="110" x2="320" y2="110" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <line x1="440" y1="135" x2="320" y2="135" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="380" y="147" font-size="7.5" fill="#a78bfa" opacity="0.8">ITH lower than both STHs = weakness</text>
+
+        <!-- Legend -->
+        <rect x="520" y="30" width="10" height="10" rx="5" fill="#ff4757"/>
+        <text x="535" y="40" font-size="8" fill="#ff4757">Long-term</text>
+        <rect x="520" y="48" width="10" height="10" rx="5" fill="#a78bfa"/>
+        <text x="535" y="58" font-size="8" fill="#a78bfa">Intermediate-term</text>
+        <rect x="520" y="66" width="10" height="10" rx="5" fill="#ffa502"/>
+        <text x="535" y="76" font-size="8" fill="#ffa502">Short-term</text>
+
+        <text x="360" y="255" text-anchor="middle" font-size="8" fill="#5a5a72">"long-term High long-term low short-term High short-term low… intermediate term High and an intermediate term low"</text>
+      </svg>
+    </div>
+
+    <h3>Long-Term High — Definition in Context</h3>
+    <div class="quote quote-bear">
+      <p>"this now is a long-term High I do not expect this High to be broken to the upside should it be broken to the upside that means that my daily analysis expecting this level here to hold price and to be a factor in the algorithm repricing and going lower at a later time if it goes above that then I'm probably wrong in my analysis"</p>
+      <span class="ts">11:13</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 · INTERMEDIATE TERM DEFINITION
+  ══════════════════════════════════════════ -->
+  <section id="interterm">
+    <h2>Intermediate Term High &amp; Low — Two Classifications</h2>
+
+    <div class="quote">
+      <p>"intermediate term highs and lows are formed at the rebalancing of an imbalance"</p>
+      <span class="ts">37:52</span>
+    </div>
+
+    <div class="quote">
+      <p>"every rebalance of an old imbalance That Swing that's created at that moment I immediately label that in my mind as an intermediate term high or in this case as we came back down and filled in this by dropping down here that's an intermediate term low"</p>
+      <span class="ts">14:00</span>
+    </div>
+
+    <h3>Classification 1 — Rebalance of Imbalance</h3>
+    <div class="quote">
+      <p>"it trades back up to rebalance and imbalance that immediately becomes an interm term high"</p>
+      <span class="ts">41:45</span>
+    </div>
+
+    <h3>Classification 2 — Structural Position</h3>
+    <div class="quote">
+      <p>"intermediate term highs there's two classifications it is a short-term High that has a lower short-term High to the left of it and a lower short-term High to the right of it or and this is the main one here it trades back up to rebalance an imbalance that immediately becomes an interm term high"</p>
+      <span class="ts">41:31</span>
+    </div>
+
+    <div class="quote">
+      <p>"anytime a imbalance like this big candle up is rebalanced that becomes an intermediate term low just as well on the opposite end this down move here that's a fair value Gap soon as it rebalances there that's what I classify as an iment term high"</p>
+      <span class="ts">17:14</span>
+    </div>
+
+    <h3>Intermediate Term Low — Structural Pattern</h3>
+    <div class="quote">
+      <p>"typically what you'll see is intermediate term low has a higher short-term low to the right of it and a higher short-term low to the left of it"</p>
+      <span class="ts">14:24</span>
+    </div>
+
+    <h3>Intermediate Term High — Expected Behaviour</h3>
+    <div class="quote quote-bear">
+      <p>"the usefulness of that is if we're bearish and it rebalances like this the next shortterm high should be lower than that intermed term high if it trades higher than that then your trade ideas probably flawed Don't force that trade again wait for Market structure to get back in sync with what you're expecting something bearish"</p>
+      <span class="ts">41:55</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 · WEAKNESS SIGNAL
+  ══════════════════════════════════════════ -->
+  <section id="weakness">
+    <h2>The Weakness Signal — ITH Lower Than Both STHs</h2>
+
+    <div class="quote quote-bear">
+      <p>"the idea of a intermediate term High not being higher than the short-term High to the left of it or the short-term High to the right of it in other words it's going lower this an ideal scenario should be this high should be above both short-term Highs but it's not it's not so what what is it doing it's only rebalancing"</p>
+      <span class="ts">23:34</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"if the intermedi term high is not higher than two short-term highs that is telling you that the market is very weak and the algorithm is tipping its hand to those people that are looking at it like this"</p>
+      <span class="ts">38:02</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label">Weakness signal — ITH not higher than either flanking STH</div>
+      <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:600px">
+        <rect width="600" height="200" fill="#0f0f16" rx="6"/>
+
+        <!-- Left STH -->
+        <circle cx="120" cy="70" r="4" fill="#ffa502"/>
+        <text x="120" y="59" text-anchor="middle" font-size="8.5" fill="#ffa502">STH</text>
+        <line x1="120" y1="74" x2="120" y2="150" stroke="#ffa502" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+        <!-- The run that rebalances creating ITH — lower than left STH -->
+        <circle cx="280" cy="90" r="5" fill="#a78bfa"/>
+        <text x="280" y="78" text-anchor="middle" font-size="8.5" fill="#a78bfa">ITH</text>
+        <text x="280" y="68" text-anchor="middle" font-size="7.5" fill="#a78bfa" opacity="0.8">(rebalance of FVG)</text>
+        <line x1="280" y1="95" x2="280" y2="150" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+        <!-- Right STH — also lower than left STH -->
+        <circle cx="440" cy="105" r="4" fill="#ffa502"/>
+        <text x="440" y="94" text-anchor="middle" font-size="8.5" fill="#ffa502">STH</text>
+        <line x1="440" y1="109" x2="440" y2="150" stroke="#ffa502" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+        <!-- Horizontal dotted lines showing ITH lower than left STH -->
+        <line x1="80" y1="70" x2="520" y2="70" stroke="#ff4757" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+        <text x="530" y="74" font-size="7.5" fill="#ff4757" opacity="0.7">ideal ITH level</text>
+
+        <!-- Price path -->
+        <polyline points="60,130 120,70 180,145 280,90 380,148 440,105 500,165" fill="none" stroke="#9898a8" stroke-width="1.5"/>
+
+        <!-- Result annotation -->
+        <rect x="80" y="155" width="440" height="24" rx="4" fill="rgba(255,71,87,0.08)" stroke="rgba(255,71,87,0.3)" stroke-width="1"/>
+        <text x="300" y="171" text-anchor="middle" font-size="8.5" fill="#ff4757">"the market is very weak and the algorithm is tipping its hand"</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 5 · INSTITUTIONAL ORDER FLOW
+  ══════════════════════════════════════════ -->
+  <section id="order-flow">
+    <h2>Institutional Order Flow</h2>
+
+    <div class="key-principle">
+      <span class="kp-label">Core Rule</span>
+      <p>"price swings that are bullish down closed candles are your support in price swings that are bearish up closed candles are your resistance"</p>
+      <span class="ts">54:08</span>
+    </div>
+
+    <h3>When Bearish — Up Closed Candles as Resistance</h3>
+    <div class="quote quote-bear">
+      <p>"if you blend that with institutional order flow what is institutional order flow when you're bearish all of your up closed candles should keep price from going higher than them"</p>
+      <span class="ts">48:40</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"if it's multiple up closed candles they're speed bumps they may come back up and touch them and act as a what bearish order block but you do not want to see them traded above if you're bearish"</p>
+      <span class="ts">51:51</span>
+    </div>
+
+    <h3>When Bullish — Down Closed Candles as Support</h3>
+    <div class="quote quote-bull">
+      <p>"when price is moving higher generally the candles will be predominantly Green… those down closed candles should support price should it trade back down to them and not see them overlapped in other words going down below it"</p>
+      <span class="ts">52:04</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"if it's bullish when price is moving higher generally there is not a lot of down Clos candles in that price swing higher but those down closed candles should support price should it trade back down into them"</p>
+      <span class="ts">52:23</span>
+    </div>
+
+    <h3>Exception for Down Closed Candle Overlap (Bullish Context)</h3>
+    <div class="quote quote-bull">
+      <p>"it's only permissible if there's a short-term low in close proximity to it and it's then like just go down and take out some sell stops if it's bullish and then reaccumulate and go higher if there is no swing low there would be no swing low with cell side below it so there's nothing to concern yourself with just look for down Clos candles to support price higher"</p>
+      <span class="ts">53:45</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label">Institutional order flow — candle colour as resistance / support</div>
+      <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:680px">
+        <rect width="680" height="240" fill="#0f0f16" rx="6"/>
+
+        <!-- === BEARISH SIDE (left) === -->
+        <text x="160" y="22" text-anchor="middle" font-size="9" fill="#ff4757" letter-spacing="1">BEARISH PRICE SWING</text>
+
+        <!-- Up closed candles (resistance) -->
+        <rect x="60"  y="55" width="14" height="30" fill="#2ed573" rx="1" opacity="0.8"/>
+        <rect x="82"  y="48" width="14" height="35" fill="#2ed573" rx="1" opacity="0.8"/>
+        <!-- Down candles -->
+        <rect x="104" y="68" width="14" height="40" fill="#ff4757" rx="1" opacity="0.7"/>
+        <rect x="126" y="90" width="14" height="45" fill="#ff4757" rx="1" opacity="0.7"/>
+        <rect x="148" y="120" width="14" height="35" fill="#ff4757" rx="1" opacity="0.7"/>
+        <!-- Rally back — stops at up closed candle level -->
+        <rect x="170" y="100" width="14" height="30" fill="#2ed573" rx="1" opacity="0.5"/>
+        <rect x="192" y="110" width="14" height="40" fill="#ff4757" rx="1" opacity="0.7"/>
+        <rect x="214" y="135" width="14" height="45" fill="#ff4757" rx="1" opacity="0.7"/>
+
+        <!-- Up candle ceiling line -->
+        <line x1="54" y1="48" x2="300" y2="48" stroke="#2ed573" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="304" y="52" font-size="8" fill="#2ed573" opacity="0.9">Up closed candles = resistance</text>
+
+        <!-- Arrow: rally stopped by up candles -->
+        <text x="160" y="205" text-anchor="middle" font-size="8" fill="#ff4757">"up closed candles should keep price from going higher than them"</text>
+
+        <!-- === BULLISH SIDE (right) === -->
+        <text x="520" y="22" text-anchor="middle" font-size="9" fill="#2ed573" letter-spacing="1">BULLISH PRICE SWING</text>
+
+        <!-- Up candles -->
+        <rect x="400" y="150" width="14" height="40" fill="#2ed573" rx="1" opacity="0.8"/>
+        <rect x="422" y="130" width="14" height="40" fill="#2ed573" rx="1" opacity="0.8"/>
+        <!-- Down closed candle (support) -->
+        <rect x="444" y="108" width="14" height="30" fill="#ff4757" rx="1" opacity="0.8"/>
+        <!-- Up candles continue -->
+        <rect x="466" y="90"  width="14" height="35" fill="#2ed573" rx="1" opacity="0.8"/>
+        <rect x="488" y="70"  width="14" height="35" fill="#2ed573" rx="1" opacity="0.8"/>
+        <!-- Pullback to down candle, holds -->
+        <rect x="510" y="90"  width="14" height="45" fill="#ff4757" rx="1" opacity="0.5"/>
+        <rect x="532" y="68"  width="14" height="40" fill="#2ed573" rx="1" opacity="0.8"/>
+        <rect x="554" y="50"  width="14" height="38" fill="#2ed573" rx="1" opacity="0.8"/>
+        <rect x="576" y="35"  width="14" height="38" fill="#2ed573" rx="1" opacity="0.8"/>
+
+        <!-- Down candle support floor -->
+        <line x1="390" y1="108" x2="660" y2="108" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="390" y="178" font-size="8" fill="#2ed573" text-anchor="middle">"down closed candles should support price"</text>
+
+        <!-- Divider -->
+        <line x1="340" y1="15" x2="340" y2="225" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="2,4"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 6 · ORDER BLOCK DEFINITION
+  ══════════════════════════════════════════ -->
+  <section id="order-block">
+    <h2>Order Block — The Correct Definition</h2>
+
+    <div class="quote quote-bear">
+      <p>"the order block is one consecutive series of up closed candles it's not the last candle before the down move"</p>
+      <span class="ts">44:02</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"this movement here these two green candles that are going up I'm watching these as they form live with the expectation because this imbalance has been rebalanced here this swing high is an the intermediate term High I do not I do not expect this High to be taken out so I'm already forecasting and anticipating a failed price swing in here every time this green candles are forming I'm looking at that as a bearish order block"</p>
+      <span class="ts">24:43</span>
+    </div>
+
+    <div class="quote">
+      <p>"you have the up closed candles together here with the imbalance inside of a larger order block within the bearish market structure because we have an inant term High here then this run up is going to fail to go back Above This high"</p>
+      <span class="ts">44:29</span>
+    </div>
+
+    <h3>What Others Teach vs. What ICT Teaches</h3>
+    <div class="quote quote-bear">
+      <p>"where everyone else is teaching the idea of the last up Clos candle before the down move that is not my order block that is not my order block so you need to stop teaching that because it's not accurate call it something else but don't call it order block"</p>
+      <span class="ts">24:48</span>
+    </div>
+
+    <h3>Classic (Conservative) Entry — Order Block After Breakdown</h3>
+    <div class="quote">
+      <p>"classic lowrisk High confirmation short entry is the classic return back to an order block after a trade down below it here's your little Gap here trade into it there's your short where's your stop Above This candle's High"</p>
+      <span class="ts">42:49</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 7 · AGGRESSIVE ENTRY
+  ══════════════════════════════════════════ -->
+  <section id="entries">
+    <h2>Aggressive Entry — Inside the Order Block</h2>
+
+    <div class="quote quote-bear">
+      <p>"this is an aggressive entry for going short… in this up close candle series of 1 2 3 4 five candles in that range if I get a fair value gy form with a breakdown like this notice I don't need a swing low broken notice that"</p>
+      <span class="ts">36:49</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"if you understand Market structure with this perception looking at it from a higher time frame and anticipating a breakdown but then starting to classify each imbalance and swing high and swing low… this is your aggressive entry you don't need a swing low being broken because you have the idea based on Market structure suggesting that this is exceedingly weak"</p>
+      <span class="ts">37:36</span>
+    </div>
+
+    <h3>Two Entry Types Side by Side</h3>
+    <div class="card-grid">
+      <div class="concept-card">
+        <span class="card-title bear">Aggressive</span>
+        <p><em>"inside the order block… you don't need a swing low being broken because you have the idea based on Market structure suggesting that this is exceedingly weak"</em></p>
+        <span class="ts">39:34</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">Classic / Low Risk</span>
+        <p><em>"classic lowrisk High confirmation short entry is the classic return back to an order block after a trade down below it"</em></p>
+        <span class="ts">42:49</span>
+      </div>
+    </div>
+
+    <h3>Stop Placement</h3>
+    <div class="quote">
+      <p>"your aiming for a very large downside objective so the risk from entering here at the bottom of the hourly bearish order block… you're entering there the Heat or the draw down in the trade is limited to just that candle but your stop has to be here and you're expanding lower for a Target that's many times over what your risk is"</p>
+      <span class="ts">46:07</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 8 · FIBONACCI TARGET
+  ══════════════════════════════════════════ -->
+  <section id="fib-target">
+    <h2>Fibonacci Targeting After Break Below Intermediate Term Low</h2>
+
+    <div class="quote">
+      <p>"this long-term low to interterm high if price breaks below here as it does here you can simply take your Fibonacci anchor it to the highest high down to the lowest low"</p>
+      <span class="ts">32:09</span>
+    </div>
+
+    <div class="quote">
+      <p>"if you anchor your FIB to the interm term High down to that low which is a long-term low the projection is -1 1/2 standard deviation and there's your low"</p>
+      <span class="ts">32:49</span>
+    </div>
+
+    <div class="quote">
+      <p>"this high and this low that's your framework the retracement that fails that starts the decline begins here at that intermate term high so if you anchor your FIB to the interm term High down to that low which is a long-term low"</p>
+      <span class="ts">32:38</span>
+    </div>
+
+    <h3>Why Anchor to the Intermediate Term High, Not the Long-Term High</h3>
+    <div class="quote">
+      <p>"this high and this low that's your framework the retracement that fails that starts the decline begins here at that intermate term high… this is just the beginning of the framework this is where the swing begins on the decline"</p>
+      <span class="ts">32:32</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 9 · DAILY CHART SUPREMACY
+  ══════════════════════════════════════════ -->
+  <section id="daily-supremacy">
+    <h2>Daily Chart — Parent of All Lower Time Frame Swings</h2>
+
+    <div class="quote">
+      <p>"since I am expecting the daily chart to be the parent of this price structure all minor lower time frame swings are going to be subordinate to it"</p>
+      <span class="ts">11:00</span>
+    </div>
+
+    <div class="quote">
+      <p>"you have to have something directly linked to that daily chart because the daily chart that's exactly what institutions are working off of that's exactly what banks are working off of that's where the money is that's where your bias is going to be determined that's going to be what makes or breaks your Trend continuation"</p>
+      <span class="ts">30:14</span>
+    </div>
+
+    <div class="quote">
+      <p>"the majority of your time in study should be on determining where that daily chart's going over the next day or two or a week but you try not to forecast longer than a week"</p>
+      <span class="ts">30:34</span>
+    </div>
+
+    <h3>The Hierarchy: Daily → Hourly → 15-Minute</h3>
+    <div class="quote">
+      <p>"the logic is based on that daily chart that it's going up into this imbalance to go lower the hourly chart frames my trade it gives me what I'm looking for to start hunting entry techniques now the 15-minute time frame that's the Bell weather this is where it's going to give me the actual get in get out"</p>
+      <span class="ts">28:44</span>
+    </div>
+
+    <h3>When to Be Neutral</h3>
+    <div class="quote">
+      <p>"if you can very easily communicate it in your analysis that it's likely to go higher but it's a real hard stretch to sell it for a bearish idea that's high probability if you can frame it bearish but have a hard time defining it in a bullish perspective that's high probability"</p>
+      <span class="ts">61:22</span>
+    </div>
+
+    <div class="quote quote-blue">
+      <p>"I am neutral right now I am not taking any trades… if you can't go into your charts and line up an idea that's bullish and have no way to frame it on a bearish stance in other words if you can very easily communicate it in your analysis that it's likely to go higher but it's a real hard stretch to sell it for a bearish idea that's high probability"</p>
+      <span class="ts">59:51</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 10 · TWO PRINCIPLES
+  ══════════════════════════════════════════ -->
+  <section id="two-principles">
+    <h2>The Only Two Principles</h2>
+
+    <div class="key-principle">
+      <span class="kp-label">The Market Only Does Two Things</span>
+      <p>"imbalance rebalance run for liquidity that's it it does not do anything else… liquidity going above old highs for buy stops going below old lows for sell stops or rebalancing or creating imbalance so it's imbalance rebalance run for liquidity that's it"</p>
+      <span class="ts">72:08</span>
+    </div>
+
+    <div class="quote">
+      <p>"they're looking at imbalance rebalance and liquidity that is it that's it that's all they're doing"</p>
+      <span class="ts">38:49</span>
+    </div>
+
+    <div class="quote">
+      <p>"the algorithm is not looking at harmonic patterns it's not thinking well you know I haven't used a bat pattern in a while… it's silly it is silly"</p>
+      <span class="ts">72:16</span>
+    </div>
+
+    <h3>Why the Daily Candle Retraces into a Fair Value Gap</h3>
+    <div class="quote">
+      <p>"because it's one candle it's one day one interval it's going to have the likelihood not it must always not that it's going to do it immediately but the expectation is it's likely to go back up into this area here with an up candle balancing out the movement lower it's going to go back up to offer buyers an opportunity to buy at those prices… the algorithm is allowing efficiency for Price delivery"</p>
+      <span class="ts">68:45</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 11 · PRACTICAL RULES
+  ══════════════════════════════════════════ -->
+  <section id="rules">
+    <h2>Practical Rules</h2>
+
+    <ul class="rule-list">
+      <li><em>"anytime a imbalance like this big candle up is rebalanced that becomes an intermediate term low"</em> — label immediately in your mind <span class="ts" style="display:inline;font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">17:14</span></li>
+      <li><em>"the next shortterm high should be lower than that intermed term high if it trades higher than that then your trade ideas probably flawed"</em> <span class="ts" style="display:inline;font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">41:58</span></li>
+      <li><em>"if that interm term high is broken and you're bearish then you got to move through the sidelines and don't go in again wait for more setups"</em> <span class="ts" style="display:inline;font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">53:02</span></li>
+      <li><em>"if it's bearish up Clos candles should keep price below it or them if it's multiple up closed candles they're speed bumps"</em> <span class="ts" style="display:inline;font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">51:39</span></li>
+      <li><em>"I'm not going down into the lower time frames below it and marking out all the swing highs and swing lows either that that's Overkill I just need to know what I'm looking for on the time frame I'm trading"</em> <span class="ts" style="display:inline;font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">28:33</span></li>
+      <li><em>"go back to your data and your charts and start breaking them down and classifying them… you have the benefit of hindsight that's how I began to trust it"</em> <span class="ts" style="display:inline;font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">44:55</span></li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 12 · FLASHCARDS
+  ══════════════════════════════════════════ -->
+  <section id="study">
+    <h2>Study Flashcards</h2>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted);margin-bottom:1.5rem;">Click any card to reveal the answer (direct quote)</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the one question ICT asks before sitting down at the charts?</div>
+        <div class="flashcard-answer">"what is the current market narrative what is it likely to be doing right now… nothing except for those two questions is it likely to go up for stops or go down for stops or is it going to go higher to rebalance or lower to rebalance"<span class="ts">6:48</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How are intermediate term highs and lows formed?</div>
+        <div class="flashcard-answer">"intermediate term highs and lows are formed at the rebalancing of an imbalance"<span class="ts">37:52</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the two classifications of an intermediate term high?</div>
+        <div class="flashcard-answer">"it is a short-term High that has a lower short-term High to the left of it and a lower short-term High to the right of it or and this is the main one here it trades back up to rebalance an imbalance that immediately becomes an interm term high"<span class="ts">41:31</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does it mean when an intermediate term high is NOT higher than both flanking short-term highs?</div>
+        <div class="flashcard-answer">"if the intermedi term high is not higher than two short-term highs that is telling you that the market is very weak and the algorithm is tipping its hand to those people that are looking at it like this"<span class="ts">38:02</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the core rule of institutional order flow for bearish moves?</div>
+        <div class="flashcard-answer">"when you're bearish all of your up closed candles should keep price from going higher than them"<span class="ts">48:44</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the core rule of institutional order flow for bullish moves?</div>
+        <div class="flashcard-answer">"those down closed candles should support price should it trade back down to them and not see them overlapped in other words going down below it"<span class="ts">52:23</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the one-sentence rule combining both institutional order flow directions?</div>
+        <div class="flashcard-answer">"price swings that are bullish down closed candles are your support in price swings that are bearish up closed candles are your resistance"<span class="ts">54:08</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is ICT's definition of a bearish order block?</div>
+        <div class="flashcard-answer">"the order block is one consecutive series of up closed candles it's not the last candle before the down move"<span class="ts">44:02</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What makes the aggressive entry valid without needing a swing low broken?</div>
+        <div class="flashcard-answer">"you don't need a swing low being broken because you have the idea based on Market structure suggesting that this is exceedingly weak"<span class="ts">39:34</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you anchor the Fibonacci for a downside price target?</div>
+        <div class="flashcard-answer">"if you anchor your FIB to the interm term High down to that low which is a long-term low the projection is -1 1/2 standard deviation and there's your low"<span class="ts">32:49</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the daily chart's relationship to all lower time frame swings?</div>
+        <div class="flashcard-answer">"since I am expecting the daily chart to be the parent of this price structure all minor lower time frame swings are going to be subordinate to it"<span class="ts">11:00</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When should you be neutral and not trade?</div>
+        <div class="flashcard-answer">"if you can very easily communicate it in your analysis that it's likely to go higher but it's a real hard stretch to sell it for a bearish idea that's high probability… if you can frame it bearish but have a hard time defining it in a bullish perspective that's high probability"<span class="ts">61:22</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the only two things the market / algorithm does?</div>
+        <div class="flashcard-answer">"imbalance rebalance run for liquidity that's it it does not do anything else… liquidity going above old highs for buy stops going below old lows for sell stops or rebalancing or creating imbalance"<span class="ts">72:08</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does it mean when the intermediate term high is broken while you are in a bearish trade?</div>
+        <div class="flashcard-answer">"if that in term high is broken and you're bearish then you got to move through the sidelines and don't go in again wait for more setups in the future"<span class="ts">53:02</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does the market retrace back up into a fair value gap after a fast one-candle drop?</div>
+        <div class="flashcard-answer">"it's going to have the likelihood… the expectation is it's likely to go back up into this area here with an up candle balancing out the movement lower it's going to go back up to offer buyers an opportunity to buy at those prices… the algorithm is allowing efficiency for Price delivery"<span class="ts">68:45</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How does the daily chart relate to trade bias?</div>
+        <div class="flashcard-answer">"the daily chart that's exactly what institutions are working off of that's exactly what banks are working off of that's where the money is that's where your bias is going to be determined that's going to be what makes or breaks your Trend continuation"<span class="ts">30:14</span></div>
+        <div class="reveal-hint">tap to reveal</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

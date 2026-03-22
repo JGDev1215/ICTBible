@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Episode 31 — Scout/Sniper, FVG Beyond Opening &amp; Trade Execution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #13131c;
+    --border: #2a2a3a;
+    --border-subtle: #1f1f2e;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6e;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-amber: #e8a838;
+    --accent-amber-dim: rgba(232,168,56,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(232,168,56,0.014) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,168,56,0.014) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none; z-index: 0;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.93); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle); padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--accent-amber); text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 1rem 1.2rem 1rem 0; white-space: nowrap;
+    border-right: 1px solid var(--border-subtle); margin-right: 0.6rem; flex-shrink: 0;
+  }
+  nav a {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-muted); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 1rem 0.8rem; white-space: nowrap; flex-shrink: 0; transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent-gold); }
+
+  header {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 3rem;
+  }
+  .episode-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent-amber); text-transform: uppercase; letter-spacing: 0.16em;
+    margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem;
+  }
+  .episode-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent-amber); }
+
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .header-quote { font-family: 'Crimson Pro', serif; font-size: 1.25rem; font-style: italic; color: var(--text-secondary); border-left: 3px solid var(--accent-amber); padding-left: 1.2rem; max-width: 680px; line-height: 1.6; }
+
+  main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+  section { margin-bottom: 4rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-subtle); }
+  .section-number { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
+  h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; }
+  h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--text-primary); margin: 1.8rem 0 0.8rem; }
+
+  .quote { background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-gold); padding: 1.2rem 1.5rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .quote p { font-family: 'Crimson Pro', serif; font-size: 1.05rem; color: var(--text-primary); line-height: 1.65; }
+  .quote p em { font-style: italic; color: var(--text-primary); }
+  .quote.bear { border-left-color: var(--accent-bear); }
+  .quote.amber { border-left-color: var(--accent-amber); }
+  .timestamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  .callout { background: var(--accent-gold-dim); border: 1px solid rgba(255,165,2,0.2); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start; }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .callout p em { color: var(--text-primary); font-style: italic; }
+  .callout.bear { background: var(--accent-bear-dim); border-color: rgba(255,71,87,0.2); }
+  .callout.amber { background: var(--accent-amber-dim); border-color: rgba(232,168,56,0.2); }
+
+  .concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .concept-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.4rem; transition: background 0.2s, border-color 0.2s; }
+  .concept-card:hover { background: var(--bg-card-hover); border-color: var(--accent-gold); }
+  .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+  .card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold); }
+  .concept-card p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .concept-card p em { font-style: italic; color: var(--text-primary); }
+
+  .diagram-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
+  .diagram-caption { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; }
+
+  .rule-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1rem 0; }
+  .rule-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.9rem 1.2rem; background: var(--bg-inset); border: 1px solid var(--border-subtle); border-radius: 6px; }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-dot.bear { background: var(--accent-bear); }
+  .rule-dot.amber { background: var(--accent-amber); }
+  .rule-item p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.5; }
+  .rule-item p em { font-style: italic; color: var(--text-primary); }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 3rem 0; }
+
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .flashcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.3rem 1.5rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; min-height: 100px; position: relative; overflow: hidden; }
+  .flashcard::after { content: 'TAP TO REVEAL'; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--text-muted); position: absolute; bottom: 0.7rem; right: 0.9rem; }
+  .flashcard.revealed::after { display: none; }
+  .flashcard:hover { border-color: var(--accent-amber); background: var(--bg-card-hover); }
+  .flashcard-question { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+  .flashcard-answer { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-family: 'Crimson Pro', serif; font-size: 1rem; font-style: italic; color: var(--accent-bull); line-height: 1.55; }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .flashcard-ts { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 0.4rem; font-style: normal; }
+
+  .study-intro { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+  @media (max-width: 640px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    main { padding: 0 1.2rem 4rem; }
+    .flashcard-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-label">EP. 31</span>
+    <a href="#scout-sniper">Scout / Sniper</a>
+    <a href="#fvg-beyond-open">FVG Beyond the Opening</a>
+    <a href="#bearish-ob-15m">Bearish OB on 15-min</a>
+    <a href="#swing-high-entry">Swing High Entry Trigger</a>
+    <a href="#stop-trail">Stop Management</a>
+    <a href="#lunch-stops">Stops Ahead of Lunch</a>
+    <a href="#partial-exits">Partial Exits</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <div class="episode-tag">2022 ICT Mentorship &mdash; Episode 31</div>
+  <h1>Scout / Sniper, FVG Beyond<br>the Opening &amp; Trade Execution</h1>
+  <p class="header-quote"><em>"i'm acting like a scout you're the sniper in training whether you realize or not okay so i'm trying to point you to where you should be aiming and you have to do the work of scoping it up pulling the trigger and dealing with all that"</em></p>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. SCOUT / SNIPER FRAMING                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="scout-sniper">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Scout / Sniper — How ICT Points to Targets</h2>
+    </div>
+
+    <div class="quote amber">
+      <p><em>"i'm acting like a scout you're the sniper in training whether you realize or not okay so i'm trying to point you to where you should be aiming and you have to do the work of scoping it up pulling the trigger and dealing with all that okay"</em></p>
+      <span class="timestamp">3:53</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"if i point to where i think the market's gonna go it's your job to study and look for the opportunity the fair value gap is what you're gonna be utilizing okay"</em></p>
+      <span class="timestamp">4:48</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i don't call out trades i don't i'm not going to put you in a trade i'm not going to give you an entry a stop a target i'm not going to do that i don't spoon feed i don't do that with my paid group what i do is i point to where the market's going to go i've already taught you how to get in i've already taught you where to put a stop loss i've already taught you how to put your limit orders in i taught you all that"</em></p>
+      <span class="timestamp">2:44</span>
+    </div>
+
+    <div class="callout amber">
+      <span class="callout-icon">◈</span>
+      <p>When ICT points to a specific low or level, interpret it as a directional signal: <em>"if it's up here and i'm pointing down here and taking your attention down there"</em> — that means he believes price is drawn to that level.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">ICT's Role — Scout</span></div>
+        <p><em>"i'm trying to point you to where you should be aiming"</em></p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Student's Role — Sniper</span></div>
+        <p><em>"you have to do the work of scoping it up pulling the trigger and dealing with all that"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. FVG BEYOND THE OPENING WINDOW            -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="fvg-beyond-open">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>FVG Is Available Beyond the Opening Window</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"some of you are fixated on only looking for the setup at the opening well what happens if you don't get a trade at the opening can't you use a fair bag you have to get involved with the move if it's going to go down to something like this yes that's what i did today"</em></p>
+      <span class="timestamp">4:56</span>
+    </div>
+
+    <div class="callout>
+      <span class="callout-icon">◆</span>
+      <p>The 8:30–9:30 opening window is the highest probability (as stated in EP.27) but the FVG pattern itself can be utilized later in the session when the bias is confirmed and the market gives a new entry opportunity.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. BEARISH OB ON 15-MIN                     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="bearish-ob-15m">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Bearish Order Block Identification on the 15-Minute</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"up close candle what do you think that is right before we start to go to lower it's a bearish order block draw that out in time it hits that order block on this candle here"</em></p>
+      <span class="timestamp">5:54</span>
+    </div>
+
+    <div class="callout bear">
+      <span class="callout-icon">◈</span>
+      <p>The 15-minute bearish order block (up-close candle immediately before displacement lower) provides the higher-timeframe reference that qualifies the lower-timeframe FVG entry.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. SWING HIGH AS ENTRY TRIGGER              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="swing-high-entry">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Swing High as Confirmation Entry Trigger</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"what i saw was this fairway gap here it hit it created what what is this what's this pattern here what's these three candles here it's a swing high so as soon as this candle closed here i'm gonna go right here at this candle and just get in and go short trusting the fact that we've already had a fair value gap we already went through it we have it swing high and it's bearish i'm looking for what a run below this old low"</em></p>
+      <span class="timestamp">7:02</span>
+    </div>
+
+    <!-- SWING HIGH ENTRY DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Swing High as Entry Confirmation — FVG Visited + 3-Candle Swing High → Short Entry</div>
+      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Prior STL taken / displacement -->
+        <text x="42" y="30" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Displacement — STL broken, FVG created</text>
+        <polyline points="80,45 120,60 160,80 185,95" fill="none" stroke="#ff4757" stroke-width="2"/>
+
+        <!-- FVG zone -->
+        <rect x="60" y="80" width="200" height="14" fill="rgba(255,165,2,0.15)" rx="0"/>
+        <line x1="60" y1="80" x2="380" y2="80" stroke="rgba(255,165,2,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="60" y1="94" x2="380" y2="94" stroke="rgba(255,165,2,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="384" y="84" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">FVG zone</text>
+        <text x="384" y="96" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"fairway gap here it hit it"</text>
+
+        <!-- Price returning up into FVG, overshoots slightly -->
+        <polyline points="185,95 220,90 250,86 270,82 285,79" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+        <!-- 3-candle swing high formation (candle1 up, candle2 peak, candle3 lower high) -->
+        <!-- Candle 1 (before peak) -->
+        <line x1="295" y1="68" x2="295" y2="95" stroke="#9898a8" stroke-width="1"/>
+        <rect x="289" y="74" width="12" height="16" fill="#2ed573" rx="1"/>
+
+        <!-- Candle 2 (peak — swing high) -->
+        <line x1="320" y1="60" x2="320" y2="88" stroke="#9898a8" stroke-width="1"/>
+        <rect x="314" y="66" width="12" height="16" fill="#2ed573" rx="1"/>
+        <circle cx="320" cy="60" r="4" fill="none" stroke="#ffa502" stroke-width="1.5"/>
+        <text x="328" y="56" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Swing High peak</text>
+
+        <!-- Candle 3 (lower high — confirms swing) -->
+        <line x1="345" y1="66" x2="345" y2="92" stroke="#9898a8" stroke-width="1"/>
+        <rect x="339" y="72" width="12" height="14" fill="#2ed573" rx="1"/>
+        <text x="352" y="70" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">"three candles here it's a swing high"</text>
+
+        <!-- Entry candle — as soon as this closes -->
+        <line x1="370" y1="70" x2="370" y2="100" stroke="#ff4757" stroke-width="1.5"/>
+        <rect x="364" y="76" width="12" height="18" fill="#ff4757" rx="1"/>
+        <text x="388" y="72" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Entry — "as soon as this candle closed"</text>
+        <text x="388" y="84" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"just get in and go short"</text>
+
+        <!-- Stop — above FVG creating candle high -->
+        <line x1="60" y1="79" x2="400" y2="79" stroke="rgba(255,71,87,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="404" y="77" font-size="9" fill="rgba(255,71,87,0.6)" font-family="'JetBrains Mono',monospace">Stop: above FVG-creating candle high</text>
+
+        <!-- Target — old low -->
+        <line x1="40" y1="210" x2="660" y2="210" stroke="rgba(255,71,87,0.3)" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="42" y="204" font-size="9" fill="rgba(255,71,87,0.5)" font-family="'JetBrains Mono',monospace">Target: Old Low (May 16)</text>
+
+        <!-- Price delivers lower -->
+        <polyline points="370,94 410,120 450,148 490,175 530,200 560,210" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="520" y="206" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">↓ delivers</text>
+
+      </svg>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"entering here and i'm writing it out with a stop here everything is reduced in terms of risk as soon as we started to break lower here and started moving my favor aggressively i moved my stop only because the volatility is so high right now i just don't want to see it come back and knock me out"</em></p>
+      <span class="timestamp">7:34</span>
+    </div>
+
+    <div class="callout bear">
+      <span class="callout-icon">◈</span>
+      <p><em>"that's not fear that's just sound money management i'm not trying to take a losing trade"</em></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. STOP TRAIL MANAGEMENT                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="stop-trail">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Stop Trail — Moving Stop When Price Breaks Aggressively</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"as soon as we started to break lower here and started moving my favor aggressively i moved my stop only because the volatility is so high right now i just don't want to see it come back and knock me out that's not fear that's just sound money management i'm not trying to take a losing trade"</em></p>
+      <span class="timestamp">7:41</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"i didn't have a whole lot of time to be babysitting this thing and late afternoon this could have easily whipped up did some kind of a retracement if i didn't kind of stop loss trail down"</em></p>
+      <span class="timestamp">5:30</span>
+    </div>
+
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Initial stop: above the FVG-creating candle high (as always)</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot amber"></div>
+        <p>Trail condition: <em>"as soon as we started to break lower here and started moving my favor aggressively"</em></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot bear"></div>
+        <p>Reason: high volatility environment — <em>"i just don't want to see it come back and knock me out"</em></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Framing: <em>"that's not fear that's just sound money management"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. STOPS AHEAD OF LUNCH                     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="lunch-stops">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Stops Run Ahead of Lunch Consolidation</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"what's this stops ahead of lunch very valuable"</em></p>
+      <span class="timestamp">8:26</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"ultimately we started going a little bit sideways going into the beginning of lunch in new york here's your typical lunch time consolidation and then what's this stops ahead of lunch very valuable"</em></p>
+      <span class="timestamp">8:16</span>
+    </div>
+
+    <!-- STOPS AHEAD OF LUNCH DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Stops Run Ahead of Lunch — Price Bumps Above Short-Term High Before Lunch Consolidation, Then Continues Lower</div>
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Price moving lower -->
+        <polyline points="40,40 90,55 140,70 190,85" fill="none" stroke="#ff4757" stroke-width="2"/>
+
+        <!-- Short-term high (stop cluster above) -->
+        <line x1="40" y1="72" x2="400" y2="72" stroke="rgba(255,71,87,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="404" y="76" font-size="9" fill="rgba(255,71,87,0.4)" font-family="'JetBrains Mono',monospace">Short-term high (buy stops above)</text>
+
+        <!-- Consolidation sideways -->
+        <polyline points="190,85 230,88 260,86 290,88 310,85" fill="none" stroke="#9898a8" stroke-width="1.5"/>
+
+        <!-- Bump up above STH — stop run -->
+        <polyline points="310,85 330,78 350,68 360,64" fill="none" stroke="#ffa502" stroke-width="2"/>
+        <circle cx="360" cy="64" r="5" fill="none" stroke="#ffa502" stroke-width="1.5"/>
+        <text x="368" y="62" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">"stops ahead of lunch"</text>
+        <text x="368" y="74" font-size="8" fill="rgba(255,165,2,0.5)" font-family="'JetBrains Mono',monospace">"very valuable"</text>
+
+        <!-- Lunch consolidation label -->
+        <text x="152" y="108" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Typical lunch consolidation</text>
+
+        <!-- Continue lower after stop run -->
+        <polyline points="360,64 390,80 420,100 450,125 490,155 530,175 560,185" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="518" y="180" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">↓ continues lower</text>
+
+        <!-- Noon marker -->
+        <line x1="190" y1="150" x2="190" y2="165" stroke="rgba(255,165,2,0.3)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="152" y="162" font-size="9" fill="rgba(255,165,2,0.4)" font-family="'JetBrains Mono',monospace">noon →</text>
+
+      </svg>
+    </div>
+
+    <div class="quote">
+      <p><em>"breaks lower consolidation again trades lower consolidation bumps to stops here what's this oh this ict just makes it so complicated hits it sells off sell side here consolidates one more time and trades and meets the low of the day"</em></p>
+      <span class="timestamp">8:44</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 7. PARTIAL EXITS                            -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="partial-exits">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Partial Exits &amp; Managing the Trade</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"i took my first partial here one off here and in the limit order you watch that fill on the little recording"</em></p>
+      <span class="timestamp">8:02</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i did not participate in the afternoon session post new york lunch"</em></p>
+      <span class="timestamp">9:20</span>
+    </div>
+
+    <div class="callout>
+      <span class="callout-icon">◈</span>
+      <p>Even with a confirmed bearish bias, ICT did not participate in the post-lunch afternoon session — consistent with the rule from earlier episodes about preferring the morning session and being cautious re-entering after 1 PM.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 8. FLASHCARDS                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Self-Study Flashcards</h2>
+    </div>
+    <p class="study-intro">Click any card to reveal the answer — all answers are direct quotes from the transcript.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What role does ICT play vs the student when he points to a level?</div>
+        <div class="flashcard-answer">"i'm acting like a scout you're the sniper in training whether you realize or not okay so i'm trying to point you to where you should be aiming and you have to do the work of scoping it up pulling the trigger and dealing with all that"<span class="flashcard-ts">3:53</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Does ICT call out specific entries, stops, and targets?</div>
+        <div class="flashcard-answer">"i don't call out trades i don't i'm not going to put you in a trade i'm not going to give you an entry a stop a target i'm not going to do that i don't spoon feed... what i do is i point to where the market's going to go i've already taught you how to get in"<span class="flashcard-ts">2:44</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say about fixating only on the opening window for FVG entries?</div>
+        <div class="flashcard-answer">"some of you are fixated on only looking for the setup at the opening well what happens if you don't get a trade at the opening can't you use a fair bag you have to get involved with the move if it's going to go down to something like this"<span class="flashcard-ts">4:56</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the up-close candle on the 15-minute just before displacement lower?</div>
+        <div class="flashcard-answer">"up close candle what do you think that is right before we start to go to lower it's a bearish order block draw that out in time it hits that order block on this candle here"<span class="flashcard-ts">5:54</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the three-candle confirmation pattern used as an entry trigger here?</div>
+        <div class="flashcard-answer">"what's this pattern here what's these three candles here it's a swing high so as soon as this candle closed here i'm gonna go right here at this candle and just get in and go short trusting the fact that we've already had a fair value gap we already went through it we have it swing high and it's bearish"<span class="flashcard-ts">7:07</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When is moving the stop aggressively described as acceptable rather than fear?</div>
+        <div class="flashcard-answer">"as soon as we started to break lower here and started moving my favor aggressively i moved my stop only because the volatility is so high right now i just don't want to see it come back and knock me out that's not fear that's just sound money management"<span class="flashcard-ts">7:41</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the "stops ahead of lunch" pattern and why is it described as "very valuable"?</div>
+        <div class="flashcard-answer">"what's this stops ahead of lunch very valuable"<span class="flashcard-ts">8:26</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How does ICT describe the repeating structure on the way down to the target?</div>
+        <div class="flashcard-answer">"breaks lower consolidation again trades lower consolidation bumps to stops here what's this oh this ict just makes it so complicated hits it sells off sell side here consolidates one more time and trades and meets the low of the day"<span class="flashcard-ts">8:44</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What session did ICT explicitly NOT participate in despite the move continuing?</div>
+        <div class="flashcard-answer">"i did not participate in the afternoon session post new york lunch"<span class="flashcard-ts">9:20</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is ICT's framing of how to interpret when he draws attention to an old low while price is above it?</div>
+        <div class="flashcard-answer">"if it's up here and i'm pointing down here and taking your attention down there i'm acting like a scout you're the sniper in training"<span class="flashcard-ts">3:49</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

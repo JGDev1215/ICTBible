@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Note — High Resistance Liquidity Conditions · Sep 27 2024</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c14;
+  --bg-note: #111118;
+  --border: #1e1e2e;
+  --text: #d8d8e8;
+  --muted: #5a5a78;
+  --ts: #3a3a58;
+  --ts-text: #6868a0;
+  --gold: #c8900a;
+  --bear: #cc3344;
+  --bull: #22a855;
+  --blue: #3a7fd4;
+  --tag-bg: #181828;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.75;
+  padding: 48px 24px 120px;
+}
+
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* ── META HEADER ── */
+.meta {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+.meta-session {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.meta h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.meta-sub {
+  font-style: italic;
+  font-size: 14px;
+  color: var(--muted);
+}
+.meta-tags {
+  margin-top: 14px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+/* ── SECTION HEADER ── */
+.section-head {
+  margin: 44px 0 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.section-head .ts-range {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ts-text);
+  background: var(--ts);
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.section-head h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── NOTE ENTRIES ── */
+.entry {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0 16px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+.entry:last-of-type { border-bottom: none; }
+
+.ts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--ts-text);
+  padding-top: 1px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.note {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.note em { font-style: italic; color: #aaa8c8; }
+
+/* Inline quote */
+.note q {
+  font-style: italic;
+  color: #a8a8c8;
+  quotes: '\201C' '\201D';
+}
+.note q::before { content: open-quote; }
+.note q::after { content: close-quote; }
+
+/* Keyword labels */
+.kw {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 2px;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-right: 2px;
+}
+.kw-def  { background: rgba(200,144,10,0.12); color: var(--gold); border: 1px solid rgba(200,144,10,0.25); }
+.kw-rule { background: rgba(58,127,212,0.12); color: var(--blue); border: 1px solid rgba(58,127,212,0.25); }
+.kw-hr   { background: rgba(204,51,68,0.12);  color: var(--bear); border: 1px solid rgba(204,51,68,0.25); }
+.kw-lr   { background: rgba(34,168,85,0.12);  color: var(--bull); border: 1px solid rgba(34,168,85,0.25); }
+.kw-warn { background: rgba(200,144,10,0.08); color: #a87830;     border: 1px solid rgba(200,144,10,0.15); }
+
+/* Block pull quote (important statements) */
+.pull {
+  margin: 10px 0 10px 88px;
+  padding: 10px 16px;
+  border-left: 2px solid var(--ts);
+  font-style: italic;
+  font-size: 15px;
+  color: #9090b8;
+  line-height: 1.6;
+}
+.pull.gold  { border-color: var(--gold); color: #c8a060; }
+.pull.bear  { border-color: var(--bear); color: #cc8890; }
+.pull.bull  { border-color: var(--bull); color: #70c890; }
+
+/* Divider */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 36px 0;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="meta">
+  <div class="meta-session">ICT 2024 Mentorship · September 27, 2024</div>
+  <h1>High Resistance vs Low Resistance Liquidity Conditions</h1>
+  <div class="meta-sub">Study note — read alongside transcript. Timestamps are approximate to the nearest 30 seconds.</div>
+  <div class="meta-tags">
+    <span class="chip">Opening Range Gap</span>
+    <span class="chip">TGIF</span>
+    <span class="chip">First FVG Rule</span>
+    <span class="chip">HR / LR Conditions</span>
+    <span class="chip">Manual Intervention</span>
+    <span class="chip">Turtle Soup</span>
+    <span class="chip">Stop Placement</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">0:00 – 6:30</span>
+  <h2>Opening / Session Setup</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">2:55</span>
+  <div class="note">Sell side has been taken. Question is whether price wants to continue or range.</div>
+</div>
+<div class="entry">
+  <span class="ts">3:10</span>
+  <div class="note"><span class="kw kw-warn">Lackluster</span> expectation stated at opening. Reason given in detail later.</div>
+</div>
+<div class="entry">
+  <span class="ts">3:32</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> First usable fair value gap forms at <em>9:31 or later</em>, not the 9:30 candle.</div>
+</div>
+<div class="entry">
+  <span class="ts">4:23</span>
+  <div class="note">Left chart = 1 min electronic trading hours (opens 6 pm ET). Right = regular trading hours. Distinction matters for gap measurement.</div>
+</div>
+<div class="entry">
+  <span class="ts">5:05</span>
+  <div class="note"><span class="kw kw-def">Opening Range Gap</span> = yesterday's 4:14 settlement price → today's 9:30 opening price. Always use <em>regular trading hours</em> to see this.</div>
+</div>
+<div class="entry">
+  <span class="ts">5:47</span>
+  <div class="note"><span class="kw kw-def">Opening Range</span> = 9:30 am – 10:00 am. 30-minute interval algorithms use to establish first imbalance, initial highs/lows, and build daily narrative.</div>
+</div>
+
+<div class="pull gold">"the algorithms use that as a kind of like a preliminary range to establish number one the first imbalance um initial highs and initial lows and then you use that information to build a narrative on how the daily range will build"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">6:30 – 14:20</span>
+  <h2>Quadrant Levels, Sell Side & Time Factor</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">6:45</span>
+  <div class="note">Buy side resting above. Minor sell side at today's low formed so far.</div>
+</div>
+<div class="entry">
+  <span class="ts">7:33</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> <em>9:31</em> is when seeking for the first fair value gap begins on the 1 min chart.</div>
+</div>
+<div class="entry">
+  <span class="ts">8:19</span>
+  <div class="note"><span class="kw kw-warn">Preference</span> ICT personally likes gap of ~75 handles. Under 40 = definitely lackluster.</div>
+</div>
+<div class="entry">
+  <span class="ts">9:03</span>
+  <div class="note"><span class="kw kw-def">TGIF</span> Factor: been going up all week → likely 20–30% weekly range retracement. Draw target = relative equal lows below.</div>
+</div>
+<div class="entry">
+  <span class="ts">9:52</span>
+  <div class="note">Gap gapped up at open, sold off, filled, tried to rally, then folded lower → can treat low of gap as fair value gap. If price trades back up and struggles, look for subsequent FVG entry.</div>
+</div>
+<div class="entry">
+  <span class="ts">11:07</span>
+  <div class="note">If TGIF retracement doesn't happen today, expect it Monday (20–30% of weekly range).</div>
+</div>
+<div class="entry">
+  <span class="ts">13:29</span>
+  <div class="note">Underlying dynamics: Friday + up all week → healthy to go down even if longer term bullish. Going down picks up stops where smart money can buy at discount.</div>
+</div>
+<div class="entry">
+  <span class="ts">14:10</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> At least <em>3 factors</em> must support a trade. One of the main factors must be <em>time</em>.</div>
+</div>
+
+<div class="pull gold">"if you trade outside of the trade setups that are not factoring heavily on the element of time you can still get setups but you're not going to get that um institutional sponsorship"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">14:20 – 32:00</span>
+  <h2>Reading Narrative · Bias vs Narrative</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">14:53</span>
+  <div class="note">9:50–10:00 and 10:00–10:10 are macro windows. Algorithms spool price to run to inefficiency or liquidity.</div>
+</div>
+<div class="entry">
+  <span class="ts">16:18</span>
+  <div class="note">Questions to ask at 9:30: Where is liquidity? Relative equal highs/lows? Large inefficiency above or below?</div>
+</div>
+<div class="entry">
+  <span class="ts">16:40</span>
+  <div class="note">If you can justify being a buyer AND a seller at the same time → not high probability.</div>
+</div>
+<div class="entry">
+  <span class="ts">28:31</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> Wait for: price to displace below FVG → body close away → then trade back up into FVG bottom → short. Not: shorting while still inside the gap.</div>
+</div>
+<div class="entry">
+  <span class="ts">31:27</span>
+  <div class="note"><span class="kw kw-def">Narrative ≠ Bias</span> Bias = bullish or bearish. Narrative = where is it likely to go AND why is it realistic it goes there.</div>
+</div>
+
+<div class="pull gold">"narrative is not bias okay bias is are you bullish or you bearish you got to go One Step Beyond that like you got to know where is it likely to go and why would it be realistic to assume it's going to go there"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">33:10 – 50:00</span>
+  <h2>Lackluster Morning — Reading the Early Signs</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">33:20</span>
+  <div class="note">Other days mid-week will offer cleaner price action. Back-and-forth this morning was a predictable result of the small gap.</div>
+</div>
+<div class="entry">
+  <span class="ts">35:25</span>
+  <div class="note">Stated at open: lackluster morning. Watching to see — no entries pushed, no demo trades. Demonstrating restraint.</div>
+</div>
+<div class="entry">
+  <span class="ts">36:09</span>
+  <div class="note">Price went to top of opening range gap (upper quadrant). This is productive — body stopped at upper quadrant, wick did the damage, small portion left open at top.</div>
+</div>
+<div class="entry">
+  <span class="ts">40:15</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> Market is bullish when above first FVG, bearish when below it — but allow first 30 min to traverse above and below before using it.</div>
+</div>
+<div class="entry">
+  <span class="ts">44:14</span>
+  <div class="note">Bodies stopped at upper quadrant of opening range gap. Wicks extended but bodies did not lay above the upper half — bearish condition still intact.</div>
+</div>
+<div class="entry">
+  <span class="ts">48:57</span>
+  <div class="note">Watching how price behaves around midpoint of wicks. Want it to wilt through and rush down to sell side.</div>
+</div>
+
+<div class="pull bear">"I like to watch and how price behaves around its midpoint of its Wicks I'd like to see it Wilt right through that and then Rush down"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">49:30 – 57:00</span>
+  <h2>Two Conditions — Core Definition</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">49:38</span>
+  <div class="note"><span class="kw kw-def">High Resistance Liquidity Run</span> Market has difficulty reaching obvious liquidity. Resists the fast straight shot to the target.</div>
+</div>
+<div class="entry">
+  <span class="ts">50:22</span>
+  <div class="note"><span class="kw kw-def">Low Resistance Liquidity Run</span> Easy, fluid market. Enters right from entry and goes directly to liquidity or inefficiency. Fast delivery, immediate feedback.</div>
+</div>
+<div class="entry">
+  <span class="ts">51:13</span>
+  <div class="note">As soon as you recognize HR conditions: <em>dial back leverage</em>, slow down. If stopped out — seriously reconsider re-entry. Paper or demo instead.</div>
+</div>
+<div class="entry">
+  <span class="ts">51:57</span>
+  <div class="note">Losing on Friday = lose weekly profits = tilt/gambler's numbness. Compounds into next week.</div>
+</div>
+
+<div class="pull bear">"as soon as you recognize you're in a high resistance liquidity run type market like this you should dial back your leverage you should slow down"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">57:00 – 80:00</span>
+  <h2>Sit Still / Restraint Lesson</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">58:56</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> On HR days: don't trade with real money. Tape read, demo with 1 micro, count how many setups fail vs succeed.</div>
+</div>
+<div class="entry">
+  <span class="ts">59:24</span>
+  <div class="note">Exercise: count how many attempted entries fail to reach target. Factor in commissions on all those attempts — likely net negative even on a "winning" day.</div>
+</div>
+<div class="entry">
+  <span class="ts">78:56</span>
+  <div class="note"><span class="kw kw-rule">70% Rule</span> Gap higher open → initial bias bearish → 70% chance price trades to half of gap (consequent encroachment) in first 30 minutes.</div>
+</div>
+<div class="entry">
+  <span class="ts">79:20</span>
+  <div class="note">Friday + bullish week → 20–30% weekly range retracement expected. Two stacked advantages when both present.</div>
+</div>
+
+<div class="pull gold">"you have a built-in 70% likelihood that it's going to trade down here... add to it it's Friday TG thank God it's Friday so that means you also have the 20% level"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">80:00 – 96:00</span>
+  <h2>TGIF Measurement + HR Signature List</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">80:09</span>
+  <div class="note"><span class="kw kw-rule">TGIF Measurement</span> Draw Fibonacci from weekly low to weekly high. Toggle 0.25 (20%) and 0.3 (30%). Those are your partial targets.</div>
+</div>
+<div class="entry">
+  <span class="ts">84:30</span>
+  <div class="note">Trade: short at first FVG retracement → first partial at 20% weekly → second partial target at 30% weekly range level.</div>
+</div>
+<div class="entry">
+  <span class="ts">87:00</span>
+  <div class="note">Built-in advantage: 70% chance gap fills + TGIF 20–30% level. Contrast with trading a bull flag: zero data that it will deliver.</div>
+</div>
+<div class="entry">
+  <span class="ts">92:40</span>
+  <div class="note"><span class="kw kw-hr">HR Signature #1</span> Opening range gap less than 75 handles → likely lethargic slow morning. Under 40 → definitely lackluster.</div>
+</div>
+<div class="entry">
+  <span class="ts">93:24</span>
+  <div class="note">Even with 75-handle threshold, first 30 minutes still watched to confirm LR or HR conditions.</div>
+</div>
+<div class="entry">
+  <span class="ts">95:02</span>
+  <div class="note"><span class="kw kw-hr">HR Signature #2</span> Consequent encroachment of FVG hit multiple times without price breaking lower. Should have dropped there. Didn't. Warning sign.</div>
+</div>
+
+<div class="pull bear">"how many times have we hit this when we hit consequent encroachment like this and came right back up into it here it should have failed at that point and broke lower but it didn't"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">96:00 – 115:00</span>
+  <h2>Inefficiency Behavior — The Primary Signal</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">100:35</span>
+  <div class="note"><span class="kw kw-def">Inefficiency Behavior Rule</span> Price should enter, touch, and repel quickly. One pass. Not camp inside.</div>
+</div>
+<div class="entry">
+  <span class="ts">101:16</span>
+  <div class="note"><q>inefficiencies or gaps you want them to go in stick your toe in the water and then run away you just want to have one quick high five moment and you're out of there</q></div>
+</div>
+<div class="entry">
+  <span class="ts">101:37</span>
+  <div class="note"><span class="kw kw-hr">HR Signature #3</span> Price revisiting and spending time inside gaps/inefficiencies repeatedly = accumulation inside inefficiency = very bad. Not what you want to see.</div>
+</div>
+<div class="entry">
+  <span class="ts">102:00</span>
+  <div class="note">Analogy: the more times a trend line is touched the stronger it is — same logic here is <em>wrong</em>. More touches = going through it.</div>
+</div>
+<div class="entry">
+  <span class="ts">103:10</span>
+  <div class="note">Mechanics behind it: shorts accumulated at open drop, first retracement = OTE for shorts. Relative equal lows form → retail sees support → they buy. Puts sell stops below lows for smart money to use later.</div>
+</div>
+<div class="entry">
+  <span class="ts">104:06</span>
+  <div class="note">Price spending too much time in FVG: should already have had high degree of influence by now. Doesn't = HR signal. It's holding price in a range (high here, low here).</div>
+</div>
+<div class="entry">
+  <span class="ts">104:36</span>
+  <div class="note">Who's making money in the range-bound phase? Shorts (who entered at open). Their stops are <em>above</em> those relative equal highs → price runs up to take those stops.</div>
+</div>
+<div class="entry">
+  <span class="ts">105:29</span>
+  <div class="note"><span class="kw kw-rule">FVG Body Rule</span> Bearish = upper half of FVG should stay open. Bullish = lower half should stay open. If bearish FVG upper half remains untouched by bodies = still valid.</div>
+</div>
+<div class="entry">
+  <span class="ts">106:11</span>
+  <div class="note">Run above FVG upper half (the Judas): longs trapped at breakout, shorts stopped out. Both engaged. Then price repels aggressively.</div>
+</div>
+<div class="entry">
+  <span class="ts">106:35</span>
+  <div class="note"><span class="kw kw-def">Judas Swing</span> The manipulated move up that takes out shorts and traps breakout longs before the real move down.</div>
+</div>
+<div class="entry">
+  <span class="ts">107:08</span>
+  <div class="note">After Judas: price eats through FVG, trades back up and kisses low of first FVG → that is the short entry.</div>
+</div>
+
+<div class="pull bear">"comes back up and kisses the low of that first fair value gap that's your short that's yours"</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">107:00 – 115:00</span>
+  <h2>Stop Loss Rule on High Resistance Days</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">107:22</span>
+  <div class="note"><span class="kw kw-hr">HR Stop Rule</span> Stop loss = entry FVG width × 2 (two times the FVG height above the entry). Accounts for deeper retracements characteristic of HR conditions.</div>
+</div>
+<div class="entry">
+  <span class="ts">109:17</span>
+  <div class="note"><span class="kw kw-lr">LR Stop Rule</span> Low resistance day: stop = one tick above consequent encroachment of the FVG. Much tighter.</div>
+</div>
+<div class="entry">
+  <span class="ts">110:20</span>
+  <div class="note"><span class="kw kw-rule">Leverage Rule</span> Push maximum (not over) leverage on LR days. Do NOT use high leverage on HR days.</div>
+</div>
+<div class="entry">
+  <span class="ts">110:43</span>
+  <div class="note">Teaching approach: always take partials when it takes out a low. Over time this trains pattern recognition of where targets actually are vs where you thought.</div>
+</div>
+<div class="entry">
+  <span class="ts">111:04</span>
+  <div class="note">On a 10-contract position in HR conditions: take 6 contracts off when it first breaks below a low. Remaining 4 stay for deeper target.</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">112:00 – 125:00</span>
+  <h2>Manual Intervention — The Mechanics</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">112:49</span>
+  <div class="note"><span class="kw kw-hr">HR Signature #4</span> Spiky runs outside of inefficiencies. Not normal buy/sell pressure. Someone manually running stops.</div>
+</div>
+<div class="entry">
+  <span class="ts">113:00</span>
+  <div class="note"><span class="kw kw-def">LR Precision Signal</span> On LR days: market delivers to the tip. When precision is absent = manual intervention confirmed.</div>
+</div>
+<div class="entry">
+  <span class="ts">113:32</span>
+  <div class="note">Manual intervention at the second run up: price sat at that level. Afforded the open interest to enter. Look at time and sales — contracts traded heavily there = smart money slipped in.</div>
+</div>
+<div class="entry">
+  <span class="ts">114:59</span>
+  <div class="note">After manipulation: shorts buy back at low price. Retail longs have sell stops below that low (protection). Market runs through = smart money exits shorts, retail stops fill them on the other side.</div>
+</div>
+<div class="entry">
+  <span class="ts">117:50</span>
+  <div class="note"><span class="kw kw-def">LR = Algorithmic</span> Low resistance = AI driven → fluid → runs right to liquidity to the tick.<br><span class="kw kw-def">HR = Manual</span> High resistance = someone overriding the algorithm → disrupting order flow.</div>
+</div>
+<div class="entry">
+  <span class="ts">120:37</span>
+  <div class="note"><span class="kw kw-rule">Rule</span> Losing precision on PD arrays = truest sign of manual intervention. Not: algorithm changed. Not: model broken.</div>
+</div>
+
+<div class="pull bear">"when you lose the Precision elements of my PD arrays you're seeing the truest indication that there is manual intervention underway"</div>
+
+<div class="entry">
+  <span class="ts">121:00</span>
+  <div class="note">Two interventions happened today. Between them: algorithmic delivery fired normally. After second: returned to algorithmic precision delivery.</div>
+</div>
+<div class="entry">
+  <span class="ts">123:54</span>
+  <div class="note">After manipulation resolves: everything returns to precision algorithmic delivery. PD arrays hit to the tick again.</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">125:00 – 137:00</span>
+  <h2>Journaling Classification + Turtle Soup</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">127:35</span>
+  <div class="note">The clue: losing precision around PD arrays. Start seeing every inefficiency with price spending a lot of time inside them → you know what you're in.</div>
+</div>
+<div class="entry">
+  <span class="ts">128:37</span>
+  <div class="note"><span class="kw kw-rule">Journaling Rule</span> For every day: note — is price spending time in inefficiencies / revisiting them multiple times? Yes = HR. No = LR.</div>
+</div>
+<div class="entry">
+  <span class="ts">129:20</span>
+  <div class="note">If you're in a trade and recognize HR: immediately reduce to lowest leverage. Slice to 1 contract. Reduces risk, locks some profit, removes panic about stop outs.</div>
+</div>
+<div class="entry">
+  <span class="ts">132:12</span>
+  <div class="note"><span class="kw kw-def">Universal Rule</span> <q>if price is spending a lot of time in them you are absolutely in high resistance liquidity run conditions</q></div>
+</div>
+<div class="entry">
+  <span class="ts">132:38</span>
+  <div class="note"><span class="kw kw-def">Turtle Soup in HR</span> If bearish in HR conditions → look for turtle soup sells. Micro shifts in market structure that look bullish but are just them taking buy stops to accumulate short positions.</div>
+</div>
+<div class="entry">
+  <span class="ts">133:42</span>
+  <div class="note">Pattern: <em>high → runs buy stops → sells off → high → runs stops → sells off</em> = characteristic HR market signature.</div>
+</div>
+<div class="entry">
+  <span class="ts">134:54</span>
+  <div class="note">After targets reached: price retraces into range, sets up another high to run → turtle soup → new low → retrace → turtle soup → real move lower. Repeat pattern.</div>
+</div>
+<div class="entry">
+  <span class="ts">135:08</span>
+  <div class="note">Note to student: don't confuse HR days with Seek and Destroy. Two seek and destroy days in the same week will never happen. Mislabeling leads to wrong expectations.</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<div class="section-head">
+  <span class="ts-range">137:00 – 151:00</span>
+  <h2>Main Takeaways + Final Summary</h2>
+</div>
+
+<div class="entry">
+  <span class="ts">137:08</span>
+  <div class="note">Easiest way to recognize HR conditions: your fair value gaps — are we spending a lot of time marking price in them? That is all that is needed.</div>
+</div>
+<div class="entry">
+  <span class="ts">138:03</span>
+  <div class="note">Reason for manual intervention: they need more time to build position. Algorithm would hit target too fast. Manual intervention = engineer stops to take other side and accumulate.</div>
+</div>
+<div class="entry">
+  <span class="ts">140:33</span>
+  <div class="note"><span class="kw kw-hr">Two Takeaways</span> (1) Inefficiencies revisited / price spends too long inside them. (2) Precision delivery not present. Neither alone means algorithm is broken — just manual disruption of order flow.</div>
+</div>
+<div class="entry">
+  <span class="ts">140:50</span>
+  <div class="note">Everything returns to normal on Monday. Can't always predict when they'll intervene again. But you can identify it once it starts.</div>
+</div>
+<div class="entry">
+  <span class="ts">143:27</span>
+  <div class="note"><q>left to its own script price will be perfect it'll stop to the tick or one tick above where you think it's going to go to afford that entry price</q> — when you don't see this: sidelines or minimum leverage.</div>
+</div>
+<div class="entry">
+  <span class="ts">145:46</span>
+  <div class="note">Studying HR days teaches you to recognize LR days by contrast. LR = easy, like candy. Trading up and down all day with no adversity.</div>
+</div>
+<div class="entry">
+  <span class="ts">150:16</span>
+  <div class="note"><span class="kw kw-rule">Journal Checklist</span> Each day: do you see imbalances with price holding inside them? Yes = HR. No = LR. Simple, not ambiguous, visible in real time.</div>
+</div>
+
+<div class="pull gold">"if you don't see that you are in low resistance liquidity run signatures that is an easy definition folks that is not something hard it's not an ambiguous thing where it's just oh it's a have to fact you can see it real time"</div>
+
+<hr>
+
+<div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-align:center;padding-top:8px;letter-spacing:0.1em;">
+  ICT 2024 Mentorship · Sep 27 2024 · Study Note · All quotes are direct transcript extracts
+</div>
+
+</div>
+</body>
+</html>
