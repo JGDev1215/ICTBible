@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #1a1a24;
+  --bg-card-hover: #1f1f2e;
+  --bg-subtle: #141420;
+  --text-primary: #e8e8ed;
+  --text-secondary: #9898a8;
+  --text-muted: #5a5a6e;
+  --accent-bear: #ff4757;
+  --accent-bull: #2ed573;
+  --accent-gold: #ffa502;
+  --accent-blue: #4a9eff;
+  --accent-cyan: #00d2d3;
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(255,165,2,0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.header-tag::before,
+.header-tag::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent-cyan);
+}
+
+.header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+}
+
+.header h1 em {
+  font-style: normal;
+  color: var(--accent-gold);
+}
+
+.header .subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.episode-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+/* Episode list */
+.episode-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.episode-item {
+  position: relative;
+}
+
+.episode-link {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem 1.4rem;
+  border-radius: 8px;
+  background: transparent;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.episode-link:hover {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+.episode-link:hover .ep-number {
+  color: var(--accent-gold);
+}
+
+.ep-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: right;
+  transition: color 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.ep-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.episode-link:hover .ep-title {
+  color: var(--text-primary);
+}
+
+/* Separator for missing episodes */
+.gap-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0;
+  gap: 1rem;
+}
+
+.gap-marker::before,
+.gap-marker::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.gap-marker span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Footer */
+.footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Search */
+.search-wrap {
+  margin-bottom: 2.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  border-color: var(--border-accent);
+}
+
+@media (max-width: 600px) {
+  .container { padding: 2rem 1rem 4rem; }
+  .episode-link { grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 0.8rem 1rem; }
+  .ep-number { font-size: 12px; }
+  .ep-title { font-size: 0.9rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">2022 ICT Mentorship</div>
+    <h1>Episode <em>Index</em></h1>
+    <p class="subtitle">Complete notes archive &mdash; 39 episodes</p>
+    <div class="episode-count">EP 01 &ndash; 40 &middot; Episode 28 not available</div>
+  </div>
+
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search" placeholder="Filter episodes..." autocomplete="off">
+  </div>
+
+  <ol class="episode-list" id="episode-list">
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep01-mentorship-intro.html"><span class="ep-number">EP 01</span><span class="ep-title">Introduction</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep02-elements-of-a-trade-setup.html"><span class="ep-number">EP 02</span><span class="ep-title">Elements of a Trade Setup</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep03-internal-range-liquidity-mss.html"><span class="ep-number">EP 03</span><span class="ep-title">Internal Range Liquidity &amp; Market Structure Shift</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep04-internal-range-liquidity.html"><span class="ep-number">EP 04</span><span class="ep-title">Internal Range Liquidity &amp; Market Structure Shifts</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep05-intraday-order-flow-daily-range.html"><span class="ep-number">EP 05</span><span class="ep-title">Intraday Order Flow &amp; the Daily Range</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep06-market-efficiency-paradigm.html"><span class="ep-number">EP 06</span><span class="ep-title">Market Efficiency Paradigm &amp; Institutional Order Flow</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep07-daily-bias-consolidation.html"><span class="ep-number">EP 07</span><span class="ep-title">Daily Bias &amp; Consolidation Hurdles</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep08-institutional-order-flow-forex.html"><span class="ep-number">EP 08</span><span class="ep-title">Applying Institutional Order Flow to Forex</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep09-power-three-ny-pm.html"><span class="ep-number">EP 09</span><span class="ep-title">Power Three &amp; New York PM Session</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep10-power-three-daily-bias.html"><span class="ep-number">EP 10</span><span class="ep-title">Power Three, Daily Bias &amp; Opening Range</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep11-market-structure-nesting.html"><span class="ep-number">EP 11</span><span class="ep-title">Market Structure &amp; Nesting of Highs/Lows</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep12-market-structure-precision-technicians.html"><span class="ep-number">EP 12</span><span class="ep-title">Market Structure for Precision Technicians</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep13-advanced-price-action-theory.html"><span class="ep-number">EP 13</span><span class="ep-title">Advanced Price Action Theory in Action</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep14-live-execution.html"><span class="ep-number">EP 14</span><span class="ep-title">Live Execution</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep15.html"><span class="ep-number">EP 15</span><span class="ep-title">Episode 15</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep16-multiple-setups.html"><span class="ep-number">EP 16</span><span class="ep-title">Multiple Setups Inside Trading Sessions</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep17-forex-model.html"><span class="ep-number">EP 17</span><span class="ep-title">Applying the Model to Forex</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep18.html"><span class="ep-number">EP 18</span><span class="ep-title">Episode 18</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep19-order-blocks-opening-price.html"><span class="ep-number">EP 19</span><span class="ep-title">Order Blocks, Opening Prices &amp; Narrative</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep20-london-setup.html"><span class="ep-number">EP 20</span><span class="ep-title">London Session Setup</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep21.html"><span class="ep-number">EP 21</span><span class="ep-title">Episode 21</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep22-market-structure-smt.html"><span class="ep-number">EP 22</span><span class="ep-title">Market Structure, SMT &amp; the Market Maker Sell Model</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep23-fomc-live.html"><span class="ep-number">EP 23</span><span class="ep-title">FOMC Live Analysis</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep24.html"><span class="ep-number">EP 24</span><span class="ep-title">Episode 24</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep25-rebalancing-drill-stops.html"><span class="ep-number">EP 25</span><span class="ep-title">Rebalancing, Timeframe Drilling &amp; Stop Placement</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep26-tape-reading.html"><span class="ep-number">EP 26</span><span class="ep-title">Tape Reading Practice</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep27-counter-trend-self-talk.html"><span class="ep-number">EP 27</span><span class="ep-title">Counter Trend Ideas &amp; Self-Talk Psychology</span></a></li>
+    <li class="episode-item"><div class="gap-marker"><span>ep 28 &mdash; n/a</span></div></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep29.html"><span class="ep-number">EP 29</span><span class="ep-title">Episode 29</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep30-pm-lunch-lows.html"><span class="ep-number">EP 30</span><span class="ep-title">PM Session &amp; Lunch Lows</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep31-scout-sniper-execution.html"><span class="ep-number">EP 31</span><span class="ep-title">Scout/Sniper, FVG Beyond Opening &amp; Trade Execution</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep32.html"><span class="ep-number">EP 32</span><span class="ep-title">Episode 32</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep33-daily-review.html"><span class="ep-number">EP 33</span><span class="ep-title">Daily Review</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep34-sunday-gap-fib-anchoring.html"><span class="ep-number">EP 34</span><span class="ep-title">Sunday Gap Opening &amp; Fibonacci Anchoring</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep35.html"><span class="ep-number">EP 35</span><span class="ep-title">Episode 35</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep36-es-review.html"><span class="ep-number">EP 36</span><span class="ep-title">ES Futures Review</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep37-nfp-fomc-journal.html"><span class="ep-number">EP 37</span><span class="ep-title">NFP/FOMC Rules, Breakers &amp; Journal Annotations</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep38.html"><span class="ep-number">EP 38</span><span class="ep-title">Episode 38</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep39-time-price-sons-model.html"><span class="ep-number">EP 39</span><span class="ep-title">Time, Price &amp; the Son&rsquo;s Model</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep40a-daily-bias-weekly-expansion.html"><span class="ep-number">EP 40a</span><span class="ep-title">Daily Bias Framework, Weekly Expansion &amp; the Economic Calendar</span></a></li>
+    <li class="episode-item"><a class="episode-link" href="ict-2022-ep40b-daily-bias-econ-calendar.html"><span class="ep-number">EP 40b</span><span class="ep-title">Daily Bias, Economic Calendar &amp; Intermarket Relationships</span></a></li>
+  </ol>
+
+  <div class="footer">ICT 2022 Mentorship &middot; Notes Archive</div>
+
+</div>
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.episode-item').forEach(function(item) {
+    const link = item.querySelector('.episode-link');
+    if (!link) { item.style.display = q ? 'none' : ''; return; }
+    const text = link.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

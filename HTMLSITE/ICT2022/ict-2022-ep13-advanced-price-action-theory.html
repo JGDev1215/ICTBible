@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship Ep. 13 — Advanced Price Action Theory in Action</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --border: #2a2a3a;
+    --border-subtle: #1e1e2c;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6a;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --radius: 8px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background:var(--bg-primary); color:var(--text-primary); font-family:'Crimson Pro',Georgia,serif; font-size:18px; line-height:1.7; }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background-image: linear-gradient(rgba(255,165,2,0.015) 1px,transparent 1px), linear-gradient(90deg,rgba(255,165,2,0.015) 1px,transparent 1px);
+    background-size:40px 40px; pointer-events:none; z-index:0;
+  }
+
+  nav { position:sticky; top:0; z-index:100; background:rgba(10,10,15,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-subtle); padding:0 2rem; }
+  nav ul { list-style:none; display:flex; overflow-x:auto; scrollbar-width:none; max-width:1100px; margin:0 auto; }
+  nav ul::-webkit-scrollbar { display:none; }
+  nav a { display:block; padding:0.85rem 1rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; transition:color 0.2s,border-color 0.2s; }
+  nav a:hover { color:var(--accent-gold); border-bottom-color:var(--accent-gold); }
+
+  header { position:relative; z-index:1; padding:5rem 2rem 3.5rem; max-width:1100px; margin:0 auto; border-bottom:1px solid var(--border-subtle); }
+  .header-label { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:1.2rem; display:flex; align-items:center; gap:0.6rem; }
+  .header-label::before { content:''; display:inline-block; width:28px; height:1px; background:var(--accent-gold); }
+  h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,4.5vw,3.2rem); font-weight:700; line-height:1.15; letter-spacing:-0.02em; color:var(--text-primary); margin-bottom:1.4rem; }
+  h1 span { color:var(--accent-gold); }
+  .header-subtitle { font-family:'Crimson Pro',serif; font-size:1.1rem; font-style:italic; color:var(--text-secondary); max-width:720px; padding:1rem 1.2rem; border-left:3px solid var(--accent-gold); background:var(--accent-gold-dim); border-radius:0 var(--radius) var(--radius) 0; }
+
+  main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 2rem 6rem; }
+  section { padding:3.5rem 0; border-bottom:1px solid var(--border-subtle); }
+  section:last-child { border-bottom:none; }
+  .section-header { display:flex; align-items:baseline; gap:1rem; margin-bottom:2rem; }
+  .section-number { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); letter-spacing:0.1em; flex-shrink:0; }
+  h2 { font-family:'Space Grotesk',sans-serif; font-size:1.5rem; font-weight:600; letter-spacing:-0.01em; color:var(--text-primary); }
+  h3 { font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:500; color:var(--text-secondary); margin-bottom:1rem; letter-spacing:0.01em; }
+  p { margin-bottom:0.8rem; }
+
+  .quote { background:var(--bg-card); border-left:3px solid var(--border); border-radius:0 var(--radius) var(--radius) 0; padding:1rem 1.3rem; margin:1rem 0; }
+  .quote p { font-style:italic; color:var(--text-secondary); margin:0; font-size:1rem; }
+  .quote .ts { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); letter-spacing:0.08em; display:block; margin-top:0.5rem; }
+  .quote-gold { border-left-color:var(--accent-gold); background:var(--accent-gold-dim); }
+  .quote-bull { border-left-color:var(--accent-bull); background:var(--accent-bull-dim); }
+  .quote-bear { border-left-color:var(--accent-bear); background:var(--accent-bear-dim); }
+
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1rem; margin:1.5rem 0; }
+  .concept-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.3rem; transition:border-color 0.2s,background 0.2s; }
+  .concept-card:hover { border-color:var(--accent-gold); background:var(--bg-card-hover); }
+  .card-header { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.8rem; }
+  .card-dot { width:6px; height:6px; border-radius:50%; background:var(--accent-gold); flex-shrink:0; }
+  .card-dot.bear { background:var(--accent-bear); }
+  .card-dot.bull { background:var(--accent-bull); }
+  .card-title { font-family:'Space Grotesk',sans-serif; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-primary); }
+  .concept-card p { font-style:italic; color:var(--text-secondary); font-size:0.92rem; margin:0; }
+  .concept-card .ts { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); display:block; margin-top:0.5rem; }
+
+  .rule-block { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; margin:1.2rem 0; }
+  .rule-block-title { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border-subtle); }
+  .rule-block-title.bull { color:var(--accent-bull); }
+  .rule-block-title.bear { color:var(--accent-bear); }
+  .rule-row { display:flex; gap:0.8rem; align-items:flex-start; padding:0.5rem 0; border-bottom:1px solid var(--border-subtle); font-size:0.93rem; }
+  .rule-row:last-child { border-bottom:none; }
+  .rule-key { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-muted); flex-shrink:0; min-width:90px; margin-top:0.28rem; letter-spacing:0.05em; }
+  .rule-row em { color:var(--text-secondary); font-style:italic; }
+
+  .diagram-wrap { background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; margin:2rem 0; overflow-x:auto; }
+  .diagram-caption { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:0.8rem; text-align:center; }
+
+  .contrast-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:var(--radius); overflow:hidden; margin:1.5rem 0; }
+  .contrast-cell { background:var(--bg-card); padding:1.3rem; }
+  .contrast-label { font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.7rem; }
+  .contrast-label.bull { color:var(--accent-bull); }
+  .contrast-label.bear { color:var(--accent-bear); }
+  .contrast-cell p { font-style:italic; color:var(--text-secondary); font-size:0.9rem; margin:0; }
+  @media(max-width:600px){ .contrast-grid { grid-template-columns:1fr; } }
+
+  .divider { height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); margin:1.8rem 0; }
+
+  .flashcard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; margin-top:1.5rem; }
+  .flashcard { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; cursor:pointer; transition:border-color 0.2s,background 0.2s; min-height:100px; user-select:none; }
+  .flashcard:hover { border-color:var(--accent-gold); background:var(--bg-card-hover); }
+  .flashcard-question { font-family:'Space Grotesk',sans-serif; font-size:0.88rem; color:var(--text-primary); font-weight:500; line-height:1.4; }
+  .flashcard-answer { display:none; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); font-style:italic; color:var(--accent-bull); font-size:0.9rem; line-height:1.55; }
+  .flashcard.revealed .flashcard-answer { display:block; }
+  .flashcard.revealed { border-color:var(--accent-bull); background:var(--accent-bull-dim); }
+  .reveal-hint { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-top:0.7rem; display:block; }
+  .flashcard.revealed .reveal-hint { display:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#candle-rules">Down/Up Close Rules</a></li>
+    <li><a href="#ob-criteria">Order Block Criteria</a></li>
+    <li><a href="#intermediate-low">Intermediate Term Low</a></li>
+    <li><a href="#trailing-stops">Trailing Stops</a></li>
+    <li><a href="#pyramiding">Pyramiding</a></li>
+    <li><a href="#demo-usage">Demo Account</a></li>
+    <li><a href="#readiness">Live Trading Readiness</a></li>
+    <li><a href="#goals">Goal Setting</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="header-label">ICT 2022 Mentorship · Episode 13 · March 2022</div>
+  <h1>Advanced Price Action<br><span>Theory in Action</span></h1>
+  <p class="header-subtitle">"It's the gap plus the down closed candle plus the idea that it's likely to go for buy side liquidity. That's it."</p>
+</header>
+
+<main>
+
+  <!-- ─── 01 DOWN/UP CLOSE CANDLE RULES ─── -->
+  <section id="candle-rules">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Down Closed Candle / Up Closed Candle Rules</h2>
+    </div>
+
+    <div class="contrast-grid">
+      <div class="contrast-cell">
+        <div class="contrast-label bull">Bullish Market Move</div>
+        <p><em>"If the move has been bullish — down closed candles should not be violated. Down closed candles should not be violated. They're going to act as support."</em></p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);display:block;margin-top:0.6rem;">13:37</span>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label bear">Bearish Market Move</div>
+        <p><em>"Bearish market moves — up close candles should not be breached and broken through. Never even come back."</em></p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);display:block;margin-top:0.6rem;">13:51</span>
+      </div>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"If price is going higher — down closed candles should support price."</p>
+      <span class="ts">22:19</span>
+    </div>
+
+    <h3>Application in a Bullish Leg</h3>
+
+    <div class="quote quote-bull">
+      <p>"All the down closed candles — does it go below this down close candle when it starts to retrace? No. We expect this to be areas where they're going to accumulate more long positions. We retrace going down into an imbalance and the market rallies above the down close candle. Does it support price? Yes."</p>
+      <span class="ts">15:28</span>
+    </div>
+
+    <div class="quote">
+      <p>"I'm not worrying about the market as long as it doesn't take out these two down close candles."</p>
+      <span class="ts">22:56</span>
+    </div>
+
+    <div class="quote">
+      <p>"Trades down — gets real close to that — but does it eat up and go through that range of these two down close candles? No. It just retraces down into what — an imbalance. Why? So smart money can buy again."</p>
+      <span class="ts">23:02</span>
+    </div>
+
+    <h3>When Down Closed Candles Are Broken</h3>
+
+    <div class="quote quote-bear">
+      <p>"If it comes down and breaks the low of these down closed candles — well there you go. You probably did the right thing by getting stopped down because it might be failing and going lower."</p>
+      <span class="ts">26:22</span>
+    </div>
+
+    <h3>The Sequence Repeated</h3>
+
+    <div class="quote quote-bull">
+      <p>"Order block — trades through it here, get long. Fair value gap — order block — retracement — get long. Order block — imbalance with the fair value gap — trades back down — doesn't even come back down into the order block. This is classic — it generally doesn't like to go all the way back in rebalance when it's that close to the profit objective. So the algorithm only has a small little retracement inside the fair value gap so you would be a buyer."</p>
+      <span class="ts">23:25</span>
+    </div>
+  </section>
+
+  <!-- ─── 02 ORDER BLOCK CRITERIA ─── -->
+  <section id="ob-criteria">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>High Probability Bullish Order Block — Three Requirements</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"That is how you determine your high probability bullish order block — it must have the imbalance coupled with the down closed candle and the underlying narrative that it's likely to go higher to reach for buy side liquidity. Period."</p>
+      <span class="ts">17:45</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"It's the gap plus the down closed candle plus the idea that it's likely to go for buy side liquidity. That's it. There is no engulfing candle — does this — forget all that, you don't need that."</p>
+      <span class="ts">18:11</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-title bull">Three Requirements — Bullish Order Block</div>
+      <div class="rule-row"><span class="rule-key">1. Imbalance</span><em>"It must have the imbalance."</em></div>
+      <div class="rule-row"><span class="rule-key">2. Down closed candle</span><em>"Coupled with the down closed candle."</em></div>
+      <div class="rule-row"><span class="rule-key">3. Narrative</span><em>"The underlying narrative that it's likely to go higher to reach for buy side liquidity."</em></div>
+    </div>
+
+    <h3>Lower Time Frame Order Block Nested in Higher</h3>
+
+    <div class="quote">
+      <p>"That is one order block with a lower time frame order block and a fair value gap. You can take that trade if you know what you're looking for and you understand bias narrative and where the liquidity matrix is likely to lead to later on."</p>
+      <span class="ts">20:24</span>
+    </div>
+
+    <div class="quote">
+      <p>"There's a hierarchy — higher time frame to a lower time frame with the idea framed on it's going higher for buy side."</p>
+      <span class="ts">21:46</span>
+    </div>
+
+    <h3>9:30 Judas Swing Context</h3>
+
+    <div class="quote quote-bear">
+      <p>"It retraces down into the 9:30 opening — this is that fake move. Don't chase this. And don't chase going higher right before the equity is opening 9:30 either. So you have to take a step back and figure out what you're looking for."</p>
+      <span class="ts">19:14</span>
+    </div>
+
+    <div class="quote>
+      <p>"I'm looking for a discount market. Low to high — I'm below 50? Yes. I'm inside the order block? Yes. The equities opening has happened. I'm bullish and it has traded lower."</p>
+      <span class="ts">19:29</span>
+    </div>
+  </section>
+
+  <!-- ─── 03 INTERMEDIATE TERM LOW ─── -->
+  <section id="intermediate-low">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Intermediate Term Low</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"We do have a low that has a higher low to the left and a higher low to the right. So that makes this what — intermediate term low."</p>
+      <span class="ts">16:10</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"When it fills in that gap — once that happens — this becomes an intermediate term low. This low should not be taken out once it starts rallying. It should not come back down here."</p>
+      <span class="ts">22:05</span>
+    </div>
+
+    <div class="quote">
+      <p>"Remember — intermediate term low is down here. This should never be overtaken until the objective's reached."</p>
+      <span class="ts">24:28</span>
+    </div>
+
+    <div class="quote">
+      <p>"So all this price action leg here is — I trust that it's going to keep going higher as long as the down closed candles keep price above it. Above what? Above the down close candles that's going to be supporting each new leg higher. The market should not retrace back down below those."</p>
+      <span class="ts">24:39</span>
+    </div>
+
+    <!-- INTERMEDIATE TERM LOW DIAGRAM -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:0 auto;">
+        <rect width="640" height="240" fill="#0f0f18" rx="6"/>
+        <style>
+          .d { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#9898a8; }
+          .d-gold { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#ffa502; }
+          .d-bull { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#2ed573; }
+          .d-sm { font-family:'JetBrains Mono',monospace; font-size:7.5px; fill:#5a5a6a; }
+        </style>
+        <defs>
+          <marker id="ag" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#9898a8"/></marker>
+          <marker id="ag-g" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#ffa502"/></marker>
+        </defs>
+
+        <!-- Higher low LEFT -->
+        <line x1="80" y1="150" x2="120" y2="150" stroke="#5a5a6a" stroke-width="0.8" stroke-dasharray="2,2"/>
+        <text x="36" y="154" class="d-sm">Higher low left</text>
+        <rect x="100" y="130" width="9" height="28" fill="#3a3a50" rx="1"/>
+        <rect x="113" y="120" width="9" height="38" fill="#3a3a50" rx="1"/>
+
+        <!-- THE INTERMEDIATE TERM LOW -->
+        <rect x="130" y="155" width="10" height="42" fill="#3a3a50" rx="1"/>
+        <line x1="130" y1="197" x2="490" y2="197" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,3"/>
+        <text x="494" y="201" class="d-gold">Intermediate Term Low</text>
+        <text x="494" y="211" class="d-sm">"should never be overtaken</text>
+        <text x="494" y="220" class="d-sm">until objective reached"</text>
+        <!-- label the low candle -->
+        <text x="126" y="152" class="d-gold">ITL</text>
+
+        <!-- Higher low RIGHT -->
+        <rect x="148" y="140" width="9" height="30" fill="#3a3a50" rx="1"/>
+        <rect x="161" y="128" width="9" height="40" fill="#3a3a50" rx="1"/>
+        <text x="148" y="118" class="d-sm">Higher low right</text>
+
+        <!-- Down closed candles (bullish OB) -->
+        <rect x="178" y="118" width="10" height="36" fill="#ff4757" opacity="0.7" rx="1"/>
+        <rect x="192" y="122" width="10" height="32" fill="#ff4757" opacity="0.7" rx="1"/>
+        <text x="178" y="112" class="d-gold">Down closed candles</text>
+        <text x="178" y="122" class="d-sm">(bullish order block)</text>
+
+        <!-- Displacement up -->
+        <rect x="208" y="88" width="12" height="56" fill="#2ed573" opacity="0.9" rx="1"/>
+        <line x1="214" y1="88" x2="214" y2="76" stroke="#2ed573" stroke-width="1"/>
+        <text x="208" y="74" class="d-bull">Displacement</text>
+
+        <!-- Retracement into OB -->
+        <rect x="226" y="112" width="9" height="32" fill="#3a3a50" rx="1"/>
+        <rect x="239" y="108" width="9" height="28" fill="#3a3a50" rx="1"/>
+        <!-- OB support line -->
+        <line x1="178" y1="154" x2="300" y2="154" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="166" y="168" class="d-bull">Down closed</text>
+        <text x="166" y="177" class="d-bull">candle support</text>
+
+        <!-- Leg higher -->
+        <rect x="254" y="96" width="10" height="48" fill="#2ed573" opacity="0.8" rx="1"/>
+        <rect x="268" y="82" width="10" height="60" fill="#2ed573" opacity="0.8" rx="1"/>
+        <rect x="282" y="70" width="10" height="70" fill="#2ed573" opacity="0.85" rx="1"/>
+        <rect x="296" y="58" width="10" height="78" fill="#2ed573" opacity="0.85" rx="1"/>
+
+        <!-- Stop trails up with down closed candles -->
+        <text x="316" y="92" class="d-sm">stop trails below</text>
+        <text x="316" y="102" class="d-sm">each new down closed</text>
+        <text x="316" y="112" class="d-sm">candle as price rises</text>
+        <line x1="314" y1="116" x2="305" y2="120" stroke="#5a5a6a" stroke-width="0.8" marker-end="url(#ag)"/>
+
+        <!-- buy side target -->
+        <line x1="296" y1="46" x2="490" y2="46" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="494" y="50" class="d-bull">Buy side liquidity</text>
+        <text x="494" y="60" class="d-sm">(profit objective)</text>
+
+        <text x="200" y="228" class="d-sm">ITL = higher low left + intermediate low + higher low right</text>
+      </svg>
+      <p class="diagram-caption">Intermediate Term Low: higher low left, the low itself, higher low right — should not be overtaken until objective reached</p>
+    </div>
+  </section>
+
+  <!-- ─── 04 TRAILING STOPS ─── -->
+  <section id="trailing-stops">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Trailing Stop Logic Based on Down Closed Candles</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"For trailing stop losses — you do not want to take your stop loss if say you brought it down here like I did and your stop was below the midline of this candle — that's the mean threshold of the bullish order block — so I don't think it's going to go down below that once I'm entering."</p>
+      <span class="ts">25:01</span>
+    </div>
+
+    <div class="quote">
+      <p>"Then it starts to rally, goes above this candle's high — my stop-loss must remain below this candle's low because it can dig into that candle because it's going to act as an order block."</p>
+      <span class="ts">25:15</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"The market rallies above, takes out these two down closed candles — now the stop can be raised from whatever would be below this down close candle. Now it can be raised below this down closed candle because the idea is these down closed candles are one order block that should not be violated if it's bullish."</p>
+      <span class="ts">26:03</span>
+    </div>
+
+    <h3>Premature Stop Loss</h3>
+
+    <div class="quote quote-bear">
+      <p>"Now if I put my stop loss inside this area here I'm stopped out prematurely. Chances are you probably wouldn't have the wherewithal to get back in. You'd think well I just lost out one potential profit — I made a little gain but I'm afraid to get back in because it took me out. That's infancy. That's because you don't know what you're doing."</p>
+      <span class="ts">25:30</span>
+    </div>
+  </section>
+
+  <!-- ─── 05 PYRAMIDING ─── -->
+  <section id="pyramiding">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Pyramiding — Position Sizing Method</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"I'm pyramiding. I'm building the biggest position initially and then every time I buy in again I'm building it with a smaller position than I had prior to when I'm entering now."</p>
+      <span class="ts">32:39</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-title">Pyramid Position Sizing — Bullish Example</div>
+      <div class="rule-row"><span class="rule-key">Entry 1</span><em>"I'm buying three here."</em></div>
+      <div class="rule-row"><span class="rule-key">Entry 2</span><em>"Then I'm buying two here."</em></div>
+      <div class="rule-row"><span class="rule-key">Entry 3</span><em>"Then I'm buying one here."</em></div>
+      <div class="rule-row"><span class="rule-key">Then</span><em>"I'm letting it run to my profit objective."</em></div>
+    </div>
+
+    <div class="quote">
+      <p>"I consider this all one trade. I don't consider this three separate trades. It's one trade — scaled in largest, middle, last portion."</p>
+      <span class="ts">33:53</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"If I say I want to be a buyer of one here, two here, three here — that's an inverted pyramid. It's not stable. Imagine a pyramid upside down and it's balancing on its point — it's not solid, it's wobbly."</p>
+      <span class="ts">33:05</span>
+    </div>
+
+    <div class="quote">
+      <p>"I'm building the biggest base at the bottom of the pyramid or position size in its initial position entry."</p>
+      <span class="ts">33:19</span>
+    </div>
+
+    <div class="quote">
+      <p>"I have all the equity behind that entry with three supporting the two I'm buying here. So even if it starts to retrace too deep on me I have the ability to weather a little bit more."</p>
+      <span class="ts">32:53</span>
+    </div>
+
+    <!-- PYRAMID DIAGRAM -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 580 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;margin:0 auto;">
+        <rect width="580" height="220" fill="#0f0f18" rx="6"/>
+
+        <!-- STABLE PYRAMID (correct) -->
+        <text x="80" y="28" class="d-gold" text-anchor="middle">STABLE PYRAMID ✓</text>
+        <text x="80" y="40" class="d-sm" text-anchor="middle">"biggest base at the bottom"</text>
+        <!-- base = 3 contracts -->
+        <rect x="26" y="160" width="108" height="26" fill="rgba(46,213,115,0.3)" stroke="#2ed573" stroke-width="1" rx="2"/>
+        <text x="80" y="178" class="d-bull" text-anchor="middle">Entry 1 — 3 contracts</text>
+        <!-- middle = 2 -->
+        <rect x="44" y="130" width="72" height="26" fill="rgba(46,213,115,0.22)" stroke="#2ed573" stroke-width="0.8" rx="2"/>
+        <text x="80" y="148" class="d-bull" text-anchor="middle">Entry 2 — 2</text>
+        <!-- top = 1 -->
+        <rect x="58" y="100" width="44" height="26" fill="rgba(46,213,115,0.15)" stroke="#2ed573" stroke-width="0.6" rx="2"/>
+        <text x="80" y="118" class="d-bull" text-anchor="middle">Entry 3 — 1</text>
+        <!-- profit -->
+        <line x1="26" y1="86" x2="134" y2="86" stroke="#ffa502" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="80" y="82" class="d-gold" text-anchor="middle">Profit Objective</text>
+
+        <!-- DIVIDER -->
+        <line x1="290" y1="20" x2="290" y2="200" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- INVERTED PYRAMID (wrong) -->
+        <text x="430" y="28" class="d-bear" text-anchor="middle">INVERTED PYRAMID ✗</text>
+        <text x="430" y="40" class="d-sm" text-anchor="middle">"not stable, it's wobbly"</text>
+        <!-- top = 3 (widest but highest) -->
+        <rect x="326" y="90" width="108" height="26" fill="rgba(255,71,87,0.2)" stroke="#ff4757" stroke-width="1" rx="2"/>
+        <text x="380" y="108" class="d-bear" text-anchor="middle">Entry 1 — 1 contract</text>
+        <!-- middle = 2 -->
+        <rect x="344" y="120" width="72" height="26" fill="rgba(255,71,87,0.15)" stroke="#ff4757" stroke-width="0.8" rx="2"/>
+        <text x="380" y="138" class="d-bear" text-anchor="middle">Entry 2 — 2</text>
+        <!-- bottom = 1 (narrowest) -->
+        <rect x="358" y="150" width="44" height="26" fill="rgba(255,71,87,0.1)" stroke="#ff4757" stroke-width="0.6" rx="2"/>
+        <text x="380" y="168" class="d-bear" text-anchor="middle">Entry 3 — 3</text>
+        <!-- balancing on point label -->
+        <text x="380" y="195" class="d-sm" text-anchor="middle">"balancing on its point"</text>
+
+        <text x="290" y="215" class="d-sm" text-anchor="middle">pyramiding — scale in with decreasing size each entry</text>
+      </svg>
+      <p class="diagram-caption">Stable pyramid: largest first, then smaller — vs inverted pyramid: growing with each entry (unstable)</p>
+    </div>
+  </section>
+
+  <!-- ─── 06 DEMO ACCOUNT USAGE ─── -->
+  <section id="demo-usage">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Demo Account — When and Why</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"How do I manage that desire to get back in and do some more? I go right to a demo account. I work inside of a paper account. It provides me context. It keeps me glued — obviously — to what the market's doing so I'm staying plugged in."</p>
+      <span class="ts">7:49</span>
+    </div>
+
+    <div class="quote">
+      <p>"I'm not taking on monetary risk when I don't believe it's wise for me to do so. Because if I'm wrong — let's say I'm wrong — and I traded today with live funds and I lose what I gained in February, that would eat at me all through the month of March. So it's toxic thinking and I learned that the hard way many years ago."</p>
+      <span class="ts">8:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"They'll fail on the demo account just as easily as they would be failing in the live account."</p>
+      <span class="ts">9:29</span>
+    </div>
+
+    <h3>Objectives: Weekly, Daily, Monthly</h3>
+
+    <div class="quote>
+      <p>"There's an objective I look for for the week. There's an objective I try to aim for for the day. And there's something I'm aiming for for a goal for the month."</p>
+      <span class="ts">2:22</span>
+    </div>
+  </section>
+
+  <!-- ─── 07 LIVE TRADING READINESS ─── -->
+  <section id="readiness">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Live Trading Readiness</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"If you feel this tug of war, this butterfly feeling in your stomach where you just can't relax and you're engaging in the marketplace — you're not ready. That's the bottom line — you're not ready. You have to desensitize yourself with the results not being a factor. If you lose it doesn't make a difference to you — you're indifferent to it."</p>
+      <span class="ts">6:01</span>
+    </div>
+
+    <div class="quote">
+      <p>"A student that has a solid price action model, a trade plan that's well documented — they know what they're going to do, why they're doing it, what they're waiting for, what will cause them to push the button to get in, where their stop loss is going to be, how much they're going to risk, what they're going to aim for, where their partials are going to be if they're going to take partials at all. You have to know those things in advance. You can't determine them once you enter the marketplace."</p>
+      <span class="ts">6:33</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-title">Conditions Before Considering Live Trading</div>
+      <div class="rule-row"><span class="rule-key">Documented plan</span><em>"A trading plan that is well documented — you know what it is you're doing, when you're not going to do something."</em></div>
+      <div class="rule-row"><span class="rule-key">In advance</span><em>"You have to know those things in advance — you can't determine them once you enter the marketplace."</em></div>
+      <div class="rule-row"><span class="rule-key">Demo first</span><em>"You've been consistent with a demo account for six months."</em></div>
+      <div class="rule-row"><span class="rule-key">Only then</span><em>"Then and only then — would I not necessarily that you need to do this — but I would then only at that time consider maybe going into live fund trading."</em></div>
+    </div>
+
+    <div class="quote">
+      <p>"Experience has taught me that I got into live trading way too fast — way, way too fast — in 1992. That was the worst thing I could have done for my development was rush to get into real money trading and I had no idea what I was doing."</p>
+      <span class="ts">5:02</span>
+    </div>
+  </section>
+
+  <!-- ─── 08 GOAL SETTING ─── -->
+  <section id="goals">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Goal Setting &amp; Frequency</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"Aiming for 20% per month. Now some of you are going to think well 20 isn't a lot of money. It's not money — it's a percentage. The compounding effects of that is astonishing."</p>
+      <span class="ts">2:56</span>
+    </div>
+
+    <div class="quote">
+      <p>"I set very low hanging objectives in front of me."</p>
+      <span class="ts">38:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"If you don't aim for a target you're going to hit nothing 100 of the time. You have to have a goal."</p>
+      <span class="ts">38:00</span>
+    </div>
+
+    <h3>One Trade a Week</h3>
+
+    <div class="quote quote-gold">
+      <p>"What happens if you do that once a week — and that's your trade — and you stop? And once you hit it you end your trading. That's it. And then you go to a demo account. You have any idea the leaps and bounds that you can have in your equity increasing and the peace of mind knowing that you don't have to over trade."</p>
+      <span class="ts">35:27</span>
+    </div>
+
+    <div class="quote">
+      <p>"I'm not trying to create monsters that trade every single day. Because I say these likely form every single day but they absolutely form every single week. That is not an invitation for you to go out and say ICT said trade every day. No it's not what I said. I'm saying if you miss a trade you're likely to find one tomorrow."</p>
+      <span class="ts">35:57</span>
+    </div>
+
+    <h3>Six Months of Practice</h3>
+
+    <div class="quote">
+      <p>"I believe in six months of practice and looking at price action you can do this yourself and do it consistently. Consistently — what do I mean? Every day Michael? No. One time a week finding something like this and working that position in like that. Absolutely."</p>
+      <span class="ts">38:53</span>
+    </div>
+
+    <h3>What Repeating Price Teaches You</h3>
+
+    <div class="quote quote-gold">
+      <p>"I'm teaching you how to go into price and price will teach you. It will teach you. It's repeating. So if it's repeating and you're looking at it constantly — you are training your eye to see what it does by default."</p>
+      <span class="ts">45:19</span>
+    </div>
+  </section>
+
+  <!-- ─── 09 FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Study Flashcards</h2>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.85rem;font-family:'JetBrains Mono',monospace;margin-bottom:1rem;">Click any card to reveal — answers are direct transcript quotes.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">In a bullish market move, what should happen with down closed candles?</div>
+        <div class="flashcard-answer">"Down closed candles should not be violated. Down closed candles should not be violated. They're going to act as support."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">In a bearish market move, what should happen with up close candles?</div>
+        <div class="flashcard-answer">"Bearish market moves — up close candles should not be breached and broken through. Never even come back."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the three requirements for a high probability bullish order block?</div>
+        <div class="flashcard-answer">"It must have the imbalance coupled with the down closed candle and the underlying narrative that it's likely to go higher to reach for buy side liquidity. Period."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say you do NOT need for an order block identification?</div>
+        <div class="flashcard-answer">"There is no engulfing candle — does this — forget all that, you don't need that. It's the gap plus the down closed candle plus the idea that it's likely to go for buy side liquidity. That's it."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How is an intermediate term low defined?</div>
+        <div class="flashcard-answer">"We do have a low that has a higher low to the left and a higher low to the right. So that makes this what — intermediate term low."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What should the intermediate term low never do until the objective is reached?</div>
+        <div class="flashcard-answer">"Remember — intermediate term low is down here. This should never be overtaken until the objective's reached."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where should the stop loss remain while price is in an order block during a rally?</div>
+        <div class="flashcard-answer">"My stop-loss must remain below this candle's low because it can dig into that candle because it's going to act as an order block."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When can the stop loss be raised in a bullish run?</div>
+        <div class="flashcard-answer">"The market rallies above, takes out these two down closed candles — now the stop can be raised from whatever would be below this down close candle. Now it can be raised below this down closed candle because the idea is these down closed candles are one order block that should not be violated if it's bullish."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the correct pyramiding sequence?</div>
+        <div class="flashcard-answer">"I'm buying three here, then I'm buying two here, then I'm buying one here, and then I'm letting it run to my profit objective."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why is an inverted pyramid unstable?</div>
+        <div class="flashcard-answer">"If I say I want to be a buyer of one here, two here, three here — that's an inverted pyramid. It's not stable. Imagine a pyramid upside down and it's balancing on its point — it's not solid, it's wobbly."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How does ICT describe being ready to enter live trading?</div>
+        <div class="flashcard-answer">"You've been consistent with a demo account for six months. Then and only then — would I not necessarily that you need to do this — but I would then only at that time consider maybe going into live fund trading."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What physical signal tells you you're not ready for live trading?</div>
+        <div class="flashcard-answer">"If you feel this tug of war, this butterfly feeling in your stomach where you just can't relax and you're engaging in the marketplace — you're not ready. That's the bottom line — you're not ready. You have to desensitize yourself with the results not being a factor."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What must a student know in advance before entering the marketplace?</div>
+        <div class="flashcard-answer">"What they're going to do, why they're doing it, what they're waiting for, what will cause them to push the button to get in, where their stop loss is going to be, how much they're going to risk, what they're going to aim for, where their partials are going to be if they're going to take partials at all. You have to know those things in advance."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the monthly percentage goal ICT describes?</div>
+        <div class="flashcard-answer">"Aiming for 20% per month. Now some of you are going to think well 20 isn't a lot of money. It's not money — it's a percentage. The compounding effects of that is astonishing."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the ideal trading frequency described for a developing student?</div>
+        <div class="flashcard-answer">"One time a week finding something like this and working that position in like that. Absolutely."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does price repeating matter for learning?</div>
+        <div class="flashcard-answer">"I'm teaching you how to go into price and price will teach you. It will teach you. It's repeating. So if it's repeating and you're looking at it constantly — you are training your eye to see what it does by default."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

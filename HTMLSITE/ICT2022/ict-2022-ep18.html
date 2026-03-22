@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary:   #080810;
+    --bg-card:      #11111c;
+    --bg-raised:    #181825;
+    --bg-deep:      #0d0d18;
+    --border:       #222235;
+    --border-dim:   #191928;
+    --text-primary: #e4e4ed;
+    --text-secondary: #8080a0;
+    --text-dim:     #424260;
+    --accent-bear:  #e8485a;
+    --accent-bull:  #27c96a;
+    --accent-gold:  #f0a000;
+    --accent-blue:  #4488cc;
+    --accent-purple:#9b72f5;
+    --font-body:    'Crimson Pro', Georgia, serif;
+    --font-head:    'Space Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 45% at 15% -5%, rgba(68,136,204,0.045) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 35% at 85% 105%, rgba(155,114,245,0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,8,16,0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dim);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    overflow-x: auto;
+    gap: 0;
+  }
+
+  .nav-ep {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 0.9rem 1.4rem 0.9rem 0;
+    white-space: nowrap;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.9rem 1rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .ep-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(240,160,0,0.07);
+    border: 1px solid rgba(240,160,0,0.18);
+    padding: 0.3em 0.9em;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 em { color: var(--accent-gold); font-style: normal; }
+
+  .header-sub {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem 7rem;
+  }
+
+  section { margin-bottom: 5.5rem; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  section > h2 {
+    font-family: var(--font-head);
+    font-size: 1.45rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  section > h3 {
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 2rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── QUOTE ─── */
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 4px 4px 0;
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .quote.bear  { border-left-color: var(--accent-bear); }
+  .quote.bull  { border-left-color: var(--accent-bull); }
+  .quote.blue  { border-left-color: var(--accent-blue); }
+  .quote.purple{ border-left-color: var(--accent-purple); }
+
+  .quote p { font-size: 1.02rem; line-height: 1.65; }
+  .quote em { color: var(--text-primary); font-style: italic; }
+
+  .ts {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ─── CONCEPT CARD ─── */
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+  }
+
+  .card-title.bear   { color: var(--accent-bear); }
+  .card-title.bull   { color: var(--accent-bull); }
+  .card-title.blue   { color: var(--accent-blue); }
+  .card-title.purple { color: var(--accent-purple); }
+
+  .concept-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card p em { color: var(--text-primary); font-style: italic; }
+
+  /* ─── RULE LIST ─── */
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .rule-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.85rem 1.2rem 0.85rem 0.9rem;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .rule-list li .num {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── TIMEFRAME GRID ─── */
+  .tf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .tf-cell {
+    background: var(--bg-card);
+    padding: 1.1rem 1.2rem;
+  }
+
+  .tf-label {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.3rem;
+  }
+
+  .tf-value {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--accent-gold);
+  }
+
+  .tf-note {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* ─── DIAGRAM ─── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .diagram-caption {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* ─── KEY DEFINITION BOX ─── */
+  .key-def {
+    background: rgba(240,160,0,0.04);
+    border: 1px solid rgba(240,160,0,0.2);
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    margin: 1.5rem 0;
+  }
+
+  .key-def-label {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .key-def p { font-size: 1.05rem; line-height: 1.65; color: var(--text-primary); }
+  .key-def p em { font-style: italic; }
+
+  .key-def.bear {
+    background: rgba(232,72,90,0.04);
+    border-color: rgba(232,72,90,0.2);
+  }
+  .key-def.bear .key-def-label { color: var(--accent-bear); }
+
+  /* ─── FLASHCARDS ─── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .flashcard:hover { border-color: rgba(240,160,0,0.25); background: var(--bg-raised); }
+
+  .flashcard-question {
+    font-family: var(--font-head);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-right: 1.6rem;
+  }
+
+  .flashcard::after {
+    content: '▾';
+    position: absolute;
+    top: 1.1rem;
+    right: 1.1rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .flashcard.revealed::after { transform: rotate(180deg); color: var(--accent-gold); }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border-dim);
+    font-size: 0.96rem;
+    color: var(--accent-gold);
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .fc-hint {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  /* ─── PROCESS STEPS ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 1rem;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+
+  .step:first-child { border-radius: 4px 4px 0 0; }
+  .step:last-child  { border-radius: 0 0 4px 4px; border-bottom: 1px solid var(--border); }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    background: var(--bg-deep);
+  }
+
+  .step-content {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .step-content strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    letter-spacing: 0.01em;
+  }
+
+  .step-content em { color: var(--text-primary); font-style: italic; }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-ep">EP.18 — 2022</span>
+  <a href="#layout">Chart Layout</a>
+  <a href="#bias">Daily Bias</a>
+  <a href="#pdhl">Prev Day H&L</a>
+  <a href="#judas">Judas Swing</a>
+  <a href="#midnight">Midnight Open</a>
+  <a href="#killzone">Kill Zone</a>
+  <a href="#ob">Order Blocks</a>
+  <a href="#csod">State of Delivery</a>
+  <a href="#htf">HTF Parent</a>
+  <a href="#journal">Study Journal</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<header>
+  <div class="ep-badge">2022 ICT Mentorship · Episode 18</div>
+  <h1>Top-Down Analysis, <em>Order Blocks & the Model</em></h1>
+  <p class="header-sub">
+    Chart layout from daily to 5-minute, how to apply bearish daily bias to intraday setups,
+    what an order block actually requires, and the kill zone order management rules — on EUR/USD.
+  </p>
+</header>
+
+<main>
+
+  <!-- ─── CHART LAYOUT ─── -->
+  <section id="layout">
+    <div class="section-label">Framework</div>
+    <h2>Chart Layout — Top-Down Analysis</h2>
+
+    <div class="quote">
+      <span class="ts">1:26</span>
+      <p><em>"How do I navigate from higher time frame down to the lower time frame and how do I work with daily bias and what do I do with my charts to streamline the analysis from high time frame to low time frame — I'm going to show you that in this lesson here."</em></p>
+    </div>
+
+    <div class="tf-grid">
+      <div class="tf-cell">
+        <div class="tf-label">Upper Left</div>
+        <div class="tf-value">Daily</div>
+        <div class="tf-note">"You're going to start your analysis here."</div>
+      </div>
+      <div class="tf-cell">
+        <div class="tf-label">Lower Left</div>
+        <div class="tf-value">Hourly</div>
+        <div class="tf-note">Annotations from daily transposed here.</div>
+      </div>
+      <div class="tf-cell">
+        <div class="tf-label">Right (Largest)</div>
+        <div class="tf-value">15-Minute</div>
+        <div class="tf-note">"My bellwether chart — the one that I go to quickly."</div>
+      </div>
+      <div class="tf-cell">
+        <div class="tf-label">Fine-Tuned Entry</div>
+        <div class="tf-value">5, 4, 3, 2, 1 min</div>
+        <div class="tf-note">"The beginning stages of our fine-tuned entry."</div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <span class="ts">23:27</span>
+      <p><em>"The 15 minute time frame is my bellwether chart — that's the one that I go to quickly. I want to keep referencing that 15 minute time frame throughout the day because the information I get from it is influential to me in terms of managing my position or hunting or stalking a new trade setup and also it helps me trust my intraday bias."</em></p>
+    </div>
+
+    <div class="quote blue">
+      <span class="ts">27:44</span>
+      <p><em>"Hitting that little link button icon will link all your charts together so whatever you're showing annotations on one time frame will appear on all of them."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title blue">One Screen Setup</span></div>
+      <p><em>"If you do what I'm going to show you here today you don't need all these screens."</em> Mark the daily chart, change to hourly — all annotations transpose. Then drop to 15-minute: <em>"All of the annotations from the daily and the hourly would appear on your 15-minute chart."</em></p>
+    </div>
+
+    <div class="quote bear">
+      <span class="ts">21:57</span>
+      <p><em>"Should you be trading on your phone? No. No you shouldn't. Can you manage a trade on your phone? Yes. But entering a brand new position on your phone, no. You don't see enough data it's just too compressed."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Chart Time Zone</span></div>
+      <p><em>"You toggle it to New York. I don't care where you live. I don't care where you're at in all the different time zones — your Trading View chart needs to be set to this. If you do that your chart will match all the things I'm teaching and the things I'm teaching you to look for will be easier to find."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── DAILY BIAS ─── -->
+  <section id="bias">
+    <div class="section-label">Concept</div>
+    <h2>Daily Bias — How to Apply It</h2>
+
+    <div class="quote bear">
+      <span class="ts">8:02</span>
+      <p><em>"The bias is bearish. So if a bearish bias is being implemented — in other words you're using that in your analysis, you're going through the charts looking for setups that would warrant a short sale on this particular market or this pair in forex."</em></p>
+    </div>
+
+    <div class="key-def">
+      <div class="key-def-label">Bias Definition</div>
+      <p><em>"A bias is just an idea that you want to work within and employ your short sale when you're bearish or employ your long trade ideas when you're bullish — and you're filtering out the other side of the marketplace unless you're proven clearly that you're absolutely wrong. You just simply wait for these setups to form with that bias in mind."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">11:48</span>
+      <p><em>"You have to commit to one direction. That's your bias."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">11:55</span>
+      <p><em>"Your bias isn't going to be perfect and here's a news flash for you — I'm not always perfect with my bias either."</em></p>
+    </div>
+
+    <h3>Applying Bearish Bias on the Daily Chart (EUR/USD)</h3>
+
+    <div class="quote">
+      <span class="ts">16:00</span>
+      <p><em>"We had one two three four five down days. Now there's likely to have a retracement because we've seen it come way down in terms of the range between this low and this high. So what does that make that area down here — premium or discount? Discount. So as soon as this fair value gap forms we know that it's likely to see it rally up into this area here."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">16:41</span>
+      <p><em>"Trading back to this candle's high is enough to set the stage for a new round of selling."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">18:01</span>
+      <p><em>"It's likely to draw lower and dig into this low — that's our draw on liquidity on the daily chart. But is that your trade target? No. Not for intraday trading."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── PREVIOUS DAY'S HIGHS AND LOWS ─── -->
+  <section id="pdhl">
+    <div class="section-label">Concept</div>
+    <h2>Previous Day's Highs and Lows</h2>
+
+    <div class="quote">
+      <span class="ts">18:12</span>
+      <p><em>"You frame your daily highs and lows — previous daily high, previous daily low."</em></p>
+    </div>
+
+    <div class="key-def">
+      <div class="key-def-label">Why Previous Day's H&L</div>
+      <p><em>"There's lots of liquidity around daily highs and lows and high frequency trading algorithms attack previous day's highs and lows."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">19:14</span>
+      <p><em>"That was the first lesson I started talking about — is highlight the previous day's highs and lows and do that for the last three days. If you do that you'll see a plethora of setups that you can do and that gives you liquidity pools that you can attack. There's always a fresh supply of new setups if you're looking at the last three days highs and lows — it's always the case, it's always going to be there. You're never going to run out of trades. Ever."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">18:34</span>
+      <p><em>"This is the trading day on Thursday — we open, rally up, create a judas swing, run back into this fair value gap and then expect it to sell off and then we can aim for that daily low. Why? Because anybody that went long in here — who would want to do that? There's always buyers and sellers."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Intraday Target vs Draw on Liquidity</span></div>
+      <p>The daily low is the draw on liquidity on the daily chart. However: <em>"You frame your daily highs and lows — previous daily high, previous daily low… so you have this day here, yesterday's trading… and then Thursday's trading — we opened here, we rallied up, popped just above that short-term high and now because we've seen that we can target that daily low right here."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── JUDAS SWING ─── -->
+  <section id="judas">
+    <div class="section-label">Concept</div>
+    <h2>Judas Swing</h2>
+
+    <div class="quote bear">
+      <span class="ts">18:43</span>
+      <p><em>"We open, rally up, create a judas swing, run back into this fair value gap, and then expect it to sell off."</em></p>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr-gold" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#f0a000"/>
+          </marker>
+          <marker id="arr-bear" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#e8485a"/>
+          </marker>
+        </defs>
+
+        <!-- Grid -->
+        <line x1="0" y1="70"  x2="700" y2="70"  stroke="#191928" stroke-width="1"/>
+        <line x1="0" y1="120" x2="700" y2="120" stroke="#191928" stroke-width="1"/>
+        <line x1="0" y1="170" x2="700" y2="170" stroke="#191928" stroke-width="1"/>
+        <line x1="0" y1="220" x2="700" y2="220" stroke="#191928" stroke-width="1"/>
+
+        <!-- Midnight vertical divider -->
+        <line x1="100" y1="20" x2="100" y2="285" stroke="#424260" stroke-width="1" stroke-dasharray="3,4"/>
+        <text x="104" y="30" font-family="JetBrains Mono, monospace" font-size="9" fill="#424260">Midnight NY</text>
+
+        <!-- Previous day candles going down -->
+        <rect x="20" y="120" width="14" height="80" fill="#e8485a" opacity="0.7" rx="1"/>
+        <rect x="40" y="140" width="14" height="75" fill="#e8485a" opacity="0.7" rx="1"/>
+        <rect x="60" y="155" width="14" height="65" fill="#e8485a" opacity="0.7" rx="1"/>
+
+        <!-- Previous day low line -->
+        <line x1="75" y1="220" x2="700" y2="220" stroke="#4488cc" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="8" y="218" font-family="JetBrains Mono, monospace" font-size="9" fill="#4488cc">Prev Day Low</text>
+
+        <!-- Previous day high line -->
+        <line x1="75" y1="120" x2="700" y2="120" stroke="#27c96a" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="8" y="117" font-family="JetBrains Mono, monospace" font-size="9" fill="#27c96a">Prev Day High</text>
+
+        <!-- FVG zone on daily (premium) -->
+        <rect x="100" y="70" width="200" height="50" fill="rgba(240,160,0,0.06)" rx="2"/>
+        <line x1="100" y1="70"  x2="300" y2="70"  stroke="#f0a000" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="100" y1="120" x2="300" y2="120" stroke="#f0a000" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="305" y="80" font-family="JetBrains Mono, monospace" font-size="9" fill="#f0a000">Daily FVG</text>
+        <text x="305" y="92" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8">(premium area)</text>
+
+        <!-- New day opens -->
+        <rect x="110" y="190" width="14" height="30" fill="#e8485a" opacity="0.5" rx="1"/>
+
+        <!-- Judas swing rally up -->
+        <line x1="130" y1="190" x2="185" y2="80" stroke="#f0a000" stroke-width="2" marker-end="url(#arr-gold)"/>
+        <text x="190" y="72" font-family="JetBrains Mono, monospace" font-size="9" fill="#f0a000">"judas swing"</text>
+        <text x="190" y="84" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8">rally above prev high</text>
+
+        <!-- Run back into FVG -->
+        <line x1="185" y1="80" x2="250" y2="105" stroke="#f0a000" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="210" y="98" font-family="JetBrains Mono, monospace" font-size="8" fill="#9898a8">trades back</text>
+        <text x="210" y="108" font-family="JetBrains Mono, monospace" font-size="8" fill="#9898a8">into FVG</text>
+
+        <!-- Sell off from FVG -->
+        <line x1="250" y1="105" x2="380" y2="220" stroke="#e8485a" stroke-width="2.5" marker-end="url(#arr-bear)"/>
+        <text x="390" y="225" font-family="JetBrains Mono, monospace" font-size="9" fill="#e8485a">sells off → prev day low</text>
+
+        <!-- Open marker -->
+        <line x1="110" y1="195" x2="110" y2="185" stroke="#424260" stroke-width="1"/>
+        <text x="86" y="183" font-family="JetBrains Mono, monospace" font-size="9" fill="#424260">Open</text>
+
+        <!-- NY kill zone bracket -->
+        <line x1="100" y1="270" x2="320" y2="270" stroke="#424260" stroke-width="1"/>
+        <line x1="100" y1="265" x2="100" y2="275" stroke="#424260" stroke-width="1"/>
+        <line x1="320" y1="265" x2="320" y2="275" stroke="#424260" stroke-width="1"/>
+        <text x="155" y="283" font-family="JetBrains Mono, monospace" font-size="9" fill="#424260">NY Kill Zone 7am–10am</text>
+      </svg>
+      <div class="diagram-caption">Judas Swing — bearish setup, daily FVG, previous day's low as intraday target (18:34–18:50)</div>
+    </div>
+  </section>
+
+  <!-- ─── NEW YORK MIDNIGHT OPENING PRICE ─── -->
+  <section id="midnight">
+    <div class="section-label">Concept</div>
+    <h2>New York Midnight Opening Price</h2>
+
+    <div class="quote">
+      <span class="ts">28:36</span>
+      <p><em>"You're gonna drop a vertical line here to delineate a new day at midnight. What is the opening price at New York midnight? That's this candle. And you highlight that — and this price right here, that right there, if you're looking at the time frame on the hourly that would be the opening price. I'm interested in that on a 15 minute time frame."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">29:19</span>
+      <p><em>"I'm drawing that out in time — how far am I drawing it out? 11 o'clock in the morning, New York local time."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">How to Mark It</span></div>
+      <p>Drop a vertical line at midnight New York time. Draw the opening price as a horizontal line segment extending to 11 AM New York local time: <em>"I'll just make this a gray color here. Now you can annotate that but over time doing it you'll just know that that's what you're anchoring and showing — this is the opening price at midnight."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── KILL ZONE ─── -->
+  <section id="killzone">
+    <div class="section-label">Concept</div>
+    <h2>New York Kill Zone (Forex)</h2>
+
+    <div class="quote">
+      <span class="ts">31:57</span>
+      <p><em>"We're trading the New York session — in 4x it's seven o'clock in the morning to ten o'clock in the morning."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">NY Kill Zone — Forex</span></div>
+      <p>7:00 AM – 10:00 AM New York local time. <em>"The New York kill zone — it runs up into that, runs the highs, and we want to see a displacement to the downside. We get it right there."</em></p>
+    </div>
+
+    <h3>Kill Zone Order Management Rules</h3>
+
+    <div class="key-def">
+      <div class="key-def-label">Kill Zone Purpose</div>
+      <p><em>"Kill zones are when you determine your entry and you place your orders and you walk away. You don't need to have your entry filled inside that kill zone window. Your order idea and your order placement needs to be considered at that time — if you can't derive a order placement for setup or trade entry by that time you have nothing to do. And that's it — you've basically taken no risk on and you have to wait to the next trading opportunity or trading day."</em></p>
+    </div>
+
+    <ul class="rule-list">
+      <li>
+        <span class="num">01</span>
+        <span>Place limit order at the identified level and walk away: <em>"You place your limit order here and you just walk away from it. You let it go."</em></span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span>If not filled by 11:30, cancel the order: <em>"What happens if it doesn't fill you by 11:30? Pull the order. That's it. Don't put it you know good till cancel — just pull it."</em></span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span>Reason for pulling: <em>"Because you want to be entering on the day that it creates this — because relative equal highs, if it doesn't drop off, it could come up in a time of day where you won't really want to be there and it could fill you and then keep on running and take out the relative equal highs at a deeper pass and then stop you out."</em></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── ORDER BLOCKS ─── -->
+  <section id="ob">
+    <div class="section-label">Core Teaching</div>
+    <h2>Order Blocks — What They Actually Require</h2>
+
+    <div class="key-def bear">
+      <div class="key-def-label">Order Block Definition</div>
+      <p><em>"What is an order block? It's a change in the state of delivery. The algorithm changes its state of delivery as soon as we get below this candle's open — the market starts delivering sell side and then it breaks this swing low."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">40:55</span>
+      <p><em>"What makes an order block valid? It has to have an imbalance. Without the imbalance there is no order block."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">38:21</span>
+      <p><em>"One two three — the order block begins with this candle's low. It's one two three candles making one consecutive bearish order block."</em></p>
+    </div>
+
+    <h3>What an Order Block is NOT</h3>
+
+    <div class="quote bear">
+      <span class="ts">40:39</span>
+      <p><em>"It does not need to get up into this last up closed candle before the down close — because that's what everybody says an order block is. It is not that. Notice it doesn't even get up to that. Does it? Why? Because what I'm showing you here — what makes an order block valid — it has to have an imbalance. Without the imbalance there is no order block."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">42:01</span>
+      <p><em>"The order block is all three consecutive candles. The reason why this last up close candle is not even traded to is because the higher time frame parent imbalance — that 15 minute time frame which is being shown here — that range of that low and that candle's high here — it stops there. So there's no necessity for it to trade up into that last candle."</em></p>
+    </div>
+
+    <!-- Diagram -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="ad" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#e8485a"/>
+          </marker>
+          <marker id="abu" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#f0a000"/>
+          </marker>
+        </defs>
+
+        <!-- Grid -->
+        <line x1="0" y1="80"  x2="700" y2="80"  stroke="#191928" stroke-width="1"/>
+        <line x1="0" y1="140" x2="700" y2="140" stroke="#191928" stroke-width="1"/>
+        <line x1="0" y1="200" x2="700" y2="200" stroke="#191928" stroke-width="1"/>
+        <line x1="0" y1="255" x2="700" y2="255" stroke="#191928" stroke-width="1"/>
+
+        <!-- BEFORE: consecutive run up (3 candles) -->
+        <!-- Candle 1 up -->
+        <rect x="50"  y="220" width="18" height="55" fill="#27c96a" opacity="0.7" rx="1"/>
+        <line x1="59"  y1="210" x2="59"  y2="220" stroke="#27c96a" stroke-width="1.5"/>
+        <!-- Candle 2 up -->
+        <rect x="78"  y="195" width="18" height="60" fill="#27c96a" opacity="0.7" rx="1"/>
+        <line x1="87"  y1="183" x2="87"  y2="195" stroke="#27c96a" stroke-width="1.5"/>
+        <!-- Candle 3 up (last up close — "last up closed candle") -->
+        <rect x="106" y="168" width="18" height="58" fill="#27c96a" opacity="0.8" rx="1"/>
+        <line x1="115" y1="155" x2="115" y2="168" stroke="#27c96a" stroke-width="1.5"/>
+
+        <!-- Last up close label & X -->
+        <text x="128" y="155" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8">"last up closed candle"</text>
+        <text x="128" y="167" font-family="JetBrains Mono, monospace" font-size="9" fill="#e8485a">← NOT what makes the order block</text>
+
+        <!-- Down candle after — breaks swing low (displacement) -->
+        <rect x="134" y="190" width="18" height="100" fill="#e8485a" opacity="0.8" rx="1"/>
+        <line x1="143" y1="178" x2="143" y2="190" stroke="#e8485a" stroke-width="1.5"/>
+        <line x1="143" y1="290" x2="143" y2="305" stroke="#e8485a" stroke-width="1.5"/>
+
+        <!-- Imbalance zone (FVG) created by down move -->
+        <rect x="162" y="190" width="140" height="65" fill="rgba(240,160,0,0.06)" rx="2"/>
+        <line x1="152" y1="190" x2="302" y2="190" stroke="#f0a000" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="152" y1="255" x2="302" y2="255" stroke="#f0a000" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="164" y="215" font-family="JetBrains Mono, monospace" font-size="9" fill="#f0a000">Imbalance (FVG)</text>
+        <text x="164" y="228" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8">"without imbalance</text>
+        <text x="164" y="240" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8"> there is no order block"</text>
+
+        <!-- Order block bracket — all 3 candles -->
+        <line x1="50" y1="320" x2="152" y2="320" stroke="#f0a000" stroke-width="1.5"/>
+        <line x1="50" y1="315" x2="50" y2="325" stroke="#f0a000" stroke-width="1.5"/>
+        <line x1="152" y1="315" x2="152" y2="325" stroke="#f0a000" stroke-width="1.5"/>
+        <text x="60" y="335" font-family="JetBrains Mono, monospace" font-size="9" fill="#f0a000">"one two three candles — one consecutive bearish order block"</text>
+
+        <!-- Order block begins label -->
+        <text x="50" y="310" font-family="JetBrains Mono, monospace" font-size="9" fill="#f0a000">begins at this candle's low →</text>
+
+        <!-- HTF parent imbalance boundary -->
+        <line x1="106" y1="168" x2="106" y2="40" stroke="#9b72f5" stroke-width="1" stroke-dasharray="3,4"/>
+        <line x1="106" y1="226" x2="302" y2="226" stroke="#9b72f5" stroke-width="1" stroke-dasharray="3,4"/>
+        <rect x="106" y="168" width="196" height="58" fill="rgba(155,114,245,0.04)" rx="2"/>
+        <text x="308" y="180" font-family="JetBrains Mono, monospace" font-size="9" fill="#9b72f5">HTF parent</text>
+        <text x="308" y="192" font-family="JetBrains Mono, monospace" font-size="9" fill="#9b72f5">imbalance boundary</text>
+        <text x="308" y="204" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8">"stops there — no necessity</text>
+        <text x="308" y="215" font-family="JetBrains Mono, monospace" font-size="9" fill="#9898a8"> to trade up into last candle"</text>
+
+        <!-- Rally back into imbalance -->
+        <line x1="302" y1="255" x2="360" y2="210" stroke="#e8485a" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <text x="365" y="208" font-family="JetBrains Mono, monospace" font-size="9" fill="#e8485a">price retraces</text>
+        <text x="365" y="220" font-family="JetBrains Mono, monospace" font-size="9" fill="#e8485a">into FVG → short</text>
+
+        <!-- 5-min chart label -->
+        <text x="8" y="20" font-family="JetBrains Mono, monospace" font-size="9" fill="#424260">5-MINUTE CHART VIEW</text>
+      </svg>
+      <div class="diagram-caption">Bearish Order Block — 3-candle consecutive structure + imbalance requirement (38:21–42:24)</div>
+    </div>
+
+    <h3>The "Lowest Down Closed Candle" Rule</h3>
+
+    <div class="quote">
+      <span class="ts">44:14</span>
+      <p><em>"The imbalance here — that's been refined down into the five-minute chart in concert with the bearish order block — the lowest down closed candle. We've talked about why we're not looking at the last closed candle before the down move — so we're cancelling all that misconception."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">42:27</span>
+      <p><em>"So if it trades up into this candle here — the bottom one, the last one of the three going up — that's enough for me."</em></p>
+    </div>
+
+    <h3>Stop Loss Placement for Order Block Short</h3>
+
+    <div class="quote">
+      <span class="ts">33:11</span>
+      <p><em>"Your risk is going to be above this high — the imbalance is really stretched out, you can use that as your stop. If you're really concerned you can put your stop above the swing high, but whenever you have a big range like that my stop can place right there."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">47:11</span>
+      <p><em>"This is an intermediate term swing high because it has the imbalance — it should not trade higher than that high. That's the reason why I'm telling you you can put your stop loss there."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── CHANGE IN STATE OF DELIVERY ─── -->
+  <section id="csod">
+    <div class="section-label">Core Teaching</div>
+    <h2>Change in State of Delivery</h2>
+
+    <div class="key-def bear">
+      <div class="key-def-label">Definition</div>
+      <p><em>"What is an order block? It's a change in the state of delivery. The algorithm changes its state of delivery as soon as we get below this candle's open — the market starts delivering sell side and then it breaks this swing low. So now we have changed gears internally. Any rally after that is just setting up another run to go lower — so in other words this is a suspect rally."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">44:02</span>
+      <p><em>"So we have a break in this low here — so there's an internal shift in market structure. It's bearish."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── HTF PARENT IMBALANCE ─── -->
+  <section id="htf">
+    <div class="section-label">Concept</div>
+    <h2>Higher Time Frame Parent Imbalance</h2>
+
+    <div class="quote purple">
+      <span class="ts">34:54</span>
+      <p><em>"The higher time frame imbalances are going to be parent to the subordinate smaller time frames. The parent — okay — is this 15 minute time frame imbalance. So it needs to get above that. But when it does that we have to look at the lower time frame below 15 minute time frame which is the beginning stages of our fine-tuned entry of five four three two and one time frames."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">34:37</span>
+      <p><em>"Was I showing something incorrectly by showing a higher time frame fair value gap because wouldn't the smaller time frame fair value gap form before the higher time frame? No — it never works like that."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title purple">Application to Entry</span></div>
+      <p><em>"I'm teaching you the low threshold entry but I'm also teaching you — in addition to that — I'm showing you how to build an additional perspective that helps you find the better entries that allows you to shorten the number of pips or points if you're trading with the index futures."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">37:50</span>
+      <p><em>"It trades up into that secondary fair value gap. Now some of you might say well what happens if I put a limit up here — well that would be obviously a stellar entry but you don't necessarily need that."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── STUDY JOURNAL ─── -->
+  <section id="journal">
+    <div class="section-label">Method</div>
+    <h2>Study Journal & Back-Testing Method</h2>
+
+    <div class="quote">
+      <span class="ts">53:43</span>
+      <p><em>"In the beginning while you're learning it's important to annotate your chart so that when you log them in your study journal — that way at the end of the week you go back and look at all the intraday price action, then you look at how the weekly chart worked within that whole panoramic view of intraday daily price action — how did it all fit together."</em></p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-content">Annotate each day's setups in the chart. Log them in your study journal with a screenshot.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-content">On Saturday or Sunday: <em>"Revisit the entire week and you walk through the entire week of how it delivered — how many pips did it move and how much risk would have been incurred in the trade."</em></div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-content"><em>"You're literally getting snapshots of every individual day — then the daily chart in the weekly chart and how it fulfilled its entire weekly range. When was the high formed, when was the low formed, what was the biggest day of the week, what was the framework around that biggest day of the week of movement."</em></div>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <div class="step-content">Do this every single day: <em>"You're not doing the work that's required — that means going through your charts and doing what I just did here every single day and being passionate about it."</em></div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <span class="ts">55:59</span>
+      <p><em>"When you've created a study journal with thousands of examples and you've been doing it for years — you're going to be astonished of how much of a technical analyst you are years from now and you'll be able to see a lot more setups that you just don't see."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Pattern Recognition Over Time</span></div>
+      <p><em>"If two bears are walking in the snow, one's younger and one's older — will both footprints look exactly the same? No. But you'll recognize they're both bear prints and you'll recognize which one's larger or older and which one's younger. So that's what it's like when you're looking at these signatures in price action — they are generally very close to one another in terms of repeating the same type of way, but they're not going to be so identical that they're indistinguishable."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── STEP-BY-STEP TRADE PROCESS ─── -->
+  <section id="process">
+    <div class="section-label">Workflow</div>
+    <h2>Step-by-Step: Bearish Setup Process</h2>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-content"><strong>Daily Chart — Establish Bearish Bias.</strong> Identify the fair value gap at a premium. <em>"You start your analysis here."</em> Mark the previous day's high and low.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-content"><strong>Intraday Target.</strong> <em>"You frame your daily highs and lows — previous daily high, previous daily low."</em> The previous daily low is the short target. The draw on liquidity (bigger low) is NOT the intraday target.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-content"><strong>15-Minute Chart — New York Kill Zone.</strong> <em>"We're looking for a setup that would be formed within that time frame"</em> (7am–10am NY). Watch for the judas swing: rally into the FVG, then displacement lower.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <div class="step-content"><strong>Mark the New York Midnight Opening Price.</strong> Drop a vertical line at midnight NY time. Draw the opening price out to 11am NY.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">5</span>
+        <div class="step-content"><strong>5-Minute Chart — Identify the Order Block.</strong> Locate the three consecutive up-closed candles before the displacement. The order block begins with the lowest (first) candle's low. Confirm imbalance (FVG) exists after displacement: <em>"Without the imbalance there is no order block."</em></div>
+      </div>
+      <div class="step">
+        <span class="step-num">6</span>
+        <div class="step-content"><strong>Place Limit Order.</strong> <em>"You could be a seller here on a limit entry — so you place your limit order here and you just walk away from it."</em> Stop goes above the high of the imbalance.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">7</span>
+        <div class="step-content"><strong>Kill Zone Cutoff.</strong> <em>"What happens if it doesn't fill you by 11:30? Pull the order."</em> If no setup formed in the kill zone: <em>"You've basically taken no risk on and you have to wait to the next trading opportunity or trading day."</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-label">Self-Test</div>
+    <h2>Flashcards</h2>
+    <p class="fc-hint">Click any card to reveal the direct transcript quote</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the order of time frames in the chart layout?</div>
+        <div class="flashcard-answer">"Upper left-hand corner is always going to be the daily chart… lower left is hourly and 15 minute time frame is on the right — it's the biggest chart."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What makes the 15-minute chart the "bellwether chart"?</div>
+        <div class="flashcard-answer">"The information I get from it is influential to me in terms of managing my position or hunting or stalking a new trade setup and also it helps me trust my intraday bias."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the definition of bias and how should it be used?</div>
+        <div class="flashcard-answer">"A bias is just an idea that you want to work within and employ your short sale when you're bearish or employ your long trade ideas when you're bullish — and you're filtering out the other side of the marketplace unless you're proven clearly that you're absolutely wrong."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the intraday trade target vs the draw on liquidity on a bearish day?</div>
+        <div class="flashcard-answer">"It's likely to draw lower and dig into this low — that's our draw on liquidity on the daily chart. But is that your trade target? No. Not for intraday trading."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a Judas Swing?</div>
+        <div class="flashcard-answer">"We open, rally up, create a judas swing, run back into this fair value gap, and then expect it to sell off."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why are previous day's highs and lows important?</div>
+        <div class="flashcard-answer">"There's lots of liquidity around daily highs and lows and high frequency trading algorithms attack previous day's highs and lows."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the New York Kill Zone window for forex?</div>
+        <div class="flashcard-answer">"We're trading the New York session — in 4x it's seven o'clock in the morning to ten o'clock in the morning."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the single requirement that makes an order block valid?</div>
+        <div class="flashcard-answer">"What makes an order block valid? It has to have an imbalance. Without the imbalance there is no order block."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the definition of an order block?</div>
+        <div class="flashcard-answer">"What is an order block? It's a change in the state of delivery. The algorithm changes its state of delivery as soon as we get below this candle's open — the market starts delivering sell side and then it breaks this swing low."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Does price need to trade up to the last up-closed candle before the down move?</div>
+        <div class="flashcard-answer">"It does not need to get up into this last up closed candle before the down close — because that's what everybody says an order block is. It is not that. Notice it doesn't even get up to that."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why doesn't price need to reach the last up-closed candle?</div>
+        <div class="flashcard-answer">"The reason why this last up close candle is not even traded to is because the higher time frame parent imbalance — that 15 minute time frame — that range of that low and that candle's high here — it stops there. So there's no necessity for it to trade up into that last candle."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the relationship between higher and lower time frame imbalances?</div>
+        <div class="flashcard-answer">"The higher time frame imbalances are going to be parent to the subordinate smaller time frames."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What should you do if your order is not filled by 11:30?</div>
+        <div class="flashcard-answer">"What happens if it doesn't fill you by 11:30? Pull the order. That's it. Don't put it you know good till cancel — just pull it."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does a kill zone require of you as a trader?</div>
+        <div class="flashcard-answer">"Kill zones are when you determine your entry and you place your orders and you walk away. You don't need to have your entry filled inside that kill zone window. Your order idea and your order placement needs to be considered at that time."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where does the stop loss go when trading an order block short?</div>
+        <div class="flashcard-answer">"This is an intermediate term swing high because it has the imbalance — it should not trade higher than that high. That's the reason why I'm telling you you can put your stop loss there."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you set up your chart if you only have one screen?</div>
+        <div class="flashcard-answer">"You would obviously do this annotation here and then in this screen you would just simply change it to the hourly chart and then everything you did here would be transposed over to the trading view chart… then you would drop down to the 15 minute timeframe and all of the annotations from the daily and the hourly would appear on your 15-minute chart."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the New York Midnight Opening Price used for?</div>
+        <div class="flashcard-answer">"What is the opening price at New York midnight? That's this candle. And you highlight that — this price right here — I'm interested in that on a 15 minute time frame… I'm drawing that out in time — how far am I drawing it out? 11 o'clock in the morning, New York local time."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What happens to any rally after the algorithm has changed its state of delivery?</div>
+        <div class="flashcard-answer">"Any rally after that is just setting up another run to go lower — so in other words this is a suspect rally."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why do patterns look similar but not identical across days?</div>
+        <div class="flashcard-answer">"If two bears are walking in the snow, one's younger and one's older — will both footprints look exactly the same? No. But you'll recognize they're both bear prints… so that's what it's like when you're looking at these signatures in price action — they are generally very close to one another in terms of repeating the same type of way, but they're not going to be so identical that they're indistinguishable."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the recommended model for an absolute beginner starting from scratch?</div>
+        <div class="flashcard-answer">"I wouldn't worry about doing anything with central bank dealer's range, I wouldn't worry about doing anything with Asian range… anything else unless I've mentioned it in this model, I wouldn't even do any investment of time at all because this literally is the simplest way to work with intraday and daily order flow."</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

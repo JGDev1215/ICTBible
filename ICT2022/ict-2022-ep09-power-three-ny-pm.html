@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship Ep. 9 — Power Three & New York PM Session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --border: #2a2a3a;
+    --border-subtle: #1e1e2c;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6a;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --radius: 8px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background:var(--bg-primary); color:var(--text-primary); font-family:'Crimson Pro',Georgia,serif; font-size:18px; line-height:1.7; }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background-image: linear-gradient(rgba(255,165,2,0.015) 1px,transparent 1px), linear-gradient(90deg,rgba(255,165,2,0.015) 1px,transparent 1px);
+    background-size:40px 40px; pointer-events:none; z-index:0;
+  }
+
+  nav { position:sticky; top:0; z-index:100; background:rgba(10,10,15,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-subtle); padding:0 2rem; }
+  nav ul { list-style:none; display:flex; overflow-x:auto; scrollbar-width:none; max-width:1100px; margin:0 auto; }
+  nav ul::-webkit-scrollbar { display:none; }
+  nav a { display:block; padding:0.85rem 1rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; transition:color 0.2s,border-color 0.2s; }
+  nav a:hover { color:var(--accent-gold); border-bottom-color:var(--accent-gold); }
+
+  header { position:relative; z-index:1; padding:5rem 2rem 3.5rem; max-width:1100px; margin:0 auto; border-bottom:1px solid var(--border-subtle); }
+  .header-label { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:1.2rem; display:flex; align-items:center; gap:0.6rem; }
+  .header-label::before { content:''; display:inline-block; width:28px; height:1px; background:var(--accent-gold); }
+  h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,4.5vw,3.2rem); font-weight:700; line-height:1.15; letter-spacing:-0.02em; color:var(--text-primary); margin-bottom:1.4rem; }
+  h1 span { color:var(--accent-gold); }
+  .header-subtitle { font-family:'Crimson Pro',serif; font-size:1.1rem; font-style:italic; color:var(--text-secondary); max-width:720px; padding:1rem 1.2rem; border-left:3px solid var(--accent-gold); background:var(--accent-gold-dim); border-radius:0 var(--radius) var(--radius) 0; }
+
+  main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 2rem 6rem; }
+  section { padding:3.5rem 0; border-bottom:1px solid var(--border-subtle); }
+  section:last-child { border-bottom:none; }
+  .section-header { display:flex; align-items:baseline; gap:1rem; margin-bottom:2rem; }
+  .section-number { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); letter-spacing:0.1em; flex-shrink:0; }
+  h2 { font-family:'Space Grotesk',sans-serif; font-size:1.5rem; font-weight:600; letter-spacing:-0.01em; color:var(--text-primary); }
+  h3 { font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:500; color:var(--text-secondary); margin-bottom:1rem; letter-spacing:0.01em; }
+  p { margin-bottom:0.8rem; }
+
+  .quote { background:var(--bg-card); border-left:3px solid var(--border); border-radius:0 var(--radius) var(--radius) 0; padding:1rem 1.3rem; margin:1rem 0; }
+  .quote p { font-style:italic; color:var(--text-secondary); margin:0; font-size:1rem; }
+  .quote .ts { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); letter-spacing:0.08em; display:block; margin-top:0.5rem; }
+  .quote-gold { border-left-color:var(--accent-gold); background:var(--accent-gold-dim); }
+  .quote-bull { border-left-color:var(--accent-bull); background:var(--accent-bull-dim); }
+  .quote-bear { border-left-color:var(--accent-bear); background:var(--accent-bear-dim); }
+
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1rem; margin:1.5rem 0; }
+  .concept-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.3rem; transition:border-color 0.2s,background 0.2s; }
+  .concept-card:hover { border-color:var(--accent-gold); background:var(--bg-card-hover); }
+  .card-header { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.8rem; }
+  .card-dot { width:6px; height:6px; border-radius:50%; background:var(--accent-gold); flex-shrink:0; }
+  .card-dot.bear { background:var(--accent-bear); }
+  .card-dot.bull { background:var(--accent-bull); }
+  .card-title { font-family:'Space Grotesk',sans-serif; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-primary); }
+  .concept-card p { font-style:italic; color:var(--text-secondary); font-size:0.92rem; margin:0; }
+  .concept-card .ts { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); display:block; margin-top:0.5rem; }
+
+  .diagram-wrap { background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; margin:2rem 0; overflow-x:auto; }
+  .diagram-caption { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:0.8rem; text-align:center; }
+
+  .phase-strip { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--border); border-radius:var(--radius); overflow:hidden; margin:1.5rem 0; }
+  .phase-cell { background:var(--bg-card); padding:1.2rem 1rem; }
+  .phase-label { font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.5rem; }
+  .phase-label.bear { color:var(--accent-bear); }
+  .phase-label.gold { color:var(--accent-gold); }
+  .phase-label.bull { color:var(--accent-bull); }
+  .phase-cell p { font-style:italic; color:var(--text-secondary); font-size:0.88rem; margin:0; }
+
+  .rule-block { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; margin:1.2rem 0; }
+  .rule-block-title { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-gold); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border-subtle); }
+  .rule-row { display:flex; gap:0.8rem; align-items:flex-start; padding:0.5rem 0; border-bottom:1px solid var(--border-subtle); font-size:0.93rem; }
+  .rule-row:last-child { border-bottom:none; }
+  .rule-key { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-muted); flex-shrink:0; min-width:90px; margin-top:0.28rem; letter-spacing:0.05em; }
+  .rule-row em { color:var(--text-secondary); font-style:italic; }
+
+  .divider { height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); margin:1.8rem 0; }
+
+  .flashcard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; margin-top:1.5rem; }
+  .flashcard { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; cursor:pointer; transition:border-color 0.2s,background 0.2s; min-height:100px; user-select:none; }
+  .flashcard:hover { border-color:var(--accent-gold); background:var(--bg-card-hover); }
+  .flashcard-question { font-family:'Space Grotesk',sans-serif; font-size:0.88rem; color:var(--text-primary); font-weight:500; line-height:1.4; }
+  .flashcard-answer { display:none; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); font-style:italic; color:var(--accent-bull); font-size:0.9rem; line-height:1.55; }
+  .flashcard.revealed .flashcard-answer { display:block; }
+  .flashcard.revealed { border-color:var(--accent-bull); background:var(--accent-bull-dim); }
+  .reveal-hint { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-top:0.7rem; display:block; }
+  .flashcard.revealed .reveal-hint { display:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#power3">Power Three</a></li>
+    <li><a href="#judas">Judas Swing</a></li>
+    <li><a href="#opening-price">Opening Price</a></li>
+    <li><a href="#order-block">Order Block ID</a></li>
+    <li><a href="#overnight">Overnight Runs</a></li>
+    <li><a href="#pm-session">NY PM Session</a></li>
+    <li><a href="#fvg-entry">FVG Entry Rules</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="header-label">ICT 2022 Mentorship · Episode 9 · February 2022</div>
+  <h1>Power Three — <span>Accumulation,<br>Manipulation &amp; Distribution</span><br>+ New York PM Session</h1>
+  <p class="header-subtitle">"I'm trying to train you to anticipate is the likelihood of the market making some kind of a fake move like a Judas swing."</p>
+</header>
+
+<main>
+
+  <!-- ─── 01 POWER THREE ─── -->
+  <section id="power3">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Power Three — Defined</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This lecture is going to be on Power Three which is accumulation, manipulation and distribution and New York PM session opportunities."</p>
+      <span class="ts">0:11</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"So in other words if you're bullish it opens where you think it's going to trade higher, it's going to be most likely a small little move lower — that's the move you want to try to go in and hunt along. If you miss it you want to try to get long real close to where the opening price is."</p>
+      <span class="ts">6:10</span>
+    </div>
+
+    <h3>Bullish Power Three Structure</h3>
+
+    <div class="quote quote-bull">
+      <p>"Generally my teachings are like this — if I'm bullish I'm expecting the opening price to be near the low of the day or the session, then it trades lower making some important low, and then rallies, creates a high, and then closes near the high of the day."</p>
+      <span class="ts">3:01</span>
+    </div>
+
+    <div class="phase-strip">
+      <div class="phase-cell">
+        <div class="phase-label gold">Accumulation</div>
+        <p><em>"Opening price near the low of the day or the session."</em></p>
+      </div>
+      <div class="phase-cell">
+        <div class="phase-label bear">Manipulation</div>
+        <p><em>"Trades lower making some important low."</em> (The Judas Swing)</p>
+      </div>
+      <div class="phase-cell">
+        <div class="phase-label bull">Distribution</div>
+        <p><em>"Rallies, creates a high, and then closes near the high of the day."</em></p>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Now it's not important for you to try to predict the closing price. What I'm trying to train you to anticipate is the likelihood of the market making some kind of a fake move like a Judas swing."</p>
+      <span class="ts">3:21</span>
+    </div>
+
+    <!-- POWER THREE DIAGRAM -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:0 auto;">
+        <rect width="720" height="280" fill="#0f0f18" rx="6"/>
+        <style>
+          .d { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#9898a8; }
+          .d-gold { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#ffa502; }
+          .d-bear { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#ff4757; }
+          .d-bull { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#2ed573; }
+          .d-sm { font-family:'JetBrains Mono',monospace; font-size:7.5px; fill:#5a5a6a; }
+        </style>
+        <defs>
+          <marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#9898a8"/></marker>
+          <marker id="a-gold" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#ffa502"/></marker>
+          <marker id="a-bull" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#2ed573"/></marker>
+          <marker id="a-bear" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#ff4757"/></marker>
+        </defs>
+
+        <!-- Session zones background -->
+        <rect x="40" y="20" width="160" height="220" fill="rgba(255,165,2,0.04)" rx="3"/>
+        <rect x="210" y="20" width="160" height="220" fill="rgba(255,71,87,0.04)" rx="3"/>
+        <rect x="380" y="20" width="300" height="220" fill="rgba(46,213,115,0.04)" rx="3"/>
+
+        <!-- Zone labels -->
+        <text x="90" y="36" class="d-gold" text-anchor="middle">ACCUMULATION</text>
+        <text x="90" y="46" class="d-sm" text-anchor="middle">open near low of day</text>
+        <text x="290" y="36" class="d-bear" text-anchor="middle">MANIPULATION</text>
+        <text x="290" y="46" class="d-sm" text-anchor="middle">Judas swing (fake lower)</text>
+        <text x="530" y="36" class="d-bull" text-anchor="middle">DISTRIBUTION</text>
+        <text x="530" y="46" class="d-sm" text-anchor="middle">rally → close near high</text>
+
+        <!-- Opening price line -->
+        <line x1="40" y1="148" x2="680" y2="148" stroke="#ffa502" stroke-width="0.8" stroke-dasharray="5,3"/>
+        <text x="44" y="143" class="d-gold">Opening Price (8:30)</text>
+
+        <!-- Accumulation: sideways near open -->
+        <rect x="55" y="136" width="9" height="20" fill="#3a3a50" rx="1"/>
+        <rect x="68" y="130" width="9" height="26" fill="#3a3a50" rx="1"/>
+        <rect x="81" y="134" width="9" height="22" fill="#3a3a50" rx="1"/>
+        <rect x="94" y="132" width="9" height="24" fill="#3a3a50" rx="1"/>
+        <rect x="107" y="138" width="9" height="18" fill="#3a3a50" rx="1"/>
+        <rect x="120" y="134" width="9" height="22" fill="#3a3a50" rx="1"/>
+        <rect x="133" y="136" width="9" height="20" fill="#3a3a50" rx="1"/>
+        <rect x="146" y="130" width="9" height="28" fill="#3a3a50" rx="1"/>
+        <rect x="159" y="133" width="9" height="25" fill="#3a3a50" rx="1"/>
+        <rect x="172" y="135" width="9" height="21" fill="#3a3a50" rx="1"/>
+
+        <!-- Judas swing DOWN: manipulation -->
+        <rect x="220" y="155" width="10" height="24" fill="#ff4757" opacity="0.7" rx="1"/>
+        <rect x="234" y="165" width="10" height="34" fill="#ff4757" opacity="0.7" rx="1"/>
+        <rect x="248" y="175" width="10" height="42" fill="#ff4757" opacity="0.8" rx="1"/>
+        <rect x="262" y="183" width="10" height="48" fill="#ff4757" opacity="0.9" rx="1"/>
+        <!-- Judas low -->
+        <line x1="248" y1="231" x2="390" y2="231" stroke="#ff4757" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="252" y="244" class="d-bear">Important Low (Judas swing low)</text>
+        <!-- Arrow pointing to low -->
+        <line x1="275" y1="255" x2="275" y2="234" stroke="#ff4757" stroke-width="0.8" marker-end="url(#a-bear)"/>
+
+        <!-- Rally: distribution -->
+        <rect x="295" y="175" width="10" height="38" fill="#2ed573" opacity="0.6" rx="1"/>
+        <rect x="309" y="160" width="10" height="52" fill="#2ed573" opacity="0.7" rx="1"/>
+        <rect x="323" y="148" width="10" height="60" fill="#2ed573" opacity="0.75" rx="1"/>
+        <rect x="337" y="136" width="10" height="72" fill="#2ed573" opacity="0.8" rx="1"/>
+        <rect x="351" y="124" width="10" height="80" fill="#2ed573" opacity="0.85" rx="1"/>
+        <rect x="365" y="112" width="10" height="88" fill="#2ed573" opacity="0.85" rx="1"/>
+        <rect x="379" y="102" width="10" height="96" fill="#2ed573" opacity="0.9" rx="1"/>
+        <rect x="393" y="94" width="10" height="100" fill="#2ed573" opacity="0.9" rx="1"/>
+        <rect x="407" y="86" width="10" height="106" fill="#2ed573" opacity="0.9" rx="1"/>
+        <rect x="421" y="80" width="10" height="110" fill="#2ed573" opacity="0.9" rx="1"/>
+        <rect x="435" y="74" width="10" height="114" fill="#2ed573" opacity="0.9" rx="1"/>
+        <rect x="449" y="70" width="10" height="116" fill="#2ed573" opacity="0.9" rx="1"/>
+        <rect x="463" y="66" width="10" height="118" fill="#2ed573" opacity="0.9" rx="1"/>
+
+        <!-- High / close near high -->
+        <line x1="449" y1="66" x2="680" y2="66" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="516" y="62" class="d-bull">Closes near high of day</text>
+
+        <!-- Consolidation / sideways near close -->
+        <rect x="478" y="62" width="10" height="20" fill="#3a3a50" rx="1"/>
+        <rect x="492" y="60" width="10" height="22" fill="#3a3a50" rx="1"/>
+        <rect x="506" y="63" width="10" height="19" fill="#3a3a50" rx="1"/>
+        <rect x="520" y="60" width="10" height="22" fill="#3a3a50" rx="1"/>
+        <rect x="534" y="58" width="10" height="24" fill="#2ed573" opacity="0.8" rx="1"/>
+
+        <!-- Zone dividers -->
+        <line x1="205" y1="20" x2="205" y2="240" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="375" y1="20" x2="375" y2="240" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="2,2"/>
+
+        <text x="360" y="270" class="d-sm">Bullish Power Three — daily candle structure</text>
+      </svg>
+      <p class="diagram-caption">Bullish Power Three: open near low → Judas swing lower → rally → close near high</p>
+    </div>
+  </section>
+
+  <!-- ─── 02 JUDAS SWING ─── -->
+  <section id="judas">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Judas Swing</h2>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"Judas swing is the false move typically in London and in New York session there are fake runs that start off a move."</p>
+      <span class="ts">3:33</span>
+    </div>
+
+    <div class="quote">
+      <p>"We create a pseudo Judas swing but did it create a nice low and turn away from it?"</p>
+      <span class="ts">14:45</span>
+    </div>
+
+    <div class="quote">
+      <p>"These are relative equal lows — there's going to be sell side building up below that, sell stops. When it starts to go higher anyone that was long overnight they're going to jam their stop loss right underneath that."</p>
+      <span class="ts">14:55</span>
+    </div>
+  </section>
+
+  <!-- ─── 03 OPENING PRICE ─── -->
+  <section id="opening-price">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>The 8:30 Opening Price</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"I like 8:30. You use the opening price here at 8:30, draw that out in time. Did we go below it? Yes. Did we go inside the imbalance? Yes. Did we take out a short-term low? Yes. Did we hit an order block? Yes. Was it an optimal trade entry? Yes. Lots of factors there."</p>
+      <span class="ts">6:27</span>
+    </div>
+
+    <div class="quote">
+      <p>"The question is going to be: where is the opening price? Well I like 8:30."</p>
+      <span class="ts">6:25</span>
+    </div>
+
+    <h3>Checklist at 8:30</h3>
+
+    <div class="rule-block">
+      <div class="rule-block-title">Bullish Setup Confirmation from 8:30 Opening</div>
+      <div class="rule-row"><span class="rule-key">Step 1</span><em>"Did we go below it?"</em></div>
+      <div class="rule-row"><span class="rule-key">Step 2</span><em>"Did we go inside the imbalance?"</em></div>
+      <div class="rule-row"><span class="rule-key">Step 3</span><em>"Did we take out a short-term low?"</em></div>
+      <div class="rule-row"><span class="rule-key">Step 4</span><em>"Did we hit an order block?"</em></div>
+      <div class="rule-row"><span class="rule-key">Step 5</span><em>"Was it an optimal trade entry?"</em></div>
+    </div>
+  </section>
+
+  <!-- ─── 04 ORDER BLOCK IDENTIFICATION ─── -->
+  <section id="order-block">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Identifying a High Probability Order Block</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"Consecutive down closed candles right before a price surge that has an imbalance — that's how you find your order blocks."</p>
+      <span class="ts">7:33</span>
+    </div>
+
+    <div class="quote">
+      <p>"A high probability order block would be: your narrative or your bias is bullish, you're looking for displacement — that's this right here where the market runs real quick higher — and the down close candles you want to mark that out and anticipate a return back in to that."</p>
+      <span class="ts">7:43</span>
+    </div>
+
+    <div class="quote">
+      <p>"All this price action here gets overran into a retracement back down into this imbalance here — the low of this candle and the high of this candle. That right there — that's your fair value gap with an order block and optimal trade entry."</p>
+      <span class="ts">8:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"Inside the order block, inside the fair value gap, inside a retracement of the fair value gap — that sets the stage of a market run up into a higher retracement."</p>
+      <span class="ts">10:11</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bull"></div><span class="card-title">Bullish Order Block Definition</span></div>
+        <p><em>"Consecutive down closed candles right before a price surge that has an imbalance."</em></p>
+        <span class="ts">7:33</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot"></div><span class="card-title">Optimal Trade Entry Stack</span></div>
+        <p><em>"Inside the order block, inside the fair value gap, inside a retracement of the fair value gap."</em></p>
+        <span class="ts">10:11</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bull"></div><span class="card-title">What Triggers the Order Block</span></div>
+        <p><em>"Narrative or your bias is bullish, you're looking for displacement — where the market runs real quick higher — and the down close candles you want to mark that out and anticipate a return back in to that."</em></p>
+        <span class="ts">7:43</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 05 OVERNIGHT RUNS ─── -->
+  <section id="overnight">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>How to Handle Overnight Runs</h2>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"If there's a big move overnight — avoid the New York session. Don't even mess with the New York session. Wait until the other side of lunch at 1:00 in the afternoon New York time and then anticipate the New York lunch lows taken out or the New York morning session lows."</p>
+      <span class="ts">15:30</span>
+    </div>
+
+    <div class="quote">
+      <p>"This part is not Forex — it's just for trading like NASDAQ, Dow and e-mini S&P. If there's a big run overnight, avoid the New York session."</p>
+      <span class="ts">15:19</span>
+    </div>
+
+    <div class="quote">
+      <p>"Overnight — 2 o'clock in the morning to 5 o'clock in the morning — if we get a big run like that, right away in my mind I'm thinking don't trade a lot, don't expect a lot of in and out in and out perfect precision, wait for a real significant price move. Otherwise you're going to get chopped up."</p>
+      <span class="ts">12:41</span>
+    </div>
+
+    <div class="quote">
+      <p>"When we open up at 8:30 do we go in here and start buying it just because it's gone up overnight? No, we don't chase it. We have to wait for more information."</p>
+      <span class="ts">12:08</span>
+    </div>
+
+    <div class="quote">
+      <p>"Typically whenever you see a big run up or a big run down there's a consolidation that takes place shortly after. Now not always — it just keeps on ripping higher or lower and you'll either miss a move or if you get lucky maybe you can participate in it."</p>
+      <span class="ts">12:21</span>
+    </div>
+
+    <h3>Why Not to Chase the Overnight Run</h3>
+
+    <div class="quote quote-bear">
+      <p>"Everybody woke up and saw these markets and they all wanted to do what — they wanted to buy it because it's going up a lot and they want to chase it. That idea leads many times to losing trades and then it starts this cycle where you go into this chasing chasing chasing and then when the market does these sideways consolidations and sloppy choppy market conditions it's literally like a blowtorch on your account."</p>
+      <span class="ts">24:26</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"If you miss that it doesn't matter because that is something that's going to give you more insight and it tells you when to avoid the morning session."</p>
+      <span class="ts">24:19</span>
+    </div>
+
+    <h3>Engineering Liquidity After the Overnight Run</h3>
+
+    <div class="quote">
+      <p>"You wait, you don't chase the overnight run, and you wait for them to give you a low that everybody overnight will want to put their stop loss right beneath that after it starts a rally above it. It's even better when you don't have this high taken out yet."</p>
+      <span class="ts">17:59</span>
+    </div>
+
+    <div class="quote">
+      <p>"That's engineering liquidity — it runs up, consolidates, creates a low, starts to rally, and everybody's thinking I don't want to lose my profits, I don't want to lose out on making more money, but I had to put a stop loss right here."</p>
+      <span class="ts">18:15</span>
+    </div>
+  </section>
+
+  <!-- ─── 06 NY PM SESSION ─── -->
+  <section id="pm-session">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>New York PM Session</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"New York lunch is noon to 1:00 in the afternoon New York local time."</p>
+      <span class="ts">19:47</span>
+    </div>
+
+    <div class="quote">
+      <p>"At 2:00 in the afternoon — 1400 on this TradingView chart — that starts 2 o'clock in the afternoon New York local time."</p>
+      <span class="ts">19:12</span>
+    </div>
+
+    <div class="quote">
+      <p>"We have the market trading down into an imbalance over here, liquidity resting below these relative equal lows is taken out."</p>
+      <span class="ts">19:23</span>
+    </div>
+
+    <h3>The Afternoon Setup Logic</h3>
+
+    <div class="quote">
+      <p>"The overnight stops have been ran out down here — there's no reason for the market to want to come back down there. But we have this low and these relative equal lows here post New York lunch."</p>
+      <span class="ts">19:35</span>
+    </div>
+
+    <div class="quote">
+      <p>"The imbalance — we trade down into that. What's the likelihood of it coming all the way through the imbalance and then going after that low? Not likely. Not after seeing this run here. They don't want to give these traders another chance to get back in."</p>
+      <span class="ts">19:53</span>
+    </div>
+
+    <div class="quote>
+      <p>"It's going to be a little bit more sneakier when they make these new setups that continue into a higher run. So they take out the sell side below these relative equal lows, take those stops out, and then it rallies."</p>
+      <span class="ts">20:07</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"We have a swing high right here. It breaks. Does it trade above that? Yes. Was it energetic? Yes. Does it have a fair value gap? Yes. So now the market trades down into it here, creates a short-term low. You could be a buyer there. There's nothing wrong with that."</p>
+      <span class="ts">20:21</span>
+    </div>
+
+    <h3>The Short-Term Low Entry</h3>
+
+    <div class="quote>
+      <p>"The fair value gap is even better when you have the sell side liquidity resting below the short-term low and the drop down into it here. You can use that low as your entry or minus one tick."</p>
+      <span class="ts">21:11</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This short-term low forms at 2:34 p.m. The low is 14528 and a half. So you could be a buyer on a limit at 14520 and a quarter or maybe if you want to try to reach for the 28 even number — either way that's a nice place to put a limit order in the short-term low down here after the fair value gap forms. That's where your stop loss is. That's the rules."</p>
+      <span class="ts">21:24</span>
+    </div>
+
+    <div class="quote>
+      <p>"Taking the fair value gap afternoon, taking the stops — it provides the baseline for bias for the afternoon."</p>
+      <span class="ts">23:53</span>
+    </div>
+
+    <h3>4:30 as Reference</h3>
+
+    <div class="quote">
+      <p>"I like to just look at 4:30 and just consider that where we are in terms of what we've done for the full range and then determine what I have left for maybe imbalance or liquidity pools."</p>
+      <span class="ts">9:08</span>
+    </div>
+  </section>
+
+  <!-- ─── 07 FVG ENTRY RULES ─── -->
+  <section id="fvg-entry">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>FVG Entry &amp; Stop Loss Rules (PM Session)</h2>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-title">PM Session Long Entry Rules</div>
+      <div class="rule-row"><span class="rule-key">Context</span><em>"Swing high broken. Fair value gap right there. Short-term low here."</em></div>
+      <div class="rule-row"><span class="rule-key">Entry</span><em>"You can use that low as your entry or minus one tick."</em></div>
+      <div class="rule-row"><span class="rule-key">Limit order</span><em>"You could be a buyer on a limit at 14,520 and a quarter or maybe if you want to try to reach for the 28 even number."</em></div>
+      <div class="rule-row"><span class="rule-key">Stop loss</span><em>"The short-term low down here after the fair value gap forms — that's where your stop loss is. That's the rules."</em></div>
+    </div>
+
+    <h3>Does Price Going Below the FVG Invalidate It?</h3>
+
+    <div class="quote quote-gold">
+      <p>"Does this invalidate the fair value gap? No it does not. The idea is the fair value gaps — look at the body of this candle here, isn't that respecting that? Yes. So in my mind I'm thinking well I know prices sometimes especially the way it is right now it's very volatile so I'm permitting a greater level of imperfection in price delivery and then using the logic of the fair value gap as the basis for my entry idea."</p>
+      <span class="ts">25:38</span>
+    </div>
+
+    <div class="quote">
+      <p>"At some point folks you're going to have to get used to, if you're going to trade like this in these really little time frames and you're trying to be very nimble, you're going to have to learn to trust the setups and let the stops do their jobs. And if it gets stopped out that's just one trade you got wrong — it's not your career. Look for the next one."</p>
+      <span class="ts">26:30</span>
+    </div>
+
+    <h3>Missed Entry — Second Opportunity</h3>
+
+    <div class="quote">
+      <p>"Say you missed it and the market starts to run off like this — but then it gives you another opportunity. I've had many times trades formed just like this where I was looking for something, I was waiting for a setup to happen, either my cell phone's buzzing or I grab a drink, and then all of a sudden here you go — I miss it, takes off."</p>
+      <span class="ts">20:39</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"It runs up, does not take out the buy side liquidity resting above here, and then we had this imbalance and it trades down into it and then hits what — the order block. That's a buy. And you can — if you miss this one you can pick up this one based on the logic I teach on the YouTube channel."</p>
+      <span class="ts">27:00</span>
+    </div>
+
+    <h3>Premium / Discount Context Reminder</h3>
+
+    <div class="quote">
+      <p>"Running a fib just to get the 50% level — that gives us equilibrium. Anything below that is a discount."</p>
+      <span class="ts">1:13</span>
+    </div>
+
+    <div class="quote">
+      <p>"We've dug into all the sell side liquidity resting below that low, we retraced back up inside of this high to that low, so we went back up into a premium."</p>
+      <span class="ts">0:56</span>
+    </div>
+  </section>
+
+  <!-- ─── 08 FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Study Flashcards</h2>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.85rem;font-family:'JetBrains Mono',monospace;margin-bottom:1rem;">Click any card to reveal — answers are direct transcript quotes.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the three components of Power Three?</div>
+        <div class="flashcard-answer">"Power Three which is accumulation, manipulation and distribution."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the expected bullish Power Three daily candle structure?</div>
+        <div class="flashcard-answer">"If I'm bullish I'm expecting the opening price to be near the low of the day or the session, then it trades lower making some important low, and then rallies, creates a high, and then closes near the high of the day."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a Judas swing?</div>
+        <div class="flashcard-answer">"Judas swing is the false move typically in London and in New York session there are fake runs that start off a move."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the small move to hunt at the open when bullish?</div>
+        <div class="flashcard-answer">"If you're bullish it opens where you think it's going to trade higher, it's going to be most likely a small little move lower — that's the move you want to try to go in and hunt along."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What defines a high probability bullish order block?</div>
+        <div class="flashcard-answer">"Consecutive down closed candles right before a price surge that has an imbalance — that's how you find your order blocks."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the stacked condition for an optimal trade entry?</div>
+        <div class="flashcard-answer">"Inside the order block, inside the fair value gap, inside a retracement of the fair value gap — that sets the stage of a market run up into a higher retracement."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">If there is a big overnight run in NASDAQ/Dow/S&P, what should you do?</div>
+        <div class="flashcard-answer">"If there's a big move overnight — avoid the New York session. Don't even mess with the New York session. Wait until the other side of lunch at 1:00 in the afternoon New York time and then anticipate the New York lunch lows taken out or the New York morning session lows."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the overnight run window and why not trade the NY session after it?</div>
+        <div class="flashcard-answer">"Overnight — 2 o'clock in the morning to 5 o'clock in the morning — if we get a big run like that, right away in my mind I'm thinking don't trade a lot, don't expect a lot of in and out in and out perfect precision, wait for a real significant price move. Otherwise you're going to get chopped up."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is New York lunch?</div>
+        <div class="flashcard-answer">"New York lunch is noon to 1:00 in the afternoon New York local time."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the PM session setup entry rule after the FVG forms?</div>
+        <div class="flashcard-answer">"You can use that low as your entry or minus one tick. The short-term low down here after the fair value gap forms — that's where your stop loss is. That's the rules."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Does price trading below the FVG (wicking through it) invalidate the FVG?</div>
+        <div class="flashcard-answer">"Does this invalidate the fair value gap? No it does not. The idea is the fair value gaps — look at the body of this candle here, isn't that respecting that? Yes. So in my mind I'm thinking well I know prices sometimes especially the way it is right now it's very volatile so I'm permitting a greater level of imperfection in price delivery."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why do overnight longs provide the liquidity pool for the afternoon setup?</div>
+        <div class="flashcard-answer">"You wait for them to give you a low that everybody overnight will want to put their stop loss right beneath that after it starts a rally above it."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is engineering liquidity in the context of the overnight rally?</div>
+        <div class="flashcard-answer">"That's engineering liquidity — it runs up, consolidates, creates a low, starts to rally, and everybody's thinking I don't want to lose my profits, I don't want to lose out on making more money, but I had to put a stop loss right here."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why is chasing overnight runs dangerous?</div>
+        <div class="flashcard-answer">"That idea leads many times to losing trades and then it starts this cycle where you go into this chasing chasing chasing and then when the market does these sideways consolidations and sloppy choppy market conditions it's literally like a blowtorch on your account."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT do if he misses a PM session FVG entry?</div>
+        <div class="flashcard-answer">"It runs up, does not take out the buy side liquidity resting above here, and then we had this imbalance and it trades down into it and then hits what — the order block. That's a buy. And you can — if you miss this one you can pick up this one."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the 8:30 opening price checklist for a bullish setup?</div>
+        <div class="flashcard-answer">"Did we go below it? Yes. Did we go inside the imbalance? Yes. Did we take out a short-term low? Yes. Did we hit an order block? Yes. Was it an optimal trade entry? Yes. Lots of factors there."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Ep.13 — Lecture Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0c0c10;
+  --surface:  #141418;
+  --surface2: #1c1c22;
+  --line:     rgba(255,255,255,0.07);
+  --line2:    rgba(255,255,255,0.12);
+  --text:     #dddde6;
+  --dim:      #8888a0;
+  --muted:    #444455;
+  --bull:     #35d47a;
+  --bear:     #f04f61;
+  --gold:     #f0a832;
+  --blue:     #6890f5;
+  --spine:    #252530;
+  --ts-w:     96px;
+  --gap:      32px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  line-height: 1.72;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+header {
+  padding: 52px 0 44px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(12,12,16,0.96);
+  backdrop-filter: blur(10px);
+}
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: var(--ts-w) 1fr auto;
+  align-items: center;
+  gap: var(--gap);
+}
+.header-ep {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.header-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.header-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+.header-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-align: right;
+  line-height: 1.8;
+}
+
+/* ─── LAYOUT WRAPPER ─── */
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+/* ─── TIMELINE TRACK ─── */
+.timeline {
+  position: relative;
+  padding-top: 48px;
+}
+
+/* vertical spine */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ts-w);
+  width: 1px;
+  background: var(--spine);
+}
+
+/* ─── SEGMENT BLOCK ─── */
+.seg {
+  display: grid;
+  grid-template-columns: var(--ts-w) 1fr;
+  gap: var(--gap);
+  margin-bottom: 0;
+  position: relative;
+}
+
+/* timestamp column */
+.seg-ts {
+  padding-top: 3px;
+  text-align: right;
+  padding-right: 18px;
+  position: relative;
+  flex-shrink: 0;
+}
+.ts-range {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  display: block;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+/* dot on spine */
+.seg-ts::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--muted);
+}
+.seg.accent .seg-ts::after {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(240,168,50,0.35);
+}
+.seg.bull-seg .seg-ts::after {
+  background: var(--bull);
+  border-color: var(--bull);
+  box-shadow: 0 0 8px rgba(53,212,122,0.35);
+}
+.seg.bear-seg .seg-ts::after {
+  background: var(--bear);
+  border-color: var(--bear);
+  box-shadow: 0 0 8px rgba(240,79,97,0.3);
+}
+
+/* content column */
+.seg-body {
+  padding: 0 0 48px 0;
+  border-bottom: 1px solid var(--line);
+}
+.seg:last-child .seg-body {
+  border-bottom: none;
+}
+
+/* section heading */
+.seg-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.seg-heading span {
+  height: 1px;
+  background: var(--line2);
+  flex: 1;
+}
+.seg-heading.accent { color: var(--gold); }
+.seg-heading.bull   { color: var(--bull); }
+.seg-heading.bear   { color: var(--bear); }
+.seg-heading.blue   { color: var(--blue); }
+
+/* ─── NOTE LINES ─── */
+.note {
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: 4px;
+}
+.note + .note {
+  margin-top: 4px;
+}
+
+/* inline quote — tight, inline with note */
+.note q {
+  font-style: italic;
+  color: var(--text);
+  quotes: "\201C" "\201D";
+}
+
+/* ─── STANDALONE QUOTE ─── */
+.q-block {
+  border-left: 2px solid var(--line2);
+  padding: 10px 0 10px 18px;
+  margin: 14px 0;
+}
+.q-block p {
+  font-style: italic;
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0;
+}
+.q-block .qts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 7px;
+  display: block;
+  letter-spacing: 0.06em;
+}
+.q-block.gold { border-left-color: var(--gold); }
+.q-block.bull  { border-left-color: var(--bull); }
+.q-block.bear  { border-left-color: var(--bear); }
+.q-block.blue  { border-left-color: var(--blue); }
+
+/* ─── RULE BOX ─── */
+.rule-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 14px 0;
+}
+.rule-box .rb-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+.rule-box.bull { border-left: 3px solid var(--bull); }
+.rule-box.bear { border-left: 3px solid var(--bear); }
+.rule-box.gold { border-left: 3px solid var(--gold); }
+.rule-box .rb-label.bull { color: var(--bull); }
+.rule-box .rb-label.bear { color: var(--bear); }
+.rule-box .rb-label.gold { color: var(--gold); }
+.rule-box p {
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── INLINE CHIPS ─── */
+.chip {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+.chip.bull { background: rgba(53,212,122,0.1); color: var(--bull); border: 1px solid rgba(53,212,122,0.2); }
+.chip.bear { background: rgba(240,79,97,0.1);  color: var(--bear); border: 1px solid rgba(240,79,97,0.2); }
+.chip.gold { background: rgba(240,168,50,0.1); color: var(--gold); border: 1px solid rgba(240,168,50,0.2); }
+
+/* ─── SPACING ELEMENTS ─── */
+.spacer { height: 10px; }
+.sub-note {
+  font-size: 16px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.6;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+  margin: 6px 0 10px;
+}
+
+/* ─── THREE ELEMENTS BOX ─── */
+.three-el {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+.el {
+  background: var(--surface);
+  padding: 16px 14px;
+}
+.el-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 5px;
+  letter-spacing: 0.1em;
+}
+.el-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: 6px;
+}
+.el-name.bull { color: var(--bull); }
+.el-name.gold { color: var(--gold); }
+.el-name.blue { color: var(--blue); }
+.el-quote {
+  font-family: 'Crimson Pro', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--dim);
+  line-height: 1.4;
+}
+
+/* ─── PYRAMID ─── */
+.pyr-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+.pyr-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+}
+.pyr-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  display: block;
+}
+.pyr-lbl.bull { color: var(--bull); }
+.pyr-lbl.bear { color: var(--bear); }
+.pyr-row {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-bottom: 3px;
+  text-align: center;
+}
+.pyr-row.bull { background: rgba(53,212,122,0.07); color: var(--bull); }
+.pyr-row.bear { background: rgba(240,79,97,0.07);  color: var(--bear); }
+
+/* ─── ACCOUNT RESULT ─── */
+.result-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--bull);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.result-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--bull);
+  white-space: nowrap;
+}
+.result-detail {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--dim);
+  line-height: 1.55;
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress-strip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--gold);
+  z-index: 999;
+  transition: width 0.1s linear;
+}
+
+/* ─── SCROLL NAV ─── */
+.scroll-nav {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
+}
+.scroll-nav a {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  opacity: 0.4;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s, background 0.2s;
+}
+.scroll-nav a:hover {
+  opacity: 1;
+  transform: scale(1.5);
+  background: var(--gold);
+}
+.scroll-nav a.active {
+  opacity: 1;
+  background: var(--gold);
+  transform: scale(1.4);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  :root { --ts-w: 64px; --gap: 20px; }
+  .page { padding: 0 16px 60px; }
+  .header-inner { padding: 0 16px; grid-template-columns: 1fr; gap: 4px; }
+  .header-ts { display: none; }
+  .three-el { grid-template-columns: 1fr; }
+  .pyr-wrap { grid-template-columns: 1fr; }
+  .result-box { flex-direction: column; gap: 8px; }
+  .scroll-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-strip" id="progress"></div>
+
+<!-- ─── SCROLL NAV DOTS ─── -->
+<nav class="scroll-nav" aria-label="Jump to section">
+  <a href="#s0"  title="Intro"></a>
+  <a href="#s1"  title="Market Context"></a>
+  <a href="#s2"  title="Order Block Rules"></a>
+  <a href="#s3"  title="Psychology"></a>
+  <a href="#s4"  title="Market Structure"></a>
+  <a href="#s5"  title="Three Elements"></a>
+  <a href="#s6"  title="Judas Swing"></a>
+  <a href="#s7"  title="Entry Setup"></a>
+  <a href="#s8"  title="Smart Money"></a>
+  <a href="#s9"  title="Stop Loss"></a>
+  <a href="#s10" title="Demo Proof"></a>
+  <a href="#s11" title="Pyramiding"></a>
+  <a href="#s12" title="Account Math"></a>
+  <a href="#s13" title="Goals & Mindset"></a>
+</nav>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-inner">
+    <div class="header-ep">Ep. 13</div>
+    <div class="header-title">2022 ICT Mentorship — <em>Advanced Price Action Theory in Action</em></div>
+    <div class="header-meta">Lecture Notes<br>Chronological</div>
+  </div>
+</header>
+
+<!-- ─── TIMELINE ─── -->
+<div class="page">
+<div class="timeline">
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 0:00 — OPENING                                   -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s0">
+    <div class="seg-ts">
+      <span class="ts-range">0:03<br>–<br>1:30</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading">Opening — Purpose of This Lesson</div>
+
+      <p class="note">Framed as an <q>extra lesson</q> — a practical follow-up to last night's advanced market structure video.</p>
+
+      <div class="q-block">
+        <p>"It's one thing to talk about it and provide the basis as to what I'm doing when I'm doing these executions — when I'm running these demo accounts up really fast — what am I doing, how am I doing it."</p>
+        <span class="qts">0:24 – 0:38</span>
+      </div>
+
+      <p class="note">Demo account ran to $256,000 that morning, but described as no longer useful for students at that scale.</p>
+
+      <div class="q-block">
+        <p>"It's too fast of growth and the acceleration just makes it — you have no connection to it if you don't know how to do this and you're new."</p>
+        <span class="qts">0:55 – 1:05</span>
+      </div>
+
+      <p class="note">Core premise: same principles apply whether demo or live.</p>
+
+      <div class="q-block">
+        <p>"It does not matter — the same principles are applied whether you're trading with a live account or if you're trading with a demo account and you're learning."</p>
+        <span class="qts">1:11 – 1:20</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 1:31 — WHY DEMO, NOT LIVE RIGHT NOW              -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s0b">
+    <div class="seg-ts">
+      <span class="ts-range">1:31<br>–<br>8:45</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading">Why Demo — Not Trading Live Right Now</div>
+
+      <p class="note">Already hit all monthly objectives — bearish on equities — doesn't want to expose live gains to heightened geopolitical risk.</p>
+
+      <div class="q-block">
+        <p>"Because of the heightened volatility, because of the uncertainty and the likelihood of price action moves that would be unexpected even for me... I don't feel confident or willing to risk after being profitable in live trading."</p>
+        <span class="qts">1:39 – 2:10</span>
+      </div>
+
+      <p class="note">States a weekly, daily, and monthly objective framework.</p>
+
+      <div class="q-block">
+        <p>"There's an objective I look for for the week. There's an objective I try to aim for for the day. And there's something I'm aiming for for a goal for the month."</p>
+        <span class="qts">2:22 – 2:31</span>
+      </div>
+
+      <div class="rule-box gold">
+        <span class="rb-label gold">Monthly Goal Being Demonstrated</span>
+        <p>"Aiming for 20 per month... 20% isn't money — it's a percentage. The compounding effects of that is astonishing."</p>
+      </div>
+
+      <div class="spacer"></div>
+
+      <p class="note"><strong>Compliance note stated explicitly:</strong> demo account used because he is not licensed to give trade advice — protects both parties.</p>
+
+      <div class="q-block">
+        <p>"If I was wrong — you don't take a financial loss. And if I'm right — you can't make money and get tricked into thinking that the only way you're gonna make money is to follow me."</p>
+        <span class="qts">9:11 – 9:23</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 3:36 — PREREQUISITES FOR LIVE TRADING           -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s0c">
+    <div class="seg-ts">
+      <span class="ts-range">3:36<br>–<br>6:12</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading bear">Prerequisites Before Live Trading</div>
+
+      <div class="q-block gold">
+        <p>"If you've been consistent with a demo account for six months — then and only then would I — not necessarily that you need to do this — but I would then only at that time consider maybe going into live fund trading."</p>
+        <span class="qts">4:03 – 4:17</span>
+      </div>
+
+      <p class="note">The documented trading plan must answer: why entering, what to wait for, what causes entry, where stop loss goes, how much to risk, what to aim for, whether to take partials.</p>
+
+      <div class="q-block">
+        <p>"You have to know those things in advance. You can't determine them once you enter the marketplace — and that's what retail traders do."</p>
+        <span class="qts">6:52 – 6:59</span>
+      </div>
+
+      <p class="note">Readiness test stated plainly:</p>
+
+      <div class="q-block bear">
+        <p>"If you feel this tug of war — this butterfly feeling in your stomach where you just can't relax and you're engaging in the marketplace — you're not ready. That's the bottom line."</p>
+        <span class="qts">6:01 – 6:14</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 9:32 — MARKET CONTEXT                           -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s1">
+    <div class="seg-ts">
+      <span class="ts-range">9:32<br>–<br>11:11</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading blue">Market Context — NQ Setup This Morning</div>
+
+      <p class="note">Price went below a prior low. Overall bias is bearish but doesn't want to short — looking for a retrace up into an imbalance to work long.</p>
+
+      <div class="q-block">
+        <p>"It could potentially trade up into this up closed candle here... so that's kind of like the magnet or the draw on liquidity."</p>
+        <span class="qts">9:47 – 9:57</span>
+      </div>
+
+      <p class="note">ES had more upside energy than NQ — NQ described as <q>lethargic</q> — but expectation is NQ follows.</p>
+
+      <div class="q-block">
+        <p>"Usually these markets move in tandem... the tendency is that it will be drawn to the same degree that the other indices were — so if ES was higher, NQ which is Nasdaq futures should be brought higher in sympathy."</p>
+        <span class="qts">10:30 – 11:02</span>
+      </div>
+
+      <div class="sub-note"><q>All boats rise in high tide</q> — 11:02</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 11:12 — DOWN CLOSED CANDLE / ORDER BLOCK RULES  -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg bull-seg" id="s2">
+    <div class="seg-ts">
+      <span class="ts-range">11:12<br>–<br>13:51</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading bull">The Order Block — Down Closed Candle Rules</div>
+
+      <p class="note">Hourly chart shows: down closed candle after a run up → retraced into gap. Buy side liquidity resting above relative equal highs (~14,110).</p>
+
+      <div class="q-block">
+        <p>"I'm going to watch to see if it can trade back down into that — because if it does I'm going to treat that as a bullish order block."</p>
+        <span class="qts">13:26 – 13:33</span>
+      </div>
+
+      <div class="rule-box bull">
+        <span class="rb-label bull">Bullish Move Rule</span>
+        <p>"If the move has been bullish — down closed candles should not be violated. Down closed candles should not be violated. They're going to act as support."</p>
+      </div>
+
+      <div class="rule-box bear">
+        <span class="rb-label bear">Bearish Move Rule</span>
+        <p>"Bearish market moves — up close candles should not be breached and broken through."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 13:52 — PSYCHOLOGY OF HOLDING                   -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s3">
+    <div class="seg-ts">
+      <span class="ts-range">13:52<br>–<br>16:05</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading">Psychology — Why Neophytes Collapse Trades Early</div>
+
+      <p class="note">When bearish and watching a potential up close candle form — inexperienced traders panic out even when profitable.</p>
+
+      <div class="q-block bear">
+        <p>"It's that overwhelming uncertainty that eats at you like mental cancer — it just literally makes you want to just get out of the trade even when you're in profit."</p>
+        <span class="qts">14:22 – 14:36</span>
+      </div>
+
+      <p class="note">Root cause: insufficient time forward-testing the same scenarios repeatedly.</p>
+
+      <div class="q-block">
+        <p>"If you don't have the wherewithal and the experience of submitting to these ideas and watching them come to fruition over and over again — months of experience, not just a week or day."</p>
+        <span class="qts">14:47 – 14:58</span>
+      </div>
+
+      <p class="note"><strong>Time of day</strong> flagged as important — will be developed in the next segment.</p>
+
+      <div class="q-block bull">
+        <p>"Time of day is important — so I'm watching when price comes back down into it here."</p>
+        <span class="qts">15:51 – 15:56</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 16:06 — MARKET STRUCTURE                        -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s4">
+    <div class="seg-ts">
+      <span class="ts-range">16:06<br>–<br>17:22</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading">Market Structure — Intermediate Term Low & Relative Equal Highs</div>
+
+      <p class="note">Identifying the swing low:</p>
+
+      <div class="q-block">
+        <p>"We do have a low that has a higher low to the left and a higher low to the right."</p>
+        <span class="qts">16:12 – 16:14</span>
+      </div>
+
+      <p class="note">Overall read on structure:</p>
+
+      <div class="q-block bull">
+        <p>"The overall market structure — it's likely to go higher and aim for a run above these highs. Buy side liquidity resting right up there."</p>
+        <span class="qts">16:32 – 16:42</span>
+      </div>
+
+      <p class="note">Relative equal highs — the retail vs. algorithmic reading:</p>
+
+      <div class="q-block">
+        <p>"Retail-minded traders are going to see that and say oh this is exactly what the text say about resistance — so it's acting as a ceiling. Price acting like a ceiling — what should they expect to see price do — go over."</p>
+        <span class="qts">17:03 – 17:22</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 17:23 — THE THREE ELEMENTS                       -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg accent" id="s5">
+    <div class="seg-ts">
+      <span class="ts-range">17:23<br>–<br>18:20</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading accent">★ Core Definition — The Three Required Elements</div>
+
+      <div class="q-block gold">
+        <p>"That is how you determine your high probability bullish order block — it must have the imbalance coupled with the down closed candle and the underlying narrative that it's likely to go higher to reach for buy side liquidity. Period. That's it."</p>
+        <span class="qts">17:45 – 18:01</span>
+      </div>
+
+      <div class="three-el">
+        <div class="el">
+          <span class="el-num">01</span>
+          <span class="el-name bull">The Gap</span>
+          <span class="el-quote">"the gap plus..."</span>
+        </div>
+        <div class="el">
+          <span class="el-num">02</span>
+          <span class="el-name gold">Down Closed Candle</span>
+          <span class="el-quote">"...the down closed candle plus..."</span>
+        </div>
+        <div class="el">
+          <span class="el-num">03</span>
+          <span class="el-name blue">Bullish Narrative</span>
+          <span class="el-quote">"...the idea that's likely to go for buy side liquidity"</span>
+        </div>
+      </div>
+
+      <p class="note">Explicitly excludes other methods:</p>
+
+      <div class="q-block">
+        <p>"There is no engulfing candle — does this — forget all that. You don't need that. It's the gap plus the down closed candle plus the idea that's likely to go for buy side liquidity. That's it."</p>
+        <span class="qts">18:06 – 18:18</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 18:21 — 9:30 JUDAS SWING                        -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg bear-seg" id="s6">
+    <div class="seg-ts">
+      <span class="ts-range">18:21<br>–<br>20:23</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading bear">9:30 Equity Opening — The Judas Swing</div>
+
+      <p class="note">Order block is touched right at/after the 9:30 equity opening. Initial move is in the wrong direction.</p>
+
+      <div class="rule-box bear">
+        <span class="rb-label bear">9:30 Opening Rule</span>
+        <p>"Volatility — the initial move is technically the incorrect move going into the opening at 9:30. So this is like a judas swing."</p>
+      </div>
+
+      <div class="q-block bear">
+        <p>"This is that fake move — don't chase this. And don't chase going higher right before the equity is opening 9:30 either."</p>
+        <span class="qts">19:17 – 19:25</span>
+      </div>
+
+      <p class="note">What to look for instead — stated as a checklist:</p>
+
+      <div class="q-block bull">
+        <p>"I'm looking for a discount market — low to high — I'm below 50%? Yes. I'm inside the order block? Yes. The equities opening has happened. I'm bullish and it has traded lower — so public is going to be thinking it's resistance, it's going to keep going down."</p>
+        <span class="qts">19:29 – 19:49</span>
+      </div>
+
+      <div class="sub-note">Then: <q>It hits the order block and then rallies.</q> — 20:04</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 20:24 — ENTRY SETUP & HIERARCHY                  -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg bull-seg" id="s7">
+    <div class="seg-ts">
+      <span class="ts-range">20:24<br>–<br>22:16</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading bull">Entry Setup — Lower TF Confirmation & Hierarchy</div>
+
+      <p class="note">Zoomed to 5-minute: lower time frame order block + fair value gap inside the hourly order block.</p>
+
+      <div class="q-block gold">
+        <p>"That is one order block with a lower time frame order block and a fair value gap — you can take that trade if you know what you're looking for and you understand bias narrative and where the liquidity matrix is likely to lead to later on — which is drawing up above this red level here."</p>
+        <span class="qts">20:24 – 20:43</span>
+      </div>
+
+      <div class="rule-box gold">
+        <span class="rb-label gold">Time Frame Hierarchy</span>
+        <p>"There's a hierarchy — higher time frame to a lower time frame — with the idea framed on it's going higher for buy side."</p>
+      </div>
+
+      <p class="note">Entry mechanics — overlapping / filling the gap:</p>
+
+      <div class="q-block">
+        <p>"This was my entry — idea that it's overlapping filling in that gap and it's an order block here with a higher timeframe order block there."</p>
+        <span class="qts">21:40 – 21:47</span>
+      </div>
+
+      <p class="note">Once the gap fills, the swing low becomes an intermediate term low:</p>
+
+      <div class="q-block bull">
+        <p>"When it fills in that gap — once that happens — this becomes an intermediate term low. This low should not be taken out once it starts rallying — it should not come back down here."</p>
+        <span class="qts">22:03 – 22:16</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 22:17 — SMART MONEY ACCUMULATION                 -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg bull-seg" id="s8">
+    <div class="seg-ts">
+      <span class="ts-range">22:17<br>–<br>24:06</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading bull">Smart Money Accumulation — Retracements Into Order Blocks</div>
+
+      <p class="note">As price retraces into down closed candles, smart money buys again. This repeats with each new leg.</p>
+
+      <div class="q-block bull">
+        <p>"Smart money traders are going to be buying more here. Like I did. Rallied. We have down close candles. We went above it. I'm not worrying about the market as long as it doesn't take out these two down close candles."</p>
+        <span class="qts">22:44 – 22:58</span>
+      </div>
+
+      <div class="q-block bull">
+        <p>"It trades down — retraces down into what — an imbalance. Why? So smart money can buy again. Like I did."</p>
+        <span class="qts">23:08 – 23:13</span>
+      </div>
+
+      <p class="note">Specific behavior close to the profit objective:</p>
+
+      <div class="q-block gold">
+        <p>"This is classic — it generally doesn't like to go all the way back in rebalance when it's that close to the profit objective. So the algorithm only has a small little retracement inside the fair value gap — so you would be a buyer just at that candle's low."</p>
+        <span class="qts">23:44 – 23:58</span>
+      </div>
+
+      <p class="note">Confidence condition for holding through retracements:</p>
+
+      <div class="q-block bull">
+        <p>"I trust that it's going to keep going higher as long as the down closed candles keep price above it — above what — above the down close candles that's going to be supporting each new leg higher."</p>
+        <span class="qts">24:39 – 24:55</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 24:57 — STOP LOSS MANAGEMENT                    -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg accent" id="s9">
+    <div class="seg-ts">
+      <span class="ts-range">24:57<br>–<br>26:35</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading accent">Stop Loss Management</div>
+
+      <p class="note"><strong>Initial stop</strong> — placed at mean threshold of bullish order block:</p>
+
+      <div class="q-block">
+        <p>"Your stop was below the middle of this candle — that's the mean threshold of the bullish order block. So I don't think it's going to go down below that once I'm entering."</p>
+        <span class="qts">25:03 – 25:11</span>
+      </div>
+
+      <p class="note"><strong>After price trades above the order block's high</strong> — stop must still stay below the candle's low:</p>
+
+      <div class="q-block">
+        <p>"My stop-loss must remain below this candle's low — because it can dig into that candle — because it's going to act as an order block."</p>
+        <span class="qts">25:16 – 25:23</span>
+      </div>
+
+      <p class="note"><strong>Premature stop placement</strong> — the mistake to avoid:</p>
+
+      <div class="q-block bear">
+        <p>"If I put my stop loss inside this area here — I'm stopped out prematurely. Chances are you probably wouldn't have the wherewithal to get back in."</p>
+        <span class="qts">25:28 – 25:37</span>
+      </div>
+
+      <p class="note"><strong>When to raise the stop</strong> — after price takes out the next set of down closed candles:</p>
+
+      <div class="q-block bull">
+        <p>"The market rallies above — takes out these two down closed candles — now the stop can be raised from whatever would be below this down close candle — because the idea is these closed candles are one order block that should not be violated if it's bullish."</p>
+        <span class="qts">26:03 – 26:21</span>
+      </div>
+
+      <p class="note"><strong>Invalidation</strong> — if stop is taken:</p>
+
+      <div class="q-block bear">
+        <p>"If it comes down and breaks the low of these down closed candles — well there you go. You probably did the right thing by getting stopped out because it might be failing and going lower."</p>
+        <span class="qts">26:22 – 26:34</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 26:36 — DEMO PROOF / TRADING VIEW               -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s10">
+    <div class="seg-ts">
+      <span class="ts-range">26:36<br>–<br>31:45</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading">TradingView Demo — Execution Proof</div>
+
+      <p class="note">Switches to live TradingView paper account. Execution arrows shown on chart — hover to confirm they aren't photoshopped. Toggle: executions checkbox in TradingView settings.</p>
+
+      <div class="q-block gold">
+        <p>"This is proving precision — it's proving theory in action — and it's proving that it's not flawed logic."</p>
+        <span class="qts">31:15 – 31:24</span>
+      </div>
+
+      <p class="note">Explicitly distinguishes the methodology from other approaches:</p>
+
+      <div class="q-block">
+        <p>"None of this is Elliott Wave. None of it's harmonic. None of it is supply and demand. None of this is retail — absolutely none of it."</p>
+        <span class="qts">31:27 – 31:37</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 31:46 — PYRAMIDING                               -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg accent" id="s11">
+    <div class="seg-ts">
+      <span class="ts-range">31:46<br>–<br>34:07</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading accent">Pyramiding — Position Sizing Structure</div>
+
+      <p class="note">Three entries treated as one trade — largest size first, decreasing with each add.</p>
+
+      <div class="q-block gold">
+        <p>"I'm pyramiding — I'm building the biggest position initially and then every time I buy in again I'm building it with a smaller position than I had prior to when I'm entering now — because I have all the equity behind that entry with three supporting the two I'm buying here."</p>
+        <span class="qts">32:41 – 33:01</span>
+      </div>
+
+      <div class="pyr-wrap">
+        <div class="pyr-box">
+          <span class="pyr-lbl bull">✓ Correct — Stable</span>
+          <div class="pyr-row bull">3 contracts ← entry 1 (largest)</div>
+          <div class="pyr-row" style="color:var(--dim);background:var(--surface2);">2 contracts ← entry 2</div>
+          <div class="pyr-row" style="color:var(--muted);background:var(--surface2);">1 contract  ← entry 3</div>
+        </div>
+        <div class="pyr-box">
+          <span class="pyr-lbl bear">✗ Inverted — Unstable</span>
+          <div class="pyr-row" style="color:var(--muted);background:var(--surface2);">1 contract  ← entry 1</div>
+          <div class="pyr-row" style="color:var(--dim);background:var(--surface2);">2 contracts ← entry 2</div>
+          <div class="pyr-row bear">3 contracts ← entry 3</div>
+        </div>
+      </div>
+
+      <div class="q-block bear">
+        <p>"Imagine a pyramid upside down and it's balancing on its point — it's not a solid foundation — it's wobbly."</p>
+        <span class="qts">33:12 – 33:19</span>
+      </div>
+
+      <div class="q-block bull">
+        <p>"I consider this all one trade — I don't consider this three separate trades. It's one trade — scaled in largest, middle, last portion — then it runs to my objective."</p>
+        <span class="qts">33:53 – 34:07</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 34:08 — ACCOUNT MATH / MICRO ACCOUNT            -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg bull-seg" id="s12">
+    <div class="seg-ts">
+      <span class="ts-range">34:08<br>–<br>36:19</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading bull">Account Math — Micro Account Demo Results</div>
+
+      <p class="note">Instrument: Micro E-Mini Nasdaq. 1 point (4 ticks) = $2. Hypothetical broker: AMP Futures.</p>
+
+      <div class="result-box">
+        <div class="result-num">+21%</div>
+        <div class="result-detail">$10,000 → $12,111 in one trade<br>(3 entries + 2 + 1 = 6 micro contracts)<br>Technically requires only ~$1,200 margin</div>
+      </div>
+
+      <div class="q-block gold">
+        <p>"Who cares if you gotta trade a micro account. Stop thinking you need a lot to make a lot — you don't. You need to be able to compound."</p>
+        <span class="qts">34:40 – 34:57</span>
+      </div>
+
+      <p class="note">Stated trading frequency expectation:</p>
+
+      <div class="q-block">
+        <p>"These likely form every single day but they absolutely form every single week — that is not an invitation for you to go out and say ICT said trade every day."</p>
+        <span class="qts">36:00 – 36:09</span>
+      </div>
+
+      <div class="q-block bull">
+        <p>"What happens if you do that once a week — and that's your trade — and you stop — and once you hit it you end your trading."</p>
+        <span class="qts">35:32 – 35:39</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- 36:20 — GOALS & CLOSING MINDSET                  -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="seg" id="s13">
+    <div class="seg-ts">
+      <span class="ts-range">36:20<br>–<br>43:06</span>
+    </div>
+    <div class="seg-body">
+      <div class="seg-heading">Closing — Goals, Mindset & What This Approach Actually Is</div>
+
+      <p class="note">On the necessity of goal-setting:</p>
+
+      <div class="q-block gold">
+        <p>"If you don't aim for a target you're going to hit nothing — 100 percent of the time. You have to have a goal."</p>
+        <span class="qts">38:00 – 38:10</span>
+      </div>
+
+      <p class="note">The relationship between winning trades and this methodology:</p>
+
+      <div class="q-block">
+        <p>"If you start studying what I'm teaching you — you're gonna find that your trades that win have my information underneath. And when your trades fail — the things I'm teaching you here are missing."</p>
+        <span class="qts">41:17 – 41:29</span>
+      </div>
+
+      <p class="note">Why price back-tests better than books or courses:</p>
+
+      <div class="q-block">
+        <p>"I'm teaching you how to go into price and price will teach you. It will teach you. It's repeating — so if it's repeating and you're looking at it constantly — you are training your eye to see what it does by default."</p>
+        <span class="qts">45:20 – 45:39</span>
+      </div>
+
+      <p class="note">On the timeline for learning:</p>
+
+      <div class="q-block">
+        <p>"I believe in six months of practice and looking at price action you can do this yourself — and do it consistently."</p>
+        <span class="qts">38:53 – 39:02</span>
+      </div>
+
+      <div class="q-block bull">
+        <p>"Once you learn it — it's yours. You don't forget. It's like riding a bike."</p>
+        <span class="qts">42:55 – 43:02</span>
+      </div>
+
+      <div class="rule-box gold">
+        <span class="rb-label gold">Closing Statement</span>
+        <p>"I'm humbly submitting to you — you have found it. It's not costing you anything. But it's going to require some work, it's going to require some time, effort."</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /timeline -->
+</div><!-- /page -->
+
+<footer style="border-top:1px solid var(--line);padding:28px 0;margin-top:0;">
+  <div style="max-width:900px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:var(--ts-w) 1fr;gap:var(--gap);">
+    <div></div>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.08em;">
+      2022 ICT Mentorship · Episode 13 · Lecture Notes · All content direct quotes from transcript
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Progress bar
+  const prog = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    prog.style.width = pct + '%';
+  });
+
+  // Nav dots — highlight nearest section
+  const dots = document.querySelectorAll('.scroll-nav a');
+  const segs = document.querySelectorAll('.seg[id]');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        dots.forEach(d => {
+          d.classList.toggle('active', d.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  segs.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

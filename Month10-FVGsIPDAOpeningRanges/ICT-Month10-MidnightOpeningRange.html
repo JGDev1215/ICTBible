@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Midnight Opening Range | Study Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --accent-purple: #a855f7;
+            --border-color: #2a2a3a;
+            --gradient-gold: linear-gradient(135deg, #ffa502 0%, #ff6b35 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(180deg, #12121a 0%, var(--bg-primary) 100%);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header .meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-top: 1.5rem;
+            opacity: 0.8;
+        }
+
+        nav {
+            background: var(--bg-card);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+            background: rgba(255, 165, 2, 0.1);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-gold);
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 2rem 0 1rem;
+            color: var(--accent-gold);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quote p {
+            margin: 0;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .quote .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            display: block;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.2s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+        }
+
+        .card-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(255, 165, 2, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .concept-card p {
+            margin: 0;
+        }
+
+        .diagram-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        svg text {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 165, 2, 0.05);
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .key-point-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+        }
+
+        .steps-list {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .steps-list li {
+            counter-increment: step;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .steps-list li::before {
+            content: counter(step);
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .reference-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .reference-item .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-item .value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            font-weight: 500;
+        }
+
+        /* Flashcards */
+        .flashcard-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+        }
+
+        .flashcard-question {
+            padding: 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .flashcard-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: rgba(255, 165, 2, 0.05);
+            border-top: 1px solid transparent;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            padding: 1.5rem;
+            max-height: 500px;
+            border-top-color: var(--border-color);
+        }
+
+        .flashcard-answer p {
+            font-style: italic;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .flashcard-hint {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .flashcard.revealed .flashcard-hint {
+            display: none;
+        }
+
+        /* Time reference styling */
+        .time-ref {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 165, 2, 0.15);
+            color: var(--accent-gold);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* Warning/Important boxes */
+        .important-box {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid var(--accent-bear);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .important-box .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--accent-bear);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(46, 213, 115, 0.1);
+            border: 1px solid var(--accent-bull);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--accent-bull);
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer .source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 0.25rem 0.75rem;
+            }
+
+            nav a {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.5rem;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="index.html">Library Home</a>
+    </nav>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+<header>
+        <h1>Midnight Opening Range</h1>
+        <p class="subtitle">"This is one of my secret weapons... it works obviously in Forex and it works in Futures it works in every asset class"</p>
+        <p class="meta">2025 Lecture Series | January 7th, 2025</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#definition">Definition</a></li>
+            <li><a href="#timeframe">Time Frame</a></li>
+            <li><a href="#reference-points">Reference Points</a></li>
+            <li><a href="#displacement">Displacement</a></li>
+            <li><a href="#standard-deviations">Standard Deviations</a></li>
+            <li><a href="#london-session">London Session</a></li>
+            <li><a href="#ny-session">NY Session</a></li>
+            <li><a href="#chart-setup">Chart Setup</a></li>
+            <li><a href="#study">Flashcards</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Definition Section -->
+        <section id="definition">
+            <h2>What is the Midnight Opening Range?</h2>
+            
+            <div class="quote">
+                <p>"The algorithm absolutely uses that first 30 minutes and it does the same type of thing at midnight New York local time"</p>
+                <span class="timestamp">10:18</span>
+            </div>
+
+            <p>The Midnight Opening Range is a 30-minute interval that provides the foundational framework for daily price delivery. Just as the morning session has an algorithmic opening range from <span class="time-ref">9:30</span> to <span class="time-ref">10:00</span>, the algorithm establishes a similar range at midnight.</p>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Core Concept</span>
+                    <span class="card-badge">FRAMEWORK</span>
+                </div>
+                <p><em>"When I coded this algorithm I wanted to have the benefit of having the parameters of a daily high a daily low and that way I can find the plethora of setups between those two daily range extremes"</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"The framework that you use around opening range gaps is derived by the midnight opening range that's the 12:00 to 12:30 eastern time before you even wake up to trade in New York session you should have at least referred back to that area of price action and carry forward that information"</p>
+                <span class="timestamp">61:27</span>
+            </div>
+        </section>
+
+        <!-- Time Frame Section -->
+        <section id="timeframe">
+            <h2>Time Frame Definition</h2>
+
+            <div class="reference-grid">
+                <div class="reference-item">
+                    <div class="label">Start Time</div>
+                    <div class="value">12:00 AM (Midnight)</div>
+                </div>
+                <div class="reference-item">
+                    <div class="label">End Time</div>
+                    <div class="value">12:30 AM</div>
+                </div>
+                <div class="reference-item">
+                    <div class="label">Duration</div>
+                    <div class="value">30 Minutes</div>
+                </div>
+                <div class="reference-item">
+                    <div class="label">Time Zone</div>
+                    <div class="value">New York (Eastern)</div>
+                </div>
+            </div>
+
+            <div class="important-box">
+                <div class="title">Critical Time Zone Requirement</div>
+                <p><em>"You always have to set your charts to New York local time because everything runs by this algorithm on New York local time whatever it is in New York time that's what your chart should be set to so you can see everything based on algorithmic delivery anyone tells you other than that they don't know what they're talking about"</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"There is absolutely I don't care who tells you what there's no other opening range except for that 30 minute interval... if it's less than 30 minutes it ain't algorithmic it's just somebody trying to make up something"</p>
+                <span class="timestamp">10:05</span>
+            </div>
+        </section>
+
+        <!-- Reference Points Section -->
+        <section id="reference-points">
+            <h2>Three Reference Points</h2>
+
+            <div class="quote">
+                <p>"The low and the high there's three reference points there that are very very crucial to me as a Trader"</p>
+                <span class="timestamp">15:42</span>
+            </div>
+
+            <p>Within the midnight opening range, three specific price levels provide the foundation for analysis:</p>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">1. Midnight Opening Price</span>
+                    <span class="card-badge">POWER 3</span>
+                </div>
+                <p><em>"The opening price at midnight on this Candlestick... that's the midnight opening price for power three"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">2. Midnight Opening Range High</span>
+                </div>
+                <p>The highest price reached during the 30-minute interval between midnight and 12:30 Eastern time.</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">3. Midnight Opening Range Low</span>
+                </div>
+                <p>The lowest price reached during the 30-minute interval between midnight and 12:30 Eastern time.</p>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">Midnight Opening Range Structure</div>
+                <svg viewBox="0 0 700 320" width="100%" height="auto">
+                    <!-- Background -->
+                    <rect x="50" y="20" width="600" height="280" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+                    
+                    <!-- Time labels -->
+                    <text x="100" y="310" fill="#9898a8" font-size="11">12:00 AM</text>
+                    <text x="350" y="310" fill="#9898a8" font-size="11">12:30 AM</text>
+                    <text x="550" y="310" fill="#9898a8" font-size="11">Forward</text>
+                    
+                    <!-- Range box -->
+                    <rect x="100" y="80" width="250" height="140" fill="rgba(168, 85, 247, 0.15)" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- Price levels -->
+                    <!-- High -->
+                    <line x1="100" y1="80" x2="600" y2="80" stroke="#2ed573" stroke-width="2"/>
+                    <text x="610" y="85" fill="#2ed573" font-size="11">High</text>
+                    
+                    <!-- Opening Price -->
+                    <line x1="100" y1="150" x2="600" y2="150" stroke="#ffa502" stroke-width="2" stroke-dasharray="8,4"/>
+                    <text x="610" y="155" fill="#ffa502" font-size="11">Opening Price</text>
+                    
+                    <!-- Low -->
+                    <line x1="100" y1="220" x2="600" y2="220" stroke="#ff4757" stroke-width="2"/>
+                    <text x="610" y="225" fill="#ff4757" font-size="11">Low</text>
+                    
+                    <!-- Candlesticks representation -->
+                    <rect x="110" y="120" width="8" height="60" fill="#ff4757"/>
+                    <line x1="114" y1="100" x2="114" y2="200" stroke="#ff4757" stroke-width="1"/>
+                    
+                    <rect x="130" y="100" width="8" height="50" fill="#2ed573"/>
+                    <line x1="134" y1="85" x2="134" y2="170" stroke="#2ed573" stroke-width="1"/>
+                    
+                    <rect x="150" y="130" width="8" height="40" fill="#ff4757"/>
+                    <line x1="154" y1="110" x2="154" y2="190" stroke="#ff4757" stroke-width="1"/>
+                    
+                    <rect x="170" y="140" width="8" height="35" fill="#2ed573"/>
+                    <line x1="174" y1="120" x2="174" y2="195" stroke="#2ed573" stroke-width="1"/>
+                    
+                    <rect x="190" y="125" width="8" height="45" fill="#ff4757"/>
+                    <line x1="194" y1="105" x2="194" y2="200" stroke="#ff4757" stroke-width="1"/>
+                    
+                    <!-- Labels -->
+                    <text x="175" y="60" fill="#a855f7" font-size="12" text-anchor="middle">Midnight Opening Range</text>
+                    <text x="175" y="250" fill="#9898a8" font-size="10" text-anchor="middle">30-minute interval</text>
+                    
+                    <!-- Arrow showing extension -->
+                    <path d="M 350 150 L 580 150" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+                    
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#ffa502"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <h3>Grading the Range</h3>
+            
+            <div class="quote">
+                <p>"We can grade it that means we do a run from low to high... and it'll allow us to see price runs and more specifically inside this range we're going to highlight that so that way we can project it throughout the entirety of the day and we'll see how that is influential with price action"</p>
+                <span class="timestamp">50:09</span>
+            </div>
+
+            <p>Within the range, you can identify:</p>
+            <ul class="steps-list">
+                <li><strong>Lower Quadrant</strong> – The lower 25% of the range</li>
+                <li><strong>Consequent Encroachment</strong> – The midpoint (50%) of the range</li>
+                <li><strong>Upper Quadrant</strong> – The upper 25% of the range</li>
+            </ul>
+        </section>
+
+        <!-- Displacement Section -->
+        <section id="displacement">
+            <h2>First Presented Displacement</h2>
+
+            <div class="quote">
+                <p>"This is first presented displacement... the displacement in and of itself is a PD array"</p>
+                <span class="timestamp">28:35</span>
+            </div>
+
+            <p>Within the midnight opening range, identify the first significant displacement – the candle or series of candles showing the largest degree of price movement.</p>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">First Displacement Identification</span>
+                    <span class="card-badge">PD ARRAY</span>
+                </div>
+                <p><em>"In this drop here from the high down to the low of the midnight opening range I want to look for inefficiencies order blocks Breakers any PD that I've taught in month four content"</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"It's a very large one and it's occurring inside of the midnight opening range so it jumps off the chart it's the first presented displacement"</p>
+                <span class="timestamp">29:04</span>
+            </div>
+
+            <h3>Volume Imbalance Consideration</h3>
+
+            <div class="quote">
+                <p>"This candlestick's close the bottom end of the body basically that is lower in value than the opening price of that Candlestick so that's why I'm putting that shaded box on the wick of this candle... if there's a volume imbalance you have to make sure that you encapsulate the C or Bice balance so efficiency"</p>
+                <span class="timestamp">21:46</span>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">First Presented Displacement Within Midnight Opening Range</div>
+                <svg viewBox="0 0 700 350" width="100%" height="auto">
+                    <!-- Background -->
+                    <rect x="50" y="20" width="600" height="310" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+                    
+                    <!-- Midnight Opening Range box -->
+                    <rect x="80" y="60" width="200" height="180" fill="rgba(168, 85, 247, 0.1)" stroke="#a855f7" stroke-width="1" stroke-dasharray="4,4"/>
+                    <text x="180" y="50" fill="#a855f7" font-size="10" text-anchor="middle">Midnight Opening Range</text>
+                    
+                    <!-- Range levels -->
+                    <line x1="80" y1="60" x2="600" y2="60" stroke="#2ed573" stroke-width="1" stroke-dasharray="4,4"/>
+                    <text x="610" y="65" fill="#2ed573" font-size="9">Range High</text>
+                    
+                    <line x1="80" y1="240" x2="600" y2="240" stroke="#ff4757" stroke-width="1" stroke-dasharray="4,4"/>
+                    <text x="610" y="245" fill="#ff4757" font-size="9">Range Low</text>
+                    
+                    <!-- First Displacement (SIBI) -->
+                    <rect x="120" y="100" width="60" height="80" fill="rgba(255, 165, 2, 0.2)" stroke="#ffa502" stroke-width="2"/>
+                    <text x="150" y="95" fill="#ffa502" font-size="9" text-anchor="middle">First Displacement</text>
+                    
+                    <!-- Candles showing displacement -->
+                    <rect x="100" y="70" width="6" height="30" fill="#2ed573"/>
+                    <line x1="103" y1="65" x2="103" y2="110" stroke="#2ed573" stroke-width="1"/>
+                    
+                    <!-- Large displacement candle -->
+                    <rect x="130" y="100" width="10" height="80" fill="#ff4757"/>
+                    <line x1="135" y1="85" x2="135" y2="200" stroke="#ff4757" stroke-width="1"/>
+                    
+                    <rect x="160" y="160" width="6" height="40" fill="#ff4757"/>
+                    <line x1="163" y1="140" x2="163" y2="220" stroke="#ff4757" stroke-width="1"/>
+                    
+                    <!-- Later price action respecting displacement -->
+                    <rect x="300" y="120" width="6" height="30" fill="#2ed573"/>
+                    <line x1="303" y1="110" x2="303" y2="160" stroke="#2ed573" stroke-width="1"/>
+                    
+                    <rect x="320" y="100" width="6" height="35" fill="#2ed573"/>
+                    <line x1="323" y1="95" x2="323" y2="145" stroke="#2ed573" stroke-width="1"/>
+                    
+                    <rect x="340" y="130" width="6" height="25" fill="#ff4757"/>
+                    <line x1="343" y1="115" x2="343" y2="165" stroke="#ff4757" stroke-width="1"/>
+                    
+                    <!-- Arrow showing algorithm reference -->
+                    <path d="M 180 140 C 240 140, 240 130, 300 130" stroke="#ffa502" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
+                    
+                    <!-- Labels -->
+                    <text x="240" y="280" fill="#9898a8" font-size="10" text-anchor="middle">"The algorithm will refer back to that"</text>
+                    
+                    <!-- Quadrant levels within displacement -->
+                    <line x1="120" y1="140" x2="180" y2="140" stroke="#ffa502" stroke-width="1" stroke-dasharray="2,2"/>
+                    <text x="185" y="143" fill="#ffa502" font-size="8">CE</text>
+                </svg>
+            </div>
+
+            <div class="quote">
+                <p>"The algorithm will refer back to that it'll go right back into that range"</p>
+                <span class="timestamp">22:45</span>
+            </div>
+        </section>
+
+        <!-- Standard Deviations Section -->
+        <section id="standard-deviations">
+            <h2>Standard Deviations</h2>
+
+            <div class="quote">
+                <p>"If the market trades above it then it can go one half of one standard deviation or one standard deviation so in other words the actual range from the high to low at range added to the high that's all it is so think like measured move"</p>
+                <span class="timestamp">25:33</span>
+            </div>
+
+            <h3>Fibonacci Settings</h3>
+            
+            <div class="quote">
+                <p>"If we add things like negative .5 -1 things of that nature uh we can get projections that will take us above these relative equal highs"</p>
+                <span class="timestamp">23:56</span>
+            </div>
+
+            <div class="reference-grid">
+                <div class="reference-item">
+                    <div class="label">Half Standard Deviation</div>
+                    <div class="value">-0.5</div>
+                </div>
+                <div class="reference-item">
+                    <div class="label">One Standard Deviation</div>
+                    <div class="value">-1</div>
+                </div>
+            </div>
+
+            <h3>Application to Range</h3>
+
+            <div class="quote">
+                <p>"You're getting the range low of the midnight opening range at 30-minute interval between midnight and 12:30 Eastern certain time if the market trades above it then it can go one half of one standard deviation or one standard deviation"</p>
+                <span class="timestamp">25:23</span>
+            </div>
+
+            <h3>Application to Displacement</h3>
+
+            <div class="quote">
+                <p>"If we use the inefficiency we can do the same thing there... we can also get very very precise elements to how the algorithm will rebook and redeliver to premium and discount even inside of that midnight opening range"</p>
+                <span class="timestamp">27:33</span>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title">Standard Deviations from Midnight Opening Range</div>
+                <svg viewBox="0 0 700 400" width="100%" height="auto">
+                    <!-- Background -->
+                    <rect x="50" y="20" width="600" height="360" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+                    
+                    <!-- Standard deviation levels above -->
+                    <line x1="80" y1="50" x2="600" y2="50" stroke="#2ed573" stroke-width="1" stroke-dasharray="6,3"/>
+                    <text x="620" y="55" fill="#2ed573" font-size="10">-1 SD</text>
+                    
+                    <line x1="80" y1="100" x2="600" y2="100" stroke="#2ed573" stroke-width="1" stroke-dasharray="4,4"/>
+                    <text x="620" y="105" fill="#2ed573" font-size="10">-0.5 SD</text>
+                    
+                    <!-- Midnight Opening Range -->
+                    <rect x="80" y="150" width="500" height="100" fill="rgba(168, 85, 247, 0.1)" stroke="#a855f7" stroke-width="2"/>
+                    
+                    <line x1="80" y1="150" x2="600" y2="150" stroke="#a855f7" stroke-width="2"/>
+                    <text x="620" y="155" fill="#a855f7" font-size="10">High (0)</text>
+                    
+                    <line x1="80" y1="200" x2="600" y2="200" stroke="#ffa502" stroke-width="1" stroke-dasharray="4,4"/>
+                    <text x="620" y="205" fill="#ffa502" font-size="10">0.5</text>
+                    
+                    <line x1="80" y1="250" x2="600" y2="250" stroke="#a855f7" stroke-width="2"/>
+                    <text x="620" y="255" fill="#a855f7" font-size="10">Low (1)</text>
+                    
+                    <!-- Standard deviation levels below -->
+                    <line x1="80" y1="300" x2="600" y2="300" stroke="#ff4757" stroke-width="1" stroke-dasharray="4,4"/>
+                    <text x="620" y="305" fill="#ff4757" font-size="10">1.5 SD</text>
+                    
+                    <line x1="80" y1="350" x2="600" y2="350" stroke="#ff4757" stroke-width="1" stroke-dasharray="6,3"/>
+                    <text x="620" y="355" fill="#ff4757" font-size="10">2 SD</text>
+                    
+                    <!-- Price action example -->
+                    <path d="M 100 200 L 150 170 L 200 100 L 250 120 L 300 150 L 350 180 L 400 250 L 450 300 L 500 280 L 550 200" 
+                          stroke="#e8e8ed" stroke-width="2" fill="none"/>
+                    
+                    <!-- Labels -->
+                    <text x="300" y="130" fill="#9898a8" font-size="9" text-anchor="middle">Price runs to -0.5 SD</text>
+                    <text x="450" y="320" fill="#9898a8" font-size="9" text-anchor="middle">Price tests 1.5 SD below</text>
+                    
+                    <!-- Range label -->
+                    <text x="90" y="205" fill="#a855f7" font-size="11">Range</text>
+                </svg>
+            </div>
+
+            <div class="success-box">
+                <div class="title">Precision Example from Lecture</div>
+                <p><em>"Look at this low 21,755.50... what's the value of the lower quadrant 21,755.50"</em> – Demonstrating how the algorithm delivers price to exact levels derived from the midnight opening range displacement.</p>
+            </div>
+        </section>
+
+        <!-- London Session Section -->
+        <section id="london-session">
+            <h2>London Session Application</h2>
+
+            <div class="quote">
+                <p>"How hard and fast it goes to that degree of Premium or discount is relative to an economic calendar event during London... so this is all help you trade London session that's what it's really based around"</p>
+                <span class="timestamp">25:57</span>
+            </div>
+
+            <h3>The 3:30 Sweet Spot</h3>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">London Session Sweet Spot</span>
+                    <span class="card-badge">3:30 AM ET</span>
+                </div>
+                <p><em>"Go back through my Forex lectures I tell you very specifically at 3:30 that's your sweet spot"</em></p>
+            </div>
+
+            <div class="quote">
+                <p>"It delivers on 3:30 macro in London session"</p>
+                <span class="timestamp">37:14</span>
+            </div>
+
+            <div class="quote">
+                <p>"At 3:30 the market starts to run away from lower quadrant of the first was first displacement in the midnight opening range the market rallies aggressively"</p>
+                <span class="timestamp">38:51</span>
+            </div>
+
+            <h3>Price Delivery to Displacement</h3>
+
+            <div class="quote">
+                <p>"What time is that right there 329 in Forex I taught you The Sweet Spot for London session is exactly 330 and that's when the algorithm comes in fires off and what's it doing oh it's just randomly trading down into that first presented fair value Gap inside of the midnight opening range"</p>
+                <span class="timestamp">52:52</span>
+            </div>
+        </section>
+
+        <!-- NY Session Section -->
+        <section id="ny-session">
+            <h2>New York Session Application</h2>
+
+            <div class="quote">
+                <p>"Notice how we traded up in the uh electronic trading hours right ahead of the New York opening bell at 9:30 see how the price trades up here... that's that negative one standard deviation on the midnight opening range"</p>
+                <span class="timestamp">39:42</span>
+            </div>
+
+            <h3>Opening Price for Power 3</h3>
+
+            <div class="quote">
+                <p>"We can say that right here that's the high of the day this Candlestick the open is here and one more time they pass back up into a premium we break lower"</p>
+                <span class="timestamp">46:24</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Midnight Opening Price Reference</span>
+                    <span class="card-badge">POWER 3</span>
+                </div>
+                <p><em>"What's this dash line remember that that's midnight opening Price Power three"</em></p>
+            </div>
+
+            <h3>Range Departure Signal</h3>
+
+            <div class="quote">
+                <p>"Slices through the midnight opening range and look what it does it leaves it aggressively it's no longer interested in coming back to test it as a resistance or premium array that's what it's indicating the Market's extremely heavy so look for lower prices"</p>
+                <span class="timestamp">46:40</span>
+            </div>
+
+            <h3>Volume Imbalance from Regular Trading Hours</h3>
+
+            <div class="quote">
+                <p>"Having this reg training hours reference point that volume of balance and extending it forward and we're going into the 930 opening here the market takes a dive trades look where the bodies are... see how it's respecting that"</p>
+                <span class="timestamp">41:51</span>
+            </div>
+        </section>
+
+        <!-- Chart Setup Section -->
+        <section id="chart-setup">
+            <h2>Chart Setup Requirements</h2>
+
+            <h3>Electronic Trading Hours</h3>
+
+            <div class="quote">
+                <p>"The first thing you got to do is obviously find electronic trading hours... by having that you're going to be able to see basically you know Globex hours trading that means the off session or non-regular trading hours"</p>
+                <span class="timestamp">12:37</span>
+            </div>
+
+            <h3>Step-by-Step Process</h3>
+
+            <ol class="steps-list">
+                <li><em>"You're going to grab your vertical line here and you're going to find midnight"</em></li>
+                <li><em>"And then find 12:30 on a one minute chart"</em></li>
+                <li>Identify the opening price at midnight on the first candlestick</li>
+                <li>Plot the highest high within the range</li>
+                <li>Plot the lowest low within the range</li>
+                <li>Identify the first presented displacement within the range</li>
+                <li>Apply standard deviations using Fibonacci tool</li>
+            </ol>
+
+            <div class="important-box">
+                <div class="title">Time Zone Requirement</div>
+                <p><em>"Always have to make sure that your chart is set to New York time don't care where you live geographically on this spinning rock that we call Earth you always have to set your charts to New York local time"</em></p>
+            </div>
+
+            <h3>Regular Trading Hours Reference</h3>
+
+            <div class="quote">
+                <p>"I want to refer back to a reference point that's found in regular trading hours... the opening price here and the difference between where we settled previous day at regular trading hours"</p>
+                <span class="timestamp">40:15</span>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="study">
+            <h2>Study Flashcards</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Click each card to reveal the answer (direct quotes from lecture)</p>
+
+            <div class="flashcard-grid">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the time interval for the Midnight Opening Range?</div>
+                    <div class="flashcard-answer">
+                        <p>"The 12:00 to 12:30 eastern time"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What time zone must charts be set to?</div>
+                    <div class="flashcard-answer">
+                        <p>"You always have to set your charts to New York local time because everything runs by this algorithm on New York local time"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the three reference points within the midnight opening range?</div>
+                    <div class="flashcard-answer">
+                        <p>"The opening price at midnight on this Candlestick... the low and the high there's three reference points there that are very very crucial"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you look for within the midnight opening range?</div>
+                    <div class="flashcard-answer">
+                        <p>"I want to look for inefficiencies order blocks Breakers any PD that I've taught in month four content"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the London session "sweet spot" time?</div>
+                    <div class="flashcard-answer">
+                        <p>"At 3:30 that's your sweet spot... that's when the algorithm comes in fires off"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does one standard deviation represent?</div>
+                    <div class="flashcard-answer">
+                        <p>"The actual range from the high to low at range added to the high that's all it is so think like measured move"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does it indicate when price leaves the midnight opening range aggressively?</div>
+                    <div class="flashcard-answer">
+                        <p>"It leaves it aggressively it's no longer interested in coming back to test it as a resistance or premium array that's what it's indicating the Market's extremely heavy so look for lower prices"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the first presented displacement?</div>
+                    <div class="flashcard-answer">
+                        <p>"This is first presented displacement... the displacement in and of itself is a PD array... it's a very large one and it's occurring inside of the midnight opening range so it jumps off the chart"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does the algorithm use the displacement?</div>
+                    <div class="flashcard-answer">
+                        <p>"The algorithm will refer back to that it'll go right back into that range"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What minimum duration must an opening range have to be algorithmic?</div>
+                    <div class="flashcard-answer">
+                        <p>"If it's less than 30 minutes it ain't algorithmic it's just somebody trying to make up something"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the midnight opening price used for?</div>
+                    <div class="flashcard-answer">
+                        <p>"That's the midnight opening price for power three... power three is your daily range Candlestick formation"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do before trading New York session?</div>
+                    <div class="flashcard-answer">
+                        <p>"Before you even wake up to trade in New York session you should have at least referred back to that area of price action and carry forward that information"</p>
+                    </div>
+                    <div class="flashcard-hint">Click to reveal</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>ICT Midnight Opening Range Study Guide</p>
+        <p class="source">Source: 2025 Lecture Series - January 7th, 2025</p>
+    </footer>
+</body>
+</html>

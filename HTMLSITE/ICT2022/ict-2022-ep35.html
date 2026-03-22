@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 35</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary:   #070710;
+    --bg-card:      #0d0d1b;
+    --bg-raised:    #131321;
+    --bg-deep:      #0a0a16;
+    --border:       #1a1a2e;
+    --border-dim:   #121220;
+    --text-primary: #e0e0eb;
+    --text-secondary: #747496;
+    --text-dim:     #383858;
+    --accent-bear:  #de4260;
+    --accent-bull:  #1eba5c;
+    --accent-gold:  #ea9c00;
+    --accent-blue:  #367ec8;
+    --accent-purple:#8c66ec;
+    --font-body:    'Crimson Pro', Georgia, serif;
+    --font-head:    'Space Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 34% at 10% 0%, rgba(30,186,92,0.035) 0%, transparent 52%),
+      radial-gradient(ellipse 44% 28% at 90% 105%, rgba(54,126,200,0.035) 0%, transparent 52%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,7,16,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dim);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+
+  .nav-ep {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 0.9rem 1.4rem 0.9rem 0;
+    white-space: nowrap;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.9rem 1rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .ep-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(234,156,0,0.07);
+    border: 1px solid rgba(234,156,0,0.17);
+    padding: 0.3em 0.9em;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.75rem, 3.4vw, 2.65rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 em { color: var(--accent-gold); font-style: normal; }
+
+  .header-sub {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    max-width: 660px;
+    line-height: 1.6;
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 2rem 7rem;
+  }
+
+  section { margin-bottom: 5.5rem; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  section > h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  /* ─── CONTEXT BANNER ─── */
+  .context-banner {
+    background: rgba(234,156,0,0.04);
+    border: 1px solid rgba(234,156,0,0.14);
+    border-radius: 4px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.94rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .context-banner strong {
+    color: var(--accent-gold);
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── QUOTE ─── */
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 4px 4px 0;
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .quote.bear   { border-left-color: var(--accent-bear); }
+  .quote.bull   { border-left-color: var(--accent-bull); }
+  .quote.blue   { border-left-color: var(--accent-blue); }
+  .quote.purple { border-left-color: var(--accent-purple); }
+
+  .quote p { font-size: 1.02rem; line-height: 1.65; }
+  .quote em { color: var(--text-primary); font-style: italic; }
+
+  .ts {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ─── CONCEPT CARD ─── */
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+  }
+
+  .card-title.bear   { color: var(--accent-bear); }
+  .card-title.bull   { color: var(--accent-bull); }
+  .card-title.blue   { color: var(--accent-blue); }
+
+  .concept-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card p em { color: var(--text-primary); font-style: italic; }
+
+  /* ─── KEY DEF ─── */
+  .key-def {
+    background: rgba(234,156,0,0.04);
+    border: 1px solid rgba(234,156,0,0.16);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .key-def-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .key-def p { font-size: 1.02rem; line-height: 1.65; color: var(--text-primary); }
+  .key-def p em { font-style: italic; }
+
+  .key-def.bear {
+    background: rgba(222,66,96,0.04);
+    border-color: rgba(222,66,96,0.16);
+  }
+  .key-def.bear .key-def-label { color: var(--accent-bear); }
+
+  .key-def.bull {
+    background: rgba(30,186,92,0.04);
+    border-color: rgba(30,186,92,0.16);
+  }
+  .key-def.bull .key-def-label { color: var(--accent-bull); }
+
+  /* ─── THREE-LEVEL GRID ─── */
+  .three-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 600px) { .three-grid { grid-template-columns: 1fr; } }
+
+  .tg-cell {
+    background: var(--bg-card);
+    padding: 1.2rem 1.3rem;
+  }
+
+  .tg-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.35rem;
+  }
+
+  .tg-value {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin-bottom: 0.45rem;
+  }
+
+  .tg-cell p { font-size: 0.9rem; color: var(--text-secondary); font-style: italic; line-height: 1.45; }
+  .tg-cell p em { color: var(--text-primary); }
+
+  /* ─── DIAGRAM ─── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .diagram-caption {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* ─── RULE LIST ─── */
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .rule-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.85rem 1.2rem 0.85rem 0.9rem;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+
+  .rule-list li .num {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+  }
+
+  /* ─── FLASHCARDS ─── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .flashcard:hover { border-color: rgba(234,156,0,0.22); background: var(--bg-raised); }
+
+  .flashcard-question {
+    font-family: var(--font-head);
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-right: 1.6rem;
+  }
+
+  .flashcard::after {
+    content: '▾';
+    position: absolute;
+    top: 1.05rem;
+    right: 1.1rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .flashcard.revealed::after { transform: rotate(180deg); color: var(--accent-gold); }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-dim);
+    font-size: 0.95rem;
+    color: var(--accent-gold);
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .fc-hint {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-ep">EP.35 — 2022</span>
+  <a href="#context">Context</a>
+  <a href="#ob-levels">Order Block Levels</a>
+  <a href="#mean">Mean Threshold</a>
+  <a href="#smt">SMT Timing</a>
+  <a href="#early-run">Early Run Rule</a>
+  <a href="#hrlr">High Resistance</a>
+  <a href="#holiday">Holiday Rules</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<header>
+  <div class="ep-badge">2022 ICT Mentorship · Episode 35</div>
+  <h1>Order Block Levels, <em>Mean Threshold & SMT Timing</em></h1>
+  <p class="header-sub">
+    The three sensitive price areas inside a bearish order block candle, the mean threshold definition,
+    when SMT divergence is most likely to appear, and what an early run before 7 AM signals
+    about the 9:30 open.
+  </p>
+</header>
+
+<main>
+
+  <!-- ─── CONTEXT ─── -->
+  <section id="context">
+    <div class="section-label">Episode Overview</div>
+    <h2>Session Context</h2>
+
+    <div class="context-banner">
+      <strong>Note</strong> — Short market review episode recorded ahead of Memorial Day weekend. Core teaching is spread across brief analytical commentary on the E-mini S&P. Personal/Twitter discussion excluded.
+    </div>
+
+    <div class="quote bull">
+      <span class="ts">11:10</span>
+      <p><em>"The bias has been bullish. It's likely to do what? Keep digging higher. We try not to pick tops."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">11:48</span>
+      <p><em>"You have to know what you're looking for — narrative and bias."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── ORDER BLOCK SENSITIVE AREAS ─── -->
+  <section id="ob-levels">
+    <div class="section-label">Core Concept</div>
+    <h2>Order Block — Three Sensitive Areas</h2>
+
+    <div class="quote bear">
+      <span class="ts">0:38</span>
+      <p><em>"When we're looking at a candle that we're using for like an order block — the low, the open, and the middle of the range — those are the three sensitive areas that you're watching for."</em></p>
+    </div>
+
+    <div class="three-grid">
+      <div class="tg-cell">
+        <div class="tg-label">Area 1</div>
+        <div class="tg-value">Low</div>
+        <p>The candle low — first reference level of the order block.</p>
+      </div>
+      <div class="tg-cell">
+        <div class="tg-label">Area 2</div>
+        <div class="tg-value">Open</div>
+        <p>The candle open — second reference level inside the order block.</p>
+      </div>
+      <div class="tg-cell">
+        <div class="tg-label">Area 3</div>
+        <div class="tg-value">Middle of Range</div>
+        <p><em>"This is what I call the mean threshold."</em> — the 50% level of the candle's range.</p>
+      </div>
+    </div>
+
+    <!-- Order Block diagram -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="ab" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#1eba5c"/>
+          </marker>
+        </defs>
+
+        <!-- grid -->
+        <line x1="0" y1="50"  x2="700" y2="50"  stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="100" x2="700" y2="100" stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="150" x2="700" y2="150" stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="200" x2="700" y2="200" stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="250" x2="700" y2="250" stroke="#121220" stroke-width="1"/>
+
+        <!-- The bearish order block candle -->
+        <!-- High of candle (top) -->
+        <line x1="148" y1="52" x2="148" y2="70" stroke="#de4260" stroke-width="1.5"/>
+        <!-- Candle body -->
+        <rect x="120" y="70" width="55" height="120" fill="#de4260" opacity="0.8" rx="1"/>
+        <!-- Low of candle (bottom wick) -->
+        <line x1="148" y1="190" x2="148" y2="215" stroke="#de4260" stroke-width="1.5"/>
+
+        <!-- High label -->
+        <text x="182" y="75" font-family="JetBrains Mono, monospace" font-size="9" fill="#747496">High of candle</text>
+
+        <!-- LOW reference line -->
+        <line x1="120" y1="190" x2="500" y2="190" stroke="rgba(30,186,92,0.5)" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="182" y="188" font-family="JetBrains Mono, monospace" font-size="10" fill="#1eba5c">Low</font>
+        <text x="182" y="200" font-family="JetBrains Mono, monospace" font-size="8" fill="#747496">"sensitive area 1"</text>
+
+        <!-- OPEN reference line -->
+        <line x1="120" y1="70" x2="500" y2="70" stroke="rgba(54,126,200,0.5)" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="182" y="67" font-family="JetBrains Mono, monospace" font-size="10" fill="#367ec8">Open</text>
+        <text x="182" y="80" font-family="JetBrains Mono, monospace" font-size="8" fill="#747496">"sensitive area 2"</text>
+
+        <!-- MEAN THRESHOLD — middle of range = 50% -->
+        <line x1="120" y1="130" x2="600" y2="130" stroke="rgba(234,156,0,0.7)" stroke-width="1.8" stroke-dasharray="4,2"/>
+        <text x="182" y="127" font-family="JetBrains Mono, monospace" font-size="10" fill="#ea9c00">Mean Threshold (50%)</text>
+        <text x="182" y="142" font-family="JetBrains Mono, monospace" font-size="8" fill="#747496">"middle of the range — what I call the mean threshold"</text>
+
+        <!-- Fib annotation -->
+        <rect x="50" y="68" width="18" height="124" fill="rgba(30,186,92,0.04)" rx="1"/>
+        <line x1="50" y1="68"  x2="50" y2="192" stroke="rgba(30,186,92,0.3)" stroke-width="1"/>
+        <line x1="44" y1="68"  x2="56" y2="68"  stroke="rgba(30,186,92,0.3)" stroke-width="1"/>
+        <line x1="44" y1="192" x2="56" y2="192" stroke="rgba(30,186,92,0.3)" stroke-width="1"/>
+        <text x="20" y="132" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">fib</text>
+        <text x="12" y="142" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">range</text>
+
+        <!-- Price rallies into order block from below -->
+        <line x1="280" y1="260" x2="350" y2="190" stroke="#1eba5c" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <line x1="350" y1="190" x2="390" y2="170" stroke="#1eba5c" stroke-width="2"/>
+        <text x="395" y="168" font-family="JetBrains Mono, monospace" font-size="9" fill="#1eba5c">price enters OB</text>
+
+        <!-- reaches mean threshold -->
+        <line x1="390" y1="170" x2="430" y2="130" stroke="#1eba5c" stroke-width="2" marker-end="url(#ab)"/>
+        <circle cx="430" cy="130" r="5" fill="none" stroke="#ea9c00" stroke-width="1.5"/>
+        <text x="442" y="128" font-family="JetBrains Mono, monospace" font-size="9" fill="#ea9c00">mean threshold reached</text>
+        <text x="442" y="140" font-family="JetBrains Mono, monospace" font-size="8" fill="#747496">"bodes well for continuation"</text>
+
+        <!-- What it means -->
+        <text x="510" y="200" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">OB = bearish order block</text>
+        <text x="510" y="212" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">candle on daily chart</text>
+        <text x="510" y="228" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">"run it across this candle</text>
+        <text x="510" y="239" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858"> to [the] 50 level"</text>
+      </svg>
+      <div class="diagram-caption">Three sensitive areas of a bearish order block candle — Low, Open, Mean Threshold (0:38–1:08)</div>
+    </div>
+  </section>
+
+  <!-- ─── MEAN THRESHOLD ─── -->
+  <section id="mean">
+    <div class="section-label">Definition</div>
+    <h2>Mean Threshold</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Mean Threshold Defined</div>
+      <p><em>"If the market trades up into the middle point of that candle — this is what I call the mean threshold."</em></p>
+    </div>
+
+    <div class="quote bull">
+      <span class="ts">0:58</span>
+      <p><em>"Mean threshold was taken today — and that to me bodes well for a continuation to take out this short-term high."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">How to Measure It</span></div>
+      <p><em>"If you take your fib and you run it across this candle to [the] 50 level."</em> The mean threshold is the 50% level of the order block candle's full range (high to low).</p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">What It Signals</span></div>
+      <p>ICT describes price digging up through the order block: <em>"We watch to see if it gets to the mean threshold — which is half of that [order block candle] on the daily chart."</em> Reaching the mean threshold indicates continuation is likely through to the candle's open and potentially beyond.</p>
+    </div>
+  </section>
+
+  <!-- ─── SMT TIMING ─── -->
+  <section id="smt">
+    <div class="section-label">Concept — Refined</div>
+    <h2>SMT Divergence — When It Typically Occurs</h2>
+
+    <div class="quote">
+      <span class="ts">7:29</span>
+      <p><em>"At certain times — what times? 8:30, 9:30, at news events being released — they'll create this divergence. And if you have a bias it's helpful. But if you don't know where it's going, you're going to many times encounter what would look like SMT divergence and then it disappears as they start moving in concert with one another. So you have to be careful with that — that's why I always teach: know what it's reaching for."</em></p>
+    </div>
+
+    <div class="key-def bear">
+      <div class="key-def-label">Critical Caveat</div>
+      <p><em>"If you don't know where it's going, you're going to many times encounter what would look like SMT divergence and then it disappears as they start moving in concert with one another."</em> Bias must come first.</p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">7:04</span>
+      <p><em>"There's a cracking correlation between the two — usually they move in tandem. But at certain times they'll create this divergence."</em></p>
+    </div>
+
+    <div class="quote bull">
+      <span class="ts">8:23</span>
+      <p><em>"If you look at the relationship of that fair value gap — dropping back down in, higher low than that of [8:30] versus the lower low made in NASDAQ — this is a stop out, this is accumulation of longs, this is going to be the telltale sign that it's going to go higher."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── EARLY RUN RULE ─── -->
+  <section id="early-run">
+    <div class="section-label">Timing Rule</div>
+    <h2>Early Run Before 7 AM → Expect SMT at 9:30</h2>
+
+    <div class="key-def bull">
+      <div class="key-def-label">The Rule</div>
+      <p><em>"If I get an early run like this, my first thought is I need to go to SMT later on at 9:30 because it's probably going to require some kind of a cracking correlation to set up the next leg if it's going to have one."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">14:56</span>
+      <p><em>"If I can see this setup early in the day — before the seven o'clock in the morning — to me it gives me insight, it gives me an expectation around what the 9:30 opening is going to be like."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">13:43</span>
+      <p><em>"Because it gave a nice run here earlier before seven o'clock in the morning — that means we're probably going to have a deep retracement and look for an ideal scenario like we outlined with the SMT divergence."</em></p>
+    </div>
+
+    <ul class="rule-list">
+      <li>
+        <span class="num">01</span>
+        <span>A meaningful run occurs before 7 AM (or near 7 AM).</span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span>Expectation: a deep retracement follows that early run.</span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span>Look for SMT divergence at 9:30 to confirm the next leg: <em>"It's probably going to require some kind of a cracking correlation to set up the next leg."</em></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── HIGH RESISTANCE LIQUIDITY RUN ─── -->
+  <section id="hrlr">
+    <div class="section-label">Concept</div>
+    <h2>High Resistance Liquidity Run</h2>
+
+    <div class="quote bear">
+      <span class="ts">12:05</span>
+      <p><em>"We have all this range in here that it's not likely to go straight all the way through all this stuff — that's a high resistance liquidity run. Not that it can't happen but it's likely to not form or pan out because we had so many supporting ideas in here."</em></p>
+    </div>
+
+    <div class="key-def bear">
+      <div class="key-def-label">High Resistance Liquidity Run</div>
+      <p>A run toward liquidity that must pass through a large amount of overhead price range, imbalances, or supporting candles. ICT contrasts this with the underlying bullish order flow: <em>"It's just finding underlying order flow that is bullish — so it's likely to go up, just to keep going higher, not go up to go down. Because to go up to go down we have all of these ranges that we would have to pierce and break."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── HOLIDAY / LIGHT VOLUME RULES ─── -->
+  <section id="holiday">
+    <div class="section-label">Calendar Rule</div>
+    <h2>Holiday Weekend / Light Volume Session Rules</h2>
+
+    <div class="quote">
+      <span class="ts">15:53</span>
+      <p><em>"If you're going to be trading — study in the morning session, leave the afternoon to the gamblers. Volume just probably won't be on your side in the afternoon. Everybody's going to be going away for a long weekend."</em></p>
+    </div>
+
+    <ul class="rule-list">
+      <li>
+        <span class="num">01</span>
+        <span>Friday before a holiday weekend: trade the morning session only. <em>"Study in the morning session, leave the afternoon to the gamblers."</em></span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span>Holiday Monday: do not trade. <em>"Don't trade on Monday — take the day off."</em></span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span>Reason: <em>"Volume just probably won't be on your side in the afternoon — everybody's going to be going away for a long weekend."</em></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-label">Self-Test</div>
+    <h2>Flashcards</h2>
+    <p class="fc-hint">Click any card to reveal the direct transcript quote</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the three sensitive areas of an order block candle?</div>
+        <div class="flashcard-answer">"When we're looking at a candle that we're using for like an order block — the low, the open, and the middle of the range — those are the three sensitive areas that you're watching for."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the mean threshold?</div>
+        <div class="flashcard-answer">"If the market trades up into the middle point of that candle — this is what I call the mean threshold."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you measure the mean threshold?</div>
+        <div class="flashcard-answer">"If you take your fib and you run it across this candle to [the] 50 level."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does reaching the mean threshold signal?</div>
+        <div class="flashcard-answer">"Mean threshold was taken today — and that to me bodes well for a continuation to take out this short-term high."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">At what times does SMT divergence most typically occur?</div>
+        <div class="flashcard-answer">"At certain times — what times? 8:30, 9:30, at news events being released — they'll create this divergence."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why must bias come before reading SMT divergence?</div>
+        <div class="flashcard-answer">"If you don't know where it's going, you're going to many times encounter what would look like SMT divergence and then it disappears as they start moving in concert with one another. So you have to be careful with that — that's why I always teach: know what it's reaching for."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does a nice run before 7 AM tell you about the 9:30 open?</div>
+        <div class="flashcard-answer">"If I get an early run like this, my first thought is I need to go to SMT later on at 9:30 because it's probably going to require some kind of a cracking correlation to set up the next leg if it's going to have one."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does an early run before 7 AM suggest will happen before 9:30?</div>
+        <div class="flashcard-answer">"Because it gave a nice run here earlier before seven o'clock in the morning — that means we're probably going to have a deep retracement and look for an ideal scenario like we outlined with the SMT divergence."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a high resistance liquidity run?</div>
+        <div class="flashcard-answer">"We have all this range in here that it's not likely to go straight all the way through all this stuff — that's a high resistance liquidity run. Not that it can't happen but it's likely to not form or pan out."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the rule for trading the Friday before a holiday weekend?</div>
+        <div class="flashcard-answer">"If you're going to be trading — study in the morning session, leave the afternoon to the gamblers. Volume just probably won't be on your side in the afternoon."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the rule for the holiday Monday?</div>
+        <div class="flashcard-answer">"Don't trade on Monday — take the day off."</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

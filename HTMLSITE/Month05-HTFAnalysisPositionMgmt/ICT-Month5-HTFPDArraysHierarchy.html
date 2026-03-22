@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defining High Time Frame PD Arrays - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .hierarchy-list {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .hierarchy-list ol {
+            counter-reset: item;
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        .hierarchy-list ol li {
+            counter-increment: item;
+            margin: 1rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .hierarchy-list ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .premium-marker {
+            color: var(--accent-bear);
+            font-weight: 600;
+        }
+
+        .discount-marker {
+            color: var(--accent-bull);
+            font-weight: 600;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .warning-box {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid var(--accent-bear);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: rgba(46, 213, 115, 0.1);
+            border-left: 4px solid var(--accent-bull);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-price-action.html">Return to Category</a>
+        <a href="ICT_BIBLE__ONE_SETUP_FOR_LIFE__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Defining High Time Frame PD Arrays</h1>
+        <p>The hierarchy on the tools that I use for framing the trades</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#framework">Premium/Discount Framework</a>
+        <a href="#time-price">Time & Price</a>
+        <a href="#premium-hierarchy">Premium Arrays</a>
+        <a href="#discount-hierarchy">Discount Arrays</a>
+        <a href="#breaker-rule">Breaker Precedence</a>
+        <a href="#timeframes">Timeframe Application</a>
+        <a href="#study">Study Cards</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"This teaching is to teach you the hierarchy on the tools that I use for framing the trades. Now these same arrays are the same things that we've talked about since the beginning of the mentorship but we're going to prevent you from having them in a disorganized fashion. In other words, there's an hierarchy in how they are used and how you look for them in price."</em></p>
+            </blockquote>
+
+            <h3>Core Purpose</h3>
+            <blockquote class="quote">
+                <p><em>"What we're going to do is we're going to outline now the arrays and keep them in a specific order so that way you know wherever you're at in terms of market price what you would expect to see or what you're looking for. Okay, you know, what should I be looking for, an order block or should I be looking for a gap, you know what should I look for right now? That's what this teaching's going to do."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="framework">
+            <h2>Premium & Discount Framework</h2>
+
+            <h3>Premium Market</h3>
+            <blockquote class="quote">
+                <p><em>"When we look at a chart, regardless of what time frame we're looking at, there's two elements that come to mind as a trader... we think of a price being valued too low or too cheap or expensive or too high. And the algorithm has similar thought processes built into it and we look at it in the form of a premium and a discount market."</em></p>
+            </blockquote>
+
+            <h3>Equilibrium</h3>
+            <blockquote class="quote">
+                <p><em>"In between these two reference points, the halfway point, this is always going to be referred to as equilibrium. Now equilibrium between where you think price will go because it's been there before and where it's at right now relative to an old high and old low, that's the current trading range."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Between the red line and the blue line they are extremes. In the middle that's classified as equilibrium or balance. Buying imbalance is seen when price gets above equilibrium or up into that red level which would be resistance. Selling imbalance would be when price gets below equilibrium and down into the blue line or what would be just derived as discount."</em></p>
+            </blockquote>
+
+            <h3>Price Movement Logic</h3>
+            <blockquote class="quote">
+                <p><em>"The understanding is that price will move from a discount to a premium because the discount can't stay discount very long. Price is going to be established by whoever is selling it. Who stands to make a profit off of it? Well the central bank is going to be in the business of adjusting price."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It's moving from a level of discount to a level of premium, from a level of premium to a level of discount."</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="500" fill="#1a1a24"/>
+
+                <!-- Premium Zone -->
+                <rect x="100" y="50" width="600" height="150" fill="rgba(255, 71, 87, 0.1)" stroke="#ff4757" stroke-width="2"/>
+                <text x="400" y="35" fill="#ff4757" font-size="18" text-anchor="middle" font-weight="bold">PREMIUM (Resistance)</text>
+                <text x="400" y="125" fill="#ff4757" font-size="14" text-anchor="middle" font-style="italic">"Too high - expensive"</text>
+
+                <!-- Equilibrium Line -->
+                <line x1="100" y1="250" x2="700" y2="250" stroke="#ffa502" stroke-width="3" stroke-dasharray="10,5"/>
+                <text x="400" y="240" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">EQUILIBRIUM</text>
+                <text x="400" y="270" fill="#ffa502" font-size="12" text-anchor="middle" font-style="italic">"Halfway point - Balance"</text>
+
+                <!-- Discount Zone -->
+                <rect x="100" y="300" width="600" height="150" fill="rgba(46, 213, 115, 0.1)" stroke="#2ed573" stroke-width="2"/>
+                <text x="400" y="465" fill="#2ed573" font-size="18" text-anchor="middle" font-weight="bold">DISCOUNT (Support)</text>
+                <text x="400" y="375" fill="#2ed573" font-size="14" text-anchor="middle" font-style="italic">"Too cheap - too low"</text>
+
+                <!-- Price Action Arrow (Premium to Discount) -->
+                <path d="M 150 100 Q 200 150, 250 200 Q 300 240, 350 250 Q 400 260, 450 300 Q 500 350, 550 375"
+                      stroke="#e8e8ed" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+                <polygon points="550,375 540,365 545,375 540,385" fill="#e8e8ed"/>
+
+                <!-- Price Action Arrow (Discount to Premium) -->
+                <path d="M 650 400 Q 600 350, 550 300 Q 500 260, 450 250 Q 400 240, 350 200 Q 300 150, 250 125"
+                      stroke="#e8e8ed" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+                <polygon points="250,125 260,135 255,125 260,115" fill="#e8e8ed"/>
+            </svg>
+        </section>
+
+        <section id="time-price">
+            <h2>Submit to Time & Price</h2>
+
+            <h3>Two Elements in Trading</h3>
+            <blockquote class="quote">
+                <p><em>"There's two elements in trading you have to submit to: time and price. When they both agree with one another and you have waited for that agreement to come to fruition, that's where profitability and opportunities are."</em></p>
+            </blockquote>
+
+            <h3>Time - The Unknown Factor</h3>
+            <blockquote class="quote">
+                <p><em>"Time is a murderer, it's a killer for traders unless you know that some of these ideas are gonna pan out for a long long time. You're gonna do a lot of things psychologically and emotionally that you wish you wouldn't have done because you haven't submitted to the time aspect of trading."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"We have no idea how long time is going to be required before the displacement takes place but eventually our expectation is we'll see lower prices down to a level of discount and that's what we're expecting or forecasting as a future price."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"You have no idea how long time is going to be required to get to your future price or forecasted price and you have to submit to that, a measure of time that is unknown. You can't know for certainty how many days or how many hours or how many months it will be before that price is actually arrived at or if at all."</em></p>
+            </blockquote>
+
+            <h3>Price - What You Study</h3>
+            <blockquote class="quote">
+                <p><em>"Price is what you're studying. You're submitting to time throughout the process but while you are in the trade or expecting this to unfold, studying it, you're submitting to the price. You know what? You're not trying to force your will in price. You're analyzing price to see what it is that's telling you in terms of institutional order flow."</em></p>
+            </blockquote>
+
+            <div class="warning-box">
+                <h3>Critical Understanding</h3>
+                <blockquote class="quote">
+                    <p><em>"Between the market price today and the future price which you anticipate or forecast lower in the future, there's going to be zero opportunity for it to be a straight line. In other words you're not seeing that diagonal line in the way the market trades. It just doesn't do that. There's always some give and take that takes place."</em></p>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="premium-hierarchy">
+            <h2>Premium Arrays Hierarchy (Monthly, Weekly, Daily)</h2>
+
+            <blockquote class="quote">
+                <p><em>"For a monthly chart, okay, what you're going to do is you're going to look at the current trading range that it's in. So we're going to assume that you outline the marketplace in terms of old highs and all lows on the monthly and that's the easiest way of doing it."</em></p>
+            </blockquote>
+
+            <h3>Order of Importance (Highest to Lowest Premium)</h3>
+            <div class="hierarchy-list">
+                <ol>
+                    <li><strong class="premium-marker">Old High or Old Low</strong> - <em>"That's as high as you can get"</em></li>
+                    <li><strong class="premium-marker">Rejection Block</strong> - <em>"Just above the candle's body, not the wicks"</em></li>
+                    <li><strong class="premium-marker">Bearish Order Block</strong></li>
+                    <li><strong class="premium-marker">Fair Value Gap</strong></li>
+                    <li><strong class="premium-marker">Liquidity Void</strong></li>
+                    <li><strong class="premium-marker">Bearish Breaker</strong></li>
+                    <li><strong class="premium-marker">Mitigation Block</strong> - <em>"First thing you're going to encounter from equilibrium"</em></li>
+                </ol>
+            </div>
+
+            <h3>Order of Encounter (From Equilibrium Moving Up)</h3>
+            <blockquote class="quote">
+                <p><em>"When you're at equilibrium or if you're moving up from discount, your expectations are to look for, very first thing you look for in the list as price is going up, the first thing you're looking to see to encounter is there any mitigation block that I got to consider because that's the first objective it could be a selling point. Then it's a bearish breaker that could set the tone for another leg lower."</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">From Bottom to Top (Looking Up in Price)</span>
+                </div>
+                <blockquote class="quote">
+                    <p><em>"If you're at the equilibrium price point, anything below the premium, the expectation is when you're looking up in price for areas where price may go up to, it's in this order from the lowest up. In other words from mitigation block all the way up to old high or low. That's the order you would expect to see them."</em></p>
+                </blockquote>
+            </div>
+
+            <h3>How to Use This Hierarchy</h3>
+            <blockquote class="quote">
+                <p><em>"You're going to be looking up and the first thing you're going to encounter is the first thing on the bottom of this list and then you start working your way up that list. The farther you go up in this list the more deeper you go into a premium market."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"First when you look at is the mitigation block or bearish breaker and if there's neither of those you look for liquidity void to trade up into, to close in that range, or fair value gap to close in. It may not be any of that. Then you would expect to see the bearish order block to be traded to. Then that would be your selling opportunity because you're at a premium and you go to a logical area where institutional order flow would kick in, new orders would capitalize and then selling would ensue."</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="600" fill="#1a1a24"/>
+
+                <!-- Title -->
+                <text x="400" y="30" fill="#ff4757" font-size="20" text-anchor="middle" font-weight="bold">PREMIUM ARRAYS - Looking Up From Equilibrium</text>
+
+                <!-- Equilibrium Line -->
+                <line x1="100" y1="550" x2="700" y2="550" stroke="#ffa502" stroke-width="3"/>
+                <text x="50" y="555" fill="#ffa502" font-size="14" font-weight="bold">EQ</text>
+
+                <!-- Arrow showing direction of search -->
+                <line x1="750" y1="550" x2="750" y2="80" stroke="#e8e8ed" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="760" y="300" fill="#e8e8ed" font-size="12" writing-mode="tb">Looking Up</text>
+
+                <!-- Array Levels (from bottom to top - order of encounter) -->
+                <g id="level1">
+                    <rect x="150" y="500" width="500" height="40" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="525" fill="#e8e8ed" font-size="14" font-weight="bold">1. Mitigation Block</text>
+                    <text x="500" y="525" fill="#9898a8" font-size="12" font-style="italic">(First encountered)</text>
+                </g>
+
+                <g id="level2">
+                    <rect x="150" y="440" width="500" height="40" fill="rgba(255, 71, 87, 0.25)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="465" fill="#e8e8ed" font-size="14" font-weight="bold">2. Bearish Breaker</text>
+                    <text x="500" y="465" fill="#9898a8" font-size="12" font-style="italic">(Blocks higher arrays)</text>
+                </g>
+
+                <g id="level3">
+                    <rect x="150" y="380" width="500" height="40" fill="rgba(255, 71, 87, 0.3)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="405" fill="#e8e8ed" font-size="14" font-weight="bold">3. Liquidity Void</text>
+                </g>
+
+                <g id="level4">
+                    <rect x="150" y="320" width="500" height="40" fill="rgba(255, 71, 87, 0.35)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="345" fill="#e8e8ed" font-size="14" font-weight="bold">4. Fair Value Gap</text>
+                </g>
+
+                <g id="level5">
+                    <rect x="150" y="260" width="500" height="40" fill="rgba(255, 71, 87, 0.4)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="285" fill="#e8e8ed" font-size="14" font-weight="bold">5. Bearish Order Block</text>
+                </g>
+
+                <g id="level6">
+                    <rect x="150" y="200" width="500" height="40" fill="rgba(255, 71, 87, 0.45)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="225" fill="#e8e8ed" font-size="14" font-weight="bold">6. Rejection Block</text>
+                    <text x="500" y="225" fill="#9898a8" font-size="12" font-style="italic">(Above candle body)</text>
+                </g>
+
+                <g id="level7">
+                    <rect x="150" y="140" width="500" height="40" fill="rgba(255, 71, 87, 0.5)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="160" y="165" fill="#e8e8ed" font-size="14" font-weight="bold">7. Old High / Old Low</text>
+                    <text x="500" y="165" fill="#9898a8" font-size="12" font-style="italic">(Highest importance)</text>
+                </g>
+
+                <!-- Premium label -->
+                <text x="400" y="100" fill="#ff4757" font-size="16" text-anchor="middle" font-style="italic">DEEPEST PREMIUM</text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#e8e8ed" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Trading Application</h3>
+            <blockquote class="quote">
+                <p><em>"These are going to be focused for primarily bearish premium array trading. In other words you're going to be using these areas at which to frame a trade or look for bullish targets at these levels."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="discount-hierarchy">
+            <h2>Discount Arrays Hierarchy (Monthly, Weekly, Daily)</h2>
+
+            <h3>Order of Importance (Deepest to Shallowest Discount)</h3>
+            <div class="hierarchy-list">
+                <ol>
+                    <li><strong class="discount-marker">Old Low or Historic High</strong> - <em>"The deepest form of discount"</em></li>
+                    <li><strong class="discount-marker">Rejection Block</strong> - <em>"Just below the most lowest candle and its body"</em></li>
+                    <li><strong class="discount-marker">Bullish Order Block</strong></li>
+                    <li><strong class="discount-marker">Fair Value Gap</strong></li>
+                    <li><strong class="discount-marker">Liquidity Void</strong></li>
+                    <li><strong class="discount-marker">Bullish Breaker</strong></li>
+                    <li><strong class="discount-marker">Mitigation Block</strong> - <em>"First thing you would anticipate seeing"</em></li>
+                </ol>
+            </div>
+
+            <h3>Order of Encounter (From Equilibrium Moving Down)</h3>
+            <blockquote class="quote">
+                <p><em>"If we were anticipating a move lower into price, into a discount or into a support level, we would expect the very next PD array to be a mitigation block. Now again that may not appear in price. If there is no mitigation block you would expect to see the next PD array in the form of a bullish breaker."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"As prices going lower, looking in the past to the left side of your chart, you'll be focusing on whether or not these arrays appear in price action. Their importance is again is listed from equilibrium. The expected order of how they're going to be in the price action in the form of a discount: the first one you would anticipate seeing is a mitigation block bullishly, then a bullish breaker, then a liquidity void."</em></p>
+            </blockquote>
+
+            <h3>Bullish Breaker Definition</h3>
+            <blockquote class="quote">
+                <p><em>"A bullish breaker is an up candle between two swing lows and the most recent swing low would be lower. Normally you're seeing a stop run in the past and the high, the swing high it forms between the two lows, that up candle is going to be your bullish breaker. So when price comes down to that bullish up candle it'll find some support."</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="600" fill="#1a1a24"/>
+
+                <!-- Title -->
+                <text x="400" y="30" fill="#2ed573" font-size="20" text-anchor="middle" font-weight="bold">DISCOUNT ARRAYS - Looking Down From Equilibrium</text>
+
+                <!-- Equilibrium Line -->
+                <line x1="100" y1="80" x2="700" y2="80" stroke="#ffa502" stroke-width="3"/>
+                <text x="50" y="85" fill="#ffa502" font-size="14" font-weight="bold">EQ</text>
+
+                <!-- Arrow showing direction of search -->
+                <line x1="750" y1="80" x2="750" y2="550" stroke="#e8e8ed" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <text x="760" y="300" fill="#e8e8ed" font-size="12" writing-mode="tb">Looking Down</text>
+
+                <!-- Array Levels (from top to bottom - order of encounter) -->
+                <g id="discount-level1">
+                    <rect x="150" y="110" width="500" height="40" fill="rgba(46, 213, 115, 0.2)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="135" fill="#e8e8ed" font-size="14" font-weight="bold">1. Mitigation Block</text>
+                    <text x="500" y="135" fill="#9898a8" font-size="12" font-style="italic">(First encountered)</text>
+                </g>
+
+                <g id="discount-level2">
+                    <rect x="150" y="170" width="500" height="40" fill="rgba(46, 213, 115, 0.25)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="195" fill="#e8e8ed" font-size="14" font-weight="bold">2. Bullish Breaker</text>
+                    <text x="500" y="195" fill="#9898a8" font-size="12" font-style="italic">(Blocks lower arrays)</text>
+                </g>
+
+                <g id="discount-level3">
+                    <rect x="150" y="230" width="500" height="40" fill="rgba(46, 213, 115, 0.3)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="255" fill="#e8e8ed" font-size="14" font-weight="bold">3. Liquidity Void</text>
+                </g>
+
+                <g id="discount-level4">
+                    <rect x="150" y="290" width="500" height="40" fill="rgba(46, 213, 115, 0.35)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="315" fill="#e8e8ed" font-size="14" font-weight="bold">4. Fair Value Gap</text>
+                </g>
+
+                <g id="discount-level5">
+                    <rect x="150" y="350" width="500" height="40" fill="rgba(46, 213, 115, 0.4)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="375" fill="#e8e8ed" font-size="14" font-weight="bold">5. Bullish Order Block</text>
+                </g>
+
+                <g id="discount-level6">
+                    <rect x="150" y="410" width="500" height="40" fill="rgba(46, 213, 115, 0.45)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="435" fill="#e8e8ed" font-size="14" font-weight="bold">6. Rejection Block</text>
+                    <text x="500" y="435" fill="#9898a8" font-size="12" font-style="italic">(Below candle body)</text>
+                </g>
+
+                <g id="discount-level7">
+                    <rect x="150" y="470" width="500" height="40" fill="rgba(46, 213, 115, 0.5)" stroke="#2ed573" stroke-width="2"/>
+                    <text x="160" y="495" fill="#e8e8ed" font-size="14" font-weight="bold">7. Old Low / Historic High</text>
+                    <text x="500" y="495" fill="#9898a8" font-size="12" font-style="italic">(Deepest discount)</text>
+                </g>
+
+                <!-- Discount label -->
+                <text x="400" y="540" fill="#2ed573" font-size="16" text-anchor="middle" font-style="italic">DEEPEST DISCOUNT</text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#e8e8ed" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <h3>Trading Application</h3>
+            <blockquote class="quote">
+                <p><em>"These are your bullish discount arrays and you would be looking for these for bearish targets or looking to get long at any one of these based on the current conditions in the market."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="breaker-rule">
+            <h2>Breaker Precedence Rule</h2>
+
+            <div class="warning-box">
+                <h3>Critical Rule - Breakers Have Precedence Over Everything</h3>
+                <blockquote class="quote">
+                    <p><em>"Certain arrays in here will keep you from seeing the next higher array. In other words the next institutional order reference point that's listed in here. If you get to a breaker, chances are you're probably not going to go higher than that."</em></p>
+                </blockquote>
+            </div>
+
+            <h3>Breaker Blocks Higher Arrays</h3>
+            <blockquote class="quote">
+                <p><em>"The breaker has precedence over everything. Both bullish breaker and bearish breakers."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If there is a breaker, anticipate price not going below the breaker and leaving the void intact."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If there's a breaker below a liquidity void, the liquidity void may stay open. Basically that range may stay open."</em></p>
+            </blockquote>
+
+            <h3>Bearish Breaker Impact</h3>
+            <blockquote class="quote">
+                <p><em>"Bearish breaker will keep your ability to get to a bearish order block which will be resting higher up in the premium. When an old high is taken out, that down candle right before the second high is made taking an old high or turtle soup, in other words that down candle if it's retreated to, that's going to be a bearish breaker. That's going to keep you from seeing most likely, high probability, that it won't allow you to get to a bearish order block."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"So whenever you see bearish breakers just don't expect the bearish order block to be hit. Okay? Because it's going to most likely keep price lower because that's going to be the most dominant array of all these in here."</em></p>
+            </blockquote>
+
+            <h3>Breaker and Void Relationship</h3>
+            <blockquote class="quote">
+                <p><em>"There is a liquidity void that would be viewed if there's no breaker. You can close in that range and that may take you often to a fair value gap or a bearish order block. But breakers by themselves, even though they're low end on this list, it's the first thing you're going to encounter because if you're at equilibrium and price has already been moving away from the resistance level, you're looking up now for any potential areas to resell at."</em></p>
+            </blockquote>
+
+            <div class="info-box">
+                <h3>Sequential Check Process</h3>
+                <blockquote class="quote">
+                    <p><em>"First when you look at is the mitigation block or bearish breaker and if there's neither of those you look for liquidity void to trade up into, to close in that range, or fair value gap to close in. It may not be any of that. Then you would expect to see the bearish order block to be traded to."</em></p>
+                </blockquote>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="800" height="400" fill="#1a1a24"/>
+
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">BREAKER PRECEDENCE - Blocks Access to Higher Arrays</text>
+
+                <!-- Equilibrium -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#ffa502" stroke-width="2"/>
+                <text x="30" y="355" fill="#ffa502" font-size="12">EQ</text>
+
+                <!-- Scenario 1: With Breaker (blocks higher arrays) -->
+                <g id="with-breaker">
+                    <text x="200" y="60" fill="#e8e8ed" font-size="14" font-weight="bold">WITH BREAKER</text>
+
+                    <!-- Higher arrays blocked -->
+                    <rect x="100" y="80" width="200" height="30" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="1" stroke-dasharray="5,5"/>
+                    <text x="200" y="100" fill="#9898a8" font-size="11" text-anchor="middle">Order Block (BLOCKED)</text>
+
+                    <rect x="100" y="120" width="200" height="30" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="1" stroke-dasharray="5,5"/>
+                    <text x="200" y="140" fill="#9898a8" font-size="11" text-anchor="middle">Fair Value Gap (BLOCKED)</text>
+
+                    <rect x="100" y="160" width="200" height="30" fill="rgba(255, 71, 87, 0.2)" stroke="#ff4757" stroke-width="1" stroke-dasharray="5,5"/>
+                    <text x="200" y="180" fill="#9898a8" font-size="11" text-anchor="middle">Liquidity Void (STAYS OPEN)</text>
+
+                    <!-- Breaker stops price here -->
+                    <rect x="100" y="220" width="200" height="40" fill="rgba(255, 71, 87, 0.6)" stroke="#ff4757" stroke-width="3"/>
+                    <text x="200" y="245" fill="#e8e8ed" font-size="13" text-anchor="middle" font-weight="bold">BEARISH BREAKER</text>
+
+                    <!-- Price action arrow -->
+                    <line x1="200" y1="340" x2="200" y2="270" stroke="#e8e8ed" stroke-width="2" marker-end="url(#stop)"/>
+                    <text x="220" y="300" fill="#ff4757" font-size="11" font-weight="bold">STOPS HERE</text>
+                </g>
+
+                <!-- Scenario 2: Without Breaker (reaches higher arrays) -->
+                <g id="without-breaker">
+                    <text x="600" y="60" fill="#e8e8ed" font-size="14" font-weight="bold">WITHOUT BREAKER</text>
+
+                    <!-- Higher arrays accessible -->
+                    <rect x="500" y="80" width="200" height="30" fill="rgba(255, 71, 87, 0.4)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="600" y="100" fill="#e8e8ed" font-size="11" text-anchor="middle">Order Block (REACHED)</text>
+
+                    <rect x="500" y="120" width="200" height="30" fill="rgba(255, 71, 87, 0.4)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="600" y="140" fill="#e8e8ed" font-size="11" text-anchor="middle">Fair Value Gap (FILLED)</text>
+
+                    <rect x="500" y="160" width="200" height="30" fill="rgba(255, 71, 87, 0.4)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="600" y="180" fill="#e8e8ed" font-size="11" text-anchor="middle">Liquidity Void (CLOSED)</text>
+
+                    <!-- No breaker - just mitigation -->
+                    <rect x="500" y="220" width="200" height="40" fill="rgba(255, 71, 87, 0.3)" stroke="#ff4757" stroke-width="2"/>
+                    <text x="600" y="245" fill="#e8e8ed" font-size="13" text-anchor="middle">Mitigation Block</text>
+
+                    <!-- Price action arrow goes through -->
+                    <line x1="600" y1="340" x2="600" y2="115" stroke="#e8e8ed" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="620" y="200" fill="#2ed573" font-size="11" font-weight="bold">CONTINUES UP</text>
+                </g>
+
+                <defs>
+                    <marker id="stop" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <circle cx="5" cy="5" r="4" fill="#ff4757" />
+                    </marker>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#e8e8ed" />
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="timeframes">
+            <h2>Timeframe Application</h2>
+
+            <h3>Same Hierarchy Across All Higher Timeframes</h3>
+            <blockquote class="quote">
+                <p><em>"The same thing is seen also for the weekly chart. The weekly chart you're going to be looking at the same thing from equilibrium up. The first thing you would expect to see when you're expecting higher prices: are we going to run into a mitigation block, bearish breaker? If there's a bearish breaker you're probably not going to go higher than that. But if there is no breaker you look for a void to close in or fair value gap."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The same hierarchy exists if we're at equilibrium and that's the current market action price and we're expecting lower prices. The first thing we want to look for in the left side of our chart is there any mitigation blocks or a bullish breaker. If there is anything less than that breaker probably won't be considered or retreated to. The breaker has precedence over everything, both bullish breaker and bearish breakers."</em></p>
+            </blockquote>
+
+            <h3>Monthly Chart Application</h3>
+            <blockquote class="quote">
+                <p><em>"For a monthly chart, okay, what you're going to do is you're going to look at the current trading range that it's in. So we're going to assume that you outline the marketplace in terms of old highs and all lows on the monthly and that's the easiest way of doing it."</em></p>
+            </blockquote>
+
+            <h3>Weekly Chart Application</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Weekly Premium Arrays</span>
+                </div>
+                <p>Same hierarchy: Old High/Low → Rejection Block → Bearish Order Block → Fair Value Gap → Liquidity Void → Bearish Breaker → Mitigation Block</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Weekly Discount Arrays</span>
+                </div>
+                <p>Same hierarchy: Mitigation Block → Bullish Breaker → Liquidity Void → Fair Value Gap → Bullish Order Block → Rejection Block → Old Low/High</p>
+            </div>
+
+            <h3>Daily Chart Application</h3>
+            <blockquote class="quote">
+                <p><em>"Obviously the same thing is said for a daily chart. Nothing's changed. The same hierarchy exists if we're at equilibrium."</em></p>
+            </blockquote>
+
+            <h3>Lower Timeframe Context</h3>
+            <blockquote class="quote">
+                <p><em>"When we're looking at these higher time frame charts just understand that there's going to be levels that exist inside of larger price swings that you may not see unless you go down to the lower time frame. Now when I say lower time frame I'm only referring to the daily because the higher time frame analysis is all we're focusing on here, nothing below a daily chart."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If this was a monthly chart, at that low there may be a daily short-term high that would create a support level that can't be seen on a monthly chart. So when we're looking at these higher time frame charts just understand that there's going to be levels that exist inside of larger price swings that you may not see unless you go down to the lower time frame."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (all answers are direct quotes from the transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the purpose of this HTF PD Arrays teaching?</div>
+                    <div class="flashcard-answer">"This teaching is to teach you the hierarchy on the tools that I use for framing the trades. Now these same arrays are the same things that we've talked about since the beginning of the mentorship but we're going to prevent you from having them in a disorganized fashion. In other words, there's an hierarchy in how they are used and how you look for them in price."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is equilibrium?</div>
+                    <div class="flashcard-answer">"In between these two reference points, the halfway point, this is always going to be referred to as equilibrium. Now equilibrium between where you think price will go because it's been there before and where it's at right now relative to an old high and old low, that's the current trading range."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two elements you must submit to in trading?</div>
+                    <div class="flashcard-answer">"There's two elements in trading you have to submit to: time and price. When they both agree with one another and you have waited for that agreement to come to fruition, that's where profitability and opportunities are."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What did ICT say about time in trading?</div>
+                    <div class="flashcard-answer">"Time is a murderer, it's a killer for traders unless you know that some of these ideas are gonna pan out for a long long time. You're gonna do a lot of things psychologically and emotionally that you wish you wouldn't have done because you haven't submitted to the time aspect of trading."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">List the Premium Arrays in order of importance (highest to lowest)?</div>
+                    <div class="flashcard-answer">1. Old High/Low ("That's as high as you can get"), 2. Rejection Block, 3. Bearish Order Block, 4. Fair Value Gap, 5. Liquidity Void, 6. Bearish Breaker, 7. Mitigation Block</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">List the Discount Arrays in order of encounter from equilibrium?</div>
+                    <div class="flashcard-answer">1. Mitigation Block ("First thing you would anticipate seeing"), 2. Bullish Breaker, 3. Liquidity Void, 4. Fair Value Gap, 5. Bullish Order Block, 6. Rejection Block, 7. Old Low/Historic High ("Deepest form of discount")</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the critical rule about breakers?</div>
+                    <div class="flashcard-answer">"The breaker has precedence over everything. Both bullish breaker and bearish breakers." And "Certain arrays in here will keep you from seeing the next higher array. In other words the next institutional order reference point that's listed in here. If you get to a breaker, chances are you're probably not going to go higher than that."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens to liquidity voids when a breaker exists?</div>
+                    <div class="flashcard-answer">"If there's a breaker below a liquidity void, the liquidity void may stay open. Basically that range may stay open." And "If there is a breaker, anticipate price not going below the breaker and leaving the void intact."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a Rejection Block?</div>
+                    <div class="flashcard-answer">For premium: "A rejection block will be just above the candle's body, not the wicks." For discount: "Just below the most lowest candle and its body. In other words if it has wicks long wicks below it, we're only gonna be looking for a move just below the bodies of the candle and that would be rejection block."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Define a Bullish Breaker</div>
+                    <div class="flashcard-answer">"A bullish breaker is an up candle between two swing lows and the most recent swing low would be lower. Normally you're seeing a stop run in the past and the high, the swing high it forms between the two lows, that up candle is going to be your bullish breaker. So when price comes down to that bullish up candle it'll find some support."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Define a Bearish Breaker</div>
+                    <div class="flashcard-answer">"When an old high is taken out, that down candle right before the second high is made taking an old high or turtle soup, in other words that down candle if it's retreated to, that's going to be a bearish breaker."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the first array you encounter when moving up from equilibrium?</div>
+                    <div class="flashcard-answer">"The very first thing you look for in the list as price is going up, the first thing you're looking to see to encounter is there any mitigation block that I got to consider because that's the first objective it could be a selling point."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you expect if you see a bearish breaker?</div>
+                    <div class="flashcard-answer">"Bearish breaker will keep your ability to get to a bearish order block which will be resting higher up in the premium." And "So whenever you see bearish breakers just don't expect the bearish order block to be hit. Okay? Because it's going to most likely keep price lower because that's going to be the most dominant array of all these in here."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does this hierarchy apply to Weekly and Daily charts?</div>
+                    <div class="flashcard-answer">"The same thing is seen also for the weekly chart. The weekly chart you're going to be looking at the same thing from equilibrium up." And "Obviously the same thing is said for a daily chart. Nothing's changed. The same hierarchy exists if we're at equilibrium."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you use Premium Arrays?</div>
+                    <div class="flashcard-answer">"These are going to be focused for primarily bearish premium array trading. In other words you're going to be using these areas at which to frame a trade or look for bullish targets at these levels."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you use Discount Arrays?</div>
+                    <div class="flashcard-answer">"These are your bullish discount arrays and you would be looking for these for bearish targets or looking to get long at any one of these based on the current conditions in the market."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does price move between premium and discount?</div>
+                    <div class="flashcard-answer">"It's moving from a level of discount to a level of premium, from a level of premium to a level of discount." And "Between the market price today and the future price which you anticipate or forecast lower in the future, there's going to be zero opportunity for it to be a straight line. In other words you're not seeing that diagonal line in the way the market trades. It just doesn't do that. There's always some give and take that takes place."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the sequential check process when looking for premium arrays?</div>
+                    <div class="flashcard-answer">"First when you look at is the mitigation block or bearish breaker and if there's neither of those you look for liquidity void to trade up into, to close in that range, or fair value gap to close in. It may not be any of that. Then you would expect to see the bearish order block to be traded to."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What determines buying vs selling imbalance?</div>
+                    <div class="flashcard-answer">"Buying imbalance is seen when price gets above equilibrium or up into that red level which would be resistance. Selling imbalance would be when price gets below equilibrium and down into the blue line or what would be just derived as discount."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where do you look for these arrays in price?</div>
+                    <div class="flashcard-answer">"As prices going lower, looking in the past to the left side of your chart, you'll be focusing on whether or not these arrays appear in price action." And "You're looking up now for any potential areas to resell at. First when you look at is the mitigation block or bearish breaker."</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="source">
+            <h2>Source Information</h2>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">ICT Mentorship Core Content</span>
+                </div>
+                <ul>
+                    <li><strong>Series:</strong> ICT Mentorship Core Content</li>
+                    <li><strong>Month:</strong> 05</li>
+                    <li><strong>Lesson:</strong> 6.1 - Defining HTF PD Arrays</li>
+                    <li><strong>Date:</strong> January 2017</li>
+                    <li><strong>Topic:</strong> Hierarchy of Higher Time Frame Premium Discount Arrays</li>
+                </ul>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

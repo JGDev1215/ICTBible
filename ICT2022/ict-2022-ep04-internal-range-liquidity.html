@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 — Ep. 4: Internal Range Liquidity &amp; Market Structure Shifts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #1a1a24;
+  --bg-card-hover: #1f1f2e;
+  --bg-subtle: #141420;
+  --text-primary: #e8e8ed;
+  --text-secondary: #9898a8;
+  --text-muted: #5a5a6e;
+  --accent-bear: #ff4757;
+  --accent-bull: #2ed573;
+  --accent-gold: #ffa502;
+  --accent-blue: #4a9eff;
+  --border: rgba(255,255,255,0.06);
+  --border-gold: rgba(255,165,2,0.25);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  line-height: 1.7;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,15,0.93);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: 0.2rem;
+  height: 52px; overflow-x: auto; scrollbar-width: none;
+}
+nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.03em;
+  color: var(--text-muted); text-decoration: none;
+  white-space: nowrap; padding: 0.35rem 0.75rem;
+  border-radius: 4px; transition: color 0.2s, background 0.2s;
+}
+nav a:hover { color: var(--accent-gold); background: rgba(255,165,2,0.08); }
+
+/* HEADER */
+header {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  padding: 5rem 2rem 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.header-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent-gold);
+  margin-bottom: 1.25rem;
+}
+header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.header-quote {
+  font-size: 1.2rem; color: var(--text-secondary);
+  font-style: italic; max-width: 680px;
+  border-left: 2px solid var(--accent-gold);
+  padding-left: 1.25rem;
+}
+
+/* MAIN */
+main {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 2rem 6rem;
+}
+section {
+  padding: 4rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+}
+section:last-of-type { border-bottom: none; }
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent-gold);
+  margin-bottom: 0.75rem;
+}
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.65rem; font-weight: 600;
+  color: var(--text-primary); margin-bottom: 2rem;
+}
+h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem; font-weight: 500;
+  color: var(--text-secondary);
+  margin: 2rem 0 0.85rem;
+}
+
+/* QUOTE */
+.quote {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-gold);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 6px 6px 0;
+  margin: 1.25rem 0;
+}
+.quote p { font-style: italic; color: var(--text-secondary); line-height: 1.75; }
+.quote .ts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; color: var(--text-muted);
+  margin-top: 0.6rem; display: block; letter-spacing: 0.05em;
+}
+
+/* CONCEPT CARD */
+.concept-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.5rem; margin: 1rem 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+.concept-card:hover { border-color: var(--border-gold); background: var(--bg-card-hover); }
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem; font-weight: 600;
+  color: var(--accent-gold); margin-bottom: 0.75rem;
+  display: block; letter-spacing: 0.02em;
+}
+.concept-card p { font-style: italic; color: var(--text-secondary); font-size: 1rem; line-height: 1.7; }
+
+/* STEP FLOW */
+.step-flow {
+  display: flex; flex-direction: column; gap: 0;
+  margin: 2rem 0; position: relative;
+}
+.step {
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 0;
+  position: relative;
+}
+.step:first-child { border-radius: 8px 8px 0 0; }
+.step:last-child { border-radius: 0 0 8px 8px; }
+.step:not(:last-child) { border-bottom: none; }
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  color: var(--accent-gold);
+  background: rgba(255,165,2,0.1);
+  border: 1px solid rgba(255,165,2,0.2);
+  border-radius: 4px; padding: 0.2rem 0.5rem;
+  min-width: 36px; text-align: center;
+  margin-top: 0.2rem; flex-shrink: 0;
+}
+.step-content { flex: 1; }
+.step-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--text-primary); margin-bottom: 0.4rem;
+}
+.step-quote { font-style: italic; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+.step-ts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--text-muted); margin-top: 0.5rem; display: block;
+}
+
+/* CONNECTOR */
+.step-connector {
+  width: 2px; height: 16px;
+  background: linear-gradient(to bottom, rgba(255,165,2,0.3), rgba(255,165,2,0.1));
+  margin-left: 43px;
+}
+
+/* CRITERIA TAG */
+.criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem; margin: 1.5rem 0;
+}
+.criteria-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.25rem;
+}
+.criteria-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 0.6rem; display: block;
+}
+.criteria-item p { font-style: italic; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+.criteria-item.pass { border-left: 2px solid var(--accent-bull); }
+.criteria-item.fail { border-left: 2px solid var(--accent-bear); }
+.criteria-item.neutral { border-left: 2px solid var(--accent-gold); }
+
+/* RULE */
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+/* JOURNAL ITEMS */
+.journal-list {
+  list-style: none; display: flex; flex-direction: column; gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.journal-list li {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  font-style: italic; color: var(--text-secondary); line-height: 1.6; font-size: 0.97rem;
+}
+.journal-list li::before {
+  content: '?';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; color: var(--accent-gold);
+  background: rgba(255,165,2,0.1); border: 1px solid rgba(255,165,2,0.2);
+  border-radius: 50%; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 0.1rem;
+}
+
+/* SVG DIAGRAM WRAPPER */
+.diagram-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  overflow: hidden;
+}
+.diagram-wrap svg { width: 100%; max-width: 860px; display: block; margin: 0 auto; }
+.diagram-caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.07em;
+  color: var(--text-muted); text-align: center;
+  margin-top: 1rem; text-transform: uppercase;
+}
+
+/* FLASHCARDS */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem; margin-top: 1.5rem;
+}
+.flashcard {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.5rem; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 110px; user-select: none;
+}
+.flashcard:hover { border-color: var(--border-gold); background: var(--bg-card-hover); }
+.flashcard-question {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem; font-weight: 500;
+  color: var(--text-primary); line-height: 1.5;
+}
+.flashcard-answer {
+  display: none;
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-style: italic; color: var(--accent-gold);
+  font-size: 0.95rem; line-height: 1.65;
+}
+.flashcard.revealed .flashcard-answer { display: block; }
+.flashcard-hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--text-muted);
+  letter-spacing: 0.08em; margin-top: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  header, main { padding-left: 1.25rem; padding-right: 1.25rem; }
+  nav { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#topic">Topic</a>
+    <a href="#setup">Setup Criteria</a>
+    <a href="#sequence">Sequence</a>
+    <a href="#diagram">Diagram</a>
+    <a href="#targets">Targets</a>
+    <a href="#journal">Study Journal</a>
+    <a href="#rules">Rules</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <p class="header-eyebrow">ICT 2022 YouTube Mentorship · Episode 4</p>
+  <h1>Internal Range Liquidity &amp;<br>Market Structure Shifts</h1>
+  <p class="header-quote">"We're looking at internal range liquidity and market structure shifts intraday."</p>
+</header>
+
+<main>
+
+  <!-- TOPIC -->
+  <section id="topic">
+    <p class="section-label">01 — Core Concept</p>
+    <h2>What This Lesson Covers</h2>
+
+    <div class="quote">
+      <p>"We're looking at internal range liquidity and market structure shifts intraday."</p>
+      <span class="ts">8:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"Next week I'll work on targeting refinement and entries."</p>
+      <span class="ts">8:36</span>
+    </div>
+
+    <h3>The Range and Equilibrium</h3>
+
+    <div class="quote">
+      <p>"You want to have the low over here on Wednesday the 26th... because it's the low okay and then this is the high so we have this price run from this low to this high that's our range so you want to drop your FIB on that now get your equilibrium price point."</p>
+      <span class="ts">1:03</span>
+    </div>
+
+    <div class="quote">
+      <p>"Here's the low and the high, equilibrium which is a 50 level and the 50 back. So we're looking for a low or an imbalance below this level okay."</p>
+      <span class="ts">2:24</span>
+    </div>
+
+    <div class="quote">
+      <p>"Then it runs back up into the fair value gap here and then sells off reaching into this old low which would be below the equilibrium price point of this entire range or 50% level on the FIB okay."</p>
+      <span class="ts">2:00</span>
+    </div>
+  </section>
+
+  <!-- SETUP CRITERIA -->
+  <section id="setup">
+    <p class="section-label">02 — Setup Criteria</p>
+    <h2>What the Setup Requires</h2>
+
+    <div class="quote">
+      <p>"You have to wait for the setup, you can't force it. You can't think it's there. It's there or it's not."</p>
+      <span class="ts">7:03</span>
+    </div>
+
+    <p style="color:var(--text-secondary);font-style:italic;margin-bottom:1.5rem;">Two examples from the transcript — one that <span style="color:var(--accent-bull)">meets criteria</span> and one that <span style="color:var(--accent-bear)">does not</span>:</p>
+
+    <div class="criteria-grid">
+      <div class="criteria-item pass">
+        <span class="criteria-label">✓ Criteria Met — NQ Thursday Jan 27</span>
+        <p>"It trades down through it on this candle here, so right away at that moment on this candle, soon as this candle trades through it you now have an opportunity — then you go back into the high to that candle low and do you see a fair value gap? It's right there."</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.5rem;display:block;">7:27</span>
+      </div>
+
+      <div class="criteria-item fail">
+        <span class="criteria-label">✗ Criteria Not Met — first run NQ</span>
+        <p>"You have these relative equal highs as well so that could have been a initial objective looking for these relative equal highs to be taken out and does it break down and give you a fair value gap? No, it doesn't. So it wouldn't even meet the criteria there."</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.5rem;display:block;">6:32</span>
+      </div>
+
+      <div class="criteria-item neutral">
+        <span class="criteria-label">Criteria — ES Wednesday Jan 26</span>
+        <p>"Does it break down below the old high? It does. But does it create a fair value gap in here? No. Then it rallies one more time, then breaks down again. Inside here there's a break in market structure."</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.5rem;display:block;">1:38</span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Listen to the rules I gave you, they're very specific. And that's what I'm walking you through here, that way you can see it's kind of allowing the market — or really forcing the market to show you its hand. And once it does that then you can go in and act accordingly."</p>
+      <span class="ts">6:48</span>
+    </div>
+  </section>
+
+  <!-- SEQUENCE -->
+  <section id="sequence">
+    <p class="section-label">03 — Step-by-Step Sequence</p>
+    <h2>How the Pattern Develops</h2>
+
+    <p style="color:var(--text-secondary);font-style:italic;margin-bottom:1.75rem;">Reconstructed in sequence from transcript descriptions of both examples.</p>
+
+    <div class="step-flow">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-label">Identify the range: low to high</div>
+          <div class="step-quote">"We have this price run from this low to this high — that's our range. So you want to drop your FIB on that, now get your equilibrium price point."</div>
+          <span class="step-ts">1:17</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-label">Market gets pushed into a premium</div>
+          <div class="step-quote">"As the highs were run through we have that run up, the market gets pushed into a premium, it's really expensive."</div>
+          <span class="step-ts">1:30</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-label">Wait for old high to be violated</div>
+          <div class="step-quote">"8:30 in the morning, that starts the hunt basically. That's what 8:30 in the morning is to me. So we're looking for an old high to be violated."</div>
+          <span class="step-ts">3:05</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-label">Break in market structure — swing low violated</div>
+          <div class="step-quote">"It trades down through it on this candle here. So right away at that moment on this candle, soon as this candle trades through it you now have an opportunity."</div>
+          <span class="step-ts">7:27</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-label">Confirm fair value gap exists</div>
+          <div class="step-quote">"Then you go back into the high to that candle low — and do you see a fair value gap? It's right there."</div>
+          <span class="step-ts">7:39</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <div class="step-label">Price retraces into fair value gap — short entry</div>
+          <div class="step-quote">"Does price draw back up into the fair value gap after this candle breaks below here and giving you a bearish market structure shift? Yes, it trades up into the fair value gap, you can go short there."</div>
+          <span class="step-ts">3:25</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-num">07</div>
+        <div class="step-content">
+          <div class="step-label">Target: old low or imbalance below equilibrium</div>
+          <div class="step-quote">"You could target this old low here or that low that was annotated before we zoomed in."</div>
+          <span class="step-ts">3:39</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGRAM -->
+  <section id="diagram">
+    <p class="section-label">04 — Diagram</p>
+    <h2>Pattern Illustration</h2>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 860 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#9898a8"/>
+          </marker>
+          <marker id="arrowhead-gold" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#ffa502"/>
+          </marker>
+          <marker id="arrowhead-bear" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#ff4757"/>
+          </marker>
+          <marker id="arrowhead-bull" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#2ed573"/>
+          </marker>
+        </defs>
+
+        <!-- Background grid lines -->
+        <line x1="0" y1="100" x2="860" y2="100" stroke="#ffffff08" stroke-width="1" stroke-dasharray="4,8"/>
+        <line x1="0" y1="220" x2="860" y2="220" stroke="#ffa50230" stroke-width="1" stroke-dasharray="6,6"/>
+        <line x1="0" y1="340" x2="860" y2="340" stroke="#ffffff08" stroke-width="1" stroke-dasharray="4,8"/>
+
+        <!-- Equilibrium label -->
+        <text x="6" y="217" font-family="JetBrains Mono" font-size="9.5" fill="#ffa502" opacity="0.7">50% — Equilibrium Price Point</text>
+
+        <!-- Range bracket -->
+        <line x1="30" y1="100" x2="30" y2="340" stroke="#ffffff20" stroke-width="1.5"/>
+        <line x1="24" y1="100" x2="36" y2="100" stroke="#ffffff40" stroke-width="1.5"/>
+        <line x1="24" y1="340" x2="36" y2="340" stroke="#ffffff40" stroke-width="1.5"/>
+        <text x="6" y="103" font-family="JetBrains Mono" font-size="8.5" fill="#9898a8" opacity="0.6">High</text>
+        <text x="6" y="343" font-family="JetBrains Mono" font-size="8.5" fill="#9898a8" opacity="0.6">Low</text>
+
+        <!-- PRICE PATH — candle-style simplified -->
+
+        <!-- Initial rise from low (60,340) to near high (200,110) -->
+        <polyline points="60,340 90,310 120,280 160,200 200,110" fill="none" stroke="#2ed573" stroke-width="2.5" opacity="0.6"/>
+
+        <!-- Run above old high — liquidity taken -->
+        <polyline points="200,110 220,95 235,88" fill="none" stroke="#2ed573" stroke-width="2.5" opacity="0.9"/>
+        <!-- "Old high" horizontal dashed -->
+        <line x1="140" y1="130" x2="440" y2="130" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+        <text x="445" y="133" font-family="JetBrains Mono" font-size="9" fill="#ffa502" opacity="0.7">Old High</text>
+
+        <!-- Buy stops label above -->
+        <text x="200" y="74" font-family="JetBrains Mono" font-size="9" fill="#9898a8" opacity="0.6" text-anchor="middle">Buy Liquidity</text>
+        <text x="200" y="85" font-family="JetBrains Mono" font-size="9" fill="#9898a8" opacity="0.6" text-anchor="middle">resting above</text>
+
+        <!-- First pullback — no FVG -->
+        <polyline points="235,88 260,140 275,135 295,145" fill="none" stroke="#ff4757" stroke-width="2" opacity="0.7"/>
+        <!-- "No FVG" annotation -->
+        <text x="264" y="170" font-family="Crimson Pro" font-size="11" fill="#ff4757" opacity="0.7" font-style="italic">no fair value gap</text>
+
+        <!-- Second rally above old high -->
+        <polyline points="295,145 320,115 340,100" fill="none" stroke="#2ed573" stroke-width="2" opacity="0.6"/>
+
+        <!-- Break down — market structure break -->
+        <polyline points="340,100 380,195 410,215" fill="none" stroke="#ff4757" stroke-width="3" opacity="0.9"/>
+
+        <!-- Swing low horizontal dashed -->
+        <line x1="200" y1="290" x2="620" y2="290" stroke="#4a9eff" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+        <text x="624" y="293" font-family="JetBrains Mono" font-size="9" fill="#4a9eff" opacity="0.8">Swing Low</text>
+
+        <!-- Break below swing low -->
+        <polyline points="410,215 430,260 450,295 465,305" fill="none" stroke="#ff4757" stroke-width="3"/>
+
+        <!-- Break annotation -->
+        <text x="418" y="255" font-family="Space Grotesk" font-size="10.5" fill="#ff4757" font-weight="600">Break in Market</text>
+        <text x="418" y="268" font-family="Space Grotesk" font-size="10.5" fill="#ff4757" font-weight="600">Structure</text>
+
+        <!-- Fair Value Gap rectangle -->
+        <rect x="350" y="185" width="62" height="28" fill="#ffa502" fill-opacity="0.12" stroke="#ffa502" stroke-width="1" stroke-opacity="0.5" rx="2"/>
+        <text x="381" y="203" font-family="JetBrains Mono" font-size="9" fill="#ffa502" text-anchor="middle">Fair Value</text>
+        <text x="381" y="213" font-family="JetBrains Mono" font-size="9" fill="#ffa502" text-anchor="middle">Gap</text>
+
+        <!-- Retrace UP into FVG -->
+        <polyline points="465,305 490,270 510,225 525,200" fill="none" stroke="#2ed573" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.9"/>
+        <text x="530" y="199" font-family="Crimson Pro" font-size="11.5" fill="#2ed573" font-style="italic">trades back up</text>
+        <text x="530" y="213" font-family="Crimson Pro" font-size="11.5" fill="#2ed573" font-style="italic">into fair value gap</text>
+        <!-- Arrow pointing into FVG -->
+        <line x1="527" y1="200" x2="414" y2="200" stroke="#2ed573" stroke-width="1.5" marker-end="url(#arrowhead-bull)" opacity="0.7"/>
+
+        <!-- Short entry star -->
+        <circle cx="413" cy="199" r="5" fill="none" stroke="#ffa502" stroke-width="1.5"/>
+        <text x="413" y="180" font-family="JetBrains Mono" font-size="9" fill="#ffa502" text-anchor="middle">short entry</text>
+
+        <!-- Sell off to target -->
+        <polyline points="413,199 440,240 465,280 490,310 515,340 540,360 565,375" fill="none" stroke="#ff4757" stroke-width="3"/>
+
+        <!-- Target: old low -->
+        <line x1="460" y1="370" x2="720" y2="370" stroke="#9898a8" stroke-width="1" stroke-dasharray="4,6" opacity="0.5"/>
+        <text x="724" y="373" font-family="JetBrains Mono" font-size="9" fill="#9898a8" opacity="0.8">Old Low / Target</text>
+
+        <!-- Imbalance target zone -->
+        <rect x="460" y="385" width="200" height="20" fill="#4a9eff" fill-opacity="0.08" stroke="#4a9eff" stroke-width="1" stroke-opacity="0.4" rx="2"/>
+        <text x="560" y="398" font-family="JetBrains Mono" font-size="9" fill="#4a9eff" text-anchor="middle" opacity="0.8">Imbalance — Target</text>
+
+        <!-- Equilibrium marker left -->
+        <circle cx="30" cy="220" r="3" fill="#ffa502" opacity="0.6"/>
+
+        <!-- Annotation: 8:30 starts the hunt -->
+        <rect x="88" y="318" width="108" height="30" rx="4" fill="#1a1a24" stroke="#ffa50230" stroke-width="1"/>
+        <text x="142" y="332" font-family="JetBrains Mono" font-size="8.5" fill="#ffa502" text-anchor="middle" opacity="0.8">8:30 AM</text>
+        <text x="142" y="343" font-family="JetBrains Mono" font-size="8.5" fill="#9898a8" text-anchor="middle" opacity="0.6">"starts the hunt"</text>
+
+      </svg>
+      <p class="diagram-caption">Bearish setup — internal range liquidity &amp; market structure shift · labels use transcript terminology</p>
+    </div>
+  </section>
+
+  <!-- TARGETS -->
+  <section id="targets">
+    <p class="section-label">05 — Targets</p>
+    <h2>What to Target</h2>
+
+    <div class="criteria-grid">
+      <div class="criteria-item neutral">
+        <span class="criteria-label">Target 1 — Old Low</span>
+        <p>"You could target this old low here or that low that was annotated before we zoomed in."</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.5rem;display:block;">3:39</span>
+      </div>
+      <div class="criteria-item neutral">
+        <span class="criteria-label">Target 2 — Imbalance below equilibrium</span>
+        <p>"We're looking for a low or an imbalance below this level okay... notice how we hit it there and came off of it, more pronounced low here and draws down into that."</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.5rem;display:block;">2:31</span>
+      </div>
+      <div class="criteria-item neutral">
+        <span class="criteria-label">NQ — Multiple targets</span>
+        <p>"You could be here, here, or in the imbalance and it hits all of them and goes a little bit further lower."</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.5rem;display:block;">8:02</span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Hypothetical short from here and hypothetical cover here, you would log that in your study journal."</p>
+      <span class="ts">3:49</span>
+    </div>
+
+    <hr class="rule">
+
+    <h3>On Not Needing the Full Range</h3>
+
+    <div class="quote">
+      <p>"That's the opportunity of the range but you don't have to have all of that. It's still very very nice delivery based on the logic I taught you."</p>
+      <span class="ts">4:17</span>
+    </div>
+  </section>
+
+  <!-- STUDY JOURNAL -->
+  <section id="journal">
+    <p class="section-label">06 — Study Journal</p>
+    <h2>Questions to Log Per Example</h2>
+
+    <div class="quote">
+      <p>"In any open space like over here you would just type in whatever important factors that you found insightful about this example."</p>
+      <span class="ts">4:47</span>
+    </div>
+
+    <ul class="journal-list">
+      <li>"How long did it take from the market structure shift occurring, how much time did it take to get up into the fair value gap?" <span style="font-family:'JetBrains Mono';font-size:0.6rem;color:var(--text-muted);margin-left:0.5rem;">4:56</span></li>
+      <li>"How long did it take before it went from your entry down to your target in time?" <span style="font-family:'JetBrains Mono';font-size:0.6rem;color:var(--text-muted);margin-left:0.5rem;">5:05</span></li>
+      <li>"How much heat or drawdown would you have weathered getting short?" <span style="font-family:'JetBrains Mono';font-size:0.6rem;color:var(--text-muted);margin-left:0.5rem;">5:09</span></li>
+      <li>"Don't use my examples here alone, go into your own charts and annotate them as well." <span style="font-family:'JetBrains Mono';font-size:0.6rem;color:var(--text-muted);margin-left:0.5rem;">3:55</span></li>
+    </ul>
+
+    <div class="quote">
+      <p>"My advice is for you to go back through more data, use the weekend that's coming and acquire more of those examples so that way you can include them in your study journal."</p>
+      <span class="ts">8:22</span>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section id="rules">
+    <p class="section-label">07 — Practical Rules</p>
+    <h2>Rules Stated in This Lesson</h2>
+
+    <div class="concept-card">
+      <span class="card-title">5-Minute Chart — Starting Timeframe</span>
+      <p>"This is the 5 minute chart, this is the time frame you start with and you work down okay."</p>
+    </div>
+
+    <div class="concept-card">
+      <span class="card-title">Do Not Force the Setup</span>
+      <p>"You have to wait for the setup, you can't force it. You can't think it's there. It's there or it's not."</p>
+    </div>
+
+    <div class="concept-card">
+      <span class="card-title">Pattern Similarities — Not Exact Copies</span>
+      <p>"There's a lot of similarities that you'll find that are reoccurring and that's the important factor — to train your eye to see it. Remember the analogy I gave you on Tuesday night about the deer track and being a hunter. You have to know what a deer track looks like, you have to know what a deer track is to stalk it effectively. Well this is your pattern and setup so you need to go in looking for it so it reinforces the idea that you know what it looks like."</p>
+    </div>
+
+    <div class="concept-card">
+      <span class="card-title">Hindsight as a Learning Framework</span>
+      <p>"I want to teach you to look at the total range available and in hindsight okay, because it gives you a framework to look for how these examples — while they're not exactly the same, they don't repeat exactly photocopy of every single previous instance of it."</p>
+    </div>
+
+    <div class="concept-card">
+      <span class="card-title">Don't Use My Charts Alone</span>
+      <p>"Don't just use my charts, you want to look at your charts and go through it from your platform, your broker, whatever feed that you're using."</p>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section id="study">
+    <p class="section-label">08 — Self-Test</p>
+    <h2>Flashcards</h2>
+    <p style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:0.7rem;margin-bottom:1.5rem;letter-spacing:0.05em;">Click any card to reveal the direct quote answer.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the two things ICT says to identify first to define "the range"?</div>
+        <div class="flashcard-answer">"We have this price run from this low to this high — that's our range. So you want to drop your FIB on that, now get your equilibrium price point."</div>
+        <div class="flashcard-hint">tap to reveal · 1:17</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the equilibrium price point on the FIB?</div>
+        <div class="flashcard-answer">"Equilibrium which is a 50 level and the 50 back. So we're looking for a low or an imbalance below this level okay."</div>
+        <div class="flashcard-hint">tap to reveal · 2:24</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does 8:30 AM represent in this context?</div>
+        <div class="flashcard-answer">"8:30 in the morning, that starts the hunt basically. That's what 8:30 in the morning is to me. So we're looking for an old high to be violated."</div>
+        <div class="flashcard-hint">tap to reveal · 3:05</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say to check immediately after the candle breaks below the swing low?</div>
+        <div class="flashcard-answer">"Then you go back into the high to that candle low — and do you see a fair value gap? It's right there."</div>
+        <div class="flashcard-hint">tap to reveal · 7:39</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What condition must be true for the entry to be valid after a market structure shift?</div>
+        <div class="flashcard-answer">"Does price draw back up into the fair value gap after this candle breaks below here and giving you a bearish market structure shift? Yes, it trades up into the fair value gap, you can go short there."</div>
+        <div class="flashcard-hint">tap to reveal · 3:25</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When there is no fair value gap after relative equal highs are taken, what does ICT say?</div>
+        <div class="flashcard-answer">"Does it break down and give you a fair value gap? No, it doesn't. So it wouldn't even meet the criteria there."</div>
+        <div class="flashcard-hint">tap to reveal · 6:40</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the broader concept ICT names for what the lesson covers?</div>
+        <div class="flashcard-answer">"We're looking at internal range liquidity and market structure shifts intraday."</div>
+        <div class="flashcard-hint">tap to reveal · 8:17</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What timeframe does ICT say to start with?</div>
+        <div class="flashcard-answer">"This is the 5 minute chart, this is the time frame you start with and you work down okay."</div>
+        <div class="flashcard-hint">tap to reveal · 6:12</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What analogy does ICT use for recognising the pattern?</div>
+        <div class="flashcard-answer">"Remember the analogy I gave you on Tuesday night about the deer track and being a hunter. You have to know what a deer track looks like, you have to know what a deer track is to stalk it effectively. Well this is your pattern and setup so you need to go in looking for it."</div>
+        <div class="flashcard-hint">tap to reveal · 5:48</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What three time-based questions should be logged in the study journal for each example?</div>
+        <div class="flashcard-answer">"How long did it take from the market structure shift occurring, how much time did it take to get up into the fair value gap... how long did it take before it went from your entry down to your target in time... how much heat or drawdown would you have weathered getting short."</div>
+        <div class="flashcard-hint">tap to reveal · 4:56</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the stated homework for the weekend?</div>
+        <div class="flashcard-answer">"My advice is for you to go back through more data, use the weekend that's coming and acquire more of those examples so that way you can include them in your study journal."</div>
+        <div class="flashcard-hint">tap to reveal · 8:22</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the key concept ICT says is what makes the market "show its hand"?</div>
+        <div class="flashcard-answer">"It's kind of allowing the market — or really forcing the market to show you its hand. And once it does that then you can go in and act accordingly. But you have to wait for the setup, you can't force it."</div>
+        <div class="flashcard-hint">tap to reveal · 6:55</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say about needing to capture the full range on entry?</div>
+        <div class="flashcard-answer">"That's the opportunity of the range but you don't have to have all of that. It's still very very nice delivery based on the logic I taught you."</div>
+        <div class="flashcard-hint">tap to reveal · 4:17</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say the purpose of studying hindsight examples is?</div>
+        <div class="flashcard-answer">"I want to teach you to look at the total range available and in hindsight okay, because it gives you a framework to look for how these examples — while they're not exactly the same, they don't repeat exactly photocopy of every single previous instance of it. There's a lot of similarities that you'll find that are reoccurring and that's the important factor to train your eye to see it."</div>
+        <div class="flashcard-hint">tap to reveal · 5:26</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

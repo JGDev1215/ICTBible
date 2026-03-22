@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 17: Applying the Model to Forex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary:   #080810;
+    --bg-card:      #12121d;
+    --bg-card-alt:  #0f0f1a;
+    --bg-inset:     #0a0a14;
+    --border:       rgba(255,255,255,0.07);
+    --border-gold:  rgba(255,165,2,0.3);
+    --text-primary: #e4e4ef;
+    --text-secondary: #8888a0;
+    --text-muted:   #505068;
+    --accent-bear:  #ff4757;
+    --accent-bull:  #2ed573;
+    --accent-gold:  #ffa502;
+    --accent-blue:  #5d9cf5;
+    --glow-bear:    rgba(255,71,87,0.15);
+    --glow-bull:    rgba(46,213,115,0.15);
+    --glow-gold:    rgba(255,165,2,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── BACKGROUND TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(93,156,245,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,165,2,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,8,16,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  nav ul {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav ul li a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  nav ul li a:hover {
+    color: var(--accent-gold);
+    border-bottom-color: var(--accent-gold);
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .ep-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .ep-label::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--accent-gold);
+  }
+  header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+  header h1 span {
+    color: var(--accent-gold);
+  }
+  .header-quote {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 1.2rem;
+    max-width: 650px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  section {
+    margin-bottom: 4.5rem;
+    padding-top: 1rem;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.6rem;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    margin-top: 1.8rem;
+  }
+
+  /* ── QUOTE BLOCKS ── */
+  .quote {
+    border-left: 3px solid var(--border);
+    padding: 1rem 1.4rem;
+    margin: 1.2rem 0;
+    background: var(--bg-inset);
+    border-radius: 0 6px 6px 0;
+  }
+  .quote p {
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .quote .ts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    display: block;
+  }
+  .quote.gold { border-left-color: var(--accent-gold); background: var(--glow-gold); }
+  .quote.bull  { border-left-color: var(--accent-bull); background: var(--glow-bull); }
+  .quote.bear  { border-left-color: var(--accent-bear); background: var(--glow-bear); }
+
+  /* ── CONCEPT CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.4rem;
+    transition: border-color 0.2s;
+  }
+  .concept-card:hover { border-color: rgba(255,165,2,0.3); }
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+  .concept-card p {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .concept-card .ts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-top: 0.6rem;
+    display: block;
+  }
+
+  /* ── RULE BLOCKS ── */
+  .rule-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+    margin: 1rem 0;
+  }
+  .rule-block .rule-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .rule-block .rule-head.bear { color: var(--accent-bear); }
+  .rule-block .rule-head.bull { color: var(--accent-bull); }
+  .rule-block .rule-head.gold { color: var(--accent-gold); }
+  .rule-block p { font-style: italic; font-size: 0.97rem; color: var(--text-secondary); }
+  .rule-block .ts { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  /* ── TIME TABLE ── */
+  .time-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.95rem;
+  }
+  .time-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .time-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  .time-table tr:hover td { background: var(--bg-inset); }
+  .time-table .label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--accent-gold);
+  }
+
+  /* ── SVG DIAGRAM WRAPPER ── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.8rem;
+    text-align: center;
+  }
+
+  /* ── FLASHCARDS ── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 120px;
+    position: relative;
+  }
+  .flashcard:hover { border-color: rgba(255,165,2,0.25); }
+  .flashcard-question {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.45;
+    padding-right: 1.5rem;
+  }
+  .flashcard-answer {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+    font-size: 0.93rem;
+    color: var(--accent-bull);
+    line-height: 1.6;
+  }
+  .flashcard.revealed {
+    background: rgba(46,213,115,0.04);
+    border-color: rgba(46,213,115,0.25);
+  }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .fc-hint {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .flashcard.revealed .fc-hint { color: var(--accent-bull); }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#liquidity">Liquidity</a></li>
+    <li><a href="#killzone">Kill Zone</a></li>
+    <li><a href="#midnight">Midnight Open</a></li>
+    <li><a href="#830">8:30 Recalibrate</a></li>
+    <li><a href="#judas">Judas Swing</a></li>
+    <li><a href="#orderblock">Order Block Setup</a></li>
+    <li><a href="#levels">Inst. Levels</a></li>
+    <li><a href="#news">News Drivers</a></li>
+    <li><a href="#exits">Exits &amp; Risk</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="ep-label">2022 ICT Mentorship · Episode 17</div>
+  <h1>Applying the <span>Model</span> to Forex</h1>
+  <p class="header-quote">"the stuff works in forex it works in index trading… it's a matter of adjusting to what it is you're trying to trade"</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════ OVERVIEW -->
+  <section id="overview">
+    <div class="section-label">Overview</div>
+    <h2>Context &amp; Purpose</h2>
+
+    <div class="quote gold">
+      <p>"this lesson is going to be on forex and how we can apply this model to the fx market"</p>
+      <span class="ts">0:19–0:26</span>
+    </div>
+
+    <div class="quote">
+      <p>"if you are a longtime student of mine a lot of the things i'm going to talk about in here are going to be very familiar to you"</p>
+      <span class="ts">0:27–0:37</span>
+    </div>
+
+    <p style="color:var(--text-secondary); font-style:italic; margin-top:1.2rem;">The session uses EUR/USD daily through 4-minute charts as the example. ICT notes he has not taken any FX pair trades in 2022 and is presenting in hindsight for learning purposes.</p>
+
+    <div class="quote">
+      <p>"there's a subtle little group of nuances that you have to be aware of when you're looking at fx but it's not terribly you know harsh it's pretty easy to work with"</p>
+      <span class="ts">19:28–19:39</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ LIQUIDITY -->
+  <section id="liquidity">
+    <div class="section-label">Liquidity Framework</div>
+    <h2>Buy Side &amp; Sell Side Liquidity</h2>
+
+    <div class="quote">
+      <p>"price moved above these relative equal highs right here… this took the buy side or buy stops out of the marketplace here then it started going lower"</p>
+      <span class="ts">1:04–1:27</span>
+    </div>
+
+    <div class="quote">
+      <p>"what do you think is resting below here — sell stops or sell side liquidity"</p>
+      <span class="ts">1:35–1:42</span>
+    </div>
+
+    <div class="quote gold">
+      <p>"notice these two little devils here — relative equal lows… with this one and this one we have two areas of sell side liquidity"</p>
+      <span class="ts">1:42–1:59</span>
+    </div>
+
+    <div class="quote">
+      <p>"we have unfinished business below here and potentially below here… even though we've come from this high and had three consecutive down close candles — what is the bias the very next candle… bearish we're anticipating bearishness going in"</p>
+      <span class="ts">2:13–2:38</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#8888a0"/>
+          </marker>
+          <marker id="arr-bear" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#ff4757"/>
+          </marker>
+        </defs>
+
+        <!-- Background grid -->
+        <line x1="0" y1="60" x2="680" y2="60" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="120" x2="680" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="180" x2="680" y2="180" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="0" y1="240" x2="680" y2="240" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+        <!-- Relative equal highs line -->
+        <line x1="60" y1="80" x2="280" y2="80" stroke="#ffa502" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="63" y="72" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="0.06em">RELATIVE EQUAL HIGHS</text>
+
+        <!-- Price spikes above highs (buy side taken) -->
+        <line x1="130" y1="80" x2="130" y2="56" stroke="#2ed573" stroke-width="1.5"/>
+        <line x1="200" y1="80" x2="200" y2="52" stroke="#2ed573" stroke-width="1.5"/>
+        <text x="185" y="48" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">BUY STOPS TAKEN</text>
+
+        <!-- Big down move arrow -->
+        <line x1="250" y1="80" x2="250" y2="240" stroke="#ff4757" stroke-width="2" marker-end="url(#arr-bear)"/>
+        <text x="258" y="165" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5" letter-spacing="0.04em">PRICE STARTS</text>
+        <text x="258" y="178" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5" letter-spacing="0.04em">GOING LOWER</text>
+
+        <!-- Relative equal lows (2 areas) -->
+        <line x1="340" y1="200" x2="620" y2="200" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="345" y="193" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="0.06em">SELL SIDE LIQUIDITY  ①</text>
+        <line x1="340" y1="235" x2="620" y2="235" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="345" y="250" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="0.06em">SELL SIDE LIQUIDITY  ②</text>
+
+        <!-- Today's candle not yet taking lows -->
+        <rect x="570" y="185" width="12" height="30" fill="none" stroke="#8888a0" stroke-width="1.2"/>
+        <line x1="576" y1="170" x2="576" y2="185" stroke="#8888a0" stroke-width="1"/>
+        <line x1="576" y1="215" x2="576" y2="230" stroke="#8888a0" stroke-width="1"/>
+        <text x="528" y="168" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">MONDAY — LOW DID</text>
+        <text x="528" y="178" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">NOT TAKE THAT LOW YET</text>
+      </svg>
+      <p class="diagram-caption">Buy side taken above relative equal highs → price starts going lower → two areas of sell side liquidity (unfinished business)</p>
+    </div>
+
+    <div class="quote">
+      <p>"your buy stops would be resting above here and the market will go just above that a little bit and then once those buy stops are taken for anyone that's short they're getting knocked down in a loss… smart money is selling short up here with the expectation it's going to go below this low here"</p>
+      <span class="ts">3:52–4:20</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ KILL ZONE -->
+  <section id="killzone">
+    <div class="section-label">New York Open Kill Zone</div>
+    <h2>Kill Zone — FX vs. Index Times</h2>
+
+    <div class="quote gold">
+      <p>"i dubbed this specific time of day between seven o'clock in the morning new york time to ten o'clock in the morning — this is specific to 4x okay these times are specific to fx pairs"</p>
+      <span class="ts">10:24–10:35</span>
+    </div>
+
+    <div class="quote">
+      <p>"if you're going to trade an index don't worry about that — you can work with the 8 30 to 11 o'clock in your local time"</p>
+      <span class="ts">10:37–10:44</span>
+    </div>
+
+    <table class="time-table">
+      <thead>
+        <tr>
+          <th>Instrument</th>
+          <th>Kill Zone Window</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">FX Pairs</td>
+          <td><em>"seven o'clock in the morning new york time to ten o'clock in the morning"</em></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);">10:26–10:29</td>
+        </tr>
+        <tr>
+          <td class="label">Index Futures</td>
+          <td><em>"8 30 to 11 o'clock"</em> / <em>"i can take a trade all the way up to 10 40 10 45"</em></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);">24:27–24:37</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote">
+      <p>"you're hunting your setup for forex pairs within that little block of time"</p>
+      <span class="ts">11:48–11:51</span>
+    </div>
+
+    <div class="quote">
+      <p>"i'm not interested in taking new trades generally after 10 o'clock in the morning in the fx pair unless there is a news driver"</p>
+      <span class="ts">24:40–24:52</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ MIDNIGHT OPEN -->
+  <section id="midnight">
+    <div class="section-label">Midnight New York Opening Price</div>
+    <h2>The Midnight Opening Price</h2>
+
+    <div class="quote gold">
+      <p>"at the beginning of the day at midnight new york local time… if we see the market rally up which is what we want to see we want to see a protraction in the marketplace where it starts to go against the expected direction of the move intraday"</p>
+      <span class="ts">7:43–8:00</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"preferably if we're selling short we want to see price trade above this opening price — this is where smart money is accumulating short positions"</p>
+      <span class="ts">9:23–9:37</span>
+    </div>
+
+    <div class="quote">
+      <p>"the algorithm is offering constantly price above this opening price… every single time it rallies up just because it does that doesn't necessarily mean that it's a time for you to get in but when you couple that with time of day and price it becomes a lot better"</p>
+      <span class="ts">9:53–10:11</span>
+    </div>
+
+    <div class="quote">
+      <p>"if we're bearish and we're looking for that 109 level to be treated to and attack the liquidity below here preferably we want to see it rally first — that's the judas swing okay that mark of protraction is what we're looking for for manipulation part of my concept power three which is accumulation manipulation distribution"</p>
+      <span class="ts">8:00–8:21</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#ffa502"/>
+          </marker>
+          <marker id="arr3" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#ff4757"/>
+          </marker>
+        </defs>
+
+        <!-- Midnight open price line -->
+        <line x1="80" y1="140" x2="620" y2="140" stroke="#5d9cf5" stroke-width="1.5" stroke-dasharray="6,3"/>
+        <text x="82" y="133" fill="#5d9cf5" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="0.07em">MIDNIGHT NEW YORK OPENING PRICE</text>
+
+        <!-- ACCUMULATION zone label -->
+        <rect x="80" y="145" width="120" height="30" fill="rgba(93,156,245,0.07)" rx="3"/>
+        <text x="95" y="163" fill="#5d9cf5" font-family="JetBrains Mono,monospace" font-size="8.5">ACCUMULATION</text>
+
+        <!-- Judas swing up above midnight open -->
+        <path d="M200 140 Q240 95 310 85" stroke="#ffa502" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+        <text x="250" y="88" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="9">JUDAS SWING</text>
+        <text x="250" y="100" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="7.5">(MANIPULATION)</text>
+        <text x="258" y="112" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">ABOVE MIDNIGHT OPEN</text>
+
+        <!-- Sharp move down (distribution) -->
+        <path d="M310 85 Q350 160 420 220" stroke="#ff4757" stroke-width="2.5" fill="none" marker-end="url(#arr3)"/>
+        <text x="380" y="185" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="9">DISTRIBUTION</text>
+        <text x="380" y="197" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7.5">(REST OF DAY LOWER)</text>
+
+        <!-- Power 3 label -->
+        <rect x="460" y="60" width="180" height="62" fill="rgba(255,165,2,0.06)" rx="4" stroke="rgba(255,165,2,0.2)" stroke-width="1"/>
+        <text x="472" y="80" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="0.08em">POWER THREE</text>
+        <text x="472" y="96" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="8">① ACCUMULATION</text>
+        <text x="472" y="109" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="8">② MANIPULATION</text>
+        <text x="472" y="122" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="8">③ DISTRIBUTION</text>
+
+        <!-- Sell side liquidity target -->
+        <line x1="80" y1="228" x2="620" y2="228" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="82" y="242" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5" letter-spacing="0.06em">SELL SIDE LIQUIDITY TARGET (e.g. 1.09 BIG FIGURE)</text>
+      </svg>
+      <p class="diagram-caption">Midnight open → Judas Swing above → Distribution lower into sell side liquidity target</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ 8:30 RECALIBRATE -->
+  <section id="830">
+    <div class="section-label">8:30 Recalibration</div>
+    <h2>Recalibrating at 8:30 for New York Session</h2>
+
+    <div class="quote">
+      <p>"if you are a new york session trader you want to refer to the opening price at midnight but then you want to recalibrate at 8 30"</p>
+      <span class="ts">12:00–12:11</span>
+    </div>
+
+    <div class="quote gold">
+      <p>"if the opening price is lower at the 830 than that of the opening price at midnight use the lower one — reason why is you want to set the minimum threshold for a judas swing or market protraction to the upside when you're bearish"</p>
+      <span class="ts">18:54–19:10</span>
+    </div>
+
+    <div class="quote bull">
+      <p>"and obviously everything that i just said would be reverse if you're bullish — you'd be looking for a move below the opening at 8 30 to go long after it moves below it"</p>
+      <span class="ts">19:10–19:20</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ JUDAS SWING -->
+  <section id="judas">
+    <div class="section-label">Judas Swing / Power Three</div>
+    <h2>Market Protraction &amp; Manipulation</h2>
+
+    <div class="quote gold">
+      <p>"that mark of protraction is what we're looking for for manipulation part of my concept power three which is accumulation manipulation distribution"</p>
+      <span class="ts">8:09–8:21</span>
+    </div>
+
+    <div class="quote">
+      <p>"once the day begins at midnight we're anticipating a move up what's it gonna be trading up into this imbalance in here… once it does that it kind of like forms the daily high and then the rest of the day you're gonna be looking for distribution throughout the day looking for lower prices"</p>
+      <span class="ts">8:23–8:42</span>
+    </div>
+
+    <div class="quote">
+      <p>"this is not buying and selling pressure — the algorithm is offering constantly price above this opening price"</p>
+      <span class="ts">9:52–9:58</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"if you're going short or looking to go short you want to be above the midnight opening price"</p>
+      <span class="ts">13:48–13:53</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ ORDER BLOCK SETUP -->
+  <section id="orderblock">
+    <div class="section-label">Bearish Setup — Order Block &amp; Fair Value Gap</div>
+    <h2>Bearish Order Block Setup within the Kill Zone</h2>
+
+    <h3>Identifying the Bearish Order Block</h3>
+
+    <div class="quote">
+      <p>"the last closed candle which is a bearish order block — how do we know there's a bearish order block — because we have the imbalance here and it's trading back up into after a nice move lower so this displacement fair value gap last up close candle touches it there's your bearish order block"</p>
+      <span class="ts">10:56–11:14</span>
+    </div>
+
+    <div class="quote">
+      <p>"i don't like to use these long tails and wicks i'll refer to them but i'd like to prefer to annotate if i'm going to show it in my examples or look to price returning back to the body of the candle"</p>
+      <span class="ts">15:39–15:54</span>
+    </div>
+
+    <h3>Intermediate Term High</h3>
+
+    <div class="quote">
+      <p>"a imbalance or a fair value gap associated with a swing higher swing low — in this case this is an intermediate term high not because it just simply has a imbalance but because the narrative is we're expecting lower prices and it went above the opening price at midnight and the imbalance there when it retraces back up into this fake run ahead of the news driver"</p>
+      <span class="ts">15:04–15:32</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"that imbalance tells you this is an intermediate term high — if we're bearish it shouldn't take this high out"</p>
+      <span class="ts">14:38–14:43</span>
+    </div>
+
+    <h3>Setup Sequence on 5-Minute Chart</h3>
+
+    <div class="quote">
+      <p>"inside this shaded area i want to show you how this model is applicable here in fx… we're looking for any fair value gap… this candle is low this candle is high there's your fair value gap isn't it interesting it just goes right up into there closes that in then and only then the market starts to aggressively run below the short term low here"</p>
+      <span class="ts">17:17–18:01</span>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr4" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#ff4757"/>
+          </marker>
+          <marker id="arr5" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#ffa502"/>
+          </marker>
+        </defs>
+
+        <!-- Midnight open line -->
+        <line x1="40" y1="155" x2="640" y2="155" stroke="#5d9cf5" stroke-width="1.2" stroke-dasharray="5,4"/>
+        <text x="42" y="149" fill="#5d9cf5" font-family="JetBrains Mono,monospace" font-size="8">MIDNIGHT OPENING PRICE</text>
+
+        <!-- Kill zone bracket -->
+        <rect x="90" y="30" width="300" height="255" fill="rgba(255,165,2,0.025)" stroke="rgba(255,165,2,0.15)" stroke-width="1" rx="4" stroke-dasharray="3,3"/>
+        <text x="95" y="45" fill="rgba(255,165,2,0.6)" font-family="JetBrains Mono,monospace" font-size="8.5">NEW YORK OPEN KILL ZONE  7:00 → 10:00 AM</text>
+
+        <!-- Some down candles leading to the leg -->
+        <rect x="100" y="135" width="10" height="25" fill="#ff4757" opacity="0.7"/>
+        <rect x="118" y="138" width="10" height="22" fill="#ff4757" opacity="0.7"/>
+        <rect x="136" y="140" width="10" height="20" fill="#ff4757" opacity="0.7"/>
+
+        <!-- Displacement lower -->
+        <rect x="155" y="145" width="12" height="35" fill="#ff4757"/>
+        <line x1="161" y1="118" x2="161" y2="145" stroke="#ff4757" stroke-width="1.2"/>
+        <line x1="161" y1="180" x2="161" y2="195" stroke="#ff4757" stroke-width="1.2"/>
+        <text x="140" y="113" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="7.5">DISPLACEMENT</text>
+
+        <!-- Fair value gap shading -->
+        <rect x="170" y="178" width="80" height="20" fill="rgba(255,165,2,0.15)" stroke="rgba(255,165,2,0.4)" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="175" y="192" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8">FAIR VALUE GAP</text>
+
+        <!-- Candle that defines the FVG -->
+        <rect x="148" y="178" width="9" height="20" fill="none" stroke="#8888a0" stroke-width="1"/>
+        <text x="132" y="210" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7">THIS CANDLE'S LOW</text>
+        <rect x="252" y="155" width="9" height="18" fill="none" stroke="#8888a0" stroke-width="1"/>
+        <text x="234" y="185" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="7">THIS CANDLE'S HIGH</text>
+
+        <!-- Bearish OB — last up close candle -->
+        <rect x="200" y="130" width="12" height="28" fill="#2ed573" opacity="0.6"/>
+        <line x1="206" y1="115" x2="206" y2="130" stroke="#2ed573" stroke-width="1.2"/>
+        <line x1="206" y1="158" x2="206" y2="168" stroke="#2ed573" stroke-width="1.2"/>
+        <text x="218" y="126" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">LAST UP CLOSE CANDLE</text>
+        <text x="218" y="137" fill="#2ed573" font-family="JetBrains Mono,monospace" font-size="8">(BEARISH ORDER BLOCK)</text>
+
+        <!-- Price trades back UP into FVG + OB -->
+        <path d="M280 198 Q300 150 310 135" stroke="#ffa502" stroke-width="1.8" fill="none" marker-end="url(#arr5)"/>
+        <text x="315" y="128" fill="#ffa502" font-family="JetBrains Mono,monospace" font-size="8.5">PRICE TRADES BACK UP</text>
+        <text x="315" y="140" fill="#8888a0" font-family="JetBrains Mono,monospace" font-size="8">INTO FVG / BODY OF OB</text>
+
+        <!-- "Then and only then" → aggressive run lower -->
+        <path d="M340 140 Q380 195 420 250" stroke="#ff4757" stroke-width="2.5" fill="none" marker-end="url(#arr4)"/>
+        <text x="432" y="215" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5">THEN AND ONLY THEN</text>
+        <text x="432" y="228" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5">AGGRESSIVELY RUNS</text>
+        <text x="432" y="241" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5">BELOW SHORT-TERM LOW</text>
+
+        <!-- Sell side target -->
+        <line x1="40" y1="278" x2="640" y2="278" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="42" y="294" fill="#ff4757" font-family="JetBrains Mono,monospace" font-size="8.5">SELL SIDE LIQUIDITY TARGET  (e.g. 1.09 BIG FIGURE)</text>
+      </svg>
+      <p class="diagram-caption">Bearish Order Block setup: Displacement + FVG → price retraces to body of last up close candle → aggressively runs lower into target</p>
+    </div>
+
+    <div class="quote">
+      <p>"this return into that order block sets the stage for another move lower we get a swing high lower high to the right of this candle and a lower high to the left of it here so we have three candles making a swing high so we start looking for displacement and movement lower"</p>
+      <span class="ts">15:57–16:15</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ INSTITUTIONAL LEVELS -->
+  <section id="levels">
+    <div class="section-label">Institutional Price Levels</div>
+    <h2>Big Figures &amp; Institutional Price Levels</h2>
+
+    <div class="quote gold">
+      <p>"the big figure numbers okay or the zero levels — they're very influential because there's lots of liquidity that is used around those levels a lot of commerce a lot of business transactions that come in — just for the sake of simplicity 0 0 level to 20 levels the 50 levels and the 80 levels — so i dub them institutional price levels"</p>
+      <span class="ts">4:53–5:18</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <span class="card-title">00 Levels</span>
+        <p><em>"very influential because there's lots of liquidity that is used around those levels"</em></p>
+        <span class="ts">4:59–5:05</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">20 / 50 / 80 Levels</span>
+        <p><em>"just for the sake of simplicity 0 0 level to 20 levels the 50 levels and the 80 levels — so i dub them institutional price levels"</em></p>
+        <span class="ts">5:11–5:18</span>
+      </div>
+      <div class="concept-card">
+        <span class="card-title">Convergence</span>
+        <p><em>"we have a lot of convergence around that 109 big figure"</em> — Fibonacci standard deviation levels calling for those areas increases probability.</p>
+        <span class="ts">7:38–7:40</span>
+      </div>
+    </div>
+
+    <h3>Standard Deviation &amp; Fibonacci</h3>
+
+    <div class="quote">
+      <p>"we have a standard deviation from this swing to here — if this is broken these are only true if this low is broken okay — so this is a falcon point and this is a fulcrum point… the lowest one without going through 1.09 is this one here"</p>
+      <span class="ts">6:30–7:06</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ NEWS DRIVERS -->
+  <section id="news">
+    <div class="section-label">High Impact News Drivers</div>
+    <h2>News Drivers &amp; Extended Kill Zone</h2>
+
+    <div class="quote">
+      <p>"what i'm expecting is the volatility in the marketplace at or around these specific times because the algorithm is going to use that injection of volatility to facilitate trades"</p>
+      <span class="ts">12:49–13:03</span>
+    </div>
+
+    <div class="quote">
+      <p>"i don't care what these numbers are really discussing i don't care about the raw data i don't care what the expectation is i don't care"</p>
+      <span class="ts">12:38–12:48</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"when you have high impact news drivers this is going to many times scare you out of the trade or stop you out… if you went short back here and you started trailing your stop loss this is what that's designed to do — take you out"</p>
+      <span class="ts">16:31–16:44</span>
+    </div>
+
+    <div class="quote">
+      <p>"they're jamming it up against that back above the opening price because your buy stop is going to flood the market with buyers willing to pay a higher price… the counterparty side of the smart money that wants to sell short"</p>
+      <span class="ts">16:53–17:12</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head gold">Kill Zone Extension (News)</div>
+      <p>"with the economic counter having that high impact news driver at 10 o'clock that extends the new york session kill zone into the 11 11 30 time window because the volatility that it will bring in"</p>
+      <span class="ts">25:18–25:32</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ EXITS & RISK -->
+  <section id="exits">
+    <div class="section-label">Practical Rules — Exits, Stops &amp; Risk</div>
+    <h2>Exit Strategy &amp; Risk to Reward</h2>
+
+    <div class="quote">
+      <p>"by itself you don't want to try to aim for just that level okay because that's the best exit strategy you don't want to do that — you want to fluff up your exits with a couple pips — i like to teach my students three to five pips"</p>
+      <span class="ts">20:43–20:57</span>
+    </div>
+
+    <div class="quote">
+      <p>"if you're really new just use 10 pips okay"</p>
+      <span class="ts">22:16–22:18</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head bear">Stop Placement</div>
+      <p>"your stop would be right above this candle's high — now if you're scared or whatever you can use this swing high and that's fine"</p>
+      <span class="ts">22:39–22:47</span>
+    </div>
+
+    <div class="quote">
+      <p>"every broker has the ability to open that spread up on you — you're seeing the best case scenario when that ticker is showing — but trust me when it's advantageous for them they'll work it in their behalf not yours — so make it easier for yourself just fluff up your excess with five pips"</p>
+      <span class="ts">21:55–22:13</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-head gold">Risk to Reward (Example Trade)</div>
+      <p>"the risk is here entry to stop and the distribution to your target down here — risk to reward ratio better than eight to one"</p>
+      <span class="ts">23:28–23:41</span>
+    </div>
+
+    <div class="quote">
+      <p>"i've had many amazing exits elude me because of my overzealous targeting — so be a little bit more forgiving when you're trading especially 4x you got to incorporate the spread"</p>
+      <span class="ts">21:37–21:52</span>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ══════════════════════════════════════════════ FLASHCARDS -->
+  <section id="study">
+    <div class="section-label">Self-Study</div>
+    <h2>Flashcards <span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;">— click to reveal</span></h2>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What specific kill zone hours does ICT use for FX pairs?</div>
+        <div class="flashcard-answer">"between seven o'clock in the morning new york time to ten o'clock in the morning — this is specific to 4x okay these times are specific to fx pairs"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What kill zone hours are used for index trading?</div>
+        <div class="flashcard-answer">"8 30 to 11 o'clock"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">When bearish, what do you want to see before looking for distribution?</div>
+        <div class="flashcard-answer">"preferably we want to see it rally first — that's the judas swing okay that mark of protraction is what we're looking for for manipulation"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What are the three parts of Power Three?</div>
+        <div class="flashcard-answer">"accumulation manipulation distribution"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">When selling short, where does smart money accumulate short positions relative to the midnight opening price?</div>
+        <div class="flashcard-answer">"preferably if we're selling short we want to see price trade above this opening price — this is where smart money is accumulating short positions"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What makes a swing high an intermediate term high (not just because it has an imbalance)?</div>
+        <div class="flashcard-answer">"not because it just simply has a imbalance but because the narrative is we're expecting lower prices and it went above the opening price at midnight and the imbalance there"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">How do you identify a bearish order block?</div>
+        <div class="flashcard-answer">"we have the imbalance here and it's trading back up into after a nice move lower so this displacement fair value gap last up close candle touches it there's your bearish order block"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What are the "institutional price levels" ICT identifies?</div>
+        <div class="flashcard-answer">"just for the sake of simplicity 0 0 level to 20 levels the 50 levels and the 80 levels — so i dub them institutional price levels"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">If the 8:30 opening price is lower than the midnight opening price, which do you use when bearish?</div>
+        <div class="flashcard-answer">"if the opening price is lower at the 830 than that of the opening price at midnight use the lower one — reason why is you want to set the minimum threshold for a judas swing or market protraction to the upside when you're bearish"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does the algorithm do with a high-impact news event according to ICT?</div>
+        <div class="flashcard-answer">"the algorithm is going to use that injection of volatility to facilitate trades"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What happens to the kill zone when a high-impact news driver falls at 10 o'clock?</div>
+        <div class="flashcard-answer">"with the economic counter having that high impact news driver at 10 o'clock that extends the new york session kill zone into the 11 11 30 time window because the volatility that it will bring in"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What is the recommended exit pip buffer for new traders?</div>
+        <div class="flashcard-answer">"i like to teach my students three to five pips" / "if you're really new just use 10 pips okay"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">Why does ICT warn against aiming for the exact institutional level?</div>
+        <div class="flashcard-answer">"i've had many amazing exits elude me because of my overzealous targeting — so be a little bit more forgiving when you're trading especially 4x you got to incorporate the spread"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">What does a high-impact news driver spike before distribution often represent relative to an open short position?</div>
+        <div class="flashcard-answer">"they're jamming it up against that back above the opening price because your buy stop is going to flood the market with buyers willing to pay a higher price… the counterparty side of the smart money that wants to sell short"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">After price fills the fair value gap on the way back up, what happens next according to ICT?</div>
+        <div class="flashcard-answer">"then and only then the market starts to aggressively run below the short term low here and then reaching into our objective down here"</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <span class="fc-hint">tap</span>
+        <div class="flashcard-question">In the example trade, what was the risk-to-reward ratio?</div>
+        <div class="flashcard-answer">"risk to reward ratio better than eight to one"</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Vacuum Block - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-liquidity-imbalance.html">Return to Category</a>
+        <a href="ict_SIBIFVG.html">Next Chapter</a>
+        <a href="ICT_BIBLE__DEFINING_DAILY_RANGE__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>ICT Vacuum Block</h1>
+        <p>"A bullish vacuum block is a gap that's created in price action as a result of a volatility event"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#causes">Causes</a>
+        <a href="#structure">Structure</a>
+        <a href="#scenarios">Scenarios</a>
+        <a href="#fills">Gap Fills</a>
+        <a href="#entry">Entry Rules</a>
+        <a href="#timing">Time of Day</a>
+        <a href="#psychology">Psychology</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"A bullish vacuum block is a gap that's created in price action as a result of a volatility event. The gap forms by a vacuum of liquidity directly related to an event."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Inside that range we have a vacuum block, and that means we've blocked out a reference point in time."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Even though there's no candlestick or bar on our chart, price did in fact have a parameter before and end."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="causes">
+            <h2>What Causes Vacuum Blocks</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Volatility Events</span>
+                </div>
+                <p><em>"Non-farm payroll can create a vacuum block or in futures a session open can."</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Economic Calendar Releases</span>
+                </div>
+                <p><em>"It could be a large volatility injection coming in the form of a economic calendar release. It could be not farm payroll, it could be a FOMC related event, anything along the lines of interest rates."</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Geopolitical Events</span>
+                </div>
+                <p><em>"It could be a geopolitical event that was not foreseen, maybe not even on the economic calendar, say a terrorist attack, something like that, something of that nature."</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Session Opens (Futures)</span>
+                </div>
+                <p><em>"If we're trading futures contracts where they have a session opens and closes where there's no trading."</em></p>
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2>Structure & Pattern</h2>
+
+            <blockquote class="quote">
+                <p><em>"When we see that gap, the space in between the two candles is important. While on our charts there's going to be a vacuum, if you will, of trading, there's no trades being made between the previous candles close and the next candles opening."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"There's absolutely no way for any trader to execute. There's no trade between those two price points. So what it does, it creates a vacuum of liquidity."</em></p>
+            </blockquote>
+
+            <h3>Defining the Vacuum Block</h3>
+
+            <blockquote class="quote">
+                <p><em>"We're defining it as the high and the low of the gap. Now if we looked at it in the terms of a candle or a bar, it would be just the same as anything else. We would expect to see a mean threshold, an opening, and a close. So if we see that, we're just going to treat it just like any other candle."</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Bullish Vacuum Block Structure</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Down candles before gap -->
+                <rect x="100" y="350" width="40" height="80" fill="#ff4757" stroke="#ff4757" stroke-width="2"/>
+                <text x="120" y="445" fill="#e8e8ed" font-size="12" text-anchor="middle">Down</text>
+
+                <rect x="150" y="330" width="40" height="100" fill="#ff4757" stroke="#ff4757" stroke-width="2"/>
+                <text x="170" y="445" fill="#e8e8ed" font-size="12" text-anchor="middle">Down</text>
+
+                <!-- Gap visualization -->
+                <rect x="200" y="280" width="150" height="140" fill="none" stroke="#ffa502" stroke-width="3" stroke-dasharray="5,5"/>
+                <text x="275" y="350" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">VACUUM BLOCK</text>
+                <text x="275" y="370" fill="#9898a8" font-size="12" text-anchor="middle">(No trades in this range)</text>
+
+                <!-- Gap labels -->
+                <line x1="190" y1="280" x2="190" y2="420" stroke="#ffa502" stroke-width="2"/>
+                <text x="180" y="275" fill="#ffa502" font-size="12" text-anchor="end">Opening of gapped up candle</text>
+                <text x="180" y="425" fill="#ffa502" font-size="12" text-anchor="end">Close of up candle before gap</text>
+
+                <!-- Up candle after gap -->
+                <rect x="360" y="240" width="40" height="60" fill="#2ed573" stroke="#2ed573" stroke-width="2"/>
+                <line x1="380" y1="230" x2="380" y2="310" stroke="#2ed573" stroke-width="2"/>
+                <text x="380" y="325" fill="#e8e8ed" font-size="12" text-anchor="middle">Gap Up</text>
+
+                <!-- Bullish Order Block area -->
+                <rect x="100" y="350" width="90" height="80" fill="rgba(46, 213, 115, 0.2)" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="145" y="395" fill="#2ed573" font-size="11" text-anchor="middle">Bullish Order</text>
+                <text x="145" y="408" fill="#2ed573" font-size="11" text-anchor="middle">Block Area</text>
+
+                <!-- Price movement back down -->
+                <path d="M 400 260 L 420 280 L 440 300 L 460 330 L 480 360" stroke="#ff4757" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                <text x="500" y="360" fill="#ff4757" font-size="12">Price trading lower</text>
+
+                <!-- Arrows showing gap range -->
+                <line x1="360" y1="280" x2="200" y2="280" stroke="#ffa502" stroke-width="1" marker-end="url(#arrowhead)"/>
+                <line x1="360" y1="420" x2="200" y2="420" stroke="#ffa502" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+                <!-- Short-term low label -->
+                <text x="120" y="470" fill="#e8e8ed" font-size="13" text-anchor="middle">Short-term low formed</text>
+
+                <!-- Definition marker -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#ffa502"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <blockquote class="quote">
+                <p><em>"Short-term lows formed, and this could be if we're trading futures contracts where they have a session opens and closes where there's no trading."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="scenarios">
+            <h2>Market Context Scenarios</h2>
+
+            <h3>Exhaustion Gap Scenario</h3>
+            <blockquote class="quote">
+                <p><em>"This outline that I'm giving you here would be a little bit more probable if the market had been rallying for a number of days or weeks or it's been in a prolonged uptrend and then it does this. This could potentially be an exhaustion gap. An exhaustion gap is typically a graphic depiction of capitulation, and capitulations basically like the last bit of momentum in underlying trend or direction."</em></p>
+            </blockquote>
+
+            <h3>Bullish Continuation Scenario</h3>
+            <blockquote class="quote">
+                <p><em>"Assuming that we have been in a downward correction in an upward market, or if we've been in a down market and we expect the market to give some kind of a bullish news, or we're expecting the market to reach for liquidity above where we're currently trading at and the news event releases and we get this gap up."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we gap up away from a market that's in a discount, we've had some retracement but we are expecting higher prices nonetheless, we see this gap like this."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="fills">
+            <h2>Gap Fill Expectations</h2>
+
+            <blockquote class="quote">
+                <p><em>"Most times, I'm not going to give you a specific percentage because there's no real accurate way of depicting that because it's just we're going to classify as a high probability that the market will want to come back and try to close that in."</em></p>
+            </blockquote>
+
+            <h3>Partial Fill (Bullish Order Block)</h3>
+
+            <blockquote class="quote">
+                <p><em>"If we're bullish, we're looking for is there any bullish order block or down candle that would cause the gap to not want to fill entirely."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"We have the down candle right before the move and it's two consecutive down candles, so the bullish order block would begin at the higher of the two down candles prior to the gap up. And as price trades into that candle, we would reasonably expect a potential bounce there and leave that little gap opening still intact, but this could potentially be a buy."</em></p>
+            </blockquote>
+
+            <h3>Full Fill</h3>
+
+            <blockquote class="quote">
+                <p><em>"We have two reference points here: the opening of the gapped up candle and the close of the up candle right before the gap forms. And again, as price trades lower, lower, lower, boom, it hits that and we would see a complete closure of the gap. That would be a full return on a vacuum block. In other words, everything has completely been closed in."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"This whole range here is 100% filled. This is in effect perfect delivery of price. Once it's done this, this is completely balanced out now."</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Gap Fill Scenarios</text>
+
+                <!-- Scenario 1: Partial Fill -->
+                <text x="200" y="70" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">Partial Fill at Order Block</text>
+
+                <!-- Down candles -->
+                <rect x="100" y="150" width="30" height="60" fill="#ff4757"/>
+                <rect x="135" y="140" width="30" height="70" fill="#ff4757"/>
+
+                <!-- Gap -->
+                <rect x="175" y="100" width="100" height="100" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="225" y="150" fill="#ffa502" font-size="12" text-anchor="middle">GAP</text>
+
+                <!-- Up candle after gap -->
+                <rect x="285" y="80" width="30" height="40" fill="#2ed573"/>
+
+                <!-- Order block highlight -->
+                <rect x="100" y="150" width="65" height="60" fill="rgba(46, 213, 115, 0.3)" stroke="#2ed573" stroke-width="2"/>
+                <text x="132" y="235" fill="#2ed573" font-size="11" text-anchor="middle">Order Block</text>
+
+                <!-- Price bounce -->
+                <path d="M 315 120 Q 280 140, 250 160 Q 220 175, 180 175" stroke="#ff4757" stroke-width="2" fill="none"/>
+                <circle cx="180" cy="175" r="5" fill="#2ed573"/>
+                <text x="180" y="195" fill="#2ed573" font-size="11" text-anchor="middle">Bounce</text>
+
+                <!-- Fair Value Gap label -->
+                <rect x="175" y="100" width="100" height="70" fill="rgba(255, 165, 2, 0.2)"/>
+                <text x="225" y="180" fill="#ffa502" font-size="10" text-anchor="middle">Fair Value Gap</text>
+                <text x="225" y="192" fill="#ffa502" font-size="10" text-anchor="middle">remains open</text>
+
+                <!-- Scenario 2: Full Fill -->
+                <text x="600" y="70" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">Complete Fill</text>
+
+                <!-- Down candles -->
+                <rect x="500" y="150" width="30" height="60" fill="#ff4757"/>
+                <rect x="535" y="140" width="30" height="70" fill="#ff4757"/>
+
+                <!-- Gap -->
+                <rect x="575" y="100" width="100" height="100" fill="none" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="625" y="150" fill="#ffa502" font-size="12" text-anchor="middle">GAP</text>
+
+                <!-- Up candle after gap -->
+                <rect x="685" y="80" width="30" height="40" fill="#2ed573"/>
+
+                <!-- Price fills completely -->
+                <path d="M 715 120 Q 680 140, 650 160 Q 620 180, 590 200" stroke="#ff4757" stroke-width="2" fill="none"/>
+                <circle cx="590" cy="200" r="5" fill="#2ed573"/>
+                <text x="590" y="220" fill="#2ed573" font-size="11" text-anchor="middle">Full Fill</text>
+
+                <!-- Filled gap visualization -->
+                <rect x="575" y="100" width="100" height="100" fill="rgba(46, 213, 115, 0.2)"/>
+                <text x="625" y="155" fill="#2ed573" font-size="10" text-anchor="middle">Gap 100%</text>
+                <text x="625" y="167" fill="#2ed573" font-size="10" text-anchor="middle">filled</text>
+
+                <!-- Labels -->
+                <line x1="50" y1="300" x2="350" y2="300" stroke="#9898a8" stroke-width="1"/>
+                <line x1="450" y1="300" x2="750" y2="300" stroke="#9898a8" stroke-width="1"/>
+
+                <!-- Expected behavior after fills -->
+                <text x="400" y="350" fill="#e8e8ed" font-size="15" text-anchor="middle" font-weight="bold">Expected Price Behavior After Fill</text>
+
+                <!-- Partial fill behavior -->
+                <rect x="50" y="380" width="320" height="180" fill="var(--bg-card)" stroke="var(--border-color)" stroke-width="1" rx="8"/>
+                <text x="210" y="405" fill="#ffa502" font-size="13" text-anchor="middle" font-weight="bold">Partial Fill</text>
+                <text x="210" y="430" fill="#e8e8ed" font-size="11" text-anchor="middle">"If you're going to be buying there, you'd</text>
+                <text x="210" y="445" fill="#e8e8ed" font-size="11" text-anchor="middle">have to see immediate feedback"</text>
+                <text x="210" y="470" fill="#e8e8ed" font-size="11" text-anchor="middle">"Leave that little gap opening still intact,</text>
+                <text x="210" y="485" fill="#e8e8ed" font-size="11" text-anchor="middle">but this could potentially be a buy"</text>
+                <text x="210" y="510" fill="#9898a8" font-size="10" text-anchor="middle">Stop: Below lowest down candle</text>
+
+                <!-- Full fill behavior -->
+                <rect x="430" y="380" width="320" height="180" fill="var(--bg-card)" stroke="var(--border-color)" stroke-width="1" rx="8"/>
+                <text x="590" y="405" fill="#ffa502" font-size="13" text-anchor="middle" font-weight="bold">Full Fill</text>
+                <text x="590" y="430" fill="#e8e8ed" font-size="11" text-anchor="middle">"Complete closure of the gap"</text>
+                <text x="590" y="445" fill="#e8e8ed" font-size="11" text-anchor="middle">"This is completely balanced out now"</text>
+                <text x="590" y="470" fill="#e8e8ed" font-size="11" text-anchor="middle">"Vacuum of liquidity has been completely</text>
+                <text x="590" y="485" fill="#e8e8ed" font-size="11" text-anchor="middle">balanced out"</text>
+                <text x="590" y="510" fill="#9898a8" font-size="10" text-anchor="middle">Stop: Below close of first up candle</text>
+            </svg>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Rules & Risk Management</h2>
+
+            <h3>Partial Fill Entry</h3>
+
+            <blockquote class="quote">
+                <p><em>"If you're going to be buying there, you'd have to see immediate feedback. If you're going to be buying there, can you take the risk that's associated with entering here and using a stop below that lowest down candle. So your range in terms of managing your risk and defining the risk would be between those two reference points."</em></p>
+            </blockquote>
+
+            <h3>Full Fill Entry</h3>
+
+            <blockquote class="quote">
+                <p><em>"Buying here and using a stop loss below the lowest low, your risk is more defined for more leverage but still having the same potential parameters for exposure percentage of your equity."</em></p>
+            </blockquote>
+
+            <h3>Post-Fill Behavior</h3>
+
+            <blockquote class="quote">
+                <p><em>"We're looking for the up candle that formed at the gap, we want to see that low be cleanly broke through. We don't want to see it hesitate here because otherwise that would be a bearish order block, right. So what we're looking for is we're anticipating the bullishness of this move to drive right on through that last up candle when it gapped up."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Because now price has already been delivered efficiently, that vacuum of liquidity has been completely balanced out. We traded down with the two down candles to close the gap, now we've had a bullish move up. So what has happened? Price has been delivered on the downside to close the gap and now it's trading up. There's no reason for price to come back down."</em></p>
+            </blockquote>
+
+            <h3>Invalidation Rule</h3>
+
+            <blockquote class="quote">
+                <p><em>"We don't want to see price ever come back down below the level that would have caused it to close the gap."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"There's no reason for it to come back down and trade below the last point of reference before the gap, which would be the close of the first up candle. So when that closes in that range, the vacuum block is completely filled in and now price is permitted to trade bullishly higher."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If it does, the trade is probably going to be suspect and you would want to look to take some profits if you've seen a move like this. Take something off, but if it starts to correct and go lower, you want to take the complete trade off because there's no reason for it to come back down into that area once it's already closed the gap."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="timing">
+            <h2>Time of Day Considerations</h2>
+
+            <blockquote class="quote">
+                <p><em>"The reasons I would expect to see that is if it was time of day sensitive. In other words, if we had a lot of today left in the day where we can trade. In other words, if it's just now beginning of New York."</em></p>
+            </blockquote>
+
+            <h3>Early New York (8:30 AM)</h3>
+
+            <blockquote class="quote">
+                <p><em>"New York would probably come down and close that gap in."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"8:30 would be relatively decent in terms of allowing more time for the day to unfold."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Generally at 8:30 news embargo lifts, there is usually markets that cause a gap like this to occur."</em></p>
+            </blockquote>
+
+            <h3>Late New York (After 10-11 AM)</h3>
+
+            <blockquote class="quote">
+                <p><em>"If it was gapped up late in the afternoon, chances are it probably would leave the gap open."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we are later, for instance say it's the 10 o'clock or 11 o'clock hour and we get this gap, we may end up seeing this portion of the gap to remain open and that would present us a fair value gap for a later time. We would look for price to a later time come back and close that in, but leave it open during this specific trading day."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"That would begin our thought process like that if the gap occurs late New York opening or after 10 o'clock in the morning to 11 o'clock in the morning."</em></p>
+            </blockquote>
+
+            <h3>London Session</h3>
+
+            <blockquote class="quote">
+                <p><em>"Highly unlikely that it does it in London. Usually it's a trading event that takes place, but a gap like this usually occurs in the New York session or late New York with FOMC."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="psychology">
+            <h2>Market Psychology & Liquidity</h2>
+
+            <blockquote class="quote">
+                <p><em>"The first assumption is on the part of most traders is this thing's going to keep going higher right away. And sometimes it will, but we're going to be looking at the vacuum block in the scope that we can use it to get in sync with what may be underlying in the marketplace."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It creates a vacuum of liquidity. There's an absence of liquidity there, there's an absence of price being traded there."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If there's no trades in that range, what's the market actually done? It's gapped up through it and started trading at a higher price on a new candle when it opened up and it traded a little bit more, and now we have to discern whether or not the market is going to continue and run away from that price level and leave the gap opening or will it trade back down and close in that range."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If we're expecting higher prices, if there's liquidity that hasn't been sought out after prior to that highest high that formed on the gap opening, and back bullish liquidity above the marketplace would now allow price to drive higher."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="relationship">
+            <h2>Relationship to Other Concepts</h2>
+
+            <h3>Vacuum Block vs Breakaway Gap</h3>
+
+            <blockquote class="quote">
+                <p><em>"In summary, a vacuum block is nothing more than a breakaway gap."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"What I teach with the breakaway gap is because it creates a vacuum of liquidity, you have to understand not all gaps fill completely."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If it stays open, we would label that while we're bullish as a breakaway gap and it would show willingness and strength to get in there and expect higher prices."</em></p>
+            </blockquote>
+
+            <h3>Fair Value Gap</h3>
+
+            <blockquote class="quote">
+                <p><em>"Price may only come down to a bullish order block that would be inside that gap, and price just comes to that level and then stops trading lower and then rallies higher, leaving a small gap which would be classified as a fair value gap, and we could use that at a future time."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"When price is now trading lower, we would look for price to come down and close that gap in."</em></p>
+            </blockquote>
+
+            <h3>Bearish Vacuum Block</h3>
+
+            <blockquote class="quote">
+                <p><em>"The reverse would be seen if we had gapped lower and we would wait for that gap to fill in on some up candles and then we would go short in the same venue that we would do here looking for long system in reverse."</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a bullish vacuum block?</div>
+                    <div class="flashcard-answer">"A bullish vacuum block is a gap that's created in price action as a result of a volatility event. The gap forms by a vacuum of liquidity directly related to an event."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What events can create a vacuum block?</div>
+                    <div class="flashcard-answer">"Non-farm payroll can create a vacuum block or in futures a session open can. It could be a FOMC related event, anything along the lines of interest rates or it could be a geopolitical event."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you define the boundaries of a vacuum block?</div>
+                    <div class="flashcard-answer">"We're defining it as the high and the low of the gap. The opening of the gapped up candle and the close of the up candle right before the gap forms."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why does the market want to fill the gap?</div>
+                    <div class="flashcard-answer">"There's no trades being made between the previous candles close and the next candles opening. So that gap creates a vacuum of liquidity. Most times we're going to classify as a high probability that the market will want to come back and try to close that in."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a bullish order block in relation to a vacuum block?</div>
+                    <div class="flashcard-answer">"The bullish order block would begin at the higher of the two down candles prior to the gap up. And as price trades into that candle, we would reasonably expect a potential bounce there and leave that little gap opening still intact."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What constitutes a complete fill of a vacuum block?</div>
+                    <div class="flashcard-answer">"When price hits the close of the up candle right before the gap forms, we would see a complete closure of the gap. That would be a full return on a vacuum block. In other words, everything has completely been closed in. This whole range here is 100% filled."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens after the gap is completely filled?</div>
+                    <div class="flashcard-answer">"Price has been delivered on the downside to close the gap and now it's trading up. There's no reason for price to come back down. The vacuum of liquidity has been completely balanced out."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should you exit if the gap fills and price returns below it?</div>
+                    <div class="flashcard-answer">"If it does, the trade is probably going to be suspect and you would want to look to take some profits. But if it starts to correct and go lower, you want to take the complete trade off because there's no reason for it to come back down into that area once it's already closed the gap."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does time of day affect gap fill expectations?</div>
+                    <div class="flashcard-answer">"If it's just now beginning of New York, New York would probably come down and close that gap in. If it was gapped up late in the afternoon, chances are it probably would leave the gap open."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the relationship between vacuum block and breakaway gap?</div>
+                    <div class="flashcard-answer">"In summary, a vacuum block is nothing more than a breakaway gap. What I teach with the breakaway gap is because it creates a vacuum of liquidity, you have to understand not all gaps fill completely."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What risk management should you use for partial gap fills?</div>
+                    <div class="flashcard-answer">"If you're going to be buying there, can you take the risk that's associated with entering here and using a stop below that lowest down candle. So your range in terms of managing your risk and defining the risk would be between those two reference points."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an exhaustion gap?</div>
+                    <div class="flashcard-answer">"If the market had been rallying for a number of days or weeks or it's been in a prolonged uptrend and then it does this, this could potentially be an exhaustion gap. An exhaustion gap is typically a graphic depiction of capitulation, and capitulations basically like the last bit of momentum in underlying trend or direction."</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

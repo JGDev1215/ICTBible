@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fair Valuation - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-liquidity-imbalance.html">Return to Category</a>
+        <a href="ICT_BIBLE__VACUUM_BLOCK__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__DEFINING_DAILY_RANGE__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Fair Valuation</h1>
+        <p>"Fair valuation comes in the form of two perspectives: fair value in regards to equal distance of a high and low, or what we would call equilibrium, or fair value for the perspective on valuation in regards to market makers"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#two-perspectives">Two Perspectives</a>
+        <a href="#fvg">Fair Value Gap</a>
+        <a href="#liquidity-void">Liquidity Void</a>
+        <a href="#equilibrium">Equilibrium</a>
+        <a href="#discount-premium">Discount/Premium</a>
+        <a href="#ote">Optimal Trade Entry</a>
+        <a href="#market-maker">Market Maker Fair Value</a>
+        <a href="#rules">Rules</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"fair valuation comes in the form of two perspectives fair value in regards to equal distance of a higher low or what we would call equilibrium or fair value for the perspective on valuation in regards to market makers"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"I'm going to combine both of them to give you the perspective that you have to have when you look at Price"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="two-perspectives">
+            <h2>Two Perspectives of Fair Value</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">PERSPECTIVE 1: EQUILIBRIUM</span>
+                </div>
+                <p><em>"fair value in regards to equal distance of a higher low or what we would call equilibrium"</em></p>
+                <p style="margin-top: 1rem;"><em>"equilibrium or 50% of that range from this high this High to this low there's equilibrium"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">PERSPECTIVE 2: MARKET MAKER VALUATION</span>
+                </div>
+                <p><em>"fair value for the perspective on valuation in regards to market makers"</em></p>
+                <p style="margin-top: 1rem;"><em>"fair value is established because there's going to be a willingness to want to see price trade back up into these levels in here and close in all this"</em></p>
+            </div>
+        </section>
+
+        <section id="fvg">
+            <h2>Fair Value Gap</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"between those two up candles there's what's referred to as a fair value Gap okay a fair value Gap the reason why this is important is because there was no up candle or up movement between the break of that low and the high of this candle here it was all just straight down movement so nothing filled in in this area once price broke this low it left it open basically it's like a gap"</em></p>
+            </blockquote>
+
+            <h3>How to Define a Fair Value Gap</h3>
+            <blockquote class="quote">
+                <p><em>"this up candle at the bottom of that that's where we start watching and measuring fair value and the down candle here very next candle is up candle so we start looking at the range between this up candle and this up candle between those two up candles there's what's referred to as a fair value Gap"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"I Define it by the body I like to use those the range in which it causes this void"</em></p>
+            </blockquote>
+
+            <h3>Why Fair Value Gap Forms</h3>
+            <blockquote class="quote">
+                <p><em>"this area in price action only saw down movement didn't have any up candle movement only down movement"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Fair Value Gap Formation</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Up Candle 1 (before the gap) -->
+                <rect x="150" y="350" width="40" height="80" fill="#2ed573" stroke="#2ed573" stroke-width="2"/>
+                <line x1="170" y1="330" x2="170" y2="430" stroke="#2ed573" stroke-width="2"/>
+                <text x="170" y="465" fill="#e8e8ed" font-size="14" text-anchor="middle">Up Candle 1</text>
+
+                <!-- Down movement (creating the gap) -->
+                <path d="M 220 360 L 280 360 L 280 200 L 320 200" stroke="#ff4757" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                <text x="300" y="280" fill="#ff4757" font-size="14">Only Down Movement</text>
+                <text x="300" y="300" fill="#ff4757" font-size="12">(No up candles)</text>
+
+                <!-- Large Down Candle -->
+                <rect x="340" y="200" width="40" height="200" fill="none" stroke="#ff4757" stroke-width="2"/>
+                <rect x="345" y="210" width="30" height="180" fill="#ff4757"/>
+                <line x1="360" y1="200" x2="360" y2="410" stroke="#ff4757" stroke-width="2"/>
+                <text x="360" y="465" fill="#e8e8ed" font-size="14" text-anchor="middle">Down Candle</text>
+
+                <!-- Up Candle 2 (after the gap) -->
+                <rect x="450" y="320" width="40" height="70" fill="#2ed573" stroke="#2ed573" stroke-width="2"/>
+                <line x1="470" y1="300" x2="470" y2="400" stroke="#2ed573" stroke-width="2"/>
+                <text x="470" y="465" fill="#e8e8ed" font-size="14" text-anchor="middle">Up Candle 2</text>
+
+                <!-- Fair Value Gap Zone -->
+                <rect x="140" y="230" width="360" height="90" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="320" y="225" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">FAIR VALUE GAP</text>
+
+                <!-- Labels for gap boundaries -->
+                <line x1="120" y1="230" x2="500" y2="230" stroke="#ffa502" stroke-width="2"/>
+                <text x="520" y="235" fill="#ffa502" font-size="12">Up Candle 1 High</text>
+
+                <line x1="120" y1="320" x2="500" y2="320" stroke="#ffa502" stroke-width="2"/>
+                <text x="520" y="325" fill="#ffa502" font-size="12">Up Candle 2 Low</text>
+
+                <!-- Annotation -->
+                <text x="600" y="100" fill="#e8e8ed" font-size="14">Gap between two up candles</text>
+                <text x="600" y="120" fill="#e8e8ed" font-size="14">where only down movement occurred</text>
+                <text x="600" y="160" fill="#9898a8" font-size="12" font-style="italic">"nothing filled in in this area"</text>
+            </svg>
+        </section>
+
+        <section id="liquidity-void">
+            <h2>Liquidity Void</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"this is what we call a liquidity void where the market makes a sudden movement lower and it's large ranges very little Wicks very quick movement that is a void that means the price spent very little time trading at these price levels and it was in a hurry to get down to this area"</em></p>
+            </blockquote>
+
+            <h3>Characteristics</h3>
+            <blockquote class="quote">
+                <p><em>"pockets of price action where there's sudden movement lower"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"this down here is down candle price action only big range so this is a liquidity void the fact that it creates it in big ranges and speed that's what defines it"</em></p>
+            </blockquote>
+
+            <h3>Market Behavior</h3>
+            <blockquote class="quote">
+                <p><em>"when price is below that this is going to be fair value okay the Market's going to want to come back to that because there was very little trading in there"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"when price starts to move High we know that we'll try to trade into this range here and fill that in at a later time"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="equilibrium">
+            <h2>Equilibrium</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"equilibrium or fair value in regards to equal distant uh range between high and low of a defined high and low range"</em></p>
+            </blockquote>
+
+            <h3>How to Identify</h3>
+            <blockquote class="quote">
+                <p><em>"if we have this low here and this High here if we Define that with F okay we have equilibrium right here or 50% of that range from this high this High to this low there's equilibrium"</em></p>
+            </blockquote>
+
+            <h3>Equilibrium as Directional Reference</h3>
+            <blockquote class="quote">
+                <p><em>"at equilibrium you need to refer to where the most recent price swing took place in other words if we're at equilibrium here or at fair value thek Market can go either way at this price level the easiest way to determine where its most probable direction is is where did Market structure break most recently did it break a swing high or did it break a swing low most recently"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Equilibrium in Trading Range</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Define the range -->
+                <line x1="150" y1="100" x2="150" y2="400" stroke="#e8e8ed" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="155" y="105" fill="#e8e8ed" font-size="14">High</text>
+
+                <line x1="150" y1="400" x2="650" y2="400" stroke="#e8e8ed" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="155" y="420" fill="#e8e8ed" font-size="14">Low</text>
+
+                <!-- Equilibrium line (50%) -->
+                <line x1="150" y1="250" x2="650" y2="250" stroke="#ffa502" stroke-width="3"/>
+                <text x="670" y="255" fill="#ffa502" font-size="16" font-weight="bold">Equilibrium (50%)</text>
+
+                <!-- Price action around equilibrium -->
+                <path d="M 150 380 L 200 350 L 250 300 L 300 260 L 350 240 L 400 255 L 450 245 L 500 265 L 550 250 L 600 230"
+                      stroke="#2ed573" stroke-width="3" fill="none"/>
+
+                <!-- Candle bodies near equilibrium -->
+                <rect x="280" y="255" width="30" height="15" fill="#2ed573" opacity="0.7"/>
+                <rect x="320" y="240" width="30" height="20" fill="#2ed573" opacity="0.7"/>
+                <rect x="360" y="245" width="30" height="15" fill="#2ed573" opacity="0.7"/>
+                <rect x="400" y="252" width="30" height="18" fill="#2ed573" opacity="0.7"/>
+                <rect x="440" y="248" width="30" height="12" fill="#2ed573" opacity="0.7"/>
+
+                <!-- Annotation zone -->
+                <rect x="250" y="230" width="250" height="50" fill="#ffa502" opacity="0.1"/>
+                <text x="375" y="210" fill="#ffa502" font-size="14" text-anchor="middle">"bodies of the candle stay above that but</text>
+                <text x="375" y="225" fill="#ffa502" font-size="14" text-anchor="middle">we have a lot of work around that equilibrium price point"</text>
+
+                <!-- Range labels -->
+                <text x="100" y="105" fill="#e8e8ed" font-size="12" text-anchor="end">Range High</text>
+                <text x="100" y="255" fill="#ffa502" font-size="12" text-anchor="end">50% / Fair Value</text>
+                <text x="100" y="405" fill="#e8e8ed" font-size="12" text-anchor="end">Range Low</text>
+            </svg>
+        </section>
+
+        <section id="discount-premium">
+            <h2>Discount, Premium, and Fair Value Framework</h2>
+
+            <h3>The Three States</h3>
+            <blockquote class="quote">
+                <p><em>"are we at a discount are we at a premium are we at fair value all those things combined together they give you the clues as to what we're seeing in terms of the market Maker's uh action"</em></p>
+            </blockquote>
+
+            <h3>Discount Market</h3>
+            <blockquote class="quote">
+                <p><em>"if you're a buyer if you want to be buying you want to be looking at a discount Market that means trading in a lower third of the current trading range"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"discount below equilibrium in the lower ends of the range that's a discount Market that's an area at which the market makers can buy or look to cover their short positions"</em></p>
+            </blockquote>
+
+            <h3>Premium Market</h3>
+            <blockquote class="quote">
+                <p><em>"the cells are best taken in the most current trading range or impulse price swing upper third portion of that range okay that's a premium Market we're selling at a premium"</em></p>
+            </blockquote>
+
+            <h3>Deep Discount</h3>
+            <blockquote class="quote">
+                <p><em>"we're below the 79% retracement level so we're really at a deep discount really really deep discount because we're below equilibrium relative to the Range High and the low we're even below the 79% retracement level here so in terms of really being suppressed in terms of the total range high to low we are at a deep discount"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Discount / Premium / Fair Value Framework</text>
+
+                <!-- Range boundaries -->
+                <line x1="100" y1="100" x2="700" y2="100" stroke="#e8e8ed" stroke-width="3"/>
+                <text x="720" y="105" fill="#e8e8ed" font-size="14">High (100%)</text>
+
+                <line x1="100" y1="500" x2="700" y2="500" stroke="#e8e8ed" stroke-width="3"/>
+                <text x="720" y="505" fill="#e8e8ed" font-size="14">Low (0%)</text>
+
+                <!-- Premium Zone -->
+                <rect x="100" y="100" width="600" height="133" fill="#ff4757" opacity="0.2"/>
+                <text x="400" y="170" fill="#ff4757" font-size="18" text-anchor="middle" font-weight="bold">PREMIUM</text>
+                <text x="400" y="190" fill="#ff4757" font-size="14" text-anchor="middle">"upper third portion of that range"</text>
+                <text x="400" y="210" fill="#ff4757" font-size="12" text-anchor="middle" font-style="italic">Market Maker Selling / Distribution</text>
+
+                <!-- Equilibrium / Fair Value -->
+                <line x1="100" y1="300" x2="700" y2="300" stroke="#ffa502" stroke-width="4"/>
+                <text x="720" y="305" fill="#ffa502" font-size="16" font-weight="bold">Equilibrium (50%)</text>
+                <rect x="100" y="280" width="600" height="40" fill="#ffa502" opacity="0.15"/>
+                <text x="400" y="305" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">FAIR VALUE</text>
+
+                <!-- Discount Zone -->
+                <rect x="100" y="367" width="600" height="133" fill="#2ed573" opacity="0.2"/>
+                <text x="400" y="430" fill="#2ed573" font-size="18" text-anchor="middle" font-weight="bold">DISCOUNT</text>
+                <text x="400" y="450" fill="#2ed573" font-size="14" text-anchor="middle">"lower third of the current trading range"</text>
+                <text x="400" y="470" fill="#2ed573" font-size="12" text-anchor="middle" font-style="italic">Market Maker Buying / Accumulation</text>
+
+                <!-- Percentage markers -->
+                <line x1="90" y1="233" x2="710" y2="233" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="80" y="238" fill="#9898a8" font-size="12" text-anchor="end">67%</text>
+
+                <line x1="90" y1="367" x2="710" y2="367" stroke="#9898a8" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="80" y="372" fill="#9898a8" font-size="12" text-anchor="end">33%</text>
+
+                <!-- Movement arrows -->
+                <path d="M 150 480 L 150 320" stroke="#2ed573" stroke-width="3" fill="none" marker-end="url(#arrowgreen)"/>
+                <text x="160" y="400" fill="#2ed573" font-size="12">"if you want to be buying"</text>
+
+                <path d="M 650 120 L 650 280" stroke="#ff4757" stroke-width="3" fill="none" marker-end="url(#arrowred)"/>
+                <text x="560" y="200" fill="#ff4757" font-size="12">"cells are best taken"</text>
+
+                <!-- Arrow definitions -->
+                <defs>
+                    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#2ed573"/>
+                    </marker>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#ff4757"/>
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="ote">
+            <h2>Optimal Trade Entry</h2>
+
+            <h3>Definition</h3>
+            <blockquote class="quote">
+                <p><em>"we're in that upper portion of the optimal trade entry or 62 to 79% rement level"</em></p>
+            </blockquote>
+
+            <h3>OTE for Longs (from High to Low)</h3>
+            <blockquote class="quote">
+                <p><em>"the low to the high 79% retracement level 70.5 62% retracement level so the market goes right up into 79% retracement so we're in premium here"</em></p>
+            </blockquote>
+
+            <h3>Deep Discount Below OTE</h3>
+            <blockquote class="quote">
+                <p><em>"we're below the 79% retracement level so we're really at a deep discount really really deep discount because we're below equilibrium relative to the Range High and the low we're even below the 79% retracement level"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Optimal Trade Entry (OTE) - 62% to 79%</text>
+
+                <!-- Range -->
+                <line x1="100" y1="450" x2="700" y2="450" stroke="#e8e8ed" stroke-width="3"/>
+                <text x="720" y="455" fill="#e8e8ed" font-size="14">Low</text>
+
+                <line x1="100" y1="100" x2="700" y2="100" stroke="#e8e8ed" stroke-width="3"/>
+                <text x="720" y="105" fill="#e8e8ed" font-size="14">High</text>
+
+                <!-- 79% Level -->
+                <line x1="100" y1="176.5" x2="700" y2="176.5" stroke="#ffa502" stroke-width="3"/>
+                <text x="720" y="181.5" fill="#ffa502" font-size="14" font-weight="bold">79%</text>
+
+                <!-- 70.5% Level -->
+                <line x1="100" y1="206.25" x2="700" y2="206.25" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="720" y="211.25" fill="#ffa502" font-size="12">70.5%</text>
+
+                <!-- 62% Level -->
+                <line x1="100" y1="233" x2="700" y2="233" stroke="#ffa502" stroke-width="3"/>
+                <text x="720" y="238" fill="#ffa502" font-size="14" font-weight="bold">62%</text>
+
+                <!-- OTE Zone -->
+                <rect x="100" y="176.5" width="600" height="56.5" fill="#ffa502" opacity="0.25" stroke="#ffa502" stroke-width="2"/>
+                <text x="400" y="210" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">OPTIMAL TRADE ENTRY</text>
+
+                <!-- 50% Equilibrium -->
+                <line x1="100" y1="275" x2="700" y2="275" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="720" y="280" fill="#9898a8" font-size="12">50% Equilibrium</text>
+
+                <!-- Deep Discount Zone -->
+                <rect x="100" y="233" width="600" height="217" fill="#2ed573" opacity="0.15"/>
+                <text x="400" y="350" fill="#2ed573" font-size="16" text-anchor="middle">Deep Discount Area</text>
+                <text x="400" y="370" fill="#2ed573" font-size="12" text-anchor="middle" font-style="italic">"really really deep discount"</text>
+
+                <!-- Annotation -->
+                <text x="400" y="60" fill="#e8e8ed" font-size="14" text-anchor="middle">Retracement from High to Low</text>
+                <text x="400" y="480" fill="#9898a8" font-size="12" text-anchor="middle" font-style="italic">"upper portion of the optimal trade entry or 62 to 79% rement level"</text>
+            </svg>
+        </section>
+
+        <section id="market-maker">
+            <h2>Market Maker Fair Value</h2>
+
+            <h3>Market Maker Perspective Shift</h3>
+            <blockquote class="quote">
+                <p><em>"how you perceive the marketplace is not how how retail is going to see price they're going to see this as the Market's going to probably keep going up because it's been going up well this is an area of distribution you want to be thinking accumulation down here reaccumulation distribution"</em></p>
+            </blockquote>
+
+            <h3>Fair Value for Accumulation (Buying)</h3>
+            <blockquote class="quote">
+                <p><em>"we're now at Fair valuation for what for Longs the market makers can build a net long book at this price level"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"fair value in discount is fair value for buys for Market maker buying"</em></p>
+            </blockquote>
+
+            <h3>Fair Value for Distribution (Selling)</h3>
+            <blockquote class="quote">
+                <p><em>"if they're going to do that they're going to look for fair value above the marketplace where they can do what sell their positions at a fair value for them up here"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"fair value in premium is fair value for Market maker selling either establishing new shorts or exiting or scaling out long positions"</em></p>
+            </blockquote>
+
+            <h3>Retail vs Market Maker Fair Value</h3>
+            <blockquote class="quote">
+                <p><em>"if Traders are buying this chasing price are they buying at a fair value no they're buying at a premium"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"the premium price that speculators would trade at by buying and chasing price it's a premium to price Chasers people that feed off the desire of being in a price move that's already been moving higher it's fair value to the market maker to liquidate their positions"</em></p>
+            </blockquote>
+
+            <h3>Market Maker Valuation Requirements</h3>
+            <blockquote class="quote">
+                <p><em>"see market makers have to deal in terms of valuation for their Longs and their shorts and they have to do that same valuation for their exits on both sides of the marketplace"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 900 650" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="450" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Market Maker Accumulation to Distribution Cycle</text>
+
+                <!-- Price chart simulation -->
+                <line x1="50" y1="580" x2="850" y2="580" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Accumulation Zone (Deep Discount) -->
+                <rect x="100" y="450" width="200" height="130" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="200" y="420" fill="#2ed573" font-size="16" text-anchor="middle" font-weight="bold">ACCUMULATION</text>
+                <text x="200" y="440" fill="#2ed573" font-size="12" text-anchor="middle">"Deep Discount"</text>
+                <text x="200" y="520" fill="#2ed573" font-size="11" text-anchor="middle" font-style="italic">"market makers can buy or</text>
+                <text x="200" y="535" fill="#2ed573" font-size="11" text-anchor="middle" font-style="italic">look to cover their short positions"</text>
+
+                <!-- Consolidation price action in accumulation -->
+                <circle cx="150" cy="500" r="4" fill="#2ed573"/>
+                <circle cx="170" cy="480" r="4" fill="#2ed573"/>
+                <circle cx="190" cy="510" r="4" fill="#2ed573"/>
+                <circle cx="210" cy="490" r="4" fill="#2ed573"/>
+                <circle cx="230" cy="505" r="4" fill="#2ed573"/>
+                <circle cx="250" cy="495" r="4" fill="#2ed573"/>
+
+                <!-- Markup / Expansion Phase -->
+                <path d="M 300 500 L 350 450 L 400 380 L 450 300 L 500 250" stroke="#ffa502" stroke-width="4" fill="none"/>
+                <text x="400" y="340" fill="#ffa502" font-size="14" transform="rotate(-30 400 340)">Expansion Up</text>
+
+                <!-- Fair Value Gap during expansion -->
+                <rect x="380" y="350" width="80" height="60" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="420" y="385" fill="#ffa502" font-size="10" text-anchor="middle">Fair Value Gap</text>
+
+                <!-- Distribution Zone (Premium) -->
+                <rect x="550" y="200" width="250" height="130" fill="#ff4757" opacity="0.2" stroke="#ff4757" stroke-width="2"/>
+                <text x="675" y="180" fill="#ff4757" font-size="16" text-anchor="middle" font-weight="bold">DISTRIBUTION</text>
+                <text x="675" y="200" fill="#ff4757" font-size="12" text-anchor="middle">"Premium"</text>
+                <text x="675" y="270" fill="#ff4757" font-size="11" text-anchor="middle" font-style="italic">"fair value to the market maker</text>
+                <text x="675" y="285" fill="#ff4757" font-size="11" text-anchor="middle" font-style="italic">to liquidate their positions"</text>
+
+                <!-- Consolidation in distribution -->
+                <circle cx="580" cy="250" r="4" fill="#ff4757"/>
+                <circle cx="610" cy="270" r="4" fill="#ff4757"/>
+                <circle cx="640" cy="260" r="4" fill="#ff4757"/>
+                <circle cx="670" cy="280" r="4" fill="#ff4757"/>
+                <circle cx="700" cy="265" r="4" fill="#ff4757"/>
+                <circle cx="730" cy="275" r="4" fill="#ff4757"/>
+                <circle cx="760" cy="255" r="4" fill="#ff4757"/>
+
+                <!-- Equilibrium reference line -->
+                <line x1="50" y1="390" x2="850" y2="390" stroke="#ffa502" stroke-width="2" stroke-dasharray="10,5"/>
+                <text x="860" y="395" fill="#ffa502" font-size="12">Equilibrium</text>
+
+                <!-- Labels for zones -->
+                <text x="200" y="610" fill="#2ed573" font-size="12" text-anchor="middle">"build a net long book"</text>
+                <text x="675" y="340" fill="#ff4757" font-size="12" text-anchor="middle">"sell their positions"</text>
+
+                <!-- Retail Chaser annotation -->
+                <path d="M 720 220 L 760 180" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="770" y="175" fill="#9898a8" font-size="11">Retail buying at premium</text>
+                <text x="770" y="190" fill="#9898a8" font-size="10" font-style="italic">"chasing price"</text>
+            </svg>
+        </section>
+
+        <section id="rules">
+            <h2>Practical Rules & Framework</h2>
+
+            <h3>How to Determine Direction at Equilibrium</h3>
+            <blockquote class="quote">
+                <p><em>"at equilibrium you need to refer to where the most recent price swing took place in other words if we're at equilibrium here or at fair value thek Market can go either way at this price level the easiest way to determine where its most probable direction is is where did Market structure break most recently did it break a swing high or did it break a swing low most recently"</em></p>
+            </blockquote>
+
+            <h3>Where to Look for High Probability Setups</h3>
+            <blockquote class="quote">
+                <p><em>"when you're looking for high probability setups to get Fair valuation you're going to be looking at the current range from high to low in this area right here we're in the lower end of that range so we have a lot more upside to build in a premium"</em></p>
+            </blockquote>
+
+            <h3>What Overlaps Create Fair Valuation for Market Makers</h3>
+            <blockquote class="quote">
+                <p><em>"you're having an overlap of three things you're looking that total range from this high to this low or this High to this low we're in the lower portion or onethird of of the range so we're in high probability for a discount Market to be in in effect you're also below the equal uh price point or equilibrium between the low to this high so it's consolidating near that but it now it went below it again so we are in an area where the market makers can buy"</em></p>
+            </blockquote>
+
+            <h3>Market Movement Framework</h3>
+            <blockquote class="quote">
+                <p><em>"markets move from buy stops and sell stops and sell stops to buy stops and it moves from fair value to Discount to Discount to premium to premium to fair value it moves back and forth between these three reference points"</em></p>
+            </blockquote>
+
+            <h3>Consolidation and Expansion</h3>
+            <blockquote class="quote">
+                <p><em>"when there's expansion you know prior to that expansion there's been what it's consolidation"</em></p>
+            </blockquote>
+            <blockquote class="quote">
+                <p><em>"when markets are in consolidation you'll be able to forecast The Next Movement out of the consolidation we don't break we don't play the Breakout game we anticipate the breakout"</em></p>
+            </blockquote>
+
+            <h3>Why Markets Move Higher</h3>
+            <blockquote class="quote">
+                <p><em>"that's the only reason why markets go up that's the only reason why pric is allowed to be delivered at higher prices because the market makers the banks have have books own own their books that are net long and it's in their interest that Z price higher it doesn't matter how many of us buy the price is going to be set by the bank"</em></p>
+            </blockquote>
+
+            <h3>Market Efficiency Paradigm</h3>
+            <blockquote class="quote">
+                <p><em>"you have to view things from the smart money's perspective not what retail should be doing or what retail is doing if you do that you're going to you're going to miss the actual Clarity that comes through looking at Price action"</em></p>
+            </blockquote>
+
+            <h3>Do Not Look at Marketplace in Retail Mindset</h3>
+            <blockquote class="quote">
+                <p><em>"do not look at the marketplace in this retail mindset that we're all trained to do we we have the same well we drink from it's the same regurgitated stuff but it's wrong"</em></p>
+            </blockquote>
+
+            <h3>Liquidity Seeking Behavior</h3>
+            <blockquote class="quote">
+                <p><em>"the Market's going to seek that liquidity and run against the less informed crowd's opinion"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from ICT)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the two perspectives of fair valuation?</div>
+                    <div class="flashcard-answer">"fair value in regards to equal distance of a higher low or what we would call equilibrium or fair value for the perspective on valuation in regards to market makers"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you define a fair value gap?</div>
+                    <div class="flashcard-answer">"between those two up candles there's what's referred to as a fair value Gap okay a fair value Gap the reason why this is important is because there was no up candle or up movement between the break of that low and the high of this candle here it was all just straight down movement"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is equilibrium?</div>
+                    <div class="flashcard-answer">"equilibrium right here or 50% of that range from this high this High to this low there's equilibrium"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should buyers be looking to buy?</div>
+                    <div class="flashcard-answer">"if you're a buyer if you want to be buying you want to be looking at a discount Market that means trading in a lower third of the current trading range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should sellers be looking to sell?</div>
+                    <div class="flashcard-answer">"the cells are best taken in the most current trading range or impulse price swing upper third portion of that range okay that's a premium Market we're selling at a premium"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Optimal Trade Entry range?</div>
+                    <div class="flashcard-answer">"upper portion of the optimal trade entry or 62 to 79% rement level"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a liquidity void?</div>
+                    <div class="flashcard-answer">"this is what we call a liquidity void where the market makes a sudden movement lower and it's large ranges very little Wicks very quick movement that is a void that means the price spent very little time trading at these price levels"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you determine direction at equilibrium?</div>
+                    <div class="flashcard-answer">"at equilibrium you need to refer to where the most recent price swing took place in other words if we're at equilibrium here or at fair value thek Market can go either way at this price level the easiest way to determine where its most probable direction is is where did Market structure break most recently"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is fair value in discount for market makers?</div>
+                    <div class="flashcard-answer">"fair value in discount is fair value for buys for Market maker buying"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is fair value in premium for market makers?</div>
+                    <div class="flashcard-answer">"fair value in premium is fair value for Market maker selling either establishing new shorts or exiting or scaling out long positions"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the difference between retail and market maker fair value at premium?</div>
+                    <div class="flashcard-answer">"the premium price that speculators would trade at by buying and chasing price it's a premium to price Chasers people that feed off the desire of being in a price move that's already been moving higher it's fair value to the market maker to liquidate their positions"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do markets move between the three reference points?</div>
+                    <div class="flashcard-answer">"markets move from buy stops and sell stops and sell stops to buy stops and it moves from fair value to Discount to Discount to premium to premium to fair value it moves back and forth between these three reference points"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What creates deep discount?</div>
+                    <div class="flashcard-answer">"we're below the 79% retracement level so we're really at a deep discount really really deep discount because we're below equilibrium relative to the Range High and the low we're even below the 79% retracement level"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens before expansion?</div>
+                    <div class="flashcard-answer">"when there's expansion you know prior to that expansion there's been what it's consolidation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do markets move higher?</div>
+                    <div class="flashcard-answer">"that's the only reason why markets go up that's the only reason why pric is allowed to be delivered at higher prices because the market makers the banks have have books own own their books that are net long and it's in their interest that Z price higher"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Market Efficiency Paradigm perspective?</div>
+                    <div class="flashcard-answer">"you have to view things from the smart money's perspective not what retail should be doing or what retail is doing if you do that you're going to you're going to miss the actual Clarity that comes through looking at Price action"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must market makers do with their valuations?</div>
+                    <div class="flashcard-answer">"market makers have to deal in terms of valuation for their Longs and their shorts and they have to do that same valuation for their exits on both sides of the marketplace"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does ICT define a fair value gap using candle bodies?</div>
+                    <div class="flashcard-answer">"I Define it by the body I like to use those the range in which it causes this void"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

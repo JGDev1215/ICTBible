@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Episode 27 — Counter Trend Ideas &amp; Self-Talk Psychology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #13131c;
+    --border: #2a2a3a;
+    --border-subtle: #1f1f2e;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6e;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-green: #00c9a7;
+    --accent-green-dim: rgba(0,201,167,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,201,167,0.013) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,167,0.013) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none; z-index: 0;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.93); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle); padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 1rem 1.2rem 1rem 0; white-space: nowrap;
+    border-right: 1px solid var(--border-subtle); margin-right: 0.6rem; flex-shrink: 0;
+  }
+  nav a {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-muted); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 1rem 0.8rem; white-space: nowrap; flex-shrink: 0; transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent-gold); }
+
+  header {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 3rem;
+  }
+  .episode-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.16em;
+    margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem;
+  }
+  .episode-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent-green); }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .header-quote { font-family: 'Crimson Pro', serif; font-size: 1.25rem; font-style: italic; color: var(--text-secondary); border-left: 3px solid var(--accent-green); padding-left: 1.2rem; max-width: 680px; line-height: 1.6; }
+
+  main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+  section { margin-bottom: 4rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-subtle); }
+  .section-number { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
+  h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; }
+  h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--text-primary); margin: 1.8rem 0 0.8rem; }
+
+  .quote { background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-gold); padding: 1.2rem 1.5rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .quote p { font-family: 'Crimson Pro', serif; font-size: 1.05rem; color: var(--text-primary); line-height: 1.65; }
+  .quote p em { font-style: italic; color: var(--text-primary); }
+  .quote.bear { border-left-color: var(--accent-bear); }
+  .quote.bull { border-left-color: var(--accent-bull); }
+  .quote.green { border-left-color: var(--accent-green); }
+  .timestamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  .callout { background: var(--accent-gold-dim); border: 1px solid rgba(255,165,2,0.2); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start; }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .callout p em { color: var(--text-primary); font-style: italic; }
+  .callout.bull { background: var(--accent-bull-dim); border-color: rgba(46,213,115,0.2); }
+  .callout.green { background: var(--accent-green-dim); border-color: rgba(0,201,167,0.2); }
+  .callout.bear { background: var(--accent-bear-dim); border-color: rgba(255,71,87,0.2); }
+
+  .concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .concept-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.4rem; transition: background 0.2s, border-color 0.2s; }
+  .concept-card:hover { background: var(--bg-card-hover); border-color: var(--accent-gold); }
+  .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+  .card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold); }
+  .concept-card p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .concept-card p em { font-style: italic; color: var(--text-primary); }
+
+  .diagram-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
+  .diagram-caption { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; }
+
+  .rule-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1rem 0; }
+  .rule-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.9rem 1.2rem; background: var(--bg-inset); border: 1px solid var(--border-subtle); border-radius: 6px; }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-dot.bull { background: var(--accent-bull); }
+  .rule-dot.bear { background: var(--accent-bear); }
+  .rule-dot.green { background: var(--accent-green); }
+  .rule-item p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.5; }
+  .rule-item p em { font-style: italic; color: var(--text-primary); }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 3rem 0; }
+
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .flashcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.3rem 1.5rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; min-height: 100px; position: relative; overflow: hidden; }
+  .flashcard::after { content: 'TAP TO REVEAL'; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--text-muted); position: absolute; bottom: 0.7rem; right: 0.9rem; }
+  .flashcard.revealed::after { display: none; }
+  .flashcard:hover { border-color: var(--accent-green); background: var(--bg-card-hover); }
+  .flashcard-question { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+  .flashcard-answer { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-family: 'Crimson Pro', serif; font-size: 1rem; font-style: italic; color: var(--accent-bull); line-height: 1.55; }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .flashcard-ts { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 0.4rem; font-style: normal; }
+
+  .study-intro { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+  @media (max-width: 640px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    main { padding: 0 1.2rem 4rem; }
+    .flashcard-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-label">EP. 27</span>
+    <a href="#counter-trend">Counter-Trend Model</a>
+    <a href="#draw-no-reach">Draw Doesn't Need to Be Reached</a>
+    <a href="#sell-side-taken">Sell Side Taken → Buy Side Next</a>
+    <a href="#buy-discount">Buy in Discount (Bullish Day)</a>
+    <a href="#equilibrium-entry">Equilibrium as Entry Filter</a>
+    <a href="#power3-counter">Power Three Intraday</a>
+    <a href="#self-talk">Self-Talk &amp; Reticular Activating System</a>
+    <a href="#back-test-annotations">Back Test Annotations</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <div class="episode-tag">2022 ICT Mentorship &mdash; Episode 27</div>
+  <h1>Counter Trend Ideas &amp;<br>Self-Talk Psychology</h1>
+  <p class="header-quote"><em>"you can frame what i'm teaching inside of a counter trend model if that's what you are by nature a contrarian"</em></p>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. COUNTER-TREND MODEL                      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="counter-trend">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Counter-Trend Model — Same Concepts Apply</h2>
+    </div>
+
+    <div class="quote green">
+      <p><em>"you can frame what i'm teaching inside of a counter trend model if that's what you are by nature a contrarian"</em></p>
+      <span class="timestamp">13:45</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"if you want to be trading with the highest probability and in sync with the early session move then trade exactly how i've outlined the principles around that 8 30 to 9 30 window okay"</em></p>
+      <span class="timestamp">13:55</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i'm trying to do my best to give you a little bit of freedom to try to make it your own and inspire you also that these fair value gaps are useful if you know what the bias is"</em></p>
+      <span class="timestamp">14:12</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Highest Probability</span></div>
+        <p><em>"trade exactly how i've outlined the principles around that 8 30 to 9 30 window"</em> — in sync with the early session move</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title" style="color:var(--accent-green)">Counter-Trend</span></div>
+        <p>Same FVG concept, same liquidity logic, applied to a counter-trend setup — works if you <em>"know what the bias is"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. DRAW DOESN'T NEED TO BE REACHED          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="draw-no-reach">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>The Draw on Liquidity Doesn't Need to Be Reached</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"the draw on liquidity does not need to be traded to to have a profitable framework or setup okay so what do i mean by that well if we're below this objective and i'm thinking that market's going to draw up to that level whether it be today or into next week you look for a setup that will allow you some kind of participation in this expansion towards that it doesn't need to get there as you'll soon see"</em></p>
+      <span class="timestamp">2:05</span>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">◆</span>
+      <p>The draw on liquidity (relative equal highs, old highs) acts as directional context — it gives you the <em>reason</em> to participate. The trade doesn't require price to actually reach that level to be profitable.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. SELL SIDE TAKEN → BUY SIDE NEXT          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="sell-side-taken">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Sell Side Taken → Back Above REQ Lows → Buy Side is Next</h2>
+    </div>
+
+    <div class="quote bull">
+      <p><em>"we've already taken out a large pool of liquidity below these relatively equal lows this is sell side okay now we're back above these relative equal lows so where's buy side clear and obviously right here okay"</em></p>
+      <span class="timestamp">3:22</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"not really obvious in terms of any imbalance in here because we already rebalanced this area there so there's nothing really all that exciting except for that small little section there so if it's going to go up to this area here my thought process is that it's likely to probably just punch through and take the buy stops resting above here so that's the draw on liquidity"</em></p>
+      <span class="timestamp">3:38</span>
+    </div>
+
+    <div class="callout bull">
+      <span class="callout-icon">◈</span>
+      <p>Sequence: sell side taken (ran below REQ lows) → price comes back <em>above</em> REQ lows → next draw is buy side (relative equal highs above). This is the same premium-to-discount / discount-to-premium logic applied to intraday structure.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. BUY IN DISCOUNT (BULLISH DAY FVG)        -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="buy-discount">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Buying in Discount on a Bullish Day — FVG Entry</h2>
+    </div>
+
+    <div class="quote bull">
+      <p><em>"i want to buy this discount market and i'm going to be buying inside of this value gap because it's at or below equilibrium between this low and the high"</em></p>
+      <span class="timestamp">5:59</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"the market drops down into equilibrium and then below it into the variable gap here this candle is high this candle is low that's your imbalance"</em></p>
+      <span class="timestamp">7:16</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"this displacement on the outside is a shift in market structure in a day that's likely to be bullish it's counter trend to a higher time frame we're working with the logic that it's probably going to be a retracement because we've been down for a long time now and most people are probably going to want to get out over the weekend so the algorithm is going to start squeezing on them to get their positions squared before the close of the friday"</em></p>
+      <span class="timestamp">7:54</span>
+    </div>
+
+    <!-- COUNTER TREND BUY DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Counter-Trend Bull Setup — Retracement Into FVG at or Below Equilibrium, Bullish Day Bias</div>
+      <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Day's low (formed at 9:30 manipulation) -->
+        <line x1="40" y1="210" x2="660" y2="210" stroke="rgba(255,71,87,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="42" y="204" font-size="9" fill="rgba(255,71,87,0.5)" font-family="'JetBrains Mono',monospace">Low of Day (9:30 manipulation)</text>
+
+        <!-- Day's high (rally after 9:30) -->
+        <line x1="40" y1="55" x2="660" y2="55" stroke="rgba(46,213,115,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="42" y="49" font-size="9" fill="rgba(46,213,115,0.5)" font-family="'JetBrains Mono',monospace">High of Day (post 9:30 rally)</text>
+
+        <!-- Equilibrium line (50%) -->
+        <line x1="40" y1="133" x2="660" y2="133" stroke="rgba(255,165,2,0.55)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="42" y="127" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Equilibrium (50% between low and high)</text>
+
+        <!-- Price rally up from low -->
+        <polyline points="120,210 160,190 210,160 260,120 300,85 330,65 350,58" fill="none" stroke="#2ed573" stroke-width="2"/>
+
+        <!-- Lunch consolidation / high formed ~12:10 -->
+        <line x1="350" y1="58" x2="410" y2="58" stroke="rgba(255,165,2,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="354" y="52" font-size="9" fill="rgba(255,165,2,0.6)" font-family="'JetBrains Mono',monospace">~12:10 high</text>
+
+        <!-- Retracement lower into discount / FVG area -->
+        <polyline points="410,58 440,80 470,105 495,130 510,145 520,152" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+        <!-- FVG zone (at or below equilibrium) -->
+        <rect x="440" y="135" width="180" height="18" fill="rgba(255,165,2,0.15)" rx="0"/>
+        <line x1="440" y1="135" x2="640" y2="135" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="440" y1="153" x2="640" y2="153" stroke="rgba(255,165,2,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="644" y="139" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">FVG</text>
+        <text x="644" y="153" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"at or below eq."</text>
+
+        <!-- Order block label -->
+        <text x="444" y="128" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">order block + FVG</text>
+
+        <!-- Entry point -->
+        <circle cx="520" cy="144" r="5" fill="none" stroke="#2ed573" stroke-width="1.5"/>
+        <text x="528" y="142" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Buy entry</text>
+        <text x="528" y="154" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"buying inside of this value gap"</text>
+
+        <!-- Continue higher toward draw on liquidity -->
+        <polyline points="520,144 545,125 570,100 595,75 615,60" fill="none" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,3"/>
+
+        <!-- Draw on liquidity (REQ highs above) -->
+        <line x1="580" y1="35" x2="660" y2="35" stroke="rgba(46,213,115,0.6)" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <text x="540" y="32" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Draw on Liquidity (REQ highs)</text>
+        <text x="540" y="44" font-size="8" fill="rgba(46,213,115,0.4)" font-family="'JetBrains Mono',monospace">"doesn't need to get there"</text>
+
+        <!-- 1:30 label -->
+        <text x="42" y="248" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">1:30 — "the algorithm will start seeking liquidity if it's going to continue higher"</text>
+
+      </svg>
+    </div>
+
+    <h3>Time Context for the Afternoon Setup</h3>
+    <div class="quote>
+      <p><em>"here is 130 right about there so at 130 the algorithm will start seeking liquidity if it's going to continue higher what's it likely to do seek sell sign so we're sell side well we have relative equal loads here but is that a discount from here to here no"</em></p>
+      <span class="timestamp">6:44</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. EQUILIBRIUM AS ENTRY FILTER              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="equilibrium-entry">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Equilibrium as Entry Filter</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"this dashed line here that's in purple i have that noted as equilibrium that's essentially the same thing as it's taking the fib from here to here and that's 50 okay so now we have equilibrium there the market drops down into equilibrium and then below it into the variable gap here"</em></p>
+      <span class="timestamp">7:03</span>
+    </div>
+
+    <div class="callout>
+      <span class="callout-icon">◈</span>
+      <p>Equilibrium = 50% of the relevant price swing. Buying (counter-trend bullish) requires the retracement to reach <em>at or below</em> that equilibrium before engaging the FVG. Mirrors the bearish rule: no sell in discount. Equivalent rule here: <em>"i want to buy this discount market"</em>.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Bearish — Sell in Premium</span></div>
+        <p>Must reach above 50% of the displacement swing before selling</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title" style="color:var(--accent-bull)">Bullish — Buy in Discount</span></div>
+        <p><em>"i want to buy this discount market and i'm going to be buying inside of this value gap because it's at or below equilibrium between this low and the high"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. POWER THREE INTRADAY — COUNTER TREND     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="power3-counter">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Power Three Applied Intraday — Counter-Trend Bullish</h2>
+    </div>
+
+    <div class="quote bull">
+      <p><em>"creates the low of the day power three so it's accumulating long positions manipulating early longs out of the market taking out the stops overnight then rallying"</em></p>
+      <span class="timestamp">5:39</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"if you look at it from the lens of power three how i teach you the accumulation at 8 30 use the opening price that's down here draw that out in time the rally should take place above that it's a logical level i'm teaching you then it creates the pattern that's in the mentorship fair value gap market structure shift then starts to show displacement and distribution to the downside attacking a discount array"</em></p>
+      <span class="timestamp">33:11 [cross-reference Ep.25]</span>
+    </div>
+
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>9:30 opens → <em>"creates the low of the day"</em> — manipulation runs sell side (overnight lows taken)</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot bull"></div>
+        <p>Market rallies — this is the distribution phase for those who were short</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Lunch consolidation creates the intraday high (~12:10)</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot green"></div>
+        <p>1:30 retracement back into FVG at or below equilibrium → buy entry</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 7. SELF-TALK & RETICULAR ACTIVATING SYSTEM  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="self-talk">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Self-Talk &amp; the Reticular Activating System</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"you're pouring yourself into the chart with your annotations for back testing and you're doing it in such a way where you're tricking your subconscious like you expected this to happen"</em></p>
+      <span class="timestamp">17:55</span>
+    </div>
+
+    <div class="quote green">
+      <p><em>"over time when you do that you're recording this subconsciously you don't realize you're doing it but by doing these things over and over and over again it activates your reticular activating system it's the same thing happens when you buy a car you go out the next day all of a sudden it seems like everybody else bought the same car the only difference is is you've been more sensitive to that because it's more meaningful to you so these charts will take on that same characteristic when you make them more meaningful to you"</em></p>
+      <span class="timestamp">18:06</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"how do you do that you place your personality and your interest in the chart so everything here i'm giving you a narrative here you would do the same thing just typing it out putting it in there and then screen capturing it and storing it in your journal or printing it out and putting in your journal"</em></p>
+      <span class="timestamp">18:32</span>
+    </div>
+
+    <div class="quote>
+      <p><em>"those things over time will start building on your subconscious as pseudo-memories"</em></p>
+      <span class="timestamp">18:50</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"critics that hear me say this you're like oh you're telling you to lie to yourself i'm being honest you are lying in the chart when you do your annotations for study purposes you're tricking your brain like you had experience seeing this happen but because over time you're doing that your subconscious will retain that and when you start seeing it live it will remember hey i remember that because i did that before when you technically really didn't but then now you have pseudo experience"</em></p>
+      <span class="timestamp">18:57</span>
+    </div>
+
+    <div class="callout green">
+      <span class="callout-icon">◈</span>
+      <p>The mechanism: <em>"it activates your reticular activating system"</em> — the brain filters for what is made meaningful to you. Annotating charts as if you foresaw the move programs your subconscious to recognize the pattern live.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 8. BACK TEST ANNOTATION TECHNIQUE           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="back-test-annotations">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Back Test Annotation Technique</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"you collect these examples of hindsight movement with all of your annotations and your points of interest that you studied and see in your observations anywhere in a chart where it's empty space you want to utilize that and have any kind of observation or encouragement to yourself"</em></p>
+      <span class="timestamp">15:38</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you want to tell yourself in those commentaries that you saw this coming okay and what this does is it tricks your brain it's self-talk okay"</em></p>
+      <span class="timestamp">15:55</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"when you read them to yourself you're reading your own words saying i saw this setting up where this was likely to drop down here and i was expecting this turn here because the fair value got i wanted to see this displacement and it occurred just like i was expecting"</em></p>
+      <span class="timestamp">17:23</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"all this is is me showing you what i actually did now i was going to be facetious and talk about this for those that didn't really see the videos that i posted today where actually did the pushing of the button here the idea of me seeing it before it happens that's proof of concept and it's proof of understanding"</em></p>
+      <span class="timestamp">14:57</span>
+    </div>
+
+    <h3>How to Back Test</h3>
+    <div class="quote">
+      <p><em>"what is back testing going back and looking at moves like this okay marking them up on your chart now you can do it either using the replay button watching them paint partially or you can go back in hindsight and mark up your chart like this this is all back testing"</em></p>
+      <span class="timestamp">14:38</span>
+    </div>
+
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Option 1: <em>"using the replay button watching them paint partially"</em></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Option 2: <em>"go back in hindsight and mark up your chart"</em></p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot green"></div>
+        <p>In all annotations: write as if you saw it happening — <em>"you saw this coming"</em> — never write negative self-criticism</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Store: <em>"screen capturing it and storing it in your journal or printing it out and putting in your journal"</em></p>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p><em>"it might be a couple weeks for some of you may take a year for others it may take a little bit longer than that it depends on what you pour yourself into by doing it"</em></p>
+      <span class="timestamp">20:25</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 9. FLASHCARDS                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Self-Study Flashcards</h2>
+    </div>
+    <p class="study-intro">Click any card to reveal the answer — all answers are direct quotes from the transcript.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Can the fair value gap concept be applied counter-trend?</div>
+        <div class="flashcard-answer">"you can frame what i'm teaching inside of a counter trend model if that's what you are by nature a contrarian"<span class="flashcard-ts">13:45</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Which window offers the highest probability in sync with the early session move?</div>
+        <div class="flashcard-answer">"if you want to be trading with the highest probability and in sync with the early session move then trade exactly how i've outlined the principles around that 8 30 to 9 30 window okay"<span class="flashcard-ts">13:55</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Does the draw on liquidity need to actually be reached for a profitable setup?</div>
+        <div class="flashcard-answer">"the draw on liquidity does not need to be traded to to have a profitable framework or setup okay... you look for a setup that will allow you some kind of participation in this expansion towards that it doesn't need to get there"<span class="flashcard-ts">2:05</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">After sell side liquidity is taken and price returns above REQ lows, what is next?</div>
+        <div class="flashcard-answer">"we've already taken out a large pool of liquidity below these relatively equal lows this is sell side okay now we're back above these relative equal lows so where's buy side clear and obviously right here okay"<span class="flashcard-ts">3:22</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where does ICT say to buy in a bullish counter-trend context?</div>
+        <div class="flashcard-answer">"i want to buy this discount market and i'm going to be buying inside of this value gap because it's at or below equilibrium between this low and the high"<span class="flashcard-ts">5:59</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is equilibrium and how is it used as an entry filter?</div>
+        <div class="flashcard-answer">"this dashed line here that's in purple i have that noted as equilibrium that's essentially the same thing as it's taking the fib from here to here and that's 50 okay so now we have equilibrium there the market drops down into equilibrium and then below it into the variable gap here"<span class="flashcard-ts">7:03</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What Power Three phase is occurring when 9:30 takes out overnight sell side?</div>
+        <div class="flashcard-answer">"creates the low of the day power three so it's accumulating long positions manipulating early longs out of the market taking out the stops overnight then rallying"<span class="flashcard-ts">5:39</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does ICT say the algorithm squeezes on shorts into the Friday close?</div>
+        <div class="flashcard-answer">"we're working with the logic that it's probably going to be a retracement because we've been down for a long time now and most people are probably going to want to get out over the weekend so the algorithm is going to start squeezing on them to get their positions squared before the close of the friday"<span class="flashcard-ts">8:05</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does self-talk in back testing annotations activate?</div>
+        <div class="flashcard-answer">"by doing these things over and over and over again it activates your reticular activating system it's the same thing happens when you buy a car you go out the next day all of a sudden it seems like everybody else bought the same car the only difference is is you've been more sensitive to that because it's more meaningful to you"<span class="flashcard-ts">18:13</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does annotating charts as if you foresaw the move build over time?</div>
+        <div class="flashcard-answer">"those things over time will start building on your subconscious as pseudo-memories"<span class="flashcard-ts">18:50</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the two methods for back testing?</div>
+        <div class="flashcard-answer">"you can do it either using the replay button watching them paint partially or you can go back in hindsight and mark up your chart like this this is all back testing"<span class="flashcard-ts">14:44</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is ICT's definition of "proof of concept" and "proof of understanding"?</div>
+        <div class="flashcard-answer">"the idea of me seeing it before it happens that's proof of concept and it's proof of understanding"<span class="flashcard-ts">15:09</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you make charts more meaningful so the reticular activating system engages?</div>
+        <div class="flashcard-answer">"you place your personality and your interest in the chart so everything here i'm giving you a narrative here you would do the same thing just typing it out putting it in there and then screen capturing it and storing it in your journal"<span class="flashcard-ts">18:34</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does the self-talk technique do that critics call "lying to yourself"?</div>
+        <div class="flashcard-answer">"i'm being honest you are lying in the chart when you do your annotations for study purposes you're tricking your brain like you had experience seeing this happen but because over time you're doing that your subconscious will retain that and when you start seeing it live it will remember hey i remember that"<span class="flashcard-ts">19:04</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Episode 34 — Sunday Gap Opening &amp; Fibonacci Anchoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #13131c;
+    --border: #2a2a3a;
+    --border-subtle: #1f1f2e;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6e;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-violet: #7c5cbf;
+    --accent-violet-dim: rgba(124,92,191,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(124,92,191,0.014) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,92,191,0.014) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none; z-index: 0;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.93); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle); padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--accent-violet); text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 1rem 1.2rem 1rem 0; white-space: nowrap;
+    border-right: 1px solid var(--border-subtle); margin-right: 0.6rem; flex-shrink: 0;
+  }
+  nav a {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-muted); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 1rem 0.8rem; white-space: nowrap; flex-shrink: 0; transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent-gold); }
+
+  header {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 3rem;
+  }
+  .episode-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent-violet); text-transform: uppercase; letter-spacing: 0.16em;
+    margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem;
+  }
+  .episode-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent-violet); }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .header-quote { font-family: 'Crimson Pro', serif; font-size: 1.25rem; font-style: italic; color: var(--text-secondary); border-left: 3px solid var(--accent-violet); padding-left: 1.2rem; max-width: 680px; line-height: 1.6; }
+
+  main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+  section { margin-bottom: 4rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-subtle); }
+  .section-number { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
+  h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; }
+  h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--text-primary); margin: 1.8rem 0 0.8rem; }
+
+  .quote { background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-gold); padding: 1.2rem 1.5rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .quote p { font-family: 'Crimson Pro', serif; font-size: 1.05rem; color: var(--text-primary); line-height: 1.65; }
+  .quote p em { font-style: italic; }
+  .quote.bear { border-left-color: var(--accent-bear); }
+  .quote.bull { border-left-color: var(--accent-bull); }
+  .quote.violet { border-left-color: var(--accent-violet); }
+  .timestamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+  .callout { background: var(--accent-gold-dim); border: 1px solid rgba(255,165,2,0.2); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start; }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .callout p em { color: var(--text-primary); font-style: italic; }
+  .callout.bull { background: var(--accent-bull-dim); border-color: rgba(46,213,115,0.2); }
+  .callout.bear { background: var(--accent-bear-dim); border-color: rgba(255,71,87,0.2); }
+  .callout.violet { background: var(--accent-violet-dim); border-color: rgba(124,92,191,0.2); }
+
+  .concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .concept-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.4rem; transition: background 0.2s, border-color 0.2s; }
+  .concept-card:hover { background: var(--bg-card-hover); border-color: var(--accent-gold); }
+  .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+  .card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold); }
+  .concept-card p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .concept-card p em { font-style: italic; color: var(--text-primary); }
+
+  .diagram-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; }
+  .diagram-caption { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; }
+
+  .rule-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1rem 0; }
+  .rule-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.9rem 1.2rem; background: var(--bg-inset); border: 1px solid var(--border-subtle); border-radius: 6px; }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-dot.bear { background: var(--accent-bear); }
+  .rule-dot.bull { background: var(--accent-bull); }
+  .rule-dot.violet { background: var(--accent-violet); }
+  .rule-item p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.5; }
+  .rule-item p em { font-style: italic; color: var(--text-primary); }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 3rem 0; }
+
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .flashcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.3rem 1.5rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; min-height: 100px; position: relative; overflow: hidden; }
+  .flashcard::after { content: 'TAP TO REVEAL'; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--text-muted); position: absolute; bottom: 0.7rem; right: 0.9rem; }
+  .flashcard.revealed::after { display: none; }
+  .flashcard:hover { border-color: var(--accent-violet); background: var(--bg-card-hover); }
+  .flashcard-question { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+  .flashcard-answer { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-family: 'Crimson Pro', serif; font-size: 1rem; font-style: italic; color: var(--accent-bull); line-height: 1.55; }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .flashcard-ts { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 0.4rem; font-style: normal; }
+
+  .study-intro { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+  @media (max-width: 640px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    main { padding: 0 1.2rem 4rem; }
+    .flashcard-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-label">EP. 34</span>
+    <a href="#sunday-gap">Sunday Gap Opening</a>
+    <a href="#fib-anchoring">Fibonacci Anchoring — Long vs Short</a>
+    <a href="#co-dependency">On Co-Dependency</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <div class="episode-tag">2022 ICT Mentorship &mdash; Episode 34</div>
+  <h1>Sunday Gap Opening &amp;<br>Fibonacci Anchoring</h1>
+  <p class="header-quote"><em>"you're looking at expansion swings okay or impulsive price swings in the direction you're trying to trade you don't want to use a price leg from high to low measuring something that you're trying to go long on"</em></p>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. SUNDAY GAP OPENING                       -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="sunday-gap">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Sunday Gap Opening — Dynamic Price Level All Week</h2>
+    </div>
+
+    <div class="quote violet">
+      <p><em>"if you put it in your charts and just plot it across the entire week you'll see that many times there's a lot of valuation around that gap so it'll be treated as a dynamic price level if it's above it look for it to act as support if it's below it look for it to act as resistance"</em></p>
+      <span class="timestamp">9:47</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"and if you can find a swing high for instance we have these here we trade down okay if it's going to trade down into the sunday gap opening look for it to run about here there you go you don't need to have this level that i pointed out this is enough relative equal highs and relative equal highs over here"</em></p>
+      <span class="timestamp">10:04</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"sometimes the week will just run away from it and won't really come back to it but in weeks where there's consolidation like fomc we have that uh to deal with for this calendar week and those types of events create these choppy range bound markets that don't give you the real clean take off one-way directional move"</em></p>
+      <span class="timestamp">10:32</span>
+    </div>
+
+    <!-- SUNDAY GAP DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Sunday Gap Opening — Acts as Dynamic Support/Resistance All Week</div>
+      <svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Sunday gap line extending across week -->
+        <line x1="40" y1="115" x2="660" y2="115" stroke="rgba(124,92,191,0.7)" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <text x="42" y="109" font-size="9" fill="#7c5cbf" font-family="'JetBrains Mono',monospace">Sunday Gap Opening — extend across entire week</text>
+
+        <!-- Price above gap — support scenario -->
+        <text x="42" y="58" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Price ABOVE gap → acts as support</text>
+        <polyline points="80,80 130,70 180,75 220,72 250,76" fill="none" stroke="#2ed573" stroke-width="1.5"/>
+        <!-- Retracement to gap acts as support -->
+        <polyline points="250,76 270,90 285,108 290,115" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <circle cx="290" cy="115" r="4" fill="none" stroke="#2ed573" stroke-width="1.5"/>
+        <text x="296" y="113" font-size="8" fill="#2ed573" font-family="'JetBrains Mono',monospace">support — rally from here</text>
+        <polyline points="290,115 320,100 360,82 400,70" fill="none" stroke="#2ed573" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+        <!-- Price below gap — resistance scenario -->
+        <text x="42" y="168" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Price BELOW gap → acts as resistance</text>
+        <polyline points="80,150 130,158 180,162 220,160 250,165" fill="none" stroke="#ff4757" stroke-width="1.5"/>
+        <!-- Retracement up to gap acts as resistance -->
+        <polyline points="400,175 430,168 455,160 475,150 490,138 500,115" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <circle cx="500" cy="115" r="4" fill="none" stroke="#ff4757" stroke-width="1.5"/>
+        <text x="508" y="113" font-size="8" fill="#ff4757" font-family="'JetBrains Mono',monospace">resistance — sells off</text>
+        <polyline points="500,115 525,130 555,148 585,165 610,178" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+        <!-- Week label at top -->
+        <text x="42" y="210" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"in weeks where there's consolidation... those types of events create these choppy range bound markets" — gap becomes even more significant</text>
+
+      </svg>
+    </div>
+
+    <h3>When the Sunday Gap Doesn't Come Back</h3>
+    <div class="quote">
+      <p><em>"sometimes the week will just run away from it and won't really come back to it"</em></p>
+      <span class="timestamp">10:32</span>
+    </div>
+
+    <h3>Unfilled Gaps as Draw on Liquidity</h3>
+    <div class="quote">
+      <p><em>"there's an actual gap so it'll want to draw up into that and what to what price level i'd like to the low on that candle okay so if it was going to be a perfect delivery it would go right to that candle's low but i'm not expecting perfect i'm not suggesting that at all"</em></p>
+      <span class="timestamp">13:56</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. FIBONACCI ANCHORING — LONG VS SHORT      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="fib-anchoring">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Fibonacci Anchoring — Use the Impulsive Swing in Your Direction</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"they will look at a range like this like here to here and they'll measure that range low to high to find the 50 level and then use that over here for a discount that's not how we do it okay"</em></p>
+      <span class="timestamp">15:40</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you're looking at expansion swings okay or impulsive price swings in the direction you're trying to trade you don't want to use a price leg from high to low measuring something that you're trying to go long on"</em></p>
+      <span class="timestamp">17:16</span>
+    </div>
+
+    <h3>For a Long Entry</h3>
+    <div class="quote bull">
+      <p><em>"from the low here up to this high here if we're looking for a long to get above these relative equal highs this low up to this high this is what you'd be doing okay so if you're looking for it to go higher you're going to need to draw your fib from a low up to a high that dealing range from that low that a high we're waiting for in anticipated retracement so the retracements going down to and below 50 now this becomes what a discount so you can be hunting along at this level or less if we're into a fair value gap that's good"</em></p>
+      <span class="timestamp">16:09</span>
+    </div>
+
+    <h3>For a Short Entry (Reverse)</h3>
+    <div class="quote bear">
+      <p><em>"the same thing is done here if we're looking because it has not taken this out here yet just fell short of it so if we take the fib and just anchor it to that high and run it to here you can see here's 50 of this dealing range low this dealing range high and it drops down to a discount"</em></p>
+      <span class="timestamp">16:54</span>
+    </div>
+
+    <!-- FIB ANCHORING DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Fibonacci Anchoring — Anchor to the Impulsive Swing in Your Trade Direction</div>
+      <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- ─── LONG SCENARIO (left side) ─── -->
+        <text x="42" y="22" font-size="10" fill="#2ed573" font-family="'JetBrains Mono',monospace">LONG SCENARIO</text>
+        <text x="42" y="34" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Anchor Fib: Low → High (impulsive up move)</text>
+
+        <!-- Impulsive up leg -->
+        <line x1="80" y1="200" x2="80" y2="60" stroke="rgba(46,213,115,0.3)" stroke-width="1"/>
+        <!-- Low anchor -->
+        <circle cx="80" cy="200" r="4" fill="#2ed573"/>
+        <text x="88" y="204" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Low (anchor)</text>
+        <!-- High anchor -->
+        <circle cx="80" cy="60" r="4" fill="#2ed573"/>
+        <text x="88" y="58" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">High (anchor)</text>
+
+        <!-- 50% line -->
+        <line x1="40" y1="130" x2="280" y2="130" stroke="rgba(255,165,2,0.55)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="284" y="134" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">50% = Equilibrium</text>
+
+        <!-- Retracement into discount (below 50%) + FVG -->
+        <polyline points="80,60 120,80 160,110 185,128 200,140 210,150" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <rect x="190" y="140" width="60" height="14" fill="rgba(255,165,2,0.15)" rx="0"/>
+        <text x="194" y="153" font-size="8" fill="#ffa502" font-family="'JetBrains Mono',monospace">FVG (discount)</text>
+        <circle cx="210" cy="150" r="4" fill="none" stroke="#2ed573" stroke-width="1.5"/>
+        <text x="218" y="148" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Buy entry</text>
+
+        <!-- Wrong: using a down leg for long -->
+        <line x1="42" y1="244" x2="280" y2="244" stroke="rgba(255,71,87,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="42" y="238" font-size="8" fill="rgba(255,71,87,0.4)" font-family="'JetBrains Mono',monospace">✗ WRONG: don't anchor Fib to a down leg when hunting longs</text>
+
+        <!-- ─── SHORT SCENARIO (right side) ─── -->
+        <text x="400" y="22" font-size="10" fill="#ff4757" font-family="'JetBrains Mono',monospace">SHORT SCENARIO</text>
+        <text x="400" y="34" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Anchor Fib: High → Low (impulsive down move)</text>
+
+        <!-- Impulsive down leg -->
+        <line x1="440" y1="60" x2="440" y2="200" stroke="rgba(255,71,87,0.3)" stroke-width="1"/>
+        <!-- High anchor -->
+        <circle cx="440" cy="60" r="4" fill="#ff4757"/>
+        <text x="448" y="58" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">High (anchor)</text>
+        <!-- Low anchor -->
+        <circle cx="440" cy="200" r="4" fill="#ff4757"/>
+        <text x="448" y="204" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Low (anchor)</text>
+
+        <!-- 50% line -->
+        <line x1="400" y1="130" x2="660" y2="130" stroke="rgba(255,165,2,0.55)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="440" y="124" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">50% = Equilibrium</text>
+
+        <!-- Retracement up into premium (above 50%) + FVG -->
+        <polyline points="440,200 470,180 500,155 520,138 530,128 540,118" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <rect x="520" y="110" width="60" height="14" fill="rgba(255,165,2,0.15)" rx="0"/>
+        <text x="524" y="123" font-size="8" fill="#ffa502" font-family="'JetBrains Mono',monospace">FVG (premium)</text>
+        <circle cx="540" cy="118" r="4" fill="none" stroke="#ff4757" stroke-width="1.5"/>
+        <text x="548" y="116" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Sell entry</text>
+
+        <!-- Direction arrows -->
+        <text x="42" y="260" font-size="9" fill="#2ed573" font-family="'JetBrains Mono',monospace">Long: fib Low → High | retracement to below 50% = discount | buy the FVG there</text>
+        <text x="42" y="278" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Short: fib High → Low | retracement to above 50% = premium | sell the FVG there</text>
+        <text x="42" y="296" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"impulsive price swings in the direction you're trying to trade" — that's the leg to anchor to</text>
+
+      </svg>
+    </div>
+
+    <div class="callout violet">
+      <span class="callout-icon">◈</span>
+      <p>The rule stated explicitly: <em>"you're looking at expansion swings okay or impulsive price swings in the direction you're trying to trade you don't want to use a price leg from high to low measuring something that you're trying to go long on"</em></p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title" style="color:var(--accent-bull)">Hunting a Long</span></div>
+        <p>Anchor Fib to the <em>impulsive up leg</em> (Low → High). Retracement below 50% = discount. Buy FVG in that discount zone.</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title" style="color:var(--accent-bear)">Hunting a Short</span></div>
+        <p>Anchor Fib to the <em>impulsive down leg</em> (High → Low). Retracement above 50% = premium. Sell FVG in that premium zone.</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">What NOT to Do</span></div>
+        <p><em>"they will look at a range like this... and they'll measure that range low to high to find the 50 level and then use that over here for a discount that's not how we do it"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. ON CO-DEPENDENCY                         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="co-dependency">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Why Ongoing Live Sessions Would Create Co-Dependency</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"the worst thing that i could do is sit down with you just a few times a week or even once a week that would create such a co-dependency on me that it would not help you"</em></p>
+      <span class="timestamp">12:33</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i showed you what it looks like i showed you how you go into the marketplace and you read it and i'm gonna leave it up to you the viewers decide whether or not if these things work okay"</em></p>
+      <span class="timestamp">12:16</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"you have to be in front of the charts doing these types of things and failing is part of that that's how you learn these are opportunities to grow from that"</em></p>
+      <span class="timestamp">13:22</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. FLASHCARDS                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Self-Study Flashcards</h2>
+    </div>
+    <p class="study-intro">Click any card to reveal the answer — all answers are direct quotes from the transcript.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How is the Sunday gap opening used as a reference across the trading week?</div>
+        <div class="flashcard-answer">"if you put it in your charts and just plot it across the entire week you'll see that many times there's a lot of valuation around that gap so it'll be treated as a dynamic price level if it's above it look for it to act as support if it's below it look for it to act as resistance"<span class="flashcard-ts">9:47</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When does the Sunday gap opening become especially significant?</div>
+        <div class="flashcard-answer">"sometimes the week will just run away from it and won't really come back to it but in weeks where there's consolidation like fomc we have that uh to deal with for this calendar week and those types of events create these choppy range bound markets"<span class="flashcard-ts">10:32</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does an actual gap (missing data) in price draw toward?</div>
+        <div class="flashcard-answer">"there's an actual gap so it'll want to draw up into that and what to what price level i'd like to the low on that candle okay so if it was going to be a perfect delivery it would go right to that candle's low"<span class="flashcard-ts">13:56</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the common mistake when using Fibonacci to find a discount for a long entry?</div>
+        <div class="flashcard-answer">"they will look at a range like this like here to here and they'll measure that range low to high to find the 50 level and then use that over here for a discount that's not how we do it okay"<span class="flashcard-ts">15:40</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What type of price swing should the Fibonacci be anchored to?</div>
+        <div class="flashcard-answer">"you're looking at expansion swings okay or impulsive price swings in the direction you're trying to trade you don't want to use a price leg from high to low measuring something that you're trying to go long on"<span class="flashcard-ts">17:16</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">For a long entry, how do you anchor the Fibonacci and what are you waiting for?</div>
+        <div class="flashcard-answer">"from the low here up to this high here if we're looking for a long... you're going to need to draw your fib from a low up to a high that dealing range from that low that a high we're waiting for in anticipated retracement so the retracements going down to and below 50 now this becomes what a discount so you can be hunting along at this level or less if we're into a fair value gap that's good"<span class="flashcard-ts">16:09</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does ICT say regular live sessions would not help students?</div>
+        <div class="flashcard-answer">"the worst thing that i could do is sit down with you just a few times a week or even once a week that would create such a co-dependency on me that it would not help you"<span class="flashcard-ts">12:33</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say about failing while studying price live?</div>
+        <div class="flashcard-answer">"you have to be in front of the charts doing these types of things and failing is part of that that's how you learn these are opportunities to grow from that"<span class="flashcard-ts">13:22</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

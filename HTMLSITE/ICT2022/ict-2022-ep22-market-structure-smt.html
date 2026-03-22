@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Episode 22 — Market Structure, SMT & the Market Maker Sell Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #13131c;
+    --border: #2a2a3a;
+    --border-subtle: #1f1f2e;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6e;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --accent-blue: #3d7aed;
+    --accent-blue-dim: rgba(61,122,237,0.12);
+    --accent-purple: #a55eea;
+    --accent-purple-dim: rgba(165,94,234,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(165,94,234,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(165,94,234,0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 1rem 1.2rem 1rem 0;
+    white-space: nowrap;
+    border-right: 1px solid var(--border-subtle);
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 1rem 0.8rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent-gold); }
+
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .episode-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .episode-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent-purple);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-quote {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-purple);
+    padding-left: 1.2rem;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  section { margin-bottom: 4rem; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 1.8rem 0 0.8rem;
+  }
+
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--accent-gold);
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .quote p { font-family: 'Crimson Pro', serif; font-size: 1.05rem; color: var(--text-primary); line-height: 1.65; }
+  .quote p em { font-style: italic; color: var(--text-primary); }
+  .quote.bear { border-left-color: var(--accent-bear); }
+  .quote.bull { border-left-color: var(--accent-bull); }
+  .quote.blue { border-left-color: var(--accent-blue); }
+  .quote.purple { border-left-color: var(--accent-purple); }
+
+  .timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  .callout {
+    background: var(--accent-gold-dim);
+    border: 1px solid rgba(255,165,2,0.2);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .callout p em { color: var(--text-primary); font-style: italic; }
+  .callout.bear { background: var(--accent-bear-dim); border-color: rgba(255,71,87,0.2); }
+  .callout.bull { background: var(--accent-bull-dim); border-color: rgba(46,213,115,0.2); }
+  .callout.blue { background: var(--accent-blue-dim); border-color: rgba(61,122,237,0.2); }
+  .callout.purple { background: var(--accent-purple-dim); border-color: rgba(165,94,234,0.2); }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .concept-card:hover { background: var(--bg-card-hover); border-color: var(--accent-gold); }
+  .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+  .card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold); }
+  .concept-card p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.55; }
+  .concept-card p em { font-style: italic; color: var(--text-primary); }
+
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .rule-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1rem 0; }
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.9rem 1.2rem;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+  }
+  .rule-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-gold); flex-shrink: 0; margin-top: 6px; }
+  .rule-dot.bear { background: var(--accent-bear); }
+  .rule-dot.bull { background: var(--accent-bull); }
+  .rule-dot.purple { background: var(--accent-purple); }
+  .rule-item p { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-secondary); line-height: 1.5; }
+  .rule-item p em { font-style: italic; color: var(--text-primary); }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 3rem 0; }
+
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .flashcard::after {
+    content: 'TAP TO REVEAL';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    position: absolute;
+    bottom: 0.7rem;
+    right: 0.9rem;
+  }
+  .flashcard.revealed::after { display: none; }
+  .flashcard:hover { border-color: var(--accent-purple); background: var(--bg-card-hover); }
+
+  .flashcard-question { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--accent-bull);
+    line-height: 1.55;
+  }
+  .flashcard.revealed .flashcard-answer { display: block; }
+  .flashcard-ts { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 0.4rem; font-style: normal; }
+
+  .study-intro { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+  @media (max-width: 640px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    main { padding: 0 1.2rem 4rem; }
+    .flashcard-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-label">EP. 22</span>
+    <a href="#premium-discount">Premium &amp; Discount</a>
+    <a href="#narrative">Narrative</a>
+    <a href="#market-structure">Market Structure Hierarchy</a>
+    <a href="#two-fvg">Two FVG Rule</a>
+    <a href="#fractal">Fractal</a>
+    <a href="#mm-sell">Market Maker Sell Model</a>
+    <a href="#smt">SMT Divergence</a>
+    <a href="#pyramiding">Pyramiding</a>
+    <a href="#ote">OTE &amp; Fib</a>
+    <a href="#power3">Power Three</a>
+    <a href="#study">Flashcards</a>
+  </div>
+</nav>
+
+<header>
+  <div class="episode-tag">2022 ICT Mentorship &mdash; Episode 22</div>
+  <h1>Market Structure Hierarchy,<br>SMT &amp; the Market Maker Sell Model</h1>
+  <p class="header-quote"><em>"once you understand what the market's likely to do where it's going to draw to okay where is it going why should it get there — that's the easiest thing out of all the learning"</em></p>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 1. PREMIUM & DISCOUNT FROM OLD HIGHS/LOWS  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="premium-discount">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Premium &amp; Discount — Old Highs and Lows</h2>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"any time the market trades above an old high that is a short-term premium because it's going into liquidity any time the market trades below an old low that's a discount"</em></p>
+      <span class="timestamp">11:30</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"just like the purposes of what people use overbought oversold indicators things can be overbought and still go higher things can be oversold or in a discount and keep going lower okay see that's why i'm suggesting that when people are studying price they can't just assume that an indicator is overbought so therefore it's a good sell or a shorting opportunity it's not always"</em></p>
+      <span class="timestamp">11:54</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Premium</span></div>
+        <p><em>"any time the market trades above an old high that is a short-term premium because it's going into liquidity"</em></p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Discount</span></div>
+        <p><em>"any time the market trades below an old low that's a discount"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 2. NARRATIVE                                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="narrative">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Narrative</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"if you understand the narrative within market structure market structure is not the answer it helps you frame an idea but the idea must be in alignment with the present narrative narrative is why should the market go where you think it's going to go on that particular day based on the climate the economic calendar events and the volatility that's being offered for that particular trading session or day"</em></p>
+      <span class="timestamp">12:17</span>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">◆</span>
+      <p><em>"you're taking the logic of certain principles and concepts and blending them with market structure we're looking for lower prices it should reach for a specific low but also how does the present narrative allow for engagement with the daily range or power three everything i've taught you"</em></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 3. MARKET STRUCTURE HIERARCHY               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="market-structure">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Market Structure Hierarchy — Long / Intermediate / Short Term Highs</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"this is a long term high intermediate term high by definition they're both enemy and term highs because they have imbalances but this one is lower than this one and this over here is lower than that one so this is a turning point making this by the hierarchy of swing points and marker structure this is a long term high energy term intermediate term because of the imbalance but how they nest together for market structure long-term immediate term"</em></p>
+      <span class="timestamp">26:02</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"now when this is retracing up this is going to be a short-term high inside of a market structure that is really predisposed to go lower because we have long term and intermittent term above me"</em></p>
+      <span class="timestamp">26:46</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"this should respect the underlying order flow and go lower and i'm looking for that lower price that's below here there's cell stops resting below that"</em></p>
+      <span class="timestamp">27:03</span>
+    </div>
+
+    <!-- MARKET STRUCTURE HIERARCHY DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Nested Market Structure — Long Term, Intermediate Term, Short Term Highs</div>
+      <svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Long-term high (highest, leftmost) -->
+        <line x1="80" y1="40" x2="80" y2="100" stroke="#ff4757" stroke-width="1.5"/>
+        <rect x="74" y="48" width="12" height="30" fill="#ff4757" rx="1"/>
+        <text x="50" y="34" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Long-Term High</text>
+        <text x="50" y="46" font-size="8" fill="rgba(255,71,87,0.6)" font-family="'JetBrains Mono',monospace">(has imbalance)</text>
+
+        <!-- Decline from LT high -->
+        <polyline points="86,78 140,100 190,115" fill="none" stroke="#9898a8" stroke-width="1.5"/>
+
+        <!-- Intermediate-term high (lower than LT, has its own imbalance) -->
+        <line x1="220" y1="58" x2="220" y2="128" stroke="#ffa502" stroke-width="1.5"/>
+        <rect x="214" y="68" width="12" height="36" fill="#ffa502" rx="1"/>
+        <text x="190" y="52" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Intermediate-Term High</text>
+        <text x="190" y="64" font-size="8" fill="rgba(255,165,2,0.6)" font-family="'JetBrains Mono',monospace">(lower than LT, has imbalance)</text>
+
+        <!-- Decline from IT high -->
+        <polyline points="226,104 280,128 330,148 370,162" fill="none" stroke="#9898a8" stroke-width="1.5"/>
+
+        <!-- Short-term high (retracement within bearish structure) -->
+        <line x1="410" y1="110" x2="410" y2="170" stroke="rgba(255,165,2,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <rect x="404" y="118" width="12" height="30" fill="rgba(255,165,2,0.3)" rx="1"/>
+        <text x="380" y="104" font-size="9" fill="rgba(255,165,2,0.6)" font-family="'JetBrains Mono',monospace">Short-Term High</text>
+        <text x="380" y="116" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">(retracement — subordinate)</text>
+
+        <!-- Continue lower from ST high -->
+        <polyline points="416,148 460,165 500,182 540,198 580,215" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="544" y="210" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">↓ order flow continues lower</text>
+
+        <!-- Cell stops below label -->
+        <line x1="40" y1="240" x2="660" y2="240" stroke="rgba(255,71,87,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="42" y="234" font-size="9" fill="rgba(255,71,87,0.5)" font-family="'JetBrains Mono',monospace">cell stops resting below</text>
+
+        <!-- Hierarchy annotation -->
+        <text x="40" y="270" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"how they nest together for market structure — long-term, immediate term"</text>
+        <text x="40" y="284" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">short-term high inside this "is really predisposed to go lower because we have long term and intermittent term above me"</text>
+
+        <!-- LT high marker -->
+        <line x1="80" y1="40" x2="220" y2="58" stroke="rgba(255,71,87,0.2)" stroke-width="1" stroke-dasharray="6,4"/>
+
+        <!-- IT to ST decline path marker -->
+        <line x1="220" y1="58" x2="410" y2="110" stroke="rgba(255,165,2,0.15)" stroke-width="1" stroke-dasharray="6,4"/>
+
+      </svg>
+    </div>
+
+    <div class="callout purple">
+      <span class="callout-icon">◈</span>
+      <p>What makes a high an <em>"enemy term high"</em> (intermediate-term high): <em>"they have imbalances"</em></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 4. TWO FVG RULE                             -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="two-fvg">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Two Stacked FVGs — Expect the Deeper Stab</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"if there is only one fair value you got then you just put your entry there and you don't expect it to go up into any deeper retracement but because it has another one here expect it to stab up into that"</em></p>
+      <span class="timestamp">24:06</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"now i know some of you in here want to be an ict junior and you want to be in there on the highest candle when you're selling you want to be on the lowest camera when you're buying and i understand but this isn't always going to happen"</em></p>
+      <span class="timestamp">24:17</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"so if you're really only trying to aim for that you're going to miss moves and if it moves like it did today that's that's a heartbreaker because it moved a lot and if you weren't positioned in it and you spent the rest of the day kicking yourself without being greedy about trying to get that instead of where i've already taught you you'll probably miss the other moves that take place later in the afternoon and you get nothing for the day"</em></p>
+      <span class="timestamp">24:31</span>
+    </div>
+
+    <!-- TWO FVG DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Two Stacked FVGs — Price Expected to Stab Into the Deeper (Upper) One Before Continuing</div>
+      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Displacement candle -->
+        <line x1="120" y1="50" x2="120" y2="170" stroke="#ff4757" stroke-width="1.5"/>
+        <rect x="113" y="90" width="14" height="60" fill="#ff4757" rx="1"/>
+        <text x="136" y="80" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Displacement</text>
+
+        <!-- Lower FVG zone -->
+        <rect x="60" y="148" width="200" height="18" fill="rgba(255,165,2,0.15)" rx="0"/>
+        <line x1="60" y1="148" x2="400" y2="148" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="60" y1="166" x2="400" y2="166" stroke="rgba(255,165,2,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="404" y="152" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">FVG #1 (lower)</text>
+        <text x="404" y="168" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">"just put your entry there"</text>
+
+        <!-- Upper FVG zone (the deeper one it will stab to) -->
+        <rect x="60" y="105" width="200" height="20" fill="rgba(255,165,2,0.25)" rx="0"/>
+        <line x1="60" y1="105" x2="400" y2="105" stroke="rgba(255,165,2,0.7)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="60" y1="125" x2="400" y2="125" stroke="rgba(255,165,2,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="404" y="110" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">FVG #2 (upper / deeper)</text>
+        <text x="404" y="126" font-size="8" fill="#ffa502" font-family="'JetBrains Mono',monospace">"expect it to stab up into that"</text>
+
+        <!-- Price continues lower, then retraces up -->
+        <polyline points="134,150 180,170 220,185 250,195" fill="none" stroke="#ff4757" stroke-width="1.5"/>
+
+        <!-- Retracement — stabs up through FVG1 into FVG2 -->
+        <polyline points="250,195 280,175 310,160 340,148 360,130 375,115" fill="none" stroke="#9898a8" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <circle cx="375" cy="115" r="5" fill="none" stroke="#ffa502" stroke-width="1.5"/>
+        <text x="382" y="113" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">stab into FVG #2</text>
+
+        <!-- Continue lower from FVG2 -->
+        <polyline points="375,115 420,140 460,165 500,188 540,210" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="506" y="205" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">↓ continues lower</text>
+
+        <!-- "one FVG" label on left -->
+        <text x="42" y="160" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">If only 1 FVG:</text>
+        <text x="42" y="172" font-size="8" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">enter here</text>
+
+        <!-- "two FVG" label -->
+        <text x="42" y="116" font-size="8" fill="#ffa502" font-family="'JetBrains Mono',monospace">If 2nd FVG above:</text>
+        <text x="42" y="128" font-size="8" fill="#ffa502" font-family="'JetBrains Mono',monospace">expect stab here</text>
+
+      </svg>
+    </div>
+
+    <div class="quote">
+      <p><em>"the sell side below these lows in here after it hits the fairway you got here and one more time into it well the opening price it breaks lower and aggressively runs below here so not a bad little run there"</em></p>
+      <span class="timestamp">18:30</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 5. FRACTAL NATURE                           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="fractal">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Fractal — Same Pattern at Different Scales</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"relative equal lows a high being taken here we break down these two candles move right below here that's the same thing as these two candles here being broken with this move here it's a fractal this whole move here is the same thing here just smaller and it creates the same thing the fair value gap here the market trades up into it"</em></p>
+      <span class="timestamp">25:08</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"relative equal lows it breaks down and it goes back to a fair value got here it is again relative equal lows displacement fair value got what does it do go right back up into what the fair value got"</em></p>
+      <span class="timestamp">32:49</span>
+    </div>
+
+    <div class="callout">
+      <span class="callout-icon">◈</span>
+      <p>The pattern: relative equal lows → displacement → fair value gap → retracement back into FVG. <em>"Here it is again"</em> — the fractal repeats at smaller and larger scales.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 6. MARKET MAKER SELL MODEL                  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="mm-sell">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Market Maker Sell Model</h2>
+    </div>
+
+    <div class="quote purple">
+      <p><em>"for those of you that are students of mine for a longer time than just recently you recognize this as a market maker cell model so i was selling in an area where distribution would take place"</em></p>
+      <span class="timestamp">37:10</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"so it's the open rally smart money enters near the high today above the opening and they get out down here at an important low and the market closes near the level of the day"</em></p>
+      <span class="timestamp">14:57</span>
+    </div>
+
+    <h3>Power Three — Bearish Version</h3>
+    <div class="quote bear">
+      <p><em>"power three which is the open rally up or manipulation creating the high and then the movement lower and then distribute their shorts below an area where there would be stops so smart money would be selling short the buy stops here writing this out and an offloading their shorts to sell stops below those relative equal lows"</em></p>
+      <span class="timestamp">13:08</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"remember when we see those relative equal lows on the daily chart traders are going to look at that as a breakout there's lots of traders out there that have long-term trend following systems and models and if it breaks below those areas they want to be short so that's going to flood the market with what market orders to sell at the market well that's a perfect counterpart to smart money being short up here because they want to buy it at a lower price"</em></p>
+      <span class="timestamp">13:40</span>
+    </div>
+
+    <!-- MM SELL MODEL DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">Market Maker Sell Model — Open → Rally (Manipulation) → Distribute Shorts → Run Sell Stops Below REQ Lows</div>
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- Opening price line -->
+        <line x1="40" y1="140" x2="660" y2="140" stroke="rgba(255,165,2,0.4)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="42" y="134" font-size="9" fill="rgba(255,165,2,0.7)" font-family="'JetBrains Mono',monospace">Opening Price</text>
+
+        <!-- Relative equal lows level -->
+        <line x1="40" y1="220" x2="660" y2="220" stroke="rgba(255,71,87,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="42" y="214" font-size="9" fill="rgba(255,71,87,0.6)" font-family="'JetBrains Mono',monospace">Relative Equal Lows (cell stops below)</text>
+
+        <!-- Phase 1: Open and initial position -->
+        <circle cx="100" cy="140" r="5" fill="#ffa502"/>
+        <text x="88" y="158" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">Open</text>
+
+        <!-- Phase 2: Manipulation rally above opening price -->
+        <polyline points="100,140 150,118 200,96 230,80" fill="none" stroke="#ff4757" stroke-width="2"/>
+        <text x="180" y="70" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Manipulation Rally — "creating the high"</text>
+        <text x="180" y="82" font-size="8" fill="rgba(255,71,87,0.6)" font-family="'JetBrains Mono',monospace">smart money selling short the buy stops here</text>
+
+        <!-- High point -->
+        <circle cx="230" cy="80" r="5" fill="#ff4757"/>
+        <text x="238" y="78" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Distribution Point</text>
+
+        <!-- Phase 3: Movement lower -->
+        <polyline points="230,80 280,110 330,130 380,150 420,175 460,195 490,218" fill="none" stroke="#ff4757" stroke-width="2"/>
+
+        <!-- Phase 4: Break below REQ lows -->
+        <line x1="490" y1="218" x2="490" y2="250" stroke="#ff4757" stroke-width="2"/>
+        <polygon points="484,246 490,258 496,246" fill="#ff4757"/>
+        <text x="500" y="240" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">Offloading shorts to sell stops</text>
+        <text x="500" y="254" font-size="8" fill="rgba(255,71,87,0.6)" font-family="'JetBrains Mono',monospace">"flood the market with market orders to sell"</text>
+
+        <!-- Smart money buy label -->
+        <text x="502" y="270" font-size="8" fill="#2ed573" font-family="'JetBrains Mono',monospace">smart money buying at lower price</text>
+
+        <!-- Phase labels -->
+        <text x="42" y="270" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Phase 1: Open</text>
+        <text x="130" y="270" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Phase 2: Manipulation</text>
+        <text x="300" y="270" font-size="9" fill="#5a5a6e" font-family="'JetBrains Mono',monospace">Phase 3: Distribution</text>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 7. SMT DIVERGENCE                           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="smt">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>SMT — Smart Money Technique (Divergence)</h2>
+    </div>
+
+    <div class="quote purple">
+      <p><em>"this is what i teach is smt okay it's showing it's showing a willingness to correct the correlation between like markets these are closely correlated assets the s p 500 stocks composite and in nasdaq 100 stocks composite they generally move together in tandem not all the time"</em></p>
+      <span class="timestamp">43:20</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"so if we're bearish and we're expecting lower prices and we see this but the s p doesn't do it that's showing you that this is a stop run and it shows that s p is really weak"</em></p>
+      <span class="timestamp">43:48</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"so this gives you confirmation without using an indicator okay without having anything on the chart"</em></p>
+      <span class="timestamp">44:09</span>
+    </div>
+
+    <div class="quote purple">
+      <p><em>"it shows you oh well let me just do it here when you have the nas back up like this you can do a comparing contrast by hitting this little tab here and we're going to add this e-mini s p new pane so it plots it below and then if you're comparing highs you want to go over here good little gear price source you want to change that to high"</em></p>
+      <span class="timestamp">44:18</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i use intermarket relationships and correlation and correlation used properly there's a lot of people that are talking about correlation they have no idea what they're talking about but if you look at the idea of this relationship here it gives you like an x-ray view of real accumulation and distribution this is distribution because it doesn't see the same rally higher that the nasdaq did okay"</em></p>
+      <span class="timestamp">45:01</span>
+    </div>
+
+    <!-- SMT DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-caption">SMT Divergence — NQ Makes Higher High, ES Fails to Confirm → Distribution (Bearish)</div>
+      <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;">
+
+        <!-- NQ line -->
+        <text x="42" y="30" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">NQ (Nasdaq) — makes HIGHER high</text>
+        <polyline points="60,90 120,80 180,100 230,70 280,60 300,55" fill="none" stroke="#ffa502" stroke-width="2"/>
+        <!-- NQ high 1 -->
+        <circle cx="230" cy="70" r="4" fill="#ffa502"/>
+        <text x="236" y="68" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">High 1</text>
+        <!-- NQ high 2 - higher -->
+        <circle cx="300" cy="55" r="4" fill="#ffa502"/>
+        <text x="306" y="53" font-size="9" fill="#ffa502" font-family="'JetBrains Mono',monospace">High 2 (higher)</text>
+
+        <!-- Divergence arrow upward -->
+        <line x1="230" y1="70" x2="300" y2="55" stroke="rgba(255,165,2,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <!-- ES line -->
+        <text x="42" y="130" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">ES (S&amp;P) — makes LOWER high → "really weak"</text>
+        <polyline points="60,190 120,180 180,196 230,168 280,175 300,178" fill="none" stroke="#9898a8" stroke-width="2"/>
+        <!-- ES high 1 -->
+        <circle cx="230" cy="168" r="4" fill="#9898a8"/>
+        <text x="236" y="166" font-size="9" fill="#9898a8" font-family="'JetBrains Mono',monospace">High 1</text>
+        <!-- ES high 2 - lower -->
+        <circle cx="300" cy="178" r="4" fill="#ff4757"/>
+        <text x="306" y="176" font-size="9" fill="#ff4757" font-family="'JetBrains Mono',monospace">High 2 (lower) ← WEAK</text>
+
+        <!-- Divergence arrow downward on ES -->
+        <line x1="230" y1="168" x2="300" y2="178" stroke="rgba(255,71,87,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <!-- Divergence annotation -->
+        <line x1="300" y1="55" x2="300" y2="178" stroke="rgba(165,94,234,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="310" y="120" font-size="9" fill="#a55eea" font-family="'JetBrains Mono',monospace">SMT — "this is distribution"</text>
+        <text x="310" y="134" font-size="8" fill="rgba(165,94,234,0.6)" font-family="'JetBrains Mono',monospace">"x-ray view of real accumulation and distribution"</text>
+
+        <!-- NQ label on left -->
+        <text x="40" y="94" font-size="10" fill="#ffa502" font-family="'JetBrains Mono',monospace">NQ</text>
+        <!-- ES label on left -->
+        <text x="40" y="194" font-size="10" fill="#9898a8" font-family="'JetBrains Mono',monospace">ES</text>
+
+      </svg>
+    </div>
+
+    <div class="callout purple">
+      <span class="callout-icon">◈</span>
+      <p>How to compare on TradingView: <em>"you can do a comparing contrast by hitting this little tab here and we're going to add this e-mini s p new pane... price source you want to change that to high"</em> to compare high-to-high.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 8. PYRAMIDING — BIGGEST POSITION FIRST      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="pyramiding">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Pyramiding — Biggest Position First</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"i'm entering at the largest portion of the setup or you know the framework for the trade i'm going in with my maximum position size first three contracts there then selling two here and then i'm adding the last one here at logical precise areas it's not randomness it's not willy-nilly it's not flipping a coin it's not guessing there's logic here"</em></p>
+      <span class="timestamp">34:29</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"i have two contracts that i'm short from back here and i have three contracts short from over here so i have all this built in equity with five contracts so the one contract here that only has four and a half points of heat on it or draw down it's insignificant i don't even worry about i'm not thinking about it"</em></p>
+      <span class="timestamp">35:19</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"that's why i when i pyramid and i build in large positions i'm starting with my biggest position first and then i'm going smaller and smaller until i can't do any smaller i don't ever do the final one contract and do one more and one more and one more i don't do that"</em></p>
+      <span class="timestamp">35:41</span>
+    </div>
+
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Enter with <em>"maximum position size first"</em> at the most logical entry (the primary setup)</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot"></div>
+        <p>Add smaller subsequent positions at <em>"logical precise areas"</em> as the trade develops</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot bear"></div>
+        <p><em>"i don't ever do the final one contract and do one more and one more and one more"</em> — never add aggressively after the initial big entry</p>
+      </div>
+      <div class="rule-item">
+        <div class="rule-dot bull"></div>
+        <p>Built-in equity from earlier entries absorbs heat on the final smaller additions</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 9. OTE & FIBONACCI                          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="ote">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Optimal Trade Entry (OTE) — 62 &amp; 79 Using Bodies</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"if you want to show optimal trade entry levels and you're pulling the fill up... the 62 and the 79 okay and you can change these make them a different color to stand out"</em></p>
+      <span class="timestamp">48:03</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"for optimal trade entry i like to use the bodies lowest open or close in the swings and you can see how nice that gets right up almost into the 79 percent tracing"</em></p>
+      <span class="timestamp">49:36</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"it's the bulk of the volume i'm using the lowest opening on this candle here inside this swing and inside this swing i'm using the highest open or close and that's what's being plotted on optimal trade entries"</em></p>
+      <span class="timestamp">50:06</span>
+    </div>
+
+    <h3>Standard Deviation Projections</h3>
+    <div class="quote">
+      <p><em>"if you want to calibrate it to the daily range here it'll give you a pretty good idea of where your low should form... you can get that for your discount the premium but for optimal trade entry i like to use the bodies"</em></p>
+      <span class="timestamp">47:26</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"we have one standard deviation down here project up over here boom see that hits it and then we have a nice retracement up so this is a good area to take profits here and it's also below the low so how far can i go below this low ict well there's a standard deviation right there and it does so handsomely"</em></p>
+      <span class="timestamp">50:37</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">OTE Levels</span></div>
+        <p><em>"the 62 and the 79"</em> retracement levels constitute the Optimal Trade Entry range</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">Body Anchoring</span></div>
+        <p><em>"i like to use the bodies lowest open or close in the swings"</em> — not the wicks</p>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><span class="card-title">50% = Equilibrium</span></div>
+        <p><em>"this is for equilibrium so if you want to see discount the premium that's what the 0.5 level is it's 50"</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 10. POWER THREE RECAP                       -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="power3">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <h2>Power Three — Revisited</h2>
+    </div>
+
+    <div class="quote">
+      <p><em>"power three which is the open rally up or manipulation creating the high and then the movement lower and then distribute their shorts below an area where there would be stops"</em></p>
+      <span class="timestamp">13:08</span>
+    </div>
+
+    <div class="quote">
+      <p><em>"did price trade above it yes it's in a premium it's above an old high that makes it a premium too"</em></p>
+      <span class="timestamp">11:03</span>
+    </div>
+
+    <h3>Stop Placement Reminder</h3>
+    <div class="quote bear">
+      <p><em>"your stop loss if you're entering in this fair value got your stop has to be above the very minimum the candle that creates the fair value gap that's here so your style is going to be above that"</em></p>
+      <span class="timestamp">17:47</span>
+    </div>
+
+    <div class="quote bear">
+      <p><em>"oh but ict that's a lot that's a big stop well look how volatile it is you want to be knocked out of the trade prematurely or are you just concerned about making the maximum amount of money on your trade dismissing the level of risk that's what gamblers do"</em></p>
+      <span class="timestamp">18:02</span>
+    </div>
+
+    <h3>Afternoon Session Re-Entry</h3>
+    <div class="quote">
+      <p><em>"i remember i stated at around 1 30 that's when i like to go back in now i've taken trades earlier than that but i'd like to see 1 30. after 1 30 the lunch hour has been smoothed out and then there's usually some kind of a retracement higher when it's bearish or retracement lower when it's bullish and you're seeing that here"</em></p>
+      <span class="timestamp">18:53</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- 11. FLASHCARDS                              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">11</span>
+      <h2>Self-Study Flashcards</h2>
+    </div>
+    <p class="study-intro">Click any card to reveal the answer — all answers are direct quotes from the transcript.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What makes a market trade a "short-term premium"?</div>
+        <div class="flashcard-answer">"any time the market trades above an old high that is a short-term premium because it's going into liquidity"<span class="flashcard-ts">11:30</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What makes a market trade a "discount"?</div>
+        <div class="flashcard-answer">"any time the market trades below an old low that's a discount"<span class="flashcard-ts">11:43</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is narrative as defined in this lesson?</div>
+        <div class="flashcard-answer">"narrative is why should the market go where you think it's going to go on that particular day based on the climate the economic calendar events and the volatility that's being offered for that particular trading session or day"<span class="flashcard-ts">12:30</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is market structure's role relative to narrative?</div>
+        <div class="flashcard-answer">"market structure is not the answer it helps you frame an idea but the idea must be in alignment with the present narrative"<span class="flashcard-ts">12:20</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What makes a high an intermediate-term high?</div>
+        <div class="flashcard-answer">"they're both enemy and term highs because they have imbalances"<span class="flashcard-ts">26:18</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does a short-term high within bearish market structure tell you?</div>
+        <div class="flashcard-answer">"this is going to be a short-term high inside of a market structure that is really predisposed to go lower because we have long term and intermittent term above me"<span class="flashcard-ts">26:46</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the two FVG rule?</div>
+        <div class="flashcard-answer">"if there is only one fair value you got then you just put your entry there and you don't expect it to go up into any deeper retracement but because it has another one here expect it to stab up into that"<span class="flashcard-ts">24:06</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the fractal relationship described between setups?</div>
+        <div class="flashcard-answer">"relative equal lows a high being taken here we break down these two candles move right below here that's the same thing as these two candles here being broken with this move here it's a fractal this whole move here is the same thing here just smaller and it creates the same thing"<span class="flashcard-ts">25:08</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the Market Maker Sell Model?</div>
+        <div class="flashcard-answer">"for those of you that are students of mine for a longer time than just recently you recognize this as a market maker cell model so i was selling in an area where distribution would take place"<span class="flashcard-ts">37:10</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is SMT divergence?</div>
+        <div class="flashcard-answer">"this is what i teach is smt okay it's showing it's showing a willingness to correct the correlation between like markets these are closely correlated assets the s p 500 stocks composite and in nasdaq 100 stocks composite they generally move together in tandem not all the time"<span class="flashcard-ts">43:20</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does it mean when NQ makes a higher high but ES does not?</div>
+        <div class="flashcard-answer">"so if we're bearish and we're expecting lower prices and we see this but the s p doesn't do it that's showing you that this is a stop run and it shows that s p is really weak"<span class="flashcard-ts">43:48</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does SMT divergence allow you to see without an indicator?</div>
+        <div class="flashcard-answer">"if you look at the idea of this relationship here it gives you like an x-ray view of real accumulation and distribution this is distribution because it doesn't see the same rally higher that the nasdaq did okay"<span class="flashcard-ts">45:15</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How should you pyramid into a position?</div>
+        <div class="flashcard-answer">"i'm starting with my biggest position first and then i'm going smaller and smaller until i can't do any smaller i don't ever do the final one contract and do one more and one more and one more i don't do that"<span class="flashcard-ts">35:41</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the OTE retracement levels and how are they anchored?</div>
+        <div class="flashcard-answer">"the 62 and the 79 okay... for optimal trade entry i like to use the bodies lowest open or close in the swings"<span class="flashcard-ts">48:03 / 49:36</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does the 0.5 level on the Fibonacci represent?</div>
+        <div class="flashcard-answer">"this is for equilibrium so if you want to see discount the premium that's what the 0.5 level is it's 50"<span class="flashcard-ts">47:10</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where should a stop loss be placed when entering in a fair value gap?</div>
+        <div class="flashcard-answer">"your stop loss if you're entering in this fair value got your stop has to be above the very minimum the candle that creates the fair value gap that's here so your style is going to be above that"<span class="flashcard-ts">17:47</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">When does ICT prefer to re-enter the afternoon session?</div>
+        <div class="flashcard-answer">"i remember i stated at around 1 30 that's when i like to go back in now i've taken trades earlier than that but i'd like to see 1 30. after 1 30 the lunch hour has been smoothed out and then there's usually some kind of a retracement higher when it's bearish or retracement lower when it's bullish"<span class="flashcard-ts">18:53</span></div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does ICT say the concepts won't become ineffective no matter how many people learn them?</div>
+        <div class="flashcard-answer">"all of that saturation will not change because what i just said the algorithm isn't going to change there's new suckers coming in all the time... you're never going to run out of liquidity"<span class="flashcard-ts">31:20</span></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

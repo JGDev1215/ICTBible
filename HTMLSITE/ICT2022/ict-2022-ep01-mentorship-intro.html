@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Introduction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #1a1a24;
+  --bg-card-hover: #1f1f2e;
+  --bg-subtle: #141420;
+  --text-primary: #e8e8ed;
+  --text-secondary: #9898a8;
+  --text-muted: #5a5a6e;
+  --accent-bear: #ff4757;
+  --accent-bull: #2ed573;
+  --accent-gold: #ffa502;
+  --accent-blue: #4a9eff;
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(255,165,2,0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 15, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.03em;
+}
+
+nav a:hover {
+  color: var(--accent-gold);
+  background: rgba(255,165,2,0.08);
+}
+
+/* HEADER */
+header {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 2rem 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1.25rem;
+}
+
+header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.header-quote {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  max-width: 680px;
+  border-left: 2px solid var(--accent-gold);
+  padding-left: 1.25rem;
+}
+
+/* MAIN LAYOUT */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 6rem;
+}
+
+/* SECTIONS */
+section {
+  padding: 4rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+section:last-of-type { border-bottom: none; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 0.75rem;
+}
+
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+/* QUOTE BLOCK */
+.quote {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-gold);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 6px 6px 0;
+  margin: 1.25rem 0;
+  position: relative;
+}
+
+.quote p {
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.quote .ts {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  display: block;
+  letter-spacing: 0.05em;
+}
+
+/* CONCEPT CARD */
+.concept-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.concept-card:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  letter-spacing: 0.02em;
+}
+
+.concept-card p {
+  font-style: italic;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* THREE STAGES DIAGRAM */
+.stages-diagram {
+  margin: 2.5rem 0;
+}
+
+/* CARD GRID */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* PROMISE LIST */
+.promise-list {
+  list-style: none;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.promise-list li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.promise-list li::before {
+  content: '→';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--accent-bull);
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+/* FLASHCARDS */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.flashcard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 120px;
+  user-select: none;
+}
+
+.flashcard:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+}
+
+.flashcard-question {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.flashcard-answer {
+  display: none;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-style: italic;
+  color: var(--accent-gold);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.flashcard.revealed .flashcard-answer {
+  display: block;
+}
+
+.flashcard-hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 0.85rem;
+}
+
+/* SCHEDULE TABLE */
+.schedule-block {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.schedule-row:last-child { border-bottom: none; }
+
+.schedule-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  min-width: 110px;
+}
+
+.schedule-value {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* DIVIDER */
+.rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  header { padding: 3rem 1.25rem 2rem; }
+  main { padding: 0 1.25rem 4rem; }
+  nav { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#overview">Overview</a>
+    <a href="#approach">Approach</a>
+    <a href="#stages">Three Stages</a>
+    <a href="#promises">Promises</a>
+    <a href="#mindset">Mindset</a>
+    <a href="#live">Live Account</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#study">Study</a>
+  </div>
+</nav>
+
+<header>
+  <p class="header-eyebrow">ICT 2022 YouTube Mentorship</p>
+  <h1>Introduction &amp; Orientation</h1>
+  <p class="header-quote">"I'm going to teach a stripped down version of my concepts in a mentorship style so that way you can go through the process of learning how to do a specific trading model."</p>
+</header>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <p class="section-label">01 — Context</p>
+    <h2>Purpose &amp; Intent</h2>
+
+    <div class="quote">
+      <p>"This is really meant for specifically — it's for my daughter okay so I sat down and figured I'd kill two birds at one stone. And if I can show a simplistic way of going in using the things that I teach, stripping it down to its chrome."</p>
+      <span class="ts">2:38</span>
+    </div>
+
+    <div class="quote">
+      <p>"No bells and whistles, no advanced theories or anything like that. What can I do to provide a model that my daughter could look at and say okay there's not a lot of moving parts, it's real simple for me to decide what it is I want to do and also when not to do something."</p>
+      <span class="ts">2:56</span>
+    </div>
+
+    <div class="quote">
+      <p>"It's been my experience that the highest form of analysis concepts that I've been teaching in my own personal mentorship many times creates exceptional traders yes, but the majority of them in them being my students they get bogged down in all of the content and it just creates analysis paralysis."</p>
+      <span class="ts">3:26</span>
+    </div>
+
+    <div class="quote">
+      <p>"One of the approaches is to trade it with index futures okay. And if you are not interested in trading futures that's fine you can still trade forex with these concepts as well, but I kind of like want to drive it with futures."</p>
+      <span class="ts">4:50</span>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section id="approach">
+    <p class="section-label">02 — Teaching Approach</p>
+    <h2>How This Mentorship is Structured</h2>
+
+    <div class="quote">
+      <p>"It will not be setups given to you for trades, but I will take your attention before the fact and draw them out on a chart where I want you to study where price will likely draw to next, and using the things I teach you conceptually it's your job to study that okay. Do not look at that as a trade setup. Do not look at that as an enticement to take a live trade."</p>
+      <span class="ts">7:43</span>
+    </div>
+
+    <div class="quote">
+      <p>"I keep everything very simple. You know I use limits and markets to get in and I just collapse a trade when it gets to a target of my choice."</p>
+      <span class="ts">21:33</span>
+    </div>
+
+    <div class="quote">
+      <p>"You don't need to have a thousand moving parts, I can go in and simply look at things that make sense. And if you can visually understand what it is I'm teaching, you'll see that it doesn't require a lot of chart graffiti."</p>
+      <span class="ts">26:49</span>
+    </div>
+
+    <div class="quote">
+      <p>"Within a liquidity matrix you have buy side and sell side and once you have that understanding and I'll teach some of those things in the mentorship, you'll be able to find setups that repeat."</p>
+      <span class="ts">27:19</span>
+    </div>
+
+    <div class="quote">
+      <p>"You need to be precise about the directional bias and where it's going okay. Where's price reaching for."</p>
+      <span class="ts">24:38</span>
+    </div>
+  </section>
+
+  <!-- THREE STAGES -->
+  <section id="stages">
+    <p class="section-label">03 — Framework</p>
+    <h2>The Three Stages</h2>
+
+    <div class="quote">
+      <p>"There's three stages in this YouTube mentorship okay. I'm treating you all as green horns okay, you're just yearning to do this."</p>
+      <span class="ts">7:14</span>
+    </div>
+
+    <div class="stages-diagram">
+      <svg viewBox="0 0 820 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="arrow-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#ffa502;stop-opacity:0.3"/>
+            <stop offset="100%" style="stop-color:#ffa502;stop-opacity:0.7"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Stage 1: Yearner -->
+        <rect x="20" y="40" width="220" height="120" rx="8" fill="#1a1a24" stroke="#ffa50240" stroke-width="1"/>
+        <text x="130" y="78" text-anchor="middle" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#ffa502">Yearner</text>
+        <text x="130" y="100" text-anchor="middle" font-family="Crimson Pro" font-size="13" fill="#9898a8" font-style="italic">wanting to learn</text>
+        <line x1="40" y1="120" x2="220" y2="120" stroke="#ffa50220" stroke-width="1"/>
+        <text x="130" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5a5a6e">stage 01</text>
+
+        <!-- Arrow 1 -->
+        <path d="M255 100 L285 100" stroke="url(#arrow-grad)" stroke-width="2" fill="none"/>
+        <polygon points="285,95 295,100 285,105" fill="#ffa502"/>
+
+        <!-- Stage 2: Learner -->
+        <rect x="300" y="40" width="220" height="120" rx="8" fill="#1a1a24" stroke="#ffa50260" stroke-width="1"/>
+        <text x="410" y="78" text-anchor="middle" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#ffa502">Learner</text>
+        <text x="410" y="100" text-anchor="middle" font-family="Crimson Pro" font-size="13" fill="#9898a8" font-style="italic">structured learning</text>
+        <line x1="320" y1="120" x2="500" y2="120" stroke="#ffa50220" stroke-width="1"/>
+        <text x="410" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5a5a6e">stage 02</text>
+
+        <!-- Arrow 2 -->
+        <path d="M535 100 L565 100" stroke="url(#arrow-grad)" stroke-width="2" fill="none"/>
+        <polygon points="565,95 575,100 565,105" fill="#ffa502"/>
+
+        <!-- Stage 3: Earner -->
+        <rect x="580" y="40" width="220" height="120" rx="8" fill="#1a1a24" stroke="#2ed57380" stroke-width="1"/>
+        <text x="690" y="78" text-anchor="middle" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#2ed573">Earner</text>
+        <text x="690" y="100" text-anchor="middle" font-family="Crimson Pro" font-size="13" fill="#9898a8" font-style="italic">at your own discretion &amp; timing</text>
+        <line x1="600" y1="120" x2="780" y2="120" stroke="#2ed57320" stroke-width="1"/>
+        <text x="690" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5a5a6e">stage 03</text>
+      </svg>
+    </div>
+
+    <div class="quote">
+      <p>"So you're going from yearning to learning and hopefully at your discretion and timing you'll become an earner okay."</p>
+      <span class="ts">8:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"So my intentions to take the yearners that want to learn how to do this through a process of becoming structured learners."</p>
+      <span class="ts">8:07</span>
+    </div>
+
+    <div class="quote">
+      <p>"A lot of you that begin this YouTube mentorship will not complete it because you're gonna get frustrated because you want something else, or an alternative, a way of me teaching it to you differently. I'm not going to take suggestions from anybody on how to teach it differently. This is the way I'm going to teach it so it's as is."</p>
+      <span class="ts">7:24</span>
+    </div>
+  </section>
+
+  <!-- PROMISES -->
+  <section id="promises">
+    <p class="section-label">04 — Promises</p>
+    <h2>What ICT Promises</h2>
+
+    <ul class="promise-list">
+      <li>"I promise you you're going to learn things that absolutely repeat a lot."<br><span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.3rem;display:block;">6:19</span></li>
+      <li>"My goal is to improve your understanding about price action, how price is delivered, and how to read the bias on an intraday basis, a daily basis and hopefully over a short-term period of time you can find setups that repeat and they have common characteristics that are very similar."<br><span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.3rem;display:block;">6:35</span></li>
+      <li>"You are not going to be perfect. It's not my goal to make you a perfect trader. It's not my goal to make you a perfect analyst."<br><span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.3rem;display:block;">6:26</span></li>
+      <li>"They won't be carbon copies but you'll see similarities that to know and trust that this is a setup that you are familiar with okay."<br><span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.3rem;display:block;">6:54</span></li>
+      <li>"I believe my belief is that you'll be better at reading price when I'm done doing this YouTube mentorship."<br><span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-muted);margin-top:0.3rem;display:block;">29:14</span></li>
+    </ul>
+  </section>
+
+  <!-- MINDSET -->
+  <section id="mindset">
+    <p class="section-label">05 — Mindset</p>
+    <h2>Personal Responsibility &amp; Development</h2>
+
+    <div class="quote">
+      <p>"The main thing is for you not to grow a dependency on me pointing to everything before it happens because if you do that or if you have that mindset going in it's going to stunt your growth and in fact it's going to create a barrier for you, because it'll create a codependency state of mind and I don't want that. I try to foster an independent mindset where you're independently coming to the decisions on your own. It's that way the results are yours."</p>
+      <span class="ts">10:02</span>
+    </div>
+
+    <div class="quote">
+      <p>"If it's success you own it. If you failed you own that too. I can't co-sign for your failure."</p>
+      <span class="ts">10:25</span>
+    </div>
+
+    <div class="quote">
+      <p>"It takes a lot of ownership personally and the responsibility that is required to do this is paramount okay. You cannot have anybody else take responsibility for your actions."</p>
+      <span class="ts">17:50</span>
+    </div>
+
+    <div class="quote">
+      <p>"I know some of you simply will not do the things I ask you to do. You will not do them effectively and you'll try to shortcut certain things and you'll think that you don't need to do this and don't do that and your results will be reduced because of that. So if I suggest things to you, drills, homework, things to study, do your best to participate in that okay."</p>
+      <span class="ts">11:19</span>
+    </div>
+
+    <div class="quote">
+      <p>"It's a transferable skill. But the skill must be honed by you the student."</p>
+      <span class="ts">19:12</span>
+    </div>
+
+    <div class="quote">
+      <p>"This is a personal responsibility characteristic that all of you gonna have to really assume okay. Because I can lay the things in your hands but if you don't respect the fact that they have sharp edges okay, or if you use live ammunition before you're really properly trained, you could hurt yourself."</p>
+      <span class="ts">3:59</span>
+    </div>
+
+    <hr class="rule">
+
+    <h3>On Demo vs. Live Trading</h3>
+
+    <div class="quote">
+      <p>"Something magical happens when you go into a live account where now suddenly every little tick means something to you, because it means success or failure on an individual basis whereas if you lose in a demo account yeah you didn't really lose anything. You can take another demo trade but with live account trading you have to deal with that drawdown in that loss."</p>
+      <span class="ts">17:06</span>
+    </div>
+
+    <div class="quote">
+      <p>"Making money in an account is sometimes worse than losing money because it will make you feel like you want another taste of that and it creates opportunities for you to go into over trade and or over leverage."</p>
+      <span class="ts">17:30</span>
+    </div>
+  </section>
+
+  <!-- LIVE ACCOUNT -->
+  <section id="live">
+    <p class="section-label">06 — Live Account</p>
+    <h2>Demonstrating Concepts Outside Demo</h2>
+
+    <div class="quote">
+      <p>"In 2022 I promised that you would see how these concepts work in an environment outside of a demo account."</p>
+      <span class="ts">12:27</span>
+    </div>
+
+    <div class="quote">
+      <p>"TD Ameritrade is very reputable and that it is regulated by the Commodity Futures Trading Commission and all of the other governing bodies. I cannot rig this to make it look like I'm smarter okay. I can't go back in and change a trade, I can't fix it okay, I can't add lipstick to it okay. It either is or isn't a profitable trade okay, it's as simple as that."</p>
+      <span class="ts">13:41</span>
+    </div>
+
+    <div class="quote">
+      <p>"The things I'm going to be showing you are applicable on paper and in demo and the same logic is used here."</p>
+      <span class="ts">21:46</span>
+    </div>
+
+    <hr class="rule">
+
+    <h3>On Micro Contracts and Accessibility</h3>
+
+    <div class="quote">
+      <p>"You can trade the micros and while you're not making fifty dollars per handle on e-mini S&P you're making five dollars per handle. You can still graduate over time and build that up and it's not a lot of initial margin that's required to do that."</p>
+      <span class="ts">25:33</span>
+    </div>
+
+    <div class="quote">
+      <p>"If you can find 25 handles a week in the e-mini market you can do very very well with that. Very very well. You don't need to hit home runs."</p>
+      <span class="ts">27:34</span>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <p class="section-label">07 — Structure</p>
+    <h2>Mentorship Schedule</h2>
+
+    <div class="schedule-block">
+      <div class="schedule-row">
+        <span class="schedule-label">Launch</span>
+        <span class="schedule-value">"Obviously Friday will be your first episode." <span style="font-family:'JetBrains Mono';font-size:0.62rem;color:var(--text-muted);">29:54</span></span>
+      </div>
+      <div class="schedule-row">
+        <span class="schedule-label">Cadence</span>
+        <span class="schedule-value">"It'll be a Tuesday and Thursday upload." <span style="font-family:'JetBrains Mono';font-size:0.62rem;color:var(--text-muted);">29:57</span></span>
+      </div>
+      <div class="schedule-row">
+        <span class="schedule-label">Duration</span>
+        <span class="schedule-value">"I'm going to do probably three or four months." <span style="font-family:'JetBrains Mono';font-size:0.62rem;color:var(--text-muted);">8:36</span></span>
+      </div>
+      <div class="schedule-row">
+        <span class="schedule-label">March 2022</span>
+        <span class="schedule-value">"I will not be doing anything. I'll be on vacation." <span style="font-family:'JetBrains Mono';font-size:0.62rem;color:var(--text-muted);">8:49</span></span>
+      </div>
+      <div class="schedule-row">
+        <span class="schedule-label">Assignments</span>
+        <span class="schedule-value">"There will be assignments and PDF files provided for your learning throughout the week." <span style="font-family:'JetBrains Mono';font-size:0.62rem;color:var(--text-muted);">30:04</span></span>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"I'll teach you how to anticipate certain things on your own and then you check yourself with the things I reveal or do a review with."</p>
+      <span class="ts">29:04</span>
+    </div>
+  </section>
+
+  <!-- STUDY / FLASHCARDS -->
+  <section id="study">
+    <p class="section-label">08 — Self-Test</p>
+    <h2>Flashcards</h2>
+    <p style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:0.7rem;margin-bottom:1.5rem;letter-spacing:0.05em;">Click any card to reveal the direct quote answer.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the stated primary purpose of this mentorship?</div>
+        <div class="flashcard-answer">"If I can show a simplistic way of going in using the things that I teach, stripping it down to its chrome — no bells and whistles, no advanced theories or anything like that — what can I do to provide a model that my daughter could look at and say okay there's not a lot of moving parts."</div>
+        <div class="flashcard-hint">tap to reveal · 2:44</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the three stages of the mentorship journey?</div>
+        <div class="flashcard-answer">"So you're going from yearning to learning and hopefully at your discretion and timing you'll become an earner okay. So learner... earner okay. So those three stages are what I'm going to take you through."</div>
+        <div class="flashcard-hint">tap to reveal · 8:17</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is ICT's stated goal — and what is it NOT?</div>
+        <div class="flashcard-answer">"You are not going to be perfect. It's not my goal to make you a perfect trader, it's not my goal to make you a perfect analyst. My goal is to improve your understanding about price action, how price is delivered."</div>
+        <div class="flashcard-hint">tap to reveal · 6:26</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does ICT warn against dependency on his trade calls?</div>
+        <div class="flashcard-answer">"The main thing is for you not to grow a dependency on me pointing to everything before it happens because if you do that or if you have that mindset going in it's going to stunt your growth and in fact it's going to create a barrier for you, because it'll create a codependency state of mind."</div>
+        <div class="flashcard-hint">tap to reveal · 10:02</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What happens when setups are drawn out on a chart? What is the student's responsibility?</div>
+        <div class="flashcard-answer">"I will take your attention before the fact and draw them out on a chart where I want you to study where price will likely draw to next, and using the things I teach you conceptually it's your job to study that okay. Do not look at that as a trade setup."</div>
+        <div class="flashcard-hint">tap to reveal · 7:45</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the key distinction between what you must be precise about — and what you don't need to be highly precise about?</div>
+        <div class="flashcard-answer">"You don't need to be highly precise about your entries but you need to be precise about the directional bias and where it's going okay. Where's price reaching for."</div>
+        <div class="flashcard-hint">tap to reveal · 24:36</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does ICT say making money in a live account can sometimes be worse than losing?</div>
+        <div class="flashcard-answer">"Making money in an account is sometimes worse than losing money because it will make you feel like you want another taste of that and it creates opportunities for you to go into over trade and or over leverage."</div>
+        <div class="flashcard-hint">tap to reveal · 17:30</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What characteristic does ICT say is paramount for trading?</div>
+        <div class="flashcard-answer">"It takes a lot of ownership personally and the responsibility that is required to do this is paramount okay. You cannot have anybody else take responsibility for your actions. It's your actions and if you do well you earned it, if you don't do well you have to eat it okay."</div>
+        <div class="flashcard-hint">tap to reveal · 17:50</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does ICT say about the transferability of these skills?</div>
+        <div class="flashcard-answer">"It's a transferable skill. But the skill must be honed by you the student."</div>
+        <div class="flashcard-hint">tap to reveal · 19:12</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the problem ICT describes that advanced content creates for most students?</div>
+        <div class="flashcard-answer">"The majority of them in them being my students they get bogged down in all of the content and it just creates analysis paralysis and it's just too many things for them to decide because like kid in the candy store, you know what do you eat first."</div>
+        <div class="flashcard-hint">tap to reveal · 3:38</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why did ICT say he moved to TD Ameritrade for live demonstrations?</div>
+        <div class="flashcard-answer">"I cannot rig this to make it look like I'm smarter okay. I can't go back in and change a trade, I can't fix it okay, I can't add lipstick to it okay. It either is or isn't a profitable trade okay, it's as simple as that."</div>
+        <div class="flashcard-hint">tap to reveal · 13:51</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is ICT's minimum target for repeating setups?</div>
+        <div class="flashcard-answer">"You'll be able to find setups that repeat at least one good setup a week."</div>
+        <div class="flashcard-hint">tap to reveal · 27:29</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What concept does ICT say once understood allows setups to repeat?</div>
+        <div class="flashcard-answer">"Within a liquidity matrix you have buy side and sell side and once you have that understanding and I'll teach some of those things in the mentorship, you'll be able to find setups that repeat."</div>
+        <div class="flashcard-hint">tap to reveal · 27:19</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is ICT's mindset goal for the income potential from trading?</div>
+        <div class="flashcard-answer">"What happens if you can earn enough to make 50 or all of that a month going forward. Would that not be beneficial to you. That's the mindset I want you all to have."</div>
+        <div class="flashcard-hint">tap to reveal · 28:06</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

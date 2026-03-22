@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTE - Optimal Trade Entry - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-entries-management.html">Return to Category</a>
+        <a href="ICT-Month6-LimitOrderEntryLongTerm.html">Next Chapter</a>
+        <a href="index.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Optimal Trade Entry (OTE)</h1>
+        <p>The foundational pattern for buying retracements and selling rallies in institutional price action</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#timeframes">Timeframes</a>
+        <a href="#structure">Market Structure</a>
+        <a href="#fibonacci">Fibonacci Setup</a>
+        <a href="#bullish">Bullish OTE</a>
+        <a href="#bearish">Bearish OTE</a>
+        <a href="#risk">Risk Model</a>
+        <a href="#targets">Targets</a>
+        <a href="#algorithm">Algorithm</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"Optimal trade entry is really based on buying retracements. As the market makes an impulse price move higher that impulse price move has to be incorporating a break in market structure and then what you're doing is you're trying to buy the retracement slower."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If you're bullish you're gonna be buying the dips or any retracement slower after a price leg higher and then the expectation is you're buying it when it retraces and then you want to buy it as it does that and then capture the next leg higher and everything's reversed for when it's bearish we'd be looking for rallies in price and we look into sell those rallies with the expectation that we're going to break to lower lows."</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">OTE Abbreviation</span>
+                </div>
+                <p><em>"OTE - just abbreviation for optimal trade entry"</em></p>
+            </div>
+        </section>
+
+        <section id="timeframes">
+            <h2>Higher Timeframes Priority</h2>
+
+            <h3>Focus on Monthly, Weekly, Daily</h3>
+            <blockquote class="quote">
+                <p><em>"If you used a higher time frame monthly weekly daily n' four-hour and will just leave the four-hour offer right now this focus on a monthly daily and weekly time frames if you look for key levels where price has moved away from it"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If you use a higher time frames you want any asset classes you're looking to speculate in or study that is where the big money moves are it's as simple as that it doesn't get any plainer than that."</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"If folks would just focus on these timeframes it will answer 80% of the problems you're having because you're too worried about what's going on in these lower timeframes"</em></p>
+            </blockquote>
+
+            <h3>Four Hour Minimum for Key Levels</h3>
+            <blockquote class="quote">
+                <p><em>"Lower time frame that would be about the four hours the lowest I'd go in terms of defining it as a key anything less than four hours is too short term to refine that on a large institutional basis"</em></p>
+            </blockquote>
+
+            <h3>One Minute Charts Warning</h3>
+            <blockquote class="quote">
+                <p><em>"One minute charts are not going to decipher what smart money's doing that's just very short-term volatility"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="structure">
+            <h2>Market Structure Break</h2>
+
+            <h3>Short Term High</h3>
+            <blockquote class="quote">
+                <p><em>"You want to see it take out a short term high... once it does that this break above that short term high is a market structure break"</em></p>
+            </blockquote>
+
+            <h3>Intermediate Term High</h3>
+            <blockquote class="quote">
+                <p><em>"A high that has two lower highs on either side of it it makes that high in the middle a significant high... This high being broken right there is much more convincing than this short term here"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Larry Williams Market Structure Concept</span>
+                </div>
+                <p><em>"I picked up from Larry Williams which is my mentor back in the 90s he taught market structure and high that has two lower highs on either side of it it makes that high in the middle a significant high"</em></p>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Market Structure Break Pattern</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Short term low -->
+                <circle cx="100" cy="320" r="4" fill="#ff4757"/>
+                <text x="100" y="370" fill="#e8e8ed" font-size="14" text-anchor="middle">Short Term Low</text>
+
+                <!-- Rally 1 -->
+                <line x1="100" y1="320" x2="200" y2="250" stroke="#2ed573" stroke-width="3"/>
+                <circle cx="200" cy="250" r="4" fill="#2ed573"/>
+                <text x="200" y="240" fill="#2ed573" font-size="14" text-anchor="middle">Short Term High</text>
+
+                <!-- Retracement 1 -->
+                <line x1="200" y1="250" x2="280" y2="280" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- Rally 2 - Breaking structure -->
+                <line x1="280" y1="280" x2="380" y2="200" stroke="#2ed573" stroke-width="4"/>
+                <circle cx="380" cy="200" r="5" fill="#ffa502"/>
+                <text x="380" y="190" fill="#ffa502" font-size="14" text-anchor="middle" font-weight="bold">Intermediate High</text>
+                <text x="330" y="220" fill="#ffa502" font-size="12" text-anchor="middle">Market Structure Break</text>
+
+                <!-- Retracement 2 - OTE Zone -->
+                <line x1="380" y1="200" x2="480" y2="240" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- OTE Zone Rectangle -->
+                <rect x="440" y="235" width="80" height="30" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="480" y="255" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">OTE Zone</text>
+                <text x="480" y="270" fill="#ffa502" font-size="10" text-anchor="middle">62-79%</text>
+
+                <!-- Expected rally -->
+                <line x1="480" y1="240" x2="580" y2="150" stroke="#2ed573" stroke-width="3" stroke-dasharray="10,5"/>
+                <text x="580" y="140" fill="#2ed573" font-size="14" text-anchor="middle">Expected Target</text>
+
+                <!-- Annotations -->
+                <text x="150" y="300" fill="#e8e8ed" font-size="11" text-anchor="middle">Impulse Up</text>
+                <text x="330" y="310" fill="#e8e8ed" font-size="11" text-anchor="middle">Retrace & Buy OTE</text>
+            </svg>
+        </section>
+
+        <section id="fibonacci">
+            <h2>Fibonacci Settings</h2>
+
+            <h3>Core Levels</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Fibonacci Level Settings</span>
+                </div>
+                <ul>
+                    <li><em>"The zero level is first profit"</em></li>
+                    <li><em>"62 percent retracement level"</em></li>
+                    <li><em>"100 level which is one here"</em></li>
+                    <li><em>"0.705 for the sweet spot for optimal trade entry that's the price level I'd like to see price trade to"</em></li>
+                    <li><em>"79%"</em></li>
+                    <li><em>"Target levels which is zero negative zero point six two negative zero two seven and then negative one for a symmetrical price swing"</em></li>
+                </ul>
+            </div>
+
+            <h3>Entry Zone</h3>
+            <blockquote class="quote">
+                <p><em>"We're trying to do is get below halfway of that price leg higher down into 60 to 70 and a half to 79% raise my level"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"I try to get a tour very close to the 62% tracing level I allow up to a little small deviation below the sub types of trades along 280"</em></p>
+            </blockquote>
+
+            <h3>Drawing the Fibonacci</h3>
+            <blockquote class="quote">
+                <p><em>"We're looking at we're gonna put on the bodies of candles up here this is the highest body right there this candle right there and we're gonna look at that as the open"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"The wicks are always going to be the thinnest price action"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Fibonacci OTE Levels</text>
+
+                <!-- Vertical Fib Scale -->
+                <line x1="100" y1="100" x2="100" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- 100% Level (Swing Low) -->
+                <line x1="80" y1="450" x2="700" y2="450" stroke="#ff4757" stroke-width="2"/>
+                <text x="60" y="455" fill="#ff4757" font-size="14" text-anchor="end">100%</text>
+                <text x="720" y="455" fill="#ff4757" font-size="12">Swing Low</text>
+
+                <!-- 79% Level -->
+                <line x1="80" y1="376" x2="700" y2="376" stroke="#ffa502" stroke-width="2"/>
+                <text x="60" y="381" fill="#ffa502" font-size="14" text-anchor="end">79%</text>
+
+                <!-- 70.5% Level (Sweet Spot) -->
+                <line x1="80" y1="343" x2="700" y2="700" stroke="#ffa502" stroke-width="3"/>
+                <text x="60" y="348" fill="#ffa502" font-size="14" text-anchor="end" font-weight="bold">70.5%</text>
+                <text x="720" y="348" fill="#ffa502" font-size="12" font-weight="bold">Sweet Spot</text>
+
+                <!-- 62% Level -->
+                <line x1="80" y1="309" x2="700" y2="309" stroke="#2ed573" stroke-width="2"/>
+                <text x="60" y="314" fill="#2ed573" font-size="14" text-anchor="end">62%</text>
+                <text x="720" y="314" fill="#2ed573" font-size="12">Preferred Entry</text>
+
+                <!-- 50% Level -->
+                <line x1="80" y1="275" x2="700" y2="275" stroke="#9898a8" stroke-width="1" stroke-dasharray="5,5"/>
+                <text x="60" y="280" fill="#9898a8" font-size="14" text-anchor="end">50%</text>
+
+                <!-- 0% Level (Swing High) - First Profit -->
+                <line x1="80" y1="100" x2="700" y2="100" stroke="#2ed573" stroke-width="2"/>
+                <text x="60" y="105" fill="#2ed573" font-size="14" text-anchor="end">0%</text>
+                <text x="720" y="105" fill="#2ed573" font-size="12">Swing High / First Profit</text>
+
+                <!-- OTE Zone Highlight -->
+                <rect x="100" y="309" width="600" height="67" fill="#ffa502" opacity="0.15" stroke="#ffa502" stroke-width="2"/>
+                <text x="400" y="345" fill="#ffa502" font-size="16" text-anchor="middle" font-weight="bold">OPTIMAL TRADE ENTRY ZONE</text>
+
+                <!-- Target Levels (Extensions) -->
+                <line x1="80" y1="62" x2="700" y2="62" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="60" y="67" fill="#2ed573" font-size="14" text-anchor="end">-62%</text>
+                <text x="720" y="67" fill="#2ed573" font-size="12">127 Extension</text>
+
+                <line x1="80" y1="24" x2="700" y2="24" stroke="#2ed573" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="60" y="29" fill="#2ed573" font-size="14" text-anchor="end">-100%</text>
+                <text x="720" y="29" fill="#2ed573" font-size="12">Measured Move</text>
+            </svg>
+        </section>
+
+        <section id="bullish">
+            <h2>Bullish Optimal Trade Entry</h2>
+
+            <h3>Setup Requirements</h3>
+            <blockquote class="quote">
+                <p><em>"We're going to assume for a moment that we are you assumed it's a markets bullish okay and we would be looking for the market to trade higher optimal trade entry is really based on buying retracements"</em></p>
+            </blockquote>
+
+            <h3>Impulse Leg Higher</h3>
+            <blockquote class="quote">
+                <p><em>"We have a impulse price leg higher and then we have another impulse price leg off that level and trading down into optimal trade entry"</em></p>
+            </blockquote>
+
+            <h3>Entry Execution</h3>
+            <blockquote class="quote">
+                <p><em>"I'd look to get there um fill that basically 12:35 we'll call it okay just a little bit about 62 I'm not gonna fancy dance around try to get the actual level I just want to be in a level that makes sense"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Bullish OTE Pattern</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Impulse Leg 1 -->
+                <line x1="100" y1="320" x2="200" y2="240" stroke="#2ed573" stroke-width="4"/>
+                <circle cx="100" cy="320" r="5" fill="#e8e8ed"/>
+                <text x="100" y="370" fill="#e8e8ed" font-size="12" text-anchor="middle">Low</text>
+
+                <!-- Retracement to OTE -->
+                <line x1="200" y1="240" x2="300" y2="280" stroke="#ff4757" stroke-width="3" stroke-dasharray="5,5"/>
+                <circle cx="200" cy="240" r="5" fill="#2ed573"/>
+                <text x="200" y="230" fill="#2ed573" font-size="12" text-anchor="middle">100% (High)</text>
+
+                <!-- OTE Zone -->
+                <rect x="280" y="275" width="40" height="30" fill="#ffa502" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <circle cx="300" cy="280" r="5" fill="#ffa502"/>
+                <text x="300" y="325" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">Entry 62-79%</text>
+
+                <!-- Stop Loss -->
+                <line x1="280" y1="310" x2="320" y2="310" stroke="#ff4757" stroke-width="2"/>
+                <circle cx="300" cy="310" r="4" fill="#ff4757"/>
+                <text x="340" y="315" fill="#ff4757" font-size="11">Stop at Low</text>
+
+                <!-- First Profit -->
+                <line x1="280" y1="240" x2="320" y2="240" stroke="#2ed573" stroke-width="2"/>
+                <text x="340" y="245" fill="#2ed573" font-size="11">First Profit (0%)</text>
+
+                <!-- Target 1 -->
+                <line x1="280" y1="205" x2="320" y2="205" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="340" y="210" fill="#2ed573" font-size="11">127 Extension</text>
+
+                <!-- Target 2 (Measured Move) -->
+                <line x1="280" y1="160" x2="320" y2="160" stroke="#2ed573" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="340" y="165" fill="#2ed573" font-size="11">Measured Move</text>
+
+                <!-- Impulse Leg 2 (Expected) -->
+                <line x1="300" y1="280" x2="400" y2="160" stroke="#2ed573" stroke-width="4" stroke-dasharray="10,5"/>
+                <circle cx="400" cy="160" r="5" fill="#2ed573"/>
+
+                <!-- Annotations -->
+                <text x="150" y="270" fill="#e8e8ed" font-size="11" text-anchor="middle">Impulse Higher</text>
+                <text x="250" y="300" fill="#e8e8ed" font-size="11" text-anchor="middle">Retrace</text>
+                <text x="350" y="210" fill="#e8e8ed" font-size="11" text-anchor="middle">Next Leg Up</text>
+            </svg>
+        </section>
+
+        <section id="bearish">
+            <h2>Bearish Optimal Trade Entry</h2>
+
+            <h3>Setup Requirements</h3>
+            <blockquote class="quote">
+                <p><em>"When the markets bearish we look for an impulse leg lower in price okay and then we expect to see price retrace higher back into optimal trade entry"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">Bearish OTE Pattern</text>
+
+                <!-- Baseline -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Starting High -->
+                <circle cx="100" cy="150" r="5" fill="#e8e8ed"/>
+                <text x="100" y="140" fill="#e8e8ed" font-size="12" text-anchor="middle">High</text>
+
+                <!-- Impulse Leg Down -->
+                <line x1="100" y1="150" x2="200" y2="280" stroke="#ff4757" stroke-width="4"/>
+                <circle cx="200" cy="280" r="5" fill="#ff4757"/>
+                <text x="200" y="300" fill="#ff4757" font-size="12" text-anchor="middle">100% (Low)</text>
+
+                <!-- Retracement to OTE -->
+                <line x1="200" y1="280" x2="300" y2="200" stroke="#2ed573" stroke-width="3" stroke-dasharray="5,5"/>
+
+                <!-- OTE Zone -->
+                <rect x="280" y="195" width="40" height="30" fill="#ffa502" opacity="0.3" stroke="#ffa502" stroke-width="2"/>
+                <circle cx="300" cy="200" r="5" fill="#ffa502"/>
+                <text x="300" y="185" fill="#ffa502" font-size="12" text-anchor="middle" font-weight="bold">Entry 62-79%</text>
+
+                <!-- Stop Loss -->
+                <line x1="280" y1="170" x2="320" y2="170" stroke="#2ed573" stroke-width="2"/>
+                <circle cx="300" cy="170" r="4" fill="#2ed573"/>
+                <text x="340" y="175" fill="#2ed573" font-size="11">Stop at High</text>
+
+                <!-- First Profit -->
+                <line x1="280" y1="280" x2="320" y2="280" stroke="#ff4757" stroke-width="2"/>
+                <text x="340" y="285" fill="#ff4757" font-size="11">First Profit (0%)</text>
+
+                <!-- Target 1 -->
+                <line x1="280" y1="315" x2="320" y2="315" stroke="#ff4757" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="340" y="320" fill="#ff4757" font-size="11">127 Extension</text>
+
+                <!-- Impulse Leg 2 (Expected) -->
+                <line x1="300" y1="200" x2="400" y2="320" stroke="#ff4757" stroke-width="4" stroke-dasharray="10,5"/>
+                <circle cx="400" cy="320" r="5" fill="#ff4757"/>
+
+                <!-- Annotations -->
+                <text x="150" y="220" fill="#e8e8ed" font-size="11" text-anchor="middle">Impulse Lower</text>
+                <text x="250" y="230" fill="#e8e8ed" font-size="11" text-anchor="middle">Retrace</text>
+                <text x="350" y="270" fill="#e8e8ed" font-size="11" text-anchor="middle">Next Leg Down</text>
+            </svg>
+        </section>
+
+        <section id="risk">
+            <h2>Risk Model & Stop Loss</h2>
+
+            <h3>Stop Placement</h3>
+            <blockquote class="quote">
+                <p><em>"My stop will be exactly at this low not 10 pips for 5 to put pips below that it's gonna be right at that low"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Between the two reference points that would be the risk"</em></p>
+            </blockquote>
+
+            <h3>Give Price Room</h3>
+            <blockquote class="quote">
+                <p><em>"You have to give the price freedom to trade from where you're trying to get in at to your stop let it go did a full stop it's there for a reason to protect you but if you don't give it room to breathe you're never going to give these markets the ample room that needs to desire eight and then expand towards your targets"</em></p>
+            </blockquote>
+
+            <h3>Risk Calculation</h3>
+            <blockquote class="quote">
+                <p><em>"We would take that amount of risk defiant divided by you know the percent risk that we're willing to assume based on our count let's say it's a half a percent we're a half percent of your account is you take that in terms of the pips and break that down and that would give you your per pip leverage"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="targets">
+            <h2>Targets & Profit Taking</h2>
+
+            <h3>First Profit Scaling</h3>
+            <blockquote class="quote">
+                <p><em>"The level up here zero level is when you take off first profit now I like to go a little bit early because it can always fail getting back to this high so at that high or just below it that's where my first profit is that's your first scaling that's not your first target"</em></p>
+            </blockquote>
+
+            <h3>Two-to-One Minimum</h3>
+            <blockquote class="quote">
+                <p><em>"It has to be a reasonable you know better than in my opinion better than two to one... If I'm getting here as an entry and my risk is here it needs to be enough of the position coming off that promotes at least two to one so this is one are in terms of risk whatever that is I have to be able to make two times that in my first profit that's what I'm trying to shoot for"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Sometimes I'll take trades that are just slightly underneath - it might be like one in three quarters okay if I'm really really aggressive"</em></p>
+            </blockquote>
+
+            <h3>Target Progression</h3>
+            <blockquote class="quote">
+                <p><em>"You got to expect price to want to eventually get to this level or maybe this level if you're really extremely bullish all the way up here to have a measured move"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"What's a measured move the impulse leg low to high that move is the same thing just add it to the high up okay so that's a perfectly symmetrical price swing"</em></p>
+            </blockquote>
+
+            <h3>Extension Levels</h3>
+            <blockquote class="quote">
+                <p><em>"At the 127 extension basically is what this is I'm gonna be looking to take something off there and if we get to 162 extension up here I would be another portion for me to take profits and then if I'm extremely bullish I'll leave a small piece on for a measured move type effect"</em></p>
+            </blockquote>
+
+            <h3>Scaling Benefits</h3>
+            <blockquote class="quote">
+                <p><em>"I laugh when I hear folks saying it's stupid to take first profit or scaling out profits because your initial risk is X and then you've taken a small profit yada yada ya well that's because I'm looking for these objectives down here and it takes care of itself okay and it ends up becoming my last portion ends up being way more generally than what I did in my first scaling"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="algorithm">
+            <h2>Algorithmic Price Levels</h2>
+
+            <h3>Institutional Levels</h3>
+            <blockquote class="quote">
+                <p><em>"The markets trade in an algorithmic format okay there's price engines that generate you runs on price and runs on stops and it's accelerations in price and we're delivery skips and jumps to specific areas and pricing"</em></p>
+            </blockquote>
+
+            <h3>Price Level Framework</h3>
+            <blockquote class="quote">
+                <p><em>"You can see it on all time frames but really 15 in one minute if you do it every course of a week you'll see how price gravitates from a full figure okay that would be an example of like one 1700 to 118 zeroes there that would be a full penny move in a year a dollar that one penny move is broken down algorithmically to the 11780 level 11750 level or mid figure 117 20 level and then we have 117 big figure"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Algorithmic Level Structure</span>
+                </div>
+                <ul>
+                    <li><em>"Full figure" - Example: 1.1700</em></li>
+                    <li><em>"20 level" - Example: 1.1720</em></li>
+                    <li><em>"Mid figure 50" - Example: 1.1750</em></li>
+                    <li><em>"80 level institutional" - Example: 1.1780</em></li>
+                    <li><em>"Next full figure" - Example: 1.1800</em></li>
+                </ul>
+            </div>
+
+            <h3>Monthly High Example</h3>
+            <blockquote class="quote">
+                <p><em>"This high comes in at one 1714 okay one 1714 for this particular month... from an algorithmic standpoint we would look for sensitivity or support to form around or at 1 1720"</em></p>
+            </blockquote>
+
+            <h3>Why Algorithms Work This Way</h3>
+            <blockquote class="quote">
+                <p><em>"The reason why it does that is it allows the market to pick up orders at just below or above that level okay there's limit orders there there's there stops there but generally it's coming down to run stops to pair the orders with smart money's limit orders"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="institutional">
+            <h2>Institutional Perspective</h2>
+
+            <h3>Support & Resistance from Higher Timeframes</h3>
+            <blockquote class="quote">
+                <p><em>"If price has moved up to a resistance level and repelled and went lower we can reasonably assume that there was a large degree of institutions that had a interest and being short there and if the market trades down to a level and bounces off of it and goes higher we can reasonably assume that there is an institutional basis for that rally to ensue"</em></p>
+            </blockquote>
+
+            <h3>Monthly Levels</h3>
+            <blockquote class="quote">
+                <p><em>"There's plenty of high probability scenarios that you could find just using a monthly chart no you don't get a whole lot of setups but if you're watching a wide array of particular assets there's always something trading at or near a monthly level... an old high an old low simple as that"</em></p>
+            </blockquote>
+
+            <h3>Smart Money Orders</h3>
+            <blockquote class="quote">
+                <p><em>"We're looking for the evidence that there's going to be a institutional sponsorship behind the price move that means big entities deep pockets lots of orders coming in large sizeable orders are coming in"</em></p>
+            </blockquote>
+
+            <h3>Buy Stops vs Sell Stops</h3>
+            <blockquote class="quote">
+                <p><em>"Every time you see my chart below the market I'm always referring to it as running cell stops above the market I'm always referring to it as running 5 stops those that are not in the know they will question whether or not I'm using the right definition I am using the right definition because I'm looking at things from an institutional standpoint those cell stops they're below the market place smart money will have their buy limits to pair up with those cell stops okay so my perspective is not retail so I'm looking at it from an institutional standpoint"</em></p>
+            </blockquote>
+
+            <h3>Liquidity Runs</h3>
+            <blockquote class="quote">
+                <p><em>"Why they want to run by stops because the orders they picked up down here going long and then Baltimore down here there alone so they have to have people that want to buy it from them at a higher price so by stops it would be above here why would there be by stops there Michael because folks that are being short this is the last intermediate term high for anyone that has not trailer stop-loss lower and got stopped out there gonna make a run on that liquidity right there"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="wyckoff">
+            <h2>Market Maker Buy Model</h2>
+
+            <h3>Consolidation Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"We already have a consolidation in here price trades away can came back to the consolidation distribution redistribution smart money reversal low-risk Buy and here we're looking for another area to buy okay or another area of accumulation or Aria cumulation to take us above this consolidation"</em></p>
+            </blockquote>
+
+            <h3>Wyckoff Comparison</h3>
+            <blockquote class="quote">
+                <p><em>"Some of you will say oh that's Wyckoff well I kind of got the idea from looking at price action alone and then when I saw Wyckoff describing that scenario it made me feel better that I seen something that someone years and years before me was able to see that same price structure but his definitions and things I don't use that there's a different approach"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"It's very similar in terms of the general market profile itself because it's a very generic process markup and discounts and simple as that"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is Optimal Trade Entry?</div>
+                    <div class="flashcard-answer">"Optimal trade entry is really based on buying retracements. As the market makes an impulse price move higher that impulse price move has to be incorporating a break in market structure and then what you're doing is you're trying to buy the retracement slower."</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the OTE zone in percentage terms?</div>
+                    <div class="flashcard-answer">"We're trying to do is get below halfway of that price leg higher down into 60 to 70 and a half to 79% raise my level"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Where should the stop loss be placed?</div>
+                    <div class="flashcard-answer">"My stop will be exactly at this low not 10 pips for 5 to put pips below that it's gonna be right at that low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What defines a market structure break?</div>
+                    <div class="flashcard-answer">"You want to see it take out a short term high... once it does that this break above that short term high is a market structure break"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an intermediate term high?</div>
+                    <div class="flashcard-answer">"A high that has two lower highs on either side of it it makes that high in the middle a significant high"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the preferred entry level?</div>
+                    <div class="flashcard-answer">"I try to get a tour very close to the 62% tracing level I allow up to a little small deviation below the sub types of trades along 280"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the sweet spot for OTE?</div>
+                    <div class="flashcard-answer">"0.705 for the sweet spot for optimal trade entry that's the price level I'd like to see price trade to"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the minimum reward to risk ratio?</div>
+                    <div class="flashcard-answer">"It has to be a reasonable you know better than in my opinion better than two to one"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When is first profit taken?</div>
+                    <div class="flashcard-answer">"The level up here zero level is when you take off first profit now I like to go a little bit early because it can always fail getting back to this high so at that high or just below it that's where my first profit is"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a measured move?</div>
+                    <div class="flashcard-answer">"What's a measured move the impulse leg low to high that move is the same thing just add it to the high up okay so that's a perfectly symmetrical price swing"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What timeframes should you focus on?</div>
+                    <div class="flashcard-answer">"If you use a higher time frames you want any asset classes you're looking to speculate in or study that is where the big money moves are it's as simple as that"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the lowest timeframe for defining key levels?</div>
+                    <div class="flashcard-answer">"Lower time frame that would be about the four hours the lowest I'd go in terms of defining it as a key anything less than four hours is too short term to refine that on a large institutional basis"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do algorithmic levels work?</div>
+                    <div class="flashcard-answer">"The markets trade in an algorithmic format okay there's price engines that generate you runs on price and runs on stops and it's accelerations in price"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the key algorithmic levels?</div>
+                    <div class="flashcard-answer">"That one penny move is broken down algorithmically to the 11780 level 11750 level or mid figure 117 20 level and then we have 117 big figure"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why do you look at wicks vs bodies differently?</div>
+                    <div class="flashcard-answer">"The wicks are always going to be the thinnest price action"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How should you draw Fibonacci on candles?</div>
+                    <div class="flashcard-answer">"We're looking at we're gonna put on the bodies of candles up here this is the highest body right there this candle right there and we're gonna look at that as the open"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

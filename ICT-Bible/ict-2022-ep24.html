@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary:   #070710;
+    --bg-card:      #0e0e1c;
+    --bg-raised:    #151524;
+    --bg-deep:      #0b0b18;
+    --border:       #1c1c30;
+    --border-dim:   #141424;
+    --text-primary: #e0e0ea;
+    --text-secondary: #787898;
+    --text-dim:     #3c3c5a;
+    --accent-bear:  #e04560;
+    --accent-bull:  #22bf60;
+    --accent-gold:  #ec9e00;
+    --accent-blue:  #3a80ca;
+    --accent-purple:#9068f0;
+    --font-body:    'Crimson Pro', Georgia, serif;
+    --font-head:    'Space Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 38% at 12% 0%, rgba(58,128,202,0.04) 0%, transparent 55%),
+      radial-gradient(ellipse 48% 32% at 88% 105%, rgba(144,104,240,0.035) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,7,16,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dim);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+
+  .nav-ep {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 0.9rem 1.4rem 0.9rem 0;
+    white-space: nowrap;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.9rem 0.9rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .ep-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(236,158,0,0.07);
+    border: 1px solid rgba(236,158,0,0.17);
+    padding: 0.3em 0.9em;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 em { color: var(--accent-gold); font-style: normal; }
+
+  .header-sub {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem 7rem;
+  }
+
+  section { margin-bottom: 5.5rem; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  section > h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  section > h3 {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 2rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── CONTEXT BANNER ─── */
+  .context-banner {
+    background: rgba(236,158,0,0.04);
+    border: 1px solid rgba(236,158,0,0.15);
+    border-radius: 4px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .context-banner strong {
+    color: var(--accent-gold);
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── QUOTE ─── */
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 4px 4px 0;
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .quote.bear   { border-left-color: var(--accent-bear); }
+  .quote.bull   { border-left-color: var(--accent-bull); }
+  .quote.blue   { border-left-color: var(--accent-blue); }
+  .quote.purple { border-left-color: var(--accent-purple); }
+
+  .quote p { font-size: 1.02rem; line-height: 1.65; }
+  .quote em { color: var(--text-primary); font-style: italic; }
+
+  .ts {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ─── CONCEPT CARD ─── */
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+  }
+
+  .card-title.bear   { color: var(--accent-bear); }
+  .card-title.bull   { color: var(--accent-bull); }
+  .card-title.blue   { color: var(--accent-blue); }
+
+  .concept-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card p em { color: var(--text-primary); font-style: italic; }
+
+  /* ─── KEY DEF ─── */
+  .key-def {
+    background: rgba(236,158,0,0.04);
+    border: 1px solid rgba(236,158,0,0.17);
+    border-radius: 4px;
+    padding: 1.35rem 1.55rem;
+    margin: 1.5rem 0;
+  }
+
+  .key-def-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .key-def p { font-size: 1.02rem; line-height: 1.65; color: var(--text-primary); }
+  .key-def p em { font-style: italic; }
+
+  .key-def.bear {
+    background: rgba(224,69,96,0.04);
+    border-color: rgba(224,69,96,0.17);
+  }
+  .key-def.bear .key-def-label { color: var(--accent-bear); }
+
+  .key-def.bull {
+    background: rgba(34,191,96,0.04);
+    border-color: rgba(34,191,96,0.17);
+  }
+  .key-def.bull .key-def-label { color: var(--accent-bull); }
+
+  /* ─── DIAGRAM ─── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .diagram-caption {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* ─── STEPS ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 1rem;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+
+  .step:first-child { border-radius: 4px 4px 0 0; }
+  .step:last-child  { border-radius: 0 0 4px 4px; border-bottom: 1px solid var(--border); }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    background: var(--bg-deep);
+  }
+
+  .step-num.bear-num { color: var(--accent-bear); }
+  .step-num.bull-num { color: var(--accent-bull); }
+
+  .step-content {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .step-content strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-family: var(--font-head);
+    font-size: 0.84rem;
+  }
+
+  .step-content em { color: var(--text-primary); font-style: italic; }
+
+  /* ─── TWO-COLUMN STRATEGIES ─── */
+  .strat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 640px) { .strat-grid { grid-template-columns: 1fr; } }
+
+  .strat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.3rem 1.4rem;
+  }
+
+  .strat-card.bear-card { border-top: 2px solid var(--accent-bear); }
+  .strat-card.bull-card { border-top: 2px solid var(--accent-bull); }
+
+  .strat-label {
+    font-family: var(--font-head);
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.8rem;
+  }
+
+  .strat-card.bear-card .strat-label { color: var(--accent-bear); }
+  .strat-card.bull-card .strat-label { color: var(--accent-bull); }
+
+  .strat-card ol {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0;
+    counter-reset: strat;
+  }
+
+  .strat-card ol li {
+    counter-increment: strat;
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.93rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .strat-card ol li::before {
+    content: counter(strat, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 0.2rem;
+  }
+
+  .strat-card ol li em { color: var(--text-primary); font-style: italic; }
+
+  /* ─── RULE LIST ─── */
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .rule-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.85rem 1.2rem 0.85rem 0.9rem;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+
+  .rule-list li .num {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+  }
+
+  /* ─── FLASHCARDS ─── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .flashcard:hover { border-color: rgba(236,158,0,0.22); background: var(--bg-raised); }
+
+  .flashcard-question {
+    font-family: var(--font-head);
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-right: 1.6rem;
+  }
+
+  .flashcard::after {
+    content: '▾';
+    position: absolute;
+    top: 1.05rem;
+    right: 1.1rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .flashcard.revealed::after { transform: rotate(180deg); color: var(--accent-gold); }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-dim);
+    font-size: 0.95rem;
+    color: var(--accent-gold);
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .fc-hint {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-ep">EP.24 — 2022</span>
+  <a href="#context">Episode Context</a>
+  <a href="#where">Where Setups Form</a>
+  <a href="#trigger">The Trigger</a>
+  <a href="#displacement">Displacement Rule</a>
+  <a href="#two-strategies">Two Strategies</a>
+  <a href="#time">Time Element</a>
+  <a href="#no-setup">No Setup = No Trade</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<header>
+  <div class="ep-badge">2022 ICT Mentorship · Episode 24</div>
+  <h1>Where Setups Form — <em>The Two Entry Strategies</em></h1>
+  <p class="header-sub">
+    The structural logic for where the model's setups appear in price: sweeping relative equal highs,
+    the displacement requirement, the trigger, and how to look for the FVG within the displacement leg.
+    E-mini Nasdaq 100.
+  </p>
+</header>
+
+<main>
+
+  <!-- ─── EPISODE CONTEXT ─── -->
+  <section id="context">
+    <div class="section-label">Episode Overview</div>
+    <h2>Session Context</h2>
+
+    <div class="context-banner">
+      <strong>Note</strong> — The majority of this episode is a responsibility/mindset lecture. The extractable trading content is concentrated from approximately 31:47 onward. Content below is drawn exclusively from the sections where ICT teaches the model structure.
+    </div>
+
+    <div class="quote">
+      <span class="ts">32:01</span>
+      <p><em>"Where do setups form? Okay, think about that for a minute. When you're looking for this idea that I'm sharing — the fair value gap — where would you expect them to appear in price?"</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">17:40</span>
+      <p><em>"This is actually a good lesson because it shows where I'm looking for something to form — but it doesn't form. It doesn't create a losing trade, it doesn't get me into something that causes me to buy it when there really isn't an entry pattern there. This is the proof — the evidence that the model has validity. So if you have a valid, reasonable, sound logic behind the model — whatever model that is — then it should prevent you from taking bad trades."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">What a Community Post Means</span></div>
+      <p><em>"That is not a trade idea — that's just bias, it's logic. That's the extent. That's the extent of what I'm gonna do in the live sessions."</em> On the words "study," "observe," "watch": <em>"They're not code words for anything. They're specific elements of study — put your attention here, watch and see, observe. Is there any characteristics repeating with the logic that I teach? That's not trading."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── WHERE SETUPS FORM ─── -->
+  <section id="where">
+    <div class="section-label">Core Concept</div>
+    <h2>Where Setups Form</h2>
+
+    <div class="quote bear">
+      <span class="ts">32:22</span>
+      <p><em>"I've been teaching you to run above an old high or relative equal highs — and if you're bearish that would set up a scenario where the market goes up, sweeps the highs, breaks back down below the highs, short-term lows taken out with displacement, and then you go back through that displacement leg looking for a fair value gap to short into."</em></p>
+    </div>
+
+    <div class="key-def">
+      <div class="key-def-label">The Core Logic (Bearish)</div>
+      <p><em>"That's pretty simple logic isn't it — visually I want you to understand it. Can you draw out with a diagram — like if you were at work and you're trying to explain to your friend or co-worker what it is you're looking for in price — how would you draw it out? What would it look like?"</em></p>
+    </div>
+
+    <!-- Bearish setup diagram -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="a-gold" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#ec9e00"/>
+          </marker>
+          <marker id="a-bear" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#e04560"/>
+          </marker>
+          <marker id="a-bull" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#22bf60"/>
+          </marker>
+        </defs>
+
+        <!-- grid -->
+        <line x1="0" y1="60"  x2="720" y2="60"  stroke="#141424" stroke-width="1"/>
+        <line x1="0" y1="110" x2="720" y2="110" stroke="#141424" stroke-width="1"/>
+        <line x1="0" y1="160" x2="720" y2="160" stroke="#141424" stroke-width="1"/>
+        <line x1="0" y1="210" x2="720" y2="210" stroke="#141424" stroke-width="1"/>
+        <line x1="0" y1="260" x2="720" y2="260" stroke="#141424" stroke-width="1"/>
+
+        <!-- Relative equal highs line -->
+        <line x1="20" y1="110" x2="720" y2="110" stroke="#22bf60" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="24" y="104" font-family="JetBrains Mono, monospace" font-size="9" fill="#22bf60">Relative Equal Highs</text>
+
+        <!-- Price approaching — two bumps -->
+        <line x1="30" y1="200" x2="80" y2="125" stroke="#7a7a9c" stroke-width="1.5"/>
+        <line x1="80" y1="125" x2="110" y2="170" stroke="#7a7a9c" stroke-width="1.5"/>
+        <line x1="110" y1="170" x2="155" y2="118" stroke="#7a7a9c" stroke-width="1.5"/>
+        <text x="50" y="218" font-family="JetBrains Mono, monospace" font-size="8" fill="#787898">price approaches</text>
+        <text x="50" y="228" font-family="JetBrains Mono, monospace" font-size="8" fill="#787898">relative equal highs</text>
+
+        <!-- Sweep ABOVE relative equal highs (judas swing) -->
+        <line x1="155" y1="118" x2="190" y2="78" stroke="#ec9e00" stroke-width="2.5"/>
+        <circle cx="190" cy="78" r="4" fill="none" stroke="#ec9e00" stroke-width="1.5"/>
+        <text x="196" y="72" font-family="JetBrains Mono, monospace" font-size="9" fill="#ec9e00">"sweeps the highs"</text>
+        <text x="196" y="84" font-family="JetBrains Mono, monospace" font-size="9" fill="#787898">runs above rel. equal highs</text>
+
+        <!-- Short-term low label (nearest) -->
+        <line x1="80" y1="125" x2="80" y2="145" stroke="#ec9e00" stroke-width="1" stroke-dasharray="2,3"/>
+        <text x="84" y="143" font-family="JetBrains Mono, monospace" font-size="8" fill="#ec9e00">nearest short-term low</text>
+        <text x="84" y="153" font-family="JetBrains Mono, monospace" font-size="8" fill="#ec9e00">"that's your trigger"</text>
+
+        <!-- Displacement leg — breaks back down, takes out short-term low -->
+        <line x1="190" y1="78" x2="240" y2="115" stroke="#7a7a9c" stroke-width="1.5"/>
+        <line x1="240" y1="115" x2="280" y2="160" stroke="#e04560" stroke-width="3" marker-end="url(#a-bear)"/>
+        <text x="255" y="185" font-family="JetBrains Mono, monospace" font-size="9" fill="#e04560">displacement</text>
+        <text x="255" y="197" font-family="JetBrains Mono, monospace" font-size="9" fill="#e04560">"energetic move"</text>
+        <text x="255" y="209" font-family="JetBrains Mono, monospace" font-size="9" fill="#787898">takes out short-term low</text>
+
+        <!-- Below rel. equal highs again -->
+        <line x1="240" y1="115" x2="280" y2="115" stroke="rgba(224,69,96,0.3)" stroke-width="1" stroke-dasharray="2,3"/>
+
+        <!-- FVG zone in displacement leg -->
+        <rect x="282" y="127" width="90" height="40" fill="rgba(236,158,0,0.07)" rx="2"/>
+        <line x1="280" y1="127" x2="372" y2="127" stroke="#ec9e00" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="280" y1="167" x2="372" y2="167" stroke="#ec9e00" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="288" y="144" font-family="JetBrains Mono, monospace" font-size="9" fill="#ec9e00">FVG in displacement</text>
+        <text x="288" y="156" font-family="JetBrains Mono, monospace" font-size="9" fill="#787898">"go back through that</text>
+        <text x="288" y="167" font-family="JetBrains Mono, monospace" font-size="8" fill="#787898"> displacement leg"</text>
+
+        <!-- Price retraces into FVG → short -->
+        <line x1="280" y1="200" x2="318" y2="150" stroke="#7a7a9c" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <circle cx="318" cy="150" r="3" fill="#e04560"/>
+        <text x="325" y="148" font-family="JetBrains Mono, monospace" font-size="8" fill="#e04560">short entry</text>
+
+        <!-- Continuation lower -->
+        <line x1="318" y1="150" x2="400" y2="260" stroke="#e04560" stroke-width="2" marker-end="url(#a-bear)"/>
+
+        <!-- Step labels at bottom -->
+        <text x="30" y="300" font-family="JetBrains Mono, monospace" font-size="8" fill="#3c3c5a">① approach rel. equal highs</text>
+        <text x="170" y="300" font-family="JetBrains Mono, monospace" font-size="8" fill="#3c3c5a">② sweep above</text>
+        <text x="260" y="300" font-family="JetBrains Mono, monospace" font-size="8" fill="#3c3c5a">③ displacement takes STL</text>
+        <text x="420" y="300" font-family="JetBrains Mono, monospace" font-size="8" fill="#3c3c5a">④ retrace to FVG → short</text>
+      </svg>
+      <div class="diagram-caption">Bearish setup structure — relative equal highs → sweep → displacement → FVG short (32:22–34:37)</div>
+    </div>
+
+    <!-- Bullish version note -->
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title bull">Bullish Version — Reverse the Logic</span></div>
+      <p><em>"This is going to be the sell version — okay just reverse it for the going long idea."</em> Instead of relative equal highs, there is an old fair value gap above: <em>"If you have an old fair value gap above you, and the market's below it and it's trading up — and you're bearish but you think it's going to go up to that fair value gap — the same logic: when it trades into that fair value gap, it doesn't have to completely close it. If it trades up into it, anywhere between here and here is good."</em> Then wait for displacement below the low of the FVG and look for a FVG within that displacement leg to go long.</p>
+    </div>
+  </section>
+
+  <!-- ─── THE TRIGGER ─── -->
+  <section id="trigger">
+    <div class="section-label">Concept</div>
+    <h2>The Trigger — Short-Term Low Nearest the Sweep</h2>
+
+    <div class="key-def bear">
+      <div class="key-def-label">The Trigger Defined</div>
+      <p><em>"As soon as it goes above [the relative equal highs] you start panning back through all this price running here and find the nearest short-term low — because that right there is going to be your trigger."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">33:43</span>
+      <p><em>"It's not that it goes above this old relative equal high and then goes down below that — that's not it folks. That's not it. You have to see it go below that and displacement with the energetic move — take out a short-term low. That's how you filter out these trades that may not be high probability."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">34:06</span>
+      <p><em>"That area right there — as soon as you run above the relative equal highs — in your mind you're looking for: where's the trigger? Because until it takes out that short-term low there's nothing going on. There's no trade there, there's no setup there."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── DISPLACEMENT REQUIREMENT ─── -->
+  <section id="displacement">
+    <div class="section-label">Requirement</div>
+    <h2>Displacement — What It Must Look Like</h2>
+
+    <div class="quote">
+      <span class="ts">34:22</span>
+      <p><em>"Then when there's displacement — that displacement leg in price action — that right there is your foundation to the setup. That's it. Once you have that, then you can go into that area and look for the fair value gap. That's the logic, that's the pattern, that's what you're looking for."</em></p>
+    </div>
+
+    <div class="quote bear">
+      <span class="ts">22:50</span>
+      <p><em>"We should notice that we did have the initial criteria which is trading below an old low — so what's going to be resting below that? Sell stops. So they go down, run out the sell stops, traders are caught in. Then what? What's the next logic? We got to look for displacement — it's got to trade back above this old low, it's got to have displacement above that."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title bear">What Is NOT Displacement</span></div>
+      <p>On the day this episode covers, price traded below the old low but did NOT form the model: <em>"It just went down, consolidated, returned back to it — but melted, didn't do anything above that old low. There was no displacement, no energetic move."</em> Conclusion: <em>"Anyone that would have looked at this and bought today is not using what I'm teaching — they're just impulsively pushing a button."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── TWO ENTRY STRATEGIES ─── -->
+  <section id="two-strategies">
+    <div class="section-label">Core Teaching</div>
+    <h2>The Two Entry Strategies</h2>
+
+    <div class="quote">
+      <span class="ts">37:01</span>
+      <p><em>"That's the two entry strategies for this model. There's no other way of worrying about what does it look like. This is visually what you're doing."</em></p>
+    </div>
+
+    <div class="strat-grid">
+      <div class="strat-card bear-card">
+        <div class="strat-label">Bearish Entry</div>
+        <ol>
+          <li>Bearish daily bias established</li>
+          <li>Identify relative equal highs above current price</li>
+          <li>Wait for price to sweep above those highs</li>
+          <li>Find the <em>nearest short-term low</em> from that run — this is the trigger level</li>
+          <li>Wait for displacement: <em>"energetic move"</em> below that short-term low</li>
+          <li>Go back through the displacement leg — look for a fair value gap</li>
+          <li>Price retraces into FVG → short entry</li>
+        </ol>
+      </div>
+      <div class="strat-card bull-card">
+        <div class="strat-label">Bullish Entry (Reverse Logic)</div>
+        <ol>
+          <li>Bullish bias — expect price to draw up to an old FVG above</li>
+          <li>Wait for price to trade into that FVG: <em>"anywhere between here and here is good"</em></li>
+          <li>Treat the <em>low of the FVG</em> like the relative equal highs: <em>"same logic"</em></li>
+          <li>Wait for price to take out that low with displacement</li>
+          <li>Find the trigger: nearest short-term high in the run</li>
+          <li>Go back through the displacement leg — look for a fair value gap</li>
+          <li>Price retraces into FVG → long entry</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="quote">
+      <span class="ts">36:28</span>
+      <p><em>"You can really make it simple and say okay — the low of the fair value gap, treat that like the same logic that you use for the relative equal highs. Doesn't that make it simple and easy? That way you don't have to worry about how hard do I need to know — you don't need to know that. Because you're waiting for something to happen. What is that? Once it takes out the low of the fair value gap and trades in there — you go back through that leg and see: here's that trigger, that's that shift in the market structure you're waiting for. Then you have the displacement leg. Once you have that you can go back in and look for the fair value gap."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── TIME ELEMENT ─── -->
+  <section id="time">
+    <div class="section-label">Concept</div>
+    <h2>Time as the First Element</h2>
+
+    <div class="quote purple">
+      <span class="ts">22:05</span>
+      <p><em>"By itself it's just price — but we have to incorporate what element first. Algorithmically, it's time. So I'm teaching you elements of time at that 9:30 — we're expecting some volatility, dropping down into that area here."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Price + Time</span></div>
+      <p>The FVG identifies <em>where</em> the trade might form. But: <em>"That fair value gap — that's the place in terms of price where should the pattern form. By itself it's just price but we have to incorporate what element first. Algorithmically, it's time."</em> Both must align.</p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">20:28</span>
+      <p><em>"I posted ahead of the 9:30 opening where equities open up and that volatility that comes around 9:30 — I want to see some kind of a manipulation in price. So if our focus is up there and it's dropping down and it's ahead of 9:30 — what are we likely to see? Drop down, get traders thinking it's going to go lower, and then rally up."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── WHEN NO SETUP FORMS ─── -->
+  <section id="no-setup">
+    <div class="section-label">Model Validity</div>
+    <h2>When the Model Doesn't Form — No Trade</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Model Validity Demonstrated by Absence</div>
+      <p><em>"Does it result in a losing trade? No — because the logic wasn't utilized that would have put me in a losing trade. It never formed."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">37:44</span>
+      <p><em>"Nothing panned out. It didn't mean that the model's broke. It doesn't mean that I can't find winning trades. It just means that the market did not provide the structure to allow this to form."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">35:20</span>
+      <p><em>"Two scenarios that I would have loved to seen develop just did not pan out — it just simply wasn't there."</em></p>
+    </div>
+
+    <ul class="rule-list">
+      <li>
+        <span class="num">01</span>
+        <span>Displacement did not occur: <em>"It just went down, consolidated, returned back to it — but melted, didn't do anything above that old low. There was no displacement, no energetic move."</em></span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span>The ideal judas swing did not form either: <em>"I was expecting this to rally just a little bit higher and maybe flirt with that level — that did not happen."</em></span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span>Conclusion: <em>"It's just a missed move and there's nothing you can do about it except for beat yourself up and say oh I wish I woulda coulda shoulda — and that stuff doesn't make you money."</em></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-label">Self-Test</div>
+    <h2>Flashcards</h2>
+    <p class="fc-hint">Click any card to reveal the direct transcript quote</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where does a bearish setup form according to the model?</div>
+        <div class="flashcard-answer">"I've been teaching you to run above an old high or relative equal highs — and if you're bearish that would set up a scenario where the market goes up, sweeps the highs, breaks back down below the highs, short-term lows taken out with displacement, and then you go back through that displacement leg looking for a fair value gap to short into."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is "the trigger" and where is it found?</div>
+        <div class="flashcard-answer">"As soon as it goes above [the relative equal highs] you start panning back through all this price running here and find the nearest short-term low — because that right there is going to be your trigger."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What must happen BEFORE you look for the fair value gap to enter?</div>
+        <div class="flashcard-answer">"Until it takes out that short-term low — there's nothing going on. There's no trade there, there's no setup there. Then when there's displacement — that displacement leg in price action — that right there is your foundation to the setup. That's it."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What specifically filters out low-probability trades?</div>
+        <div class="flashcard-answer">"You have to see it go below that and displacement with the energetic move — take out a short-term low. That's how you filter out these trades that may not be high probability."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the first element that must be incorporated alongside price?</div>
+        <div class="flashcard-answer">"By itself it's just price but we have to incorporate what element first. Algorithmically, it's time."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the "same logic" for the bullish version of the setup?</div>
+        <div class="flashcard-answer">"The low of the fair value gap — treat that like the same logic that you use for the relative equal highs. Once it takes out the low of the fair value gap and trades in there — you go back through that leg and see: here's that trigger, that's that shift in the market structure you're waiting for. Then you have the displacement leg."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How deep into a fair value gap does price need to trade for the bullish setup?</div>
+        <div class="flashcard-answer">"It doesn't have to completely close it. If it trades up into it, anywhere between here and here is good."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does it mean when the model doesn't form?</div>
+        <div class="flashcard-answer">"Does it result in a losing trade? No — because the logic wasn't utilized that would have put me in a losing trade. It never formed."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the initial criteria for the setup at an old low?</div>
+        <div class="flashcard-answer">"We did have the initial criteria which is trading below an old low — so what's going to be resting below that? Sell stops. So they go down, run out the sell stops, traders are caught in. Then what? We got to look for displacement — it's got to trade back above this old low, it's got to have displacement above that."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What demonstrates a model's validity even when no setup forms?</div>
+        <div class="flashcard-answer">"This is the proof — the evidence that the model has validity. So if you have a valid, reasonable, sound logic behind the model — whatever model that is — then it should prevent you from taking bad trades."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How many entry strategies does this model have?</div>
+        <div class="flashcard-answer">"That's the two entry strategies for this model. There's no other way of worrying about what does it look like."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the relationship between a community post showing interest and a trade signal?</div>
+        <div class="flashcard-answer">"That is not a trade idea — that's just bias, it's logic. That's the extent of what I'm gonna do in the live sessions."</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

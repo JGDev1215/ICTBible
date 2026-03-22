@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inversion Fair Value Gap - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+        <nav class="chapter-nav">
+        <a href="category-liquidity-imbalance.html">Return to Category</a>
+        <a href="index.html">Library Home</a>
+    </nav>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+<header>
+        <h1>Inversion Fair Value Gap</h1>
+        <p>"A fair value Gap that fails in its function of bullishness or bearishness... it will become an inversion fair value Gap after it comes back to it"</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#formation">Formation Process</a>
+        <a href="#repricing">Repricing Mechanics</a>
+        <a href="#mohawk">Mohawk Concept</a>
+        <a href="#entry">Entry Expectations</a>
+        <a href="#context">Prior Treatment Context</a>
+        <a href="#psychology">Market Psychology</a>
+        <a href="#orderflow">Order Flow</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Definition</h2>
+            <blockquote class="quote">
+                <p><em>"A fair value Gap that fails in its function of bullishness or bearishness if it fails it will become an inversion fair value Gap after it comes back to it"</em></p>
+            </blockquote>
+
+            <h3>The Mindset Shift</h3>
+            <blockquote class="quote">
+                <p><em>"There's no reason for you to be upset about taking a trade and getting stopped out if you try to use it as an entry to go long and it stops you out you're going to get mad and think everything doesn't work because of that when it should be wow okay I got that wrong all I got to do is sit back and wait when it comes back up and hits it I'll treat it as a shorting opportunity"</em></p>
+            </blockquote>
+
+            <h3>Core Insight</h3>
+            <blockquote class="quote">
+                <p><em>"When they fail that gives you Insight that's what a inversion fair value Gap is"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="formation">
+            <h2>Formation Process</h2>
+
+            <h3>Initial Fair Value Gap Characteristics</h3>
+            <blockquote class="quote">
+                <p><em>"There's only buy side here on this candle passing through... from this candle's low to that candle's High there there's an only buy side it was delivered only here on buy side so what is it missing sell side"</em></p>
+            </blockquote>
+
+            <h3>Inversion Trigger Condition</h3>
+            <blockquote class="quote">
+                <p><em>"This becomes an inversion fair value Gap if we trade down but not below this low before returning back to it because that sell side's still there and it would return back to this fair value Gap"</em></p>
+            </blockquote>
+
+            <h3>The Repricing Event</h3>
+            <blockquote class="quote">
+                <p><em>"If it drops down it offers that sell side to this candle's high so it reprices to that range low which is this candle's high"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="repricing">
+            <h2>Repricing Mechanics</h2>
+
+            <h3>Balanced Price Range Creation</h3>
+            <blockquote class="quote">
+                <p><em>"So that fair value Gap has been repriced to offer the buy side it's been given here and then sell side so if it moves away from it comes back up what is it going to act as a balanced price range"</em></p>
+            </blockquote>
+
+            <h3>Expected Retracement Behavior</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Ideal Retracement Level</span>
+                </div>
+                <p><em>"I would like to see it only trade to halfway it can trade up to the highest point but if it tells me no I'm not interested in going all the way to the top of it after moving below it if it hits the low and only stops at midpoint or just below it and then starts to move lower that's exactly what I want"</em></p>
+            </div>
+
+            <h3>Signifying Weakness</h3>
+            <blockquote class="quote">
+                <p><em>"It's signifying that the balance price range is not permitting price to come all the way back up to the high of it it need not do that why because we've already traded down to it a little bit"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="mohawk">
+            <h2>Mohawk Concept</h2>
+
+            <h3>Definition of Mohawk</h3>
+            <blockquote class="quote">
+                <p><em>"Worst case scenario it can create a mohawk which is a little tiny little deviation above or below a level"</em></p>
+            </blockquote>
+
+            <h3>Acceptability of Mohawk</h3>
+            <blockquote class="quote">
+                <p><em>"We allow for it I'm not scared of it I know it's likely to occur if I was fortunate enough to get the fill on that Mohawk that this punch is just above that that's Superior entry"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Visual Example Described</span>
+                </div>
+                <p><em>"This whole candle here went all the way to the high of the gap which is this candle's low to and through the low of the gap which is this candle's high and we create a little tiny little Mohawk right there colored Outside the Lines that's completely permissible it's acceptable we are not afraid of that"</em></p>
+            </div>
+
+            <h3>Stop Loss Placement with Mohawk Allowance</h3>
+            <blockquote class="quote">
+                <p><em>"Your stop losses can be limited to consequent encroachment just a little bit above it... it would have to be in my opinion at least three to four handles above consequent encouragement because remember we allow for What Little Mohawks a little coloring outside the lines"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Expectations</h2>
+
+            <h3>Two-Level Range Management</h3>
+            <blockquote class="quote">
+                <p><em>"I'm going to highlight both levels I don't want to see price if it trades down below it I don't want to see it trade back up in between these two levels once we get below this shaded area"</em></p>
+            </blockquote>
+
+            <h3>Sensitivity Point for Shorting</h3>
+            <blockquote class="quote">
+                <p><em>"If we trade below it and then it comes back up and touches the low or halfway point I want it to be sensitive there and not trade any higher but it can create a small little Mohawk just above that line there but not touch the upper portion"</em></p>
+            </blockquote>
+
+            <h3>Failure Signal</h3>
+            <blockquote class="quote">
+                <p><em>"If it does that that tells me it's exceedingly weak and then therefore I would expect dollar to accelerate higher and then any shorts that I see in NASDAQ should be high probability"</em></p>
+            </blockquote>
+
+            <h3>Pyramid Entry Opportunity</h3>
+            <blockquote class="quote">
+                <p><em>"If I could get a mohawk right here on the high of it or if it just pokes itself above it I'll add a a a partial and pyramid in that very thing right there and you've seen people ask like why were you adding to it it was outside the faira because a mohawk is expected it's permissible"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="context">
+            <h2>Prior Treatment Context</h2>
+
+            <h3>Scenario A: Candle Trading Through Upper Portion</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">When Prior Candle Traded Into Upper FVG</span>
+                </div>
+                <p><em>"Because it has done that I don't want to see if we trade below it and then it comes back up and touches the low or halfway point I want it to be sensitive there and not trade any higher"</em></p>
+                <p style="margin-top: 1rem;"><em>"Because the effects of this candle trading down to the upper portion of this fair value Gap it's already offered on the basis of this move here that candle right there that day has already delivered most of the upper portion of what would be this fair value Gap"</em></p>
+            </div>
+
+            <h3>Scenario B: No Prior Penetration of FVG</h3>
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">When FVG Hasn't Been Touched</span>
+                </div>
+                <p><em>"If this candle didn't trade down into the upper portion of this fair value Gap... then the one pass through it where I expect the fair value Gap to fail here not offer support then I would treat the fair inversion fair value Gap as it can go all the way to the high why because it wouldn't have had this drop down in the upper portion of this range"</em></p>
+            </div>
+
+            <h3>Efficiency Analysis</h3>
+            <blockquote class="quote">
+                <p><em>"Say this candle had low up up up here that means that this range only had buy side offered to this point here so what's it missing it's inefficient in sell side cuz it's buy side and balance that means its direction was a closing candle higher"</em></p>
+            </blockquote>
+
+            <h3>The Missing Component</h3>
+            <blockquote class="quote">
+                <p><em>"The difference between the candle before it and candle after it is that there's a little Gap in between where the market has to eventually repriced lower"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="psychology">
+            <h2>Market Psychology</h3>
+
+            <h3>Weekend Gap Opening Scenario</h3>
+            <blockquote class="quote">
+                <p><em>"If we open below this low we're really technically oversold and then they'll repic against the opening price because everybody's going to want to do what Chase it lower think it broke out to the downside so they'll enter right away because the market started opening up and it's trading so now it's time to get out there and race and chase after investment profits"</em></p>
+            </blockquote>
+
+            <h3>No Respect vs. Respect of FVG</h3>
+            <blockquote class="quote">
+                <p><em>"Did we have any respect of this Gap nope is that a bad thing no that means now if I get an extreme gap opening... it runs back up and touches the low of that fair value guy I would like to see it do that and then roll over and go lower"</em></p>
+            </blockquote>
+
+            <h3>Premium Array Behavior</h3>
+            <blockquote class="quote">
+                <p><em>"Treating this as a premium array and expecting it not to need to trade to the higher end of it"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="orderflow">
+            <h2>Order Flow & PD Array Failure</h2>
+
+            <h3>Bullish Order Blocks in Uptrend</h3>
+            <blockquote class="quote">
+                <p><em>"When we're bullish on price we want to see down closed candles support price because they're acting as what bullish order blocks"</em></p>
+            </blockquote>
+
+            <h3>Expecting Order Blocks to Fail After Reversal</h3>
+            <blockquote class="quote">
+                <p><em>"If we have seen a run on buy side and then it broke Market structure and then rallied up and gave you a 2022 short entry what do you think you would be expecting as the price is dropping down every one of those down closed candles that supported price going up you want to see price eat through that quickly with no hesitation"</em></p>
+            </blockquote>
+
+            <h3>Algorithmic Handshaking</h3>
+            <blockquote class="quote">
+                <p><em>"Every down closed candle in that down closed candle algorithmic buying is taking place so it goes without saying when it goes above that it comes back down and touches it it's not going to need to go back down in there because the algorithm has already extended the opportunity for the algorithms that use this in a marriage like a hand shaking between the delivery mechanism the price engines that cause the fluctuations in price and then the algorithms that can handshake with it"</em></p>
+            </blockquote>
+
+            <h3>Real Institutional Order Flow</h3>
+            <blockquote class="quote">
+                <p><em>"As price was going lower every up closed candle should have offered what downside delivery sside delivery moving lower so we want to see price going through with ease up through them that's real institutional order flow"</em></p>
+            </blockquote>
+
+            <h3>Universal Application of PD Array Failure</h3>
+            <blockquote class="quote">
+                <p><em>"Every PD array has in in its formation a application of wanting to see it fail for the purposes of giving you Insight then then you can use it for a counter trate idea it has an inverse nature to it"</em></p>
+            </blockquote>
+
+            <h3>Flexibility in Application</h3>
+            <blockquote class="quote">
+                <p><em>"It gives you the flexibility to say okay I use fair value gaps to enter but if I get it wrong that means it's probably indicating that I'm really offside so if it comes back up and trades back up into this level here it might offer some measure of resistance"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you know when a fair value gap is not going to work?</div>
+                    <div class="flashcard-answer">"A fair value Gap that fails in its function of bullishness or bearishness if it fails it will become an inversion fair value Gap after it comes back to it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What condition must be met for a fair value gap to become an inversion fair value gap?</div>
+                    <div class="flashcard-answer">"This becomes an inversion fair value Gap if we trade down but not below this low before returning back to it because that sell side's still there"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does a fair value gap act as after it has been repriced with both buy side and sell side?</div>
+                    <div class="flashcard-answer">"So if it moves away from it comes back up what is it going to act as a balanced price range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a Mohawk in ICT terminology?</div>
+                    <div class="flashcard-answer">"A mohawk which is a little tiny little deviation above or below a level"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How many handles above consequent encroachment should a stop loss be placed when accounting for Mohawk?</div>
+                    <div class="flashcard-answer">"It would have to be in my opinion at least three to four handles above consequent encouragement because remember we allow for What Little Mohawks a little coloring outside the lines"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the ideal retracement behavior for an inversion fair value gap?</div>
+                    <div class="flashcard-answer">"I would like to see it only trade to halfway... if it hits the low and only stops at midpoint or just below it and then starts to move lower that's exactly what I want"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why might an inversion FVG not need to trade to the high after a prior candle already penetrated its upper portion?</div>
+                    <div class="flashcard-answer">"Because the effects of this candle trading down to the upper portion of this fair value Gap it's already offered on the basis of this move here that candle right there that day has already delivered most of the upper portion of what would be this fair value Gap"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does algorithmic handshaking refer to in order flow?</div>
+                    <div class="flashcard-answer">"The algorithm has already extended the opportunity for the algorithms that use this in a marriage like a hand shaking between the delivery mechanism the price engines that cause the fluctuations in price and then the algorithms that can handshake with it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">After a market structure break and reversal to bearish, what should you expect to see with former bullish order blocks?</div>
+                    <div class="flashcard-answer">"Every one of those down closed candles that supported price going up you want to see price eat through that quickly with no hesitation"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What universal principle applies to all PD arrays regarding failure?</div>
+                    <div class="flashcard-answer">"Every PD array has in in its formation a application of wanting to see it fail for the purposes of giving you Insight then then you can use it for a counter trate idea it has an inverse nature to it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What insight does a failed fair value gap give you?</div>
+                    <div class="flashcard-answer">"When they fail that gives you Insight... it gives you the flexibility to say okay I use fair value gaps to enter but if I get it wrong that means it's probably indicating that I'm really offside"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should your response be when a fair value gap entry gets stopped out?</div>
+                    <div class="flashcard-answer">"You're going to get mad and think everything doesn't work because of that when it should be wow okay I got that wrong all I got to do is sit back and wait when it comes back up and hits it I'll treat it as a shorting opportunity"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

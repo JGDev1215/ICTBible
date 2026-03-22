@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship — Episode 32</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary:   #070710;
+    --bg-card:      #0d0d1b;
+    --bg-raised:    #131321;
+    --bg-deep:      #0a0a16;
+    --border:       #1a1a2e;
+    --border-dim:   #121220;
+    --text-primary: #e0e0eb;
+    --text-secondary: #747496;
+    --text-dim:     #383858;
+    --accent-bear:  #de4260;
+    --accent-bull:  #1eba5c;
+    --accent-gold:  #ea9c00;
+    --accent-blue:  #367ec8;
+    --accent-purple:#8c66ec;
+    --font-body:    'Crimson Pro', Georgia, serif;
+    --font-head:    'Space Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 34% at 10% 0%, rgba(54,126,200,0.038) 0%, transparent 52%),
+      radial-gradient(ellipse 44% 28% at 90% 105%, rgba(234,156,0,0.03) 0%, transparent 52%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,7,16,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dim);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+
+  .nav-ep {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 0.9rem 1.4rem 0.9rem 0;
+    white-space: nowrap;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.9rem 1rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  nav a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .ep-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(234,156,0,0.07);
+    border: 1px solid rgba(234,156,0,0.17);
+    padding: 0.3em 0.9em;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.75rem, 3.4vw, 2.65rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.4rem;
+  }
+
+  header h1 em { color: var(--accent-gold); font-style: normal; }
+
+  .header-sub {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    max-width: 660px;
+    line-height: 1.6;
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 2rem 7rem;
+  }
+
+  section { margin-bottom: 5.5rem; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  section > h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  section > h3 {
+    font-family: var(--font-head);
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 2rem 0 1rem;
+  }
+
+  /* ─── CONTEXT BANNER ─── */
+  .context-banner {
+    background: rgba(234,156,0,0.04);
+    border: 1px solid rgba(234,156,0,0.14);
+    border-radius: 4px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.94rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .context-banner strong {
+    color: var(--accent-gold);
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── QUOTE ─── */
+  .quote {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 4px 4px 0;
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .quote.bear   { border-left-color: var(--accent-bear); }
+  .quote.bull   { border-left-color: var(--accent-bull); }
+  .quote.blue   { border-left-color: var(--accent-blue); }
+  .quote.purple { border-left-color: var(--accent-purple); }
+
+  .quote p { font-size: 1.02rem; line-height: 1.65; }
+  .quote em { color: var(--text-primary); font-style: italic; }
+
+  .ts {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ─── CONCEPT CARD ─── */
+  .concept-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .card-title {
+    font-family: var(--font-head);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+  }
+
+  .card-title.bear   { color: var(--accent-bear); }
+  .card-title.bull   { color: var(--accent-bull); }
+  .card-title.blue   { color: var(--accent-blue); }
+
+  .concept-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
+  .concept-card p em { color: var(--text-primary); font-style: italic; }
+
+  /* ─── KEY DEF ─── */
+  .key-def {
+    background: rgba(234,156,0,0.04);
+    border: 1px solid rgba(234,156,0,0.16);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .key-def-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .key-def p { font-size: 1.02rem; line-height: 1.65; color: var(--text-primary); }
+  .key-def p em { font-style: italic; }
+
+  .key-def.bear {
+    background: rgba(222,66,96,0.04);
+    border-color: rgba(222,66,96,0.16);
+  }
+  .key-def.bear .key-def-label { color: var(--accent-bear); }
+
+  /* ─── DIAGRAM ─── */
+  .diagram-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .diagram-caption {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* ─── RULE LIST ─── */
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .rule-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.85rem 1.2rem 0.85rem 0.9rem;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+
+  .rule-list li .num {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+  }
+
+  /* ─── FLASHCARDS ─── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .flashcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .flashcard:hover { border-color: rgba(234,156,0,0.22); background: var(--bg-raised); }
+
+  .flashcard-question {
+    font-family: var(--font-head);
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-right: 1.6rem;
+  }
+
+  .flashcard::after {
+    content: '▾';
+    position: absolute;
+    top: 1.05rem;
+    right: 1.1rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .flashcard.revealed::after { transform: rotate(180deg); color: var(--accent-gold); }
+
+  .flashcard-answer {
+    display: none;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-dim);
+    font-size: 0.95rem;
+    color: var(--accent-gold);
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  .flashcard.revealed .flashcard-answer { display: block; }
+
+  .fc-hint {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-ep">EP.32 — 2022</span>
+  <a href="#context">Context</a>
+  <a href="#outside-day">Outside Day</a>
+  <a href="#consolidation">Consolidation Day</a>
+  <a href="#3pm">3–4 PM Window</a>
+  <a href="#buyside">Buy-Side Liquidity Run</a>
+  <a href="#midrange">Middle of Range</a>
+  <a href="#dealing">Dealing Range</a>
+  <a href="#study">Flashcards</a>
+</nav>
+
+<header>
+  <div class="ep-badge">2022 ICT Mentorship · Episode 32</div>
+  <h1>Consolidation Day, <em>Outside Day & the 3–4 PM Window</em></h1>
+  <p class="header-sub">
+    How to read a choppy consolidation day: the outside day definition, why price gravitates
+    to the middle of range, and why the 3–4 PM window is when the algorithm delivers on days like this.
+    E-mini S&P.
+  </p>
+</header>
+
+<main>
+
+  <!-- ─── CONTEXT ─── -->
+  <section id="context">
+    <div class="section-label">Episode Overview</div>
+    <h2>Session Context</h2>
+
+    <div class="context-banner">
+      <strong>Note</strong> — This episode is primarily a Twitter session recap with limited structured teaching. Extractable concept content is concentrated from 1:17–17:58. Personal commentary, credibility discussion, and Twitter logistics are excluded.
+    </div>
+
+    <div class="quote">
+      <span class="ts">3:43</span>
+      <p><em>"I mentioned how the market many times can present opportunities that look like it's likely to form a setup but it really doesn't really come to fruition."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">4:42</span>
+      <p><em>"I mentioned how it was likely to be a 50/50 probability — that means it's likely to go higher just as well as it is likely to trade lower. What's the benefit in that? Obviously anybody can come into it with a 50/50 expectation but it really statistically moves to 50/50 when we start trading back into the middle of the range."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── OUTSIDE DAY ─── -->
+  <section id="outside-day">
+    <div class="section-label">Definition</div>
+    <h2>Outside Day</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Outside Day Defined</div>
+      <p><em>"An outside day is a day that's higher than the previous day and lower than the previous day's low. So here's previous day's high — it went higher. His previous day's low — it went lower. So all of this range is outside of the previous day's range. And it closed down."</em></p>
+    </div>
+
+    <div class="quote bear">
+      <span class="ts">1:37</span>
+      <p><em>"When this happens there's typically this type of price action formation — but it's really included with the odds in your favor if you're trading down to an old low but fall short of it. This is usually where that double bottom idea comes in and it feels safe. To — if you're trading like me — look for a run through that old low. But if they stop it short it tends to be a choppy day, especially if we have an outside date with down close."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title bear">Outside Day + Down Close → Choppy Day</span></div>
+      <p>When there is an outside day with a down close and price falls short of running through the old low: <em>"it tends to be a choppy day."</em> On this session, price came within one handle of the 38.55 old low (38.56) before reversing higher.</p>
+    </div>
+  </section>
+
+  <!-- ─── CONSOLIDATION DAY ─── -->
+  <section id="consolidation">
+    <div class="section-label">Concept</div>
+    <h2>Consolidation Day</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Consolidation Day Defined</div>
+      <p><em>"The algorithm on days like this — this is called a consolidation day. And what happens is this: the market starts trading, creates an initial range and then stays in that range until the afternoon at three o'clock."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">10:58</span>
+      <p><em>"All of this in here is really hard choppy price action — it's very very difficult to trade in those types of ranges because they can come back on you, stop you out, and just go nowhere for a long period of time."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">3:56</span>
+      <p><em>"This imbalance here — the fair value gap — it should have offered a little bit more movement lower. Why wouldn't it go down and take out this short-term low? It went below this short-term low here and then started rallying, working towards the relative equal highs over here."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">5:55</span>
+      <p><em>"After that it just goes back and forth chopping — short-term lows are taken, high is taken here, we trade back and forth. All of this is really ugly type of price action."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── 3–4 PM WINDOW ─── -->
+  <section id="3pm">
+    <div class="section-label">Time Concept</div>
+    <h2>The 3–4 PM Window on Consolidation Days</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">3–4 PM Window Defined</div>
+      <p><em>"Wait until three o'clock because many times at three o'clock to four — the algorithm will do something where it goes outside the bounds of the daily range. It trades up into it and then rams it down."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">11:28</span>
+      <p><em>"The market starts trading, creates an initial range and then stays in that range until the afternoon at three o'clock. It used to be the bond close that started this whole thing but now it's just three o'clock — at four o'clock when equities close, the closing bell — that sets the tone for on-close orders."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">7:57</span>
+      <p><em>"I gave a very specific window between three o'clock and four o'clock in the afternoon."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">17:44</span>
+      <p><em>"If you're caught up in it — you know what you're doing or you feel like it's just being chopped up — wait until three o'clock because many times at three o'clock to four the algorithm will do something where it goes outside the bounds of the daily range like it did here. It trades up into it and then rams it down."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">Why On-Close Orders Matter</span></div>
+      <p><em>"At four o'clock when equities close, the closing bell — that sets the tone for on-close orders. So what that means is what was going on prior to three o'clock — the market was rallying up. What did it go up for? The buy-side liquidity."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── BUY-SIDE LIQUIDITY RUN AT 3PM ─── -->
+  <section id="buyside">
+    <div class="section-label">Concept</div>
+    <h2>Buy-Side Liquidity Run → Short at 3 PM</h2>
+
+    <div class="quote bear">
+      <span class="ts">7:21</span>
+      <p><em>"We ran above the short-term high, so we have relative equal highs here and relative equal highs here — so there's buy-side resting here. I outlined how the market would use the running up to take out the buy stops to squeeze anybody that was short and trail their stop-loss down, and also to induce people into thinking it's going to go higher — so that way it builds up liquidity below these lows. What kind of liquidity? Sell-side liquidity, because they're going to protect their long positions."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">16:41</span>
+      <p><em>"All the buy orders that were resting above here are here in the form of protecting short positions acting as their stop-loss order. When the market trades above that — those buy stops that are protective in nature — they become a rushing liquidity wave of willing buyers at the market."</em></p>
+    </div>
+
+    <div class="quote bear">
+      <span class="ts">16:56</span>
+      <p><em>"Willing buyers at the market at three o'clock on a day like this where it's consolidated — it's going to want to go back to the middle of the range."</em></p>
+    </div>
+
+    <!-- Diagram -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 720 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="ab" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#1eba5c"/>
+          </marker>
+          <marker id="ad" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="#de4260"/>
+          </marker>
+        </defs>
+
+        <!-- Grid -->
+        <line x1="0" y1="50"  x2="720" y2="50"  stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="100" x2="720" y2="100" stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="150" x2="720" y2="150" stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="200" x2="720" y2="200" stroke="#121220" stroke-width="1"/>
+        <line x1="0" y1="250" x2="720" y2="250" stroke="#121220" stroke-width="1"/>
+
+        <!-- 3pm vertical -->
+        <line x1="380" y1="15" x2="380" y2="295" stroke="#383858" stroke-width="1" stroke-dasharray="3,4"/>
+        <text x="384" y="24" font-family="JetBrains Mono, monospace" font-size="9" fill="#383858">3:00 PM NY</text>
+
+        <!-- Initial range — high and low established in morning -->
+        <!-- Chop band -->
+        <rect x="20" y="100" width="360" height="100" fill="rgba(255,255,255,0.015)" rx="2"/>
+
+        <!-- Daily high -->
+        <line x1="20" y1="100" x2="380" y2="100" stroke="rgba(30,186,92,0.3)" stroke-width="1" stroke-dasharray="3,4"/>
+        <text x="22" y="94" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(30,186,92,0.6)">Daily High</text>
+
+        <!-- Daily low -->
+        <line x1="20" y1="200" x2="380" y2="200" stroke="rgba(222,66,96,0.3)" stroke-width="1" stroke-dasharray="3,4"/>
+        <text x="22" y="214" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(222,66,96,0.6)">Daily Low</text>
+
+        <!-- Midpoint -->
+        <line x1="20" y1="150" x2="720" y2="150" stroke="rgba(234,156,0,0.4)" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="22" y="144" font-family="JetBrains Mono, monospace" font-size="9" fill="#ea9c00">Midpoint — target</text>
+
+        <!-- Chop candles in morning -->
+        <rect x="40"  y="115" width="10" height="35" fill="#747496" opacity="0.5" rx="1"/>
+        <rect x="57"  y="108" width="10" height="42" fill="#de4260" opacity="0.5" rx="1"/>
+        <rect x="74"  y="120" width="10" height="30" fill="#747496" opacity="0.5" rx="1"/>
+        <rect x="91"  y="112" width="10" height="38" fill="#de4260" opacity="0.5" rx="1"/>
+        <rect x="108" y="118" width="10" height="32" fill="#747496" opacity="0.5" rx="1"/>
+        <rect x="125" y="110" width="10" height="40" fill="#de4260" opacity="0.5" rx="1"/>
+        <rect x="142" y="122" width="10" height="28" fill="#747496" opacity="0.5" rx="1"/>
+        <rect x="159" y="115" width="10" height="35" fill="#de4260" opacity="0.5" rx="1"/>
+        <rect x="176" y="120" width="10" height="30" fill="#747496" opacity="0.5" rx="1"/>
+        <rect x="193" y="113" width="10" height="37" fill="#de4260" opacity="0.5" rx="1"/>
+
+        <!-- Chop label -->
+        <text x="68" y="255" font-family="JetBrains Mono, monospace" font-size="9" fill="#383858">"choppy price action — very very difficult to trade"</text>
+
+        <!-- Relative equal highs level -->
+        <line x1="280" y1="100" x2="420" y2="100" stroke="rgba(30,186,92,0.5)" stroke-width="1" stroke-dasharray="2,3"/>
+        <text x="290" y="92" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(30,186,92,0.7)">Relative Equal Highs</text>
+        <text x="290" y="82" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">"buy-side resting here"</text>
+
+        <!-- Rally ABOVE rel. equal highs at 3pm (buy stop run) -->
+        <line x1="280" y1="130" x2="370" y2="78" stroke="#1eba5c" stroke-width="2"/>
+        <circle cx="390" cy="62" r="5" fill="none" stroke="#1eba5c" stroke-width="1.5"/>
+        <line x1="370" y1="78" x2="400" y2="62" stroke="#1eba5c" stroke-width="2"/>
+        <text x="410" y="60" font-family="JetBrains Mono, monospace" font-size="8" fill="#1eba5c">"rushing liquidity wave</text>
+        <text x="410" y="71" font-family="JetBrains Mono, monospace" font-size="8" fill="#1eba5c"> of willing buyers"</text>
+
+        <!-- Short entry at top / short bear candle -->
+        <circle cx="400" cy="62" r="4" fill="#de4260"/>
+        <text x="366" y="52" font-family="JetBrains Mono, monospace" font-size="8" fill="#de4260">short entry</text>
+
+        <!-- Sell-off to midpoint -->
+        <line x1="400" y1="62" x2="480" y2="150" stroke="#de4260" stroke-width="2.5" marker-end="url(#ad)"/>
+        <text x="488" y="148" font-family="JetBrains Mono, monospace" font-size="9" fill="#ea9c00">"back to middle of range"</text>
+
+        <!-- FVG in displacement -->
+        <rect x="420" y="100" width="50" height="28" fill="rgba(234,156,0,0.07)" rx="2"/>
+        <line x1="415" y1="100" x2="475" y2="100" stroke="#ea9c00" stroke-width="1" stroke-dasharray="2,3"/>
+        <line x1="415" y1="128" x2="475" y2="128" stroke="#ea9c00" stroke-width="1" stroke-dasharray="2,3"/>
+        <text x="480" y="108" font-family="JetBrains Mono, monospace" font-size="8" fill="#ea9c00">FVG</text>
+        <text x="480" y="120" font-family="JetBrains Mono, monospace" font-size="8" fill="#747496">"swing low, fair value gap</text>
+        <text x="480" y="131" font-family="JetBrains Mono, monospace" font-size="8" fill="#747496"> — trades back up into it"</text>
+
+        <!-- Retrace into FVG then continues down -->
+        <line x1="480" y1="150" x2="520" y2="115" stroke="#747496" stroke-width="1.5" stroke-dasharray="2,2"/>
+        <line x1="520" y1="115" x2="570" y2="180" stroke="#de4260" stroke-width="2" marker-end="url(#ad)"/>
+
+        <!-- 4pm label -->
+        <line x1="570" y1="15" x2="570" y2="295" stroke="#383858" stroke-width="1" stroke-dasharray="2,4"/>
+        <text x="574" y="24" font-family="JetBrains Mono, monospace" font-size="9" fill="#383858">4:00 PM</text>
+
+        <!-- Labels -->
+        <text x="20" y="290" font-family="JetBrains Mono, monospace" font-size="8" fill="#383858">9:30am → chop inside initial range → 3pm buyside run → FVG retrace → middle of range</text>
+      </svg>
+      <div class="diagram-caption">Consolidation day structure — 3–4 PM window, buy-side run above rel. equal highs → FVG → middle of range target (1:17–17:58)</div>
+    </div>
+
+    <ul class="rule-list">
+      <li>
+        <span class="num">01</span>
+        <span>Before 3pm: choppy range, 50/50 probability. <em>"It really statistically moves to 50/50 when we start trading back into the middle of the range."</em></span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span>At 3pm: market rallies above relative equal highs, runs buy stops (protective stops of short sellers become market orders): <em>"a rushing liquidity wave of willing buyers at the market."</em></span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span>The run above creates a swing low and displacement leg with a fair value gap: <em>"is this a swing low? Yes. Is this a fair value gap? Yes. Does it trade back up into that range? Yes."</em></span>
+      </li>
+      <li>
+        <span class="num">04</span>
+        <span>Target: <em>"the middle of the range."</em> Short entry, partial at midpoint. ICT sold short at 3940.75, took 4 partials off at 3908.75 (middle of range).</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── MIDDLE OF RANGE ─── -->
+  <section id="midrange">
+    <div class="section-label">Concept</div>
+    <h2>Middle of the Daily Range as Target</h2>
+
+    <div class="quote">
+      <span class="ts">7:05</span>
+      <p><em>"If you look at what the high was and the low — right in here — if that's the middle of the range, we ran above the short-term high so we have relative equal highs here. I outlined how the market would use the running up to take out the buy stops to squeeze anybody that was short — and then pull back to the middle of the range."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">17:09</span>
+      <p><em>"It's going to want to go back to the middle of the range. So when you look at price action days like this — and if you're caught up in it, you know what you're doing or you feel like it's just being chopped up — wait until three o'clock."</em></p>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><span class="card-title">How to Measure the Middle of Range</span></div>
+      <p>Use the high and low of the initial session range (approximately 9:30 AM onward): <em>"So the low of the day there and the high of the day there — split that in the middle, there's your midpoint — and it's going to want to gravitate back to that."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── DEALING RANGE ─── -->
+  <section id="dealing">
+    <div class="section-label">Definition</div>
+    <h2>Dealing Range</h2>
+
+    <div class="key-def">
+      <div class="key-def-label">Dealing Range Defined</div>
+      <p><em>"We have to take every single trade idea based on its current dealing ranges. And what's a dealing range? Well, a dealing range would be like from this high down to that low — and we measure those."</em></p>
+    </div>
+
+    <div class="quote">
+      <span class="ts">5:35</span>
+      <p><em>"Yes, it trades up into that imbalance and trades down to a short-term low — that's a tradable opportunity there."</em></p>
+    </div>
+  </section>
+
+  <!-- ─── FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-label">Self-Test</div>
+    <h2>Flashcards</h2>
+    <p class="fc-hint">Click any card to reveal the direct transcript quote</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is an outside day?</div>
+        <div class="flashcard-answer">"An outside day is a day that's higher than the previous day and lower than the previous day's low. So all of this range is outside of the previous day's range."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What tends to happen when there is an outside day with a down close and price falls short of the old low?</div>
+        <div class="flashcard-answer">"If they stop it short it tends to be a choppy day, especially if we have an outside day with down close."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a consolidation day?</div>
+        <div class="flashcard-answer">"The algorithm on days like this — this is called a consolidation day. And what happens is this: the market starts trading, creates an initial range and then stays in that range until the afternoon at three o'clock."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why is it statistically 50/50 when price is in the middle of the range?</div>
+        <div class="flashcard-answer">"It really statistically moves to 50/50 when we start trading back into the middle of the range."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What sets the tone at the 3–4 PM window?</div>
+        <div class="flashcard-answer">"At four o'clock when equities close, the closing bell — that sets the tone for on-close orders. It used to be the bond close that started this whole thing but now it's just three o'clock."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does the algorithm do at 3 PM on a consolidation day?</div>
+        <div class="flashcard-answer">"Many times at three o'clock to four — the algorithm will do something where it goes outside the bounds of the daily range. It trades up into it and then rams it down."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Why does a rally above relative equal highs at 3 PM create a sell opportunity?</div>
+        <div class="flashcard-answer">"The market would use the running up to take out the buy stops to squeeze anybody that was short and trail their stop-loss down, and also to induce people into thinking it's going to go higher — so that way it builds up liquidity below these lows."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What happens when protective buy stops are triggered above the relative equal highs?</div>
+        <div class="flashcard-answer">"Those buy stops that are protective in nature — they become a rushing liquidity wave of willing buyers at the market."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where does the market want to go after the 3 PM buy-side run on a consolidation day?</div>
+        <div class="flashcard-answer">"Willing buyers at the market at three o'clock on a day like this where it's consolidated — it's going to want to go back to the middle of the range."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">How do you measure the middle of the daily range?</div>
+        <div class="flashcard-answer">"The low of the day there and the high of the day there — split that in the middle, there's your midpoint — and it's going to want to gravitate back to that."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is a dealing range?</div>
+        <div class="flashcard-answer">"We have to take every single trade idea based on its current dealing ranges. And what's a dealing range? Well, a dealing range would be like from this high down to that low — and we measure those."</div>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What should you do if you feel chopped up during a consolidation day?</div>
+        <div class="flashcard-answer">"If you're caught up in it — you know what you're doing or you feel like it's just being chopped up — wait until three o'clock."</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

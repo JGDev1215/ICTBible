@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position Trade Management - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-entries-management.html">Return to Category</a>
+        <a href="ICT_BIBLE__THE_NEXT_SETUP__2026-02-01.html">Next Chapter</a>
+        <a href="index.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Position Trade Management</h1>
+        <p>ICT Mentorship Core Content - Month 05 - January 2017</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#bullish">Bullish Conditions</a>
+        <a href="#bearish">Bearish Conditions</a>
+        <a href="#stop-management">Stop Management</a>
+        <a href="#risk">Risk Management</a>
+        <a href="#examples">Examples</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <blockquote class="quote">
+                <p><em>"This tutorial is going to be specifically dealing with the possession trade management"</em></p>
+                <span class="timestamp">(0:21)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Seasonal Tendencies Foundation</span>
+                </div>
+                <p><em>"It's not a Beyond though it's not a Panacea it's just a rule of thumb a road map if you will about what may unfold in price action"</em></p>
+                <span class="timestamp">(0:36)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Just because it's done it for the last 40 plus years doesn't mean this year or next year or the three years from now when you sit down in front of the charts doesn't mean that's going to be the outcome you see in price but we start there because seasonal Tendencies are just that there's a tendency for price to do certain things"</em></p>
+                <span class="timestamp">(0:46)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">PDA Abbreviation</span>
+                </div>
+                <p><em>"PDA is premium discount array or PD array I'm going to be abbreviating that for the remainder of this mentorship so that way when you receive PDA it's the premium discount arrays that means the order blocks all the things I look for for institutional reference points"</em></p>
+                <span class="timestamp">(2:53)</span>
+            </div>
+        </section>
+
+        <section id="bullish">
+            <h2>Bullish Market Conditions Framework</h2>
+
+            <h3>Step 1: Seasonal Tendency Identification</h3>
+            <blockquote class="quote">
+                <p><em>"For bullish market conditions we like to anticipate potential bullish seasonal tendencies"</em></p>
+                <span class="timestamp">(0:27)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're going to be focusing on the bullish seasonal tendencies that are most likely to occur in the next three to four months"</em></p>
+                <span class="timestamp">(1:09)</span>
+            </div>
+
+            <h3>Step 2: Inter-Market Analysis Confirmations</h3>
+            <blockquote class="quote">
+                <p><em>"What we do after we identify what most likely will unfold for a bullish seasonal tendency is we have to look at inter-market analysis confirmations is there something to suggest there really is a bullish technical picture for that seasonal tendency to come to fruition"</em></p>
+                <span class="timestamp">(1:21)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If there isn't any technicals to align with that seasonal tendency this season it's a seasonal isn't going to drive price but technical is in alignment with the seasonal tendency are a very powerful couple"</em></p>
+                <span class="timestamp">(1:36)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Interest Rate Analysis</span>
+                </div>
+                <p><em>"What is the interest rate markets telling you okay are are yields increasing because if the yields are increasing it's going to be good for the currency that you're trading"</em></p>
+                <span class="timestamp">(1:48)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If we see Divergence between the yields that may suggest there's going to be a shift or a pause in the underlying direction of the marketplace at the current moment"</em></p>
+                <span class="timestamp">(1:59)</span>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Four Major Asset Classes</span>
+                </div>
+                <p><em>"When we look at inter-market analysis we are blending the two of interest rate yields and we're also blending the four major asset classes the stock market interest rates Commodities and currencies"</em></p>
+                <span class="timestamp">(2:11)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"All four of them together should be confirming your general outlook on the marketplace now you may not get clear pictures from all four but if you're getting three to indicate that your directional bias for your asset you're going to be trading is in fact what they're suggesting as well or confirming then you probably got a pretty good trade idea lined up"</em></p>
+                <span class="timestamp">(2:26)</span>
+            </div>
+
+            <h3>Step 3: Higher Time Frame PDA</h3>
+            <blockquote class="quote">
+                <p><em>"Once this occurs we go into a higher time frame monthly and weekly chart for PDA"</em></p>
+                <span class="timestamp">(2:49)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're looking for a higher time frame weekly and monthly charts to indicate where institutional overflow on those particular time frames will look to seek to trade to"</em></p>
+                <span class="timestamp">(3:16)</span>
+            </div>
+
+            <h3>Step 4: Quarterly Shift on Daily Chart</h3>
+            <blockquote class="quote">
+                <p><em>"When we understand there's two higher time frames then we'll know what the daily chart is going to do and we're going to be focusing on the daily chart for a quarterly shift or intermediate price swing every three or four months"</em></p>
+                <span class="timestamp">(3:26)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're not trying to pick the absolute low and we're not trying to pick the absolute High we are trying to get in sync with that quarterly shift to get the meat in between in other words the biggest portion of the move that's what we're focusing on"</em></p>
+                <span class="timestamp">(3:47)</span>
+            </div>
+
+            <h3>Step 5: Daily PDA for Entry Setup</h3>
+            <blockquote class="quote">
+                <p><em>"We use the daily pdas to frame our bullish setups in other words we're looking for ore blocks voids gaps rejection blocks you know old highs hold lows we're looking for those things to to frame our buy setup"</em></p>
+                <span class="timestamp">(3:59)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're waiting for that to occur based on what we see on the higher time frames and with intermarket analysis and hopefully a seasonal tendency is also suggesting a bullish move as well when we have these things in alignment we have a great deal of confluences in our camp we're looking for a high probability scenario in that case"</em></p>
+                <span class="timestamp">(4:16)</span>
+            </div>
+
+            <h3>Step 6: Entry Execution Decision</h3>
+            <blockquote class="quote">
+                <p><em>"Once you get to this stage what you're going to have to do is to you're going to have to determine whether you're going to be a buyer on a stop or a buyer on a limit it doesn't matter which one you'll elect to go with"</em></p>
+                <span class="timestamp">(4:37)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If you are going to be trading with limit orders there's a probability of you missing moves or missing your fills because you're demanding a specific price level"</em></p>
+                <span class="timestamp">(4:48)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"When you go on a buy stop generally you're going to end up getting filled more times using that order but unfortunately that creates a little bit more Gap in between where you're entering and where your stop loss is going to be"</em></p>
+                <span class="timestamp">(4:59)</span>
+            </div>
+        </section>
+
+        <section id="bearish">
+            <h2>Bearish Market Conditions Framework</h2>
+
+            <h3>Step 1: Bearish Seasonal Tendency</h3>
+            <blockquote class="quote">
+                <p><em>"For bearish market conditions again we're anticipating a potential bear seasonal tendency so we're focusing on the Bears tendencies that have the most ideal conditions what times of the year are they expected"</em></p>
+                <span class="timestamp">(8:43)</span>
+            </div>
+
+            <h3>Step 2: Inter-Market Analysis</h3>
+            <blockquote class="quote">
+                <p><em>"Once we understand what is most likely to occur seasonally again we're just looking for it first there then we're looking for inter-market analysis confirmations is there a suggestion across all four major asset classes currency markets interest rates Commodities and the stock market are they all in agreement with the expectation you have for the next three to four months"</em></p>
+                <span class="timestamp">(8:58)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If interest rate yields are confirming that direction as well interest rates rising or increasing or decreasing is that Salient to your expectation for the bearish move that you're trying to to take on for next quarterly shift"</em></p>
+                <span class="timestamp">(9:21)</span>
+            </div>
+
+            <h3>Step 3: Higher Time Frame PDA Objectives</h3>
+            <blockquote class="quote">
+                <p><em>"If this does align then we go to the higher time frame monthly and weekly and we start looking for the ranges and we look for the PDA for monthly and weekly objectives institutionally"</em></p>
+                <span class="timestamp">(9:38)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Where are we looking to go how far are we looking to go down where are the old loads where are the bullish order blocks where are the liquidity voids on the downside where are the fair value gaps below us where are the mitigation blocks and potential Breakers we have to be valueful of okay all those ideas we have to start mapping those out because they're either going to be speed bumps or they're going to be rocket fuel for our next price leg in our bearish expectations"</em></p>
+                <span class="timestamp">(9:51)</span>
+            </div>
+
+            <h3>Step 4: Quarterly Shift Expectation</h3>
+            <blockquote class="quote">
+                <p><em>"Once we have all these ideas then we can expect that quarterly shift to take place and then therefore have an intermediate term price swing moving over the course of two to three potentially four months at maximum where we see a bearish move take place"</em></p>
+                <span class="timestamp">(10:23)</span>
+            </div>
+
+            <h3>Step 5: Daily PDA for Bearish Setups</h3>
+            <blockquote class="quote">
+                <p><em>"Once we have the scenario outlined okay and we expect the monthly and or weekly ranks or swing to take effect what we're going to be doing is focusing on the daily chart and we're going to be utilizing the daily pdas that means the daily premium discount arrays"</em></p>
+                <span class="timestamp">(10:37)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're looking for bearish order blocks we're looking for bearish liquidity voids to fill in we're looking for old highs to sell above we're looking for rejection blocks above and old highs handles body and we're looking for uh bearish Breakers to trade into we're looking for mitigation blocks to trade against and sell off of"</em></p>
+                <span class="timestamp">(10:53)</span>
+            </div>
+
+            <h3>Step 6: Entry Decision - Sell Stop vs Sell Limit</h3>
+            <blockquote class="quote">
+                <p><em>"Once we have our setup what we're looking for is the determination are we going to be selling on a stop or are we selling on a limit order and that's going to be a matter of personal preference"</em></p>
+                <span class="timestamp">(11:26)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If you're going to be selling on a limit chances are you may not get your fill so just take that into consideration and if you're 100 certain you have to have the entry selling on a stop is almost a guarantee you're going to get that fill because you're going to be selling on weakness"</em></p>
+                <span class="timestamp">(11:39)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Once that price is triggered you'll be short and again but it opens a little bit more risk from where you enter and where your stop loss needs to be"</em></p>
+                <span class="timestamp">(11:54)</span>
+            </div>
+        </section>
+
+        <section id="stop-management">
+            <h2>Stop Loss Management</h2>
+
+            <h3>Bullish Positions - Initial Stop Placement</h3>
+            <blockquote class="quote">
+                <p><em>"Once you determine you're going to be buying on a stop or a limit and you enter the position you're going to be trailing your stop loss below the lowest low in the last 40 trading days"</em></p>
+                <span class="timestamp">(5:50)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Why are we looking for the lowest level last 40 trading days because if we're looking for a bullish move the market will most likely not want to go back 40 trading days to find the low it's going to be looking for the highs in the last 40 trading days"</em></p>
+                <span class="timestamp">(6:02)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"That means we are going to have a trailing stop loss order that's very handsomely behind the current market price and it's going to take a very significant price move to stop you out it avoids getting knocked out of the marketplace prematurely"</em></p>
+                <span class="timestamp">(6:17)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"When you're trading long-term trends or long-term quarterly shifts the worst thing it can happen is get knocked out prematurely and then the market moves take place and you miss out on that move"</em></p>
+                <span class="timestamp">(6:33)</span>
+            </div>
+
+            <h3>Stop Loss Philosophy for Long-Term Trading</h3>
+            <blockquote class="quote">
+                <p><em>"In this time frame you are not looking to Trail your stop-loss Ultra tight you have to have some freedom in the market you can't just let it you know you can't demand really Ultra tight stops in long-term trading you gotta allow it to move a little bit gyrate pool back against you sometimes"</em></p>
+                <span class="timestamp">(6:42)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Initially when you first get in the trade you just gotta have to weather that and unfortunately it may not be your cup of tea but that's again the nature of the Beast"</em></p>
+                <span class="timestamp">(6:59)</span>
+            </div>
+
+            <h3>At 50% of Range - Maintain 40-Day Stop</h3>
+            <blockquote class="quote">
+                <p><em>"Once the trend starts underway and it starts moving in your favor if it moves 50 percent of the range that you expect to see unfold on the monthly and or weekly chart because that's what you're actually trading off of you're executing on a daily chart"</em></p>
+                <span class="timestamp">(7:08)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Once that range moves to 50 of what you expect to see in terms of profitability say say it's a 500 pit range or a thousand pip range If It Moves if it's a thousand foot range we're referring to If It Moves 500 Pips in your favor you need to still consider what the lowest low was in the last 40 days your stop loss is going to be below that"</em></p>
+                <span class="timestamp">(7:24)</span>
+            </div>
+
+            <h3>At 75% of Range - Tighten to 20-Day Stop</h3>
+            <blockquote class="quote">
+                <p><em>"But when we get above 50 percent then we're going to be looking for the lowest low in the last 20 days once we get about three quarters of the way of the entire weekly monthly range you want to start trailing your stop loss below the most recent low in the last 20 trading days okay"</em></p>
+                <span class="timestamp">(7:48)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Your permitting price to seek out the liquidity on the upside and giving it a lot of room to consolidate if it needs to before it goes another leg higher if you keep your stop loss below the lowest loan the last 40 trading days you're going to have a better chance of staying in the move and not being stopped out prematurely"</em></p>
+                <span class="timestamp">(8:07)</span>
+            </div>
+
+            <h3>Bearish Positions - Stop Management</h3>
+            <blockquote class="quote">
+                <p><em>"Once you're in the move you're going to be using a trailing stop loss above the highest high in the last 40 trading days"</em></p>
+                <span class="timestamp">(12:05)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"What that's going to keep you from having happen is a premature stopout you don't want to get knocked out of the market before you actually see the move transpire you don't want to have any opportunity for the market to have a move against you and see it take off once it knocks you out"</em></p>
+                <span class="timestamp">(12:12)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"That's enough it's very frustrating to see that happen and if you wait a long time for these long-term setups to get set up just to get knocked out prematurely you exercise so much patience to get to that stage than to Once get in it and then it knocks you out"</em></p>
+                <span class="timestamp">(12:28)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Worse thing can happen is you get fearful or never get another opportunity to get back in and it takes off and runs away from you then you have to wait for another higher level objective to get in"</em></p>
+                <span class="timestamp">(12:43)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"You don't need to do that on a higher time frame trading in fact it's better if you keep a wider stop and you try not to rush to move it up to break even because break even on long-term trading is just the worst thing they possibly ever consider you don't want to do that"</em></p>
+                <span class="timestamp">(13:10)</span>
+            </div>
+
+            <h3>Bearish - 50% Range Stop Management</h3>
+            <blockquote class="quote">
+                <p><em>"When you identify the range at which you're trying to see unfold on the monthly and or weekly chart when the price moves 50 percent of that range in your favor okay in other words it's moved half the distance you thought it was going to even at that moment okay you're still going to be using the highest high and last 40 trading days your stop is going to be above that okay because you're not trying to get knocked out"</em></p>
+                <span class="timestamp">(13:36)</span>
+            </div>
+
+            <h3>Bearish - 75% Range Stop Management</h3>
+            <blockquote class="quote">
+                <p><em>"Once it moves to about three quarters of the the range that you anticipate seeing then what you're going to be doing is you're going to be looking for the highest high in the last 20 trading days because you're getting really close to that ultimate objective and it may not really get there so you want to lock in as much profit as possible"</em></p>
+                <span class="timestamp">(13:57)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"If you use the highest high in the last 40 trading days and you've seen three quarters of the move you may see a deep retracement that maybe end up becoming the actual reversal that you didn't expect to see think like Optimal trade entry it could go 79 of the total move you expect to see but then fail and go the other direction"</em></p>
+                <span class="timestamp">(14:13)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"You would just be knocked out with a great deal of more larger loss by using that trailing 40-day stop loss above the highest high and last 40 trading Days by reducing it to only 20 trading days we're using ipta procedures for data ranges"</em></p>
+                <span class="timestamp">(14:33)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're using measuring the ranges okay and grading the scale of how far that move has already happened when we start getting mature in our move we want to start locking in more aggressively that that position but we're only going to drop down to a 20-day look back once we get to three quarters of the move that we expect to see"</em></p>
+                <span class="timestamp">(14:48)</span>
+            </div>
+        </section>
+
+        <section id="risk">
+            <h2>Risk Management</h2>
+
+            <h3>Position Sizing</h3>
+            <blockquote class="quote">
+                <p><em>"How much money should you be risking no more than one percent"</em></p>
+                <span class="timestamp">(5:15)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Keeping the idea that you're taking big positions in terms of the time that you're in there but not big positions in the terms of how much you're allocating to the to the trades so you're looking for big moves with a little bit of your account"</em></p>
+                <span class="timestamp">(5:17)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"By having that your risk is going to be reduced but your maximum payout is going to be massive in terms of how many Pips you draw but still it's going to be relative in terms of the percentage because it's just the nature of this time frame"</em></p>
+                <span class="timestamp">(5:35)</span>
+            </div>
+
+            <h3>Avoiding Over-Leveraging</h3>
+            <blockquote class="quote">
+                <p><em>"As long as you're not over leveraging your account"</em></p>
+                <span class="timestamp">(5:09)</span>
+            </div>
+        </section>
+
+        <section id="examples">
+            <h2>Japanese Yen Examples</h2>
+
+            <h3>Bearish Example - Sell Setup</h3>
+            <blockquote class="quote">
+                <p><em>"We're looking at the Japanese Genesis the weekly chart and we have the high up here and we have these equal lows we talked about during the live uh teachings of the mentorship and then below these equal lows we have these two panels which makes the bullish order block"</em></p>
+                <span class="timestamp">(16:05)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We're going to be looking at this high in here only daily looking for an ultimate move down to this level here"</em></p>
+                <span class="timestamp">(16:55)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"We have a rally up it goes into this last up candle which is a PDA on a weekly basis and it's also a PDA for the daily and it's a bearish order block for us here trades right up into the body of this candle which is the open comes in at 121.69 the high on this candle comes in at 21.72 so only three Pips higher than this opening price"</em></p>
+                <span class="timestamp">(17:32)</span>
+            </div>
+
+            <h3>Entry Decision - Sell Limit vs Sell Stop</h3>
+            <blockquote class="quote">
+                <p><em>"We're going to be deciding if we're going to sell short on a limit we're gonna be selling short either on a limit above this close or we're going to be selling on a stop down here"</em></p>
+                <span class="timestamp">(18:04)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Which one are you going to do but what we're doing is once we get in we have to use the high in the last 40 trading days"</em></p>
+                <span class="timestamp">(18:24)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"There's 40 trading days from this day here which is the trade day here because you have the up candle this is the day you would trade Look Back 40 days your stop loss has to be above here so your range of risk is framed out for you by doing this"</em></p>
+                <span class="timestamp">(18:38)</span>
+            </div>
+
+            <h3>Stop Loss Calculation</h3>
+            <blockquote class="quote">
+                <p><em>"If you have a stop loss of 250 Pips you got to be above that say 260 Pips that's your stop okay some of you are probably cringing with that 260 Pips good grief it's long-term trading folks and I mean you really gotta change your uh way of thinking about it because it's not going to be the same as it was when we were discussing complete uh intraday action"</em></p>
+                <span class="timestamp">(18:56)</span>
+            </div>
+
+            <h3>Risk to Reward Example</h3>
+            <blockquote class="quote">
+                <p><em>"We have basically eight r on this trade"</em></p>
+                <span class="timestamp">(20:26)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Selling short up here we have 8 times 260 Pips the thing about that that's a massive move okay it's huge move okay"</em></p>
+                <span class="timestamp">(20:46)</span>
+            </div>
+
+            <h3>Daily Stop Management During Trade</h3>
+            <blockquote class="quote">
+                <p><em>"As you trade this what you're doing is you're you're continuously every single time you look at the trading day you're in you're going to be looking back"</em></p>
+                <span class="timestamp">(21:05)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Every trading day you're going to keep looking back what was the highest high in the last 40 trading days okay each trading day you're looking at the right end of this here okay every single trading day you're looking at the highest high and you're keeping your uh stop loss above that high whatever that whatever that high is"</em></p>
+                <span class="timestamp">(21:23)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"At this point here we have that real deep trading retracement your stock has got to be above these highs"</em></p>
+                <span class="timestamp">(21:51)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"It keeps you from getting locked knocked out prematurely and again eight times 260 Pips that's this huge huge move"</em></p>
+                <span class="timestamp">(22:08)</span>
+            </div>
+
+            <h3>Bullish Example - Buy Setup</h3>
+            <blockquote class="quote">
+                <p><em>"We saw that Weekly bullish order block down here and we expected it to trade back up to the weekly bearish order block in here"</em></p>
+                <span class="timestamp">(22:20)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Here's the buy Looking Back 40 trading days your buy uh buy position has a protective sell stop below these lows in here okay if you bought in here before the election and we had that big wild whipsaw even with this wild whip saw if you would have bought this day here on a limit below the close here on the limit on this candle if you bought here on this candle on a limit on this day here"</em></p>
+                <span class="timestamp">(22:32)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"You would have saw profits and then on the election day you would have rode through all this probably would have been scary for you but even then 40 trading days back your stop has to be below here so you're not knocked out long term you're in there"</em></p>
+                <span class="timestamp">(22:53)</span>
+            </div>
+
+            <h3>Managing Stops on Buy Side</h3>
+            <blockquote class="quote">
+                <p><em>"The same thing you're looking for the lowest low when you buy it in the last 40 trading days like for instance if you bought here your stop has to be below this low"</em></p>
+                <span class="timestamp">(23:11)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"You have another buying opportunity on this day here again your stop still stays below here on this day again your stop still stays below here on this day here the lowest low in the last 40 trading days is here still"</em></p>
+                <span class="timestamp">(23:40)</span>
+            </div>
+
+            <h3>Transitioning to 20-Day Stop</h3>
+            <blockquote class="quote">
+                <p><em>"We have to change gears now once we get half the range"</em></p>
+                <span class="timestamp">(24:01)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Once price trades through this here we start looking back 20 trading days and we start trailing our stop loss below the lowest low in the last 20 trading days"</em></p>
+                <span class="timestamp">(24:22)</span>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"Above halfway point you want to start trailing your stop loss tighter below the low the last 20 trading days but prior to equilibrium or halfway move you want to be 40 trading days back using if the data ranges because it's not likely it's going to seek that liquidity it's going to be seeking the liquidity above the 40-day ties in above the 20 highs and it's going to be looking for the 60-day high now you can see how that if the data range comes into play using these higher time frames"</em></p>
+                <span class="timestamp">(25:10)</span>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the role of seasonal tendencies in position trade management?</div>
+                    <div class="flashcard-answer">"It's not a Beyond though it's not a Panacea it's just a rule of thumb a road map if you will about what may unfold in price action" (0:36)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What does PDA stand for and what does it include?</div>
+                    <div class="flashcard-answer">"PDA is premium discount array or PD array... that means the order blocks all the things I look for for institutional reference points" (2:53)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the four major asset classes used in inter-market analysis?</div>
+                    <div class="flashcard-answer">"The stock market interest rates Commodities and currencies" (2:19)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the goal when trading quarterly shifts?</div>
+                    <div class="flashcard-answer">"We're not trying to pick the absolute low and we're not trying to pick the absolute High we are trying to get in sync with that quarterly shift to get the meat in between in other words the biggest portion of the move" (3:47)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the maximum risk per trade for position trading?</div>
+                    <div class="flashcard-answer">"How much money should you be risking no more than one percent" (5:15)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">For bullish positions, where is the initial stop loss placed?</div>
+                    <div class="flashcard-answer">"Once you determine you're going to be buying on a stop or a limit and you enter the position you're going to be trailing your stop loss below the lowest low in the last 40 trading days" (5:50)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why use a 40-day stop instead of a tight stop?</div>
+                    <div class="flashcard-answer">"If we're looking for a bullish move the market will most likely not want to go back 40 trading days to find the low it's going to be looking for the highs in the last 40 trading days" (6:07)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the worst thing that can happen in long-term trading?</div>
+                    <div class="flashcard-answer">"When you're trading long-term trends or long-term quarterly shifts the worst thing it can happen is get knocked out prematurely and then the market moves take place and you miss out on that move" (6:33)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When do you transition from a 40-day stop to a 20-day stop?</div>
+                    <div class="flashcard-answer">"When we get above 50 percent then we're going to be looking for the lowest low in the last 20 days once we get about three quarters of the way of the entire weekly monthly range you want to start trailing your stop loss below the most recent low in the last 20 trading days" (7:48)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">For bearish positions, where is the stop loss placed?</div>
+                    <div class="flashcard-answer">"Once you're in the move you're going to be using a trailing stop loss above the highest high in the last 40 trading days" (12:05)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the issue with moving stops to break-even in long-term trading?</div>
+                    <div class="flashcard-answer">"You try not to rush to move it up to break even because break even on long-term trading is just the worst thing they possibly ever consider you don't want to do that" (13:17)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When bearish at 75% of range, how do you manage stops?</div>
+                    <div class="flashcard-answer">"Once it moves to about three quarters of the the range that you anticipate seeing then what you're going to be doing is you're going to be looking for the highest high in the last 20 trading days because you're getting really close to that ultimate objective" (13:57)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the philosophy on position sizing for long-term trades?</div>
+                    <div class="flashcard-answer">"You're taking big positions in terms of the time that you're in there but not big positions in the terms of how much you're allocating to the to the trades so you're looking for big moves with a little bit of your account" (5:21)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the advantage of buying on a stop versus a limit?</div>
+                    <div class="flashcard-answer">"When you go on a buy stop generally you're going to end up getting filled more times using that order but unfortunately that creates a little bit more Gap in between where you're entering and where your stop loss is going to be" (4:59)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the disadvantage of using limit orders?</div>
+                    <div class="flashcard-answer">"If you are going to be trading with limit orders there's a probability of you missing moves or missing your fills because you're demanding a specific price level" (4:48)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How does inter-market analysis confirm seasonal tendency?</div>
+                    <div class="flashcard-answer">"If there isn't any technicals to align with that seasonal tendency this season it's a seasonal isn't going to drive price but technical is in alignment with the seasonal tendency are a very powerful couple" (1:36)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="summary">
+            <h2>Framework Summary</h2>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Bullish Position Trade Framework</span>
+                </div>
+                <ol>
+                    <li><em>"Anticipate potential bullish seasonal tendencies"</em> (0:27)</li>
+                    <li><em>"Look at inter-market analysis confirmations"</em> (1:24)</li>
+                    <li><em>"Go into a higher time frame monthly and weekly chart for PDA"</em> (2:51)</li>
+                    <li><em>"Focusing on the daily chart for a quarterly shift or intermediate price swing every three or four months"</em> (3:32)</li>
+                    <li><em>"Use the daily pdas to frame our bullish setups"</em> (3:59)</li>
+                    <li><em>"Determine whether you're going to be a buyer on a stop or a buyer on a limit"</em> (4:39)</li>
+                    <li><em>"Trailing your stop loss below the lowest low in the last 40 trading days"</em> (5:55)</li>
+                </ol>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Bearish Position Trade Framework</span>
+                </div>
+                <ol>
+                    <li><em>"Anticipating a potential bear seasonal tendency"</em> (8:45)</li>
+                    <li><em>"Looking for inter-market analysis confirmations"</em> (9:06)</li>
+                    <li><em>"Go to the higher time frame monthly and weekly and we start looking for the ranges and we look for the PDA"</em> (9:40)</li>
+                    <li><em>"Expect that quarterly shift to take place"</em> (10:25)</li>
+                    <li><em>"Focusing on the daily chart and we're going to be utilizing the daily pdas"</em> (10:46)</li>
+                    <li><em>"Determination are we going to be selling on a stop or are we selling on a limit order"</em> (11:30)</li>
+                    <li><em>"Using a trailing stop loss above the highest high in the last 40 trading days"</em> (12:07)</li>
+                </ol>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Stop Loss Adjustment Rules</span>
+                </div>
+                <ul>
+                    <li><strong>Initial Entry to 50% of Range:</strong> <em>"Your stop loss is going to be below that"</em> [40-day low for bulls] (7:44)</li>
+                    <li><strong>At 50% to 75% of Range:</strong> <em>"You're still going to be using the highest high and last 40 trading days"</em> [for bears] (13:49)</li>
+                    <li><strong>At 75% to Target:</strong> <em>"Start trailing your stop loss below the most recent low in the last 20 trading days"</em> [for bulls] (8:02)</li>
+                </ul>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for internal navigation only
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

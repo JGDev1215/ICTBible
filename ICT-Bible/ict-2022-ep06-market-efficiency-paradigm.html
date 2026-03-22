@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT 2022 Mentorship Ep. 6 — Market Efficiency Paradigm & Institutional Order Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #1a1a24;
+    --bg-card-hover: #20202e;
+    --bg-inset: #111119;
+    --border: #2a2a3a;
+    --border-subtle: #1e1e2c;
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-muted: #5a5a6a;
+    --accent-bear: #ff4757;
+    --accent-bear-dim: rgba(255,71,87,0.12);
+    --accent-bull: #2ed573;
+    --accent-bull-dim: rgba(46,213,115,0.12);
+    --accent-gold: #ffa502;
+    --accent-gold-dim: rgba(255,165,2,0.12);
+    --radius: 8px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,165,2,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,165,2,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 2rem;
+  }
+  nav ul { list-style:none; display:flex; gap:0; overflow-x:auto; scrollbar-width:none; max-width:1100px; margin:0 auto; }
+  nav ul::-webkit-scrollbar { display:none; }
+  nav a {
+    display:block; padding:0.85rem 1rem;
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--text-muted); text-decoration:none; white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition:color 0.2s,border-color 0.2s;
+  }
+  nav a:hover { color:var(--accent-gold); border-bottom-color:var(--accent-gold); }
+
+  header {
+    position:relative; z-index:1;
+    padding:5rem 2rem 3.5rem;
+    max-width:1100px; margin:0 auto;
+    border-bottom:1px solid var(--border-subtle);
+  }
+  .header-label {
+    font-family:'JetBrains Mono',monospace; font-size:0.68rem;
+    letter-spacing:0.15em; text-transform:uppercase; color:var(--accent-gold);
+    margin-bottom:1.2rem; display:flex; align-items:center; gap:0.6rem;
+  }
+  .header-label::before { content:''; display:inline-block; width:28px; height:1px; background:var(--accent-gold); }
+  h1 {
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(2rem,4.5vw,3.2rem);
+    font-weight:700; line-height:1.15; letter-spacing:-0.02em;
+    color:var(--text-primary); margin-bottom:1.4rem;
+  }
+  h1 span { color:var(--accent-gold); }
+  .header-subtitle {
+    font-family:'Crimson Pro',serif; font-size:1.1rem; font-style:italic;
+    color:var(--text-secondary); max-width:720px;
+    padding:1rem 1.2rem;
+    border-left:3px solid var(--accent-gold); background:var(--accent-gold-dim);
+    border-radius:0 var(--radius) var(--radius) 0;
+  }
+
+  main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 2rem 6rem; }
+
+  section { padding:3.5rem 0; border-bottom:1px solid var(--border-subtle); }
+  section:last-child { border-bottom:none; }
+
+  .section-header { display:flex; align-items:baseline; gap:1rem; margin-bottom:2rem; }
+  .section-number { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); letter-spacing:0.1em; flex-shrink:0; }
+  h2 { font-family:'Space Grotesk',sans-serif; font-size:1.5rem; font-weight:600; letter-spacing:-0.01em; color:var(--text-primary); }
+  h3 { font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:500; color:var(--text-secondary); margin-bottom:1rem; letter-spacing:0.01em; }
+  p { margin-bottom:0.8rem; }
+
+  .quote {
+    background:var(--bg-card); border-left:3px solid var(--border);
+    border-radius:0 var(--radius) var(--radius) 0;
+    padding:1rem 1.3rem; margin:1rem 0;
+  }
+  .quote p { font-style:italic; color:var(--text-secondary); margin:0; font-size:1rem; }
+  .quote .ts { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); letter-spacing:0.08em; display:block; margin-top:0.5rem; }
+  .quote-gold { border-left-color:var(--accent-gold); background:var(--accent-gold-dim); }
+  .quote-bull { border-left-color:var(--accent-bull); background:var(--accent-bull-dim); }
+  .quote-bear { border-left-color:var(--accent-bear); background:var(--accent-bear-dim); }
+
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1rem; margin:1.5rem 0; }
+  .concept-card {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.3rem; transition:border-color 0.2s,background 0.2s;
+  }
+  .concept-card:hover { border-color:var(--accent-gold); background:var(--bg-card-hover); }
+  .card-header { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.8rem; }
+  .card-dot { width:6px; height:6px; border-radius:50%; background:var(--accent-gold); flex-shrink:0; }
+  .card-dot.bear { background:var(--accent-bear); }
+  .card-dot.bull { background:var(--accent-bull); }
+  .card-title { font-family:'Space Grotesk',sans-serif; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-primary); }
+  .concept-card p { font-style:italic; color:var(--text-secondary); font-size:0.92rem; margin:0; }
+  .concept-card .ts { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-muted); display:block; margin-top:0.5rem; }
+
+  .diagram-wrap {
+    background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.5rem; margin:2rem 0; overflow-x:auto;
+  }
+  .diagram-caption { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:0.8rem; text-align:center; }
+
+  .rule-block {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.4rem; margin:1.2rem 0;
+  }
+  .rule-block-title {
+    font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--accent-gold); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border-subtle);
+  }
+  .rule-block-title.bear { color:var(--accent-bear); }
+  .rule-block-title.bull { color:var(--accent-bull); }
+  .rule-row { display:flex; gap:0.8rem; align-items:flex-start; padding:0.5rem 0; border-bottom:1px solid var(--border-subtle); font-size:0.93rem; }
+  .rule-row:last-child { border-bottom:none; padding-bottom:0; }
+  .rule-key { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-muted); flex-shrink:0; min-width:80px; margin-top:0.28rem; letter-spacing:0.05em; }
+  .rule-row em { color:var(--text-secondary); font-style:italic; }
+
+  .divider { height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); margin:1.8rem 0; }
+
+  /* Flashcards */
+  .flashcard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; margin-top:1.5rem; }
+  .flashcard {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.4rem; cursor:pointer; transition:border-color 0.2s,background 0.2s;
+    min-height:100px; user-select:none;
+  }
+  .flashcard:hover { border-color:var(--accent-gold); background:var(--bg-card-hover); }
+  .flashcard-question { font-family:'Space Grotesk',sans-serif; font-size:0.88rem; color:var(--text-primary); font-weight:500; line-height:1.4; }
+  .flashcard-answer { display:none; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); font-style:italic; color:var(--accent-bull); font-size:0.9rem; line-height:1.55; }
+  .flashcard.revealed .flashcard-answer { display:block; }
+  .flashcard.revealed { border-color:var(--accent-bull); background:var(--accent-bull-dim); }
+  .reveal-hint { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-top:0.7rem; display:block; }
+  .flashcard.revealed .reveal-hint { display:none; }
+
+  /* Two-col layout for diagrams side by side */
+  .diagram-pair { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:2rem 0; }
+  @media(max-width:720px){ .diagram-pair { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#paradigm">Market Efficiency Paradigm</a></li>
+    <li><a href="#time-price">Time &amp; Price</a></li>
+    <li><a href="#fvg-bearish">Bearish FVG</a></li>
+    <li><a href="#fvg-bullish">Bullish FVG</a></li>
+    <li><a href="#displacement">Displacement</a></li>
+    <li><a href="#entry-exit">Entry &amp; Exit Rules</a></li>
+    <li><a href="#int-ext">Internal vs External</a></li>
+    <li><a href="#topdown">Top-Down Process</a></li>
+    <li><a href="#study">Flashcards</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="header-label">ICT 2022 Mentorship · Episode 6 · February 3, 2022</div>
+  <h1>Market Efficiency <span>Paradigm</span><br>&amp; Institutional Order Flow</h1>
+  <p class="header-subtitle">"There's an algorithm that delivers efficient market delivery."</p>
+</header>
+
+<main>
+
+  <!-- ─── 01 PARADIGM ─── -->
+  <section id="paradigm">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>The Market Efficiency Paradigm</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"How do we internalize price delivery? First we do not trade patterns for patterns sake. We do not trade indicator readings or momentum. We look to enter longs where retail sells. We look to enter shorts where retail buys."</p>
+      <span class="ts">0:19</span>
+    </div>
+
+    <div class="quote">
+      <p>"What I'm teaching you is the internal dialogue of what we're doing. We're looking at price — we're not thinking like the collective that is commonly referred to as the retail trader because majority of retail traders lose. They have a failed logic, they don't have consistency, they don't have well longevity."</p>
+      <span class="ts">0:59</span>
+    </div>
+
+    <div class="quote">
+      <p>"We anticipate price seeking opposing liquidity."</p>
+      <span class="ts">2:04</span>
+    </div>
+
+    <h3>Two Camps</h3>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bull"></div><span class="card-title">Informed / Smart Money</span></div>
+        <p><em>"There's the informed or smart money and that's represented by this small little circle over here."</em></p>
+        <span class="ts">2:26</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bear"></div><span class="card-title">Speculative Uninformed Money</span></div>
+        <p><em>"There's a larger collective which is the speculative uninformed money. There's a large influx all the time of new uninformed money coming in because there's a large influx of uninformed money going out because they lose their account, they blow up whatever equity they have."</em></p>
+        <span class="ts">2:32</span>
+      </div>
+    </div>
+
+    <h3>What Smart Money Actually Looks At</h3>
+
+    <div class="quote">
+      <p>"Smart money traders when they look at the marketplace they're not looking at secret trading indicators. There is no secret indicators. There may be traders that have tools that they like to measure price action with — that's not like a stochastics, it's not like an RSI. Those things are not reached for by informed money. What they're specifically looking at is time and price."</p>
+      <span class="ts">2:57</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"They're looking at liquidity. What is the underlying narrative right now in the marketplace — is it bullish, is it bearish? Is the day's daily range going to go higher but how's it going to go higher? Is it likely to go lower at the beginning of the day first to sucker traders into going short, run out sell stops, they can acquire long positions at, and then rally going into the close?"</p>
+      <span class="ts">6:55</span>
+    </div>
+
+    <div class="quote">
+      <p>"How does that speculative uninformed money and its liquidity that it provides — how can they utilize that? That's the market efficiency paradigm. It's efficient for smart money traders to view the marketplace in that perspective."</p>
+      <span class="ts">7:24</span>
+    </div>
+  </section>
+
+  <!-- ─── 02 TIME & PRICE ─── -->
+  <section id="time-price">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Time &amp; Price — Time Is the Most Crucial Element</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"The most important thing is time because time — that is the most crucial element. So time of day is vital when we're engaging price."</p>
+      <span class="ts">3:43</span>
+    </div>
+
+    <div class="quote">
+      <p>"Retail doesn't really have any understanding or affinity for time except for the fact that they have time now to trade because they're in front of their computer or they have time to look at their phone while they're at work and they're putting on trades. That's the extent of time when it comes to a retail average trader."</p>
+      <span class="ts">3:54</span>
+    </div>
+
+    <div class="quote">
+      <p>"Time for a professional through the lens of smart money — time is crucial because time of day, there are specific elements in a daily range that really build the likelihood of volatility to come in and also when short-term reversals are likely to occur."</p>
+      <span class="ts">4:15</span>
+    </div>
+
+    <div class="quote">
+      <p>"Algorithms — the first element they operate under is time."</p>
+      <span class="ts">11:23</span>
+    </div>
+
+    <h3>The Paint Roller Analogy</h3>
+
+    <div class="quote quote-gold">
+      <p>"Imagine if you're painting your wall at your home — you take your roller, you put it in the paint and you put the paint up against the wall and you roll down. At first the first foot or so there's going to be an ample amount of paint delivered to the wall from your paint roller. But then as you keep rolling down towards the floor, what will happen? You'll start seeing these little pockets that look really porous. What do you have to do to fix that? You just change directions and start rolling the paint roller back up the same place you roll down. That's exactly what price does."</p>
+      <span class="ts">12:47</span>
+    </div>
+
+    <div class="quote">
+      <p>"There's an algorithm that delivers efficient market delivery."</p>
+      <span class="ts">13:26</span>
+    </div>
+  </section>
+
+  <!-- ─── 03 BEARISH FVG ─── -->
+  <section id="fvg-bearish">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Bearish ICT Fair Value Gap</h2>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"The bearish ICT fair value gap — this is institutional order flow and it's a pattern that you can see the order flow actually coming into the marketplace."</p>
+      <span class="ts">10:20</span>
+    </div>
+
+    <h3>Three Candle Formation — Precise Rules</h3>
+
+    <div class="rule-block">
+      <div class="rule-block-title bear">Bearish FVG — Three Candle Formation</div>
+      <div class="rule-row">
+        <span class="rule-key">Candle 1</span>
+        <em>"The first candle is the high."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Candle 2</span>
+        <em>"The next candle is the extended low that goes below it."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Candle 3</span>
+        <em>"The third candle is another continuation candle."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Rule 1</span>
+        <em>"The first candle's low has to be traded below on the immediate following candle."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Rule 2</span>
+        <em>"The next candle has to trade with an extended low as well that went below candle number two but does not trade with a high that trades back to candle number one's low."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">The Gap</span>
+        <em>"That little space that's occupied right there — one candle only traded from the range of candle number one's low to candle number three's high. So that little space — that's the fair value gap."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Upper end</span>
+        <em>"The upper end of the fair value gap is going to be the low of candle number one."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Lower end</span>
+        <em>"The lower end of the fair value gap is going to be the high of candle number three."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Candle 2 role</span>
+        <em>"The number two candle is always going to be where the gap resides."</em>
+      </div>
+    </div>
+
+    <!-- BEARISH FVG DIAGRAM -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr-sm" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <polygon points="0 0, 6 3, 0 6" fill="#9898a8"/>
+          </marker>
+        </defs>
+        <rect width="520" height="280" fill="#0f0f18" rx="6"/>
+        <style>
+          .sl { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#9898a8; }
+          .sl-gold { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#ffa502; }
+          .sl-bear { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#ff4757; }
+          .sl-bull { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#2ed573; }
+          .sl-sm { font-family:'JetBrains Mono',monospace; font-size:8px; fill:#5a5a6a; }
+        </style>
+
+        <!-- "run above old high" candles — approach -->
+        <rect x="32" y="120" width="10" height="36" fill="#2ed573" opacity="0.6" rx="1"/>
+        <rect x="46" y="108" width="10" height="44" fill="#2ed573" opacity="0.7" rx="1"/>
+        <!-- old high level -->
+        <line x1="46" y1="108" x2="400" y2="108" stroke="#ffa502" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="404" y="112" class="sl-gold">Old High</text>
+
+        <!-- RUN ABOVE: candle that trades above old high -->
+        <rect x="62" y="88" width="12" height="50" fill="#2ed573" opacity="0.9" rx="1"/>
+        <line x1="68" y1="88" x2="68" y2="78" stroke="#2ed573" stroke-width="1"/>
+        <text x="56" y="74" class="sl-gold">Run above</text>
+
+        <!-- CANDLE 1 — bearish displacement starts -->
+        <rect x="84" y="96" width="14" height="60" fill="#ff4757" opacity="0.85" rx="1"/>
+        <line x1="91" y1="96" x2="91" y2="82" stroke="#ff4757" stroke-width="1"/>
+        <line x1="91" y1="156" x2="91" y2="168" stroke="#ff4757" stroke-width="1"/>
+        <!-- Candle 1 low -->
+        <line x1="84" y1="156" x2="170" y2="156" stroke="#ff4757" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="30" y="163" class="sl-bear">C1 low</text>
+        <text x="30" y="172" class="sl-sm">(FVG upper)</text>
+        <!-- Candle 1 label -->
+        <text x="84" y="94" class="sl-bear">1</text>
+
+        <!-- CANDLE 2 -->
+        <rect x="104" y="118" width="14" height="76" fill="#ff4757" opacity="0.85" rx="1"/>
+        <line x1="111" y1="118" x2="111" y2="108" stroke="#ff4757" stroke-width="1"/>
+        <line x1="111" y1="194" x2="111" y2="204" stroke="#ff4757" stroke-width="1"/>
+        <text x="104" y="116" class="sl-bear">2</text>
+
+        <!-- FVG zone shaded — between C1 low and C3 high -->
+        <!-- C3 high will be at y=182 -->
+        <rect x="104" y="156" width="60" height="26" fill="rgba(255,71,87,0.15)" rx="1"/>
+        <line x1="104" y1="156" x2="164" y2="156" stroke="#ff4757" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <line x1="104" y1="182" x2="164" y2="182" stroke="#ff4757" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <text x="168" y="161" class="sl-bear">FVG</text>
+        <text x="168" y="172" class="sl-sm">(C1 low → C3 high)</text>
+        <text x="168" y="184" class="sl-bear">C3 high</text>
+        <text x="168" y="194" class="sl-sm">(FVG lower)</text>
+
+        <!-- CANDLE 3 -->
+        <rect x="124" y="130" width="14" height="70" fill="#ff4757" opacity="0.85" rx="1"/>
+        <line x1="131" y1="130" x2="131" y2="120" stroke="#ff4757" stroke-width="1"/>
+        <line x1="131" y1="200" x2="131" y2="214" stroke="#ff4757" stroke-width="1"/>
+        <!-- C3 high line -->
+        <line x1="124" y1="182" x2="170" y2="182" stroke="#ff4757" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="124" y="128" class="sl-bear">3</text>
+
+        <!-- FVG bracket -->
+        <line x1="162" y1="156" x2="162" y2="182" stroke="#ff4757" stroke-width="1"/>
+        <line x1="162" y1="156" x2="166" y2="156" stroke="#ff4757" stroke-width="1"/>
+        <line x1="162" y1="182" x2="166" y2="182" stroke="#ff4757" stroke-width="1"/>
+
+        <!-- Entry arrow -->
+        <line x1="145" y1="182" x2="145" y2="192" stroke="#9898a8" stroke-width="0.8" marker-end="url(#arr-sm)"/>
+        <text x="148" y="200" class="sl">Entry: 1 tick above C3 high</text>
+
+        <!-- Stop arrow -->
+        <line x1="91" y1="82" x2="220" y2="82" stroke="#9898a8" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="224" y="85" class="sl">Stop: above C1 (or C2 high)</text>
+
+        <!-- Price after entry -->
+        <rect x="144" y="218" width="10" height="20" fill="#ff4757" opacity="0.7" rx="1"/>
+        <rect x="158" y="228" width="10" height="28" fill="#ff4757" opacity="0.7" rx="1"/>
+        <rect x="172" y="236" width="10" height="34" fill="#ff4757" opacity="0.7" rx="1"/>
+
+        <!-- "what price is doing in FVG" -->
+        <text x="32" y="36" class="sl-sm">Between C1 low and C3 high:</text>
+        <text x="32" y="48" class="sl-bear">"only sell side being offered"</text>
+        <text x="32" y="60" class="sl-sm">→ inefficiency price wants to return to</text>
+
+        <text x="200" y="270" class="sl-sm">bearish FVG — 3-candle formation</text>
+      </svg>
+      <p class="diagram-caption">Bearish ICT FVG: C1 low = upper boundary · C3 high = lower boundary · C2 = where gap resides</p>
+    </div>
+
+    <h3>What Is Occurring in the Gap</h3>
+
+    <div class="quote quote-bear">
+      <p>"Between this candle's low and this candle's high we only have sell side offered. So that's like taking the paint and applying it to the wall and drawing down with the roller. But now as you pull down there's little pockets right in here between this candle's low and this candle's high where price has not been efficiently offered for buyers."</p>
+      <span class="ts">14:10</span>
+    </div>
+
+    <div class="quote">
+      <p>"To efficiently balance out that little inefficient area, at some future time the market's going to want to trade back into that area. When it does and you're bearish, that's a short signal — you can go short and sell there with the expectation it's going to start to move lower."</p>
+      <span class="ts">14:49</span>
+    </div>
+
+    <h3>Optimal Condition for Bearish FVG</h3>
+
+    <div class="quote quote-bear">
+      <p>"Optimal formations of the bearish ICT fair value gap will be found after a run into buy side liquidity. So it's not a matter of going into charts and looking for this little gap all the time. This model I'm teaching you on this YouTube channel is meant for you to look for periods where price runs above an old high, then it breaks down, and then you look for this pattern."</p>
+      <span class="ts">15:10</span>
+    </div>
+
+    <div class="quote">
+      <p>"The run above a single high or multiple highs like a double top — either one of those fits this criteria. So what you're looking for is a pool of liquidity of buy stops resting above these highs — that's buy side liquidity. Smart money will want to trade up into that and go short."</p>
+      <span class="ts">15:45</span>
+    </div>
+
+    <div class="quote">
+      <p>"This is their saving grace right here — this pattern. That's what smart money is looking for. They're looking for that right there. And then once they see that they go in either with their limit order, market in, something to that effect, and get short. And the stop would be above the high."</p>
+      <span class="ts">16:18</span>
+    </div>
+  </section>
+
+  <!-- ─── 04 BULLISH FVG ─── -->
+  <section id="fvg-bullish">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Bullish ICT Fair Value Gap</h2>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"Bullish ICT fair value gap — again institutional order flow pattern and it's a three candle formation."</p>
+      <span class="ts">22:44</span>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-title bull">Bullish FVG — Three Candle Formation</div>
+      <div class="rule-row">
+        <span class="rule-key">The Gap</span>
+        <em>"This separation between three candles — that's the criteria."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">FVG low</span>
+        <em>"Candle number one's high — that is the low of the fair value gap."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">FVG high</span>
+        <em>"Candle number three's low is the high of the fair value gap."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Candle 2</span>
+        <em>"Candle number two is where the fair value gap will be formed."</em>
+      </div>
+      <div class="rule-row">
+        <span class="rule-key">Context</span>
+        <em>"Everything you would expect to see in form of a market run below an old low or multiple lows for sell side liquidity — once it starts trading higher and takes out a short term high."</em>
+      </div>
+    </div>
+
+    <!-- BULLISH FVG DIAGRAM -->
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto;">
+        <rect width="520" height="280" fill="#0f0f18" rx="6"/>
+
+        <!-- Old low level -->
+        <line x1="40" y1="178" x2="400" y2="178" stroke="#ffa502" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="404" y="182" class="sl-gold">Old Low</text>
+
+        <!-- Run below old low -->
+        <rect x="36" y="178" width="12" height="36" fill="#ff4757" opacity="0.6" rx="1"/>
+        <rect x="52" y="186" width="12" height="44" fill="#ff4757" opacity="0.7" rx="1"/>
+        <rect x="68" y="196" width="12" height="52" fill="#ff4757" opacity="0.8" rx="1"/>
+        <text x="32" y="254" class="sl-bear">Run into</text>
+        <text x="32" y="264" class="sl-bear">sell stops</text>
+
+        <!-- CANDLE 1 — bullish displacement starts -->
+        <rect x="92" y="146" width="14" height="64" fill="#2ed573" opacity="0.85" rx="1"/>
+        <line x1="99" y1="146" x2="99" y2="132" stroke="#2ed573" stroke-width="1"/>
+        <line x1="99" y1="210" x2="99" y2="222" stroke="#2ed573" stroke-width="1"/>
+        <!-- C1 high line -->
+        <line x1="92" y1="146" x2="200" y2="146" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="30" y="150" class="sl-bull">C1 high</text>
+        <text x="30" y="160" class="sl-sm">(FVG low)</text>
+        <text x="92" y="144" class="sl-bull">1</text>
+
+        <!-- CANDLE 2 -->
+        <rect x="112" y="118" width="14" height="76" fill="#2ed573" opacity="0.85" rx="1"/>
+        <line x1="119" y1="118" x2="119" y2="104" stroke="#2ed573" stroke-width="1"/>
+        <line x1="119" y1="194" x2="119" y2="206" stroke="#2ed573" stroke-width="1"/>
+        <text x="112" y="116" class="sl-bull">2</text>
+
+        <!-- FVG zone — between C1 high and C3 low -->
+        <!-- C3 low at y=170 -->
+        <rect x="112" y="146" width="60" height="24" fill="rgba(46,213,115,0.15)" rx="1"/>
+        <line x1="112" y1="146" x2="172" y2="146" stroke="#2ed573" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <line x1="112" y1="170" x2="172" y2="170" stroke="#2ed573" stroke-width="0.7" stroke-dasharray="2,2"/>
+        <text x="176" y="151" class="sl-bull">FVG</text>
+        <text x="176" y="162" class="sl-sm">(C1 high → C3 low)</text>
+        <text x="176" y="174" class="sl-bull">C3 low</text>
+        <text x="176" y="184" class="sl-sm">(FVG high)</text>
+
+        <!-- FVG bracket -->
+        <line x1="170" y1="146" x2="170" y2="170" stroke="#2ed573" stroke-width="1"/>
+        <line x1="166" y1="146" x2="170" y2="146" stroke="#2ed573" stroke-width="1"/>
+        <line x1="166" y1="170" x2="170" y2="170" stroke="#2ed573" stroke-width="1"/>
+
+        <!-- CANDLE 3 -->
+        <rect x="132" y="104" width="14" height="66" fill="#2ed573" opacity="0.85" rx="1"/>
+        <line x1="139" y1="104" x2="139" y2="90" stroke="#2ed573" stroke-width="1"/>
+        <line x1="139" y1="170" x2="139" y2="180" stroke="#2ed573" stroke-width="1"/>
+        <!-- C3 low line -->
+        <line x1="132" y1="170" x2="172" y2="170" stroke="#2ed573" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="132" y="102" class="sl-bull">3</text>
+
+        <!-- Entry arrow — just below C3 low -->
+        <line x1="145" y1="172" x2="145" y2="164" stroke="#9898a8" stroke-width="0.8" marker-end="url(#arr-sm)"/>
+        <text x="148" y="184" class="sl">Entry: above C3 low + 1 tick</text>
+
+        <!-- Stop line -->
+        <line x1="99" y1="222" x2="220" y2="222" stroke="#9898a8" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="224" y="226" class="sl">Stop: below C1 (or C2 low)</text>
+
+        <!-- Price continuation up -->
+        <rect x="152" y="88" width="10" height="30" fill="#2ed573" opacity="0.7" rx="1"/>
+        <rect x="166" y="72" width="10" height="36" fill="#2ed573" opacity="0.7" rx="1"/>
+        <rect x="180" y="56" width="10" height="42" fill="#2ed573" opacity="0.7" rx="1"/>
+
+        <text x="32" y="36" class="sl-sm">Between C1 high and C3 low:</text>
+        <text x="32" y="48" class="sl-bull">"price not efficiently offered for buyers"</text>
+        <text x="32" y="60" class="sl-sm">→ market returns to balance</text>
+
+        <text x="200" y="270" class="sl-sm">bullish FVG — 3-candle formation</text>
+      </svg>
+      <p class="diagram-caption">Bullish ICT FVG: C1 high = lower boundary · C3 low = upper boundary · C2 = where gap resides</p>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"You have to blend in the logic of a market structure shift that's bullish. So what does that look like? You have a market trade below an old low, and maybe go another leg lower and create a run into sell stops. Once that occurs then you're looking for a run higher that takes out a short term high and it closes above it with an energetic displacement higher. Once you see that then you have a trade idea being birthed."</p>
+      <span class="ts">23:33</span>
+    </div>
+
+    <div class="quote">
+      <p>"You don't have a trade entry yet until you determine if it has a fair value gap. Where does that reside? Between the displacement high and the displacement low — in between, right before the market structure is broken bullishly and the low that ran into the sell stops. That is your range. This is exactly where you're looking for a fair value gap."</p>
+      <span class="ts">24:01</span>
+    </div>
+
+    <div class="quote quote-bull">
+      <p>"So in that range that's where your bullish fair value gap resides. If there isn't one there you don't have a trade. Is that not specific and clear? It's perfectly illustrated. There's no ambiguity to it."</p>
+      <span class="ts">24:25</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This pattern forms every single trading day. Are you telling — yes I'm telling you just like that, every single trading day this pattern forms. Every single day long and short. But you have to look for it with this process."</p>
+      <span class="ts">22:14</span>
+    </div>
+  </section>
+
+  <!-- ─── 05 DISPLACEMENT ─── -->
+  <section id="displacement">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Displacement High &amp; Displacement Low</h2>
+    </div>
+
+    <div class="quote">
+      <p>"The market will see a price delivery of a rally above an old high or highs and then quickly shift lower. The significance I'm placing on the term quick is linked directly to the term displacement. It's got to be energetic, it can't be a little lethargic little move. It's got to show a real willingness to want to go lower and preferably close below that."</p>
+      <span class="ts">19:01</span>
+    </div>
+
+    <div class="quote">
+      <p>"If it does that, that to me is a little bit more significant whereas if we just go through this low a little bit like a wick and come back up — that to me is not all that convincing. I want to see that it has absolutely displaced and then the candle closed."</p>
+      <span class="ts">19:33</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"Once that low is broken — that's when the new trade idea is now being birthed. You don't even know where you're getting in at yet until you go through this process."</p>
+      <span class="ts">18:47</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>The Displacement Range</h3>
+
+    <div class="quote">
+      <p>"So when we create that high, that high down to the low that breaks the short-term low here, so now we have that shift in market structure there. Right below that low — that is the displacement low. This is your displacement high."</p>
+      <span class="ts">20:04</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"So if you're bearish and you see price run above an old high, then it breaks below the old high and takes out a short term low prior to that run above — that short term low being broken, draw that out in time. That's your displacement low. And the high is your displacement high. So that range between here and here — that's displacement."</p>
+      <span class="ts">20:52</span>
+    </div>
+
+    <div class="quote">
+      <p>"You're gonna be hunting your fair value gaps because that's exactly where it's going to form. Don't take my word for it. Every one of your examples are going to have this."</p>
+      <span class="ts">20:30</span>
+    </div>
+
+    <div class="quote">
+      <p>"How do you know it's displacement? How it closes down here below that low. Is it just a real short little drop below? It might have a fair value gap but it also might be likely to go higher and create another high. So this is the secret to it here. Knowing how we trade below that — and if it's energetic, a lot of movement, a big beefy bearish candle that closes low below this level right there."</p>
+      <span class="ts">21:14</span>
+    </div>
+
+    <div class="quote quote-bear">
+      <p>"As soon as we have that candle form, start watching to see if it creates a fair value gap in between this low and this candle's high or that range. That's exactly where the fair value gap to sell short will form. If there is no fair value gap in here guess what — you don't have a trade. You wait or go to another market."</p>
+      <span class="ts">21:46</span>
+    </div>
+  </section>
+
+  <!-- ─── 06 ENTRY & EXIT ─── -->
+  <section id="entry-exit">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Entry &amp; Exit Rules</h2>
+    </div>
+
+    <h3>Entry — Bearish FVG (Short)</h3>
+
+    <div class="quote quote-bear">
+      <p>"The easiest entry would be trading just above candle number three's high. You can put a limit order right there and be done. Simple, don't have to worry about guessing where to put your limit order in — it's right there."</p>
+      <span class="ts">17:21</span>
+    </div>
+
+    <div class="quote">
+      <p>"The easiest one is just go one tick above that and removes all the doubt and there's no guesswork there."</p>
+      <span class="ts">36:00</span>
+    </div>
+
+    <h3>Stop Loss Placement</h3>
+
+    <div class="quote">
+      <p>"Place your stop right above candle number one or you can put it above candle number two."</p>
+      <span class="ts">17:34</span>
+    </div>
+
+    <div class="quote">
+      <p>"Where's your stop loss going to be? Above the high of candle number two or you can use above candle number one which creates a swing high. Whichever one you can afford and allows you to put the trade on."</p>
+      <span class="ts">36:06</span>
+    </div>
+
+    <div class="quote">
+      <p>"While you're learning how to use this that may seem like a lot of range — you want a lot of range when you first start out."</p>
+      <span class="ts">17:44</span>
+    </div>
+
+    <h3>Multiple Entries Available</h3>
+
+    <div class="quote">
+      <p>"Look how many times it gives you a chance to get in. This candle — that's one, two, three. Then it continues even lower so you're getting a really really tight entry there."</p>
+      <span class="ts">28:55</span>
+    </div>
+
+    <div class="quote">
+      <p>"You need to trust and train yourself to look at this pattern as it's forming because once you see dozens of it occurring it changes your perspective. You don't get scared."</p>
+      <span class="ts">37:24</span>
+    </div>
+
+    <h3>Profit Targets</h3>
+
+    <div class="quote quote-gold">
+      <p>"You have a fair value gap right there — same thing just going up. Candle number one, its high, candle number two, and number three. The low — the range between candle number one's high and the third candle's low. That's your fair value gap. So if you're selling short up here, you can buy it back below here because you're below 50 of the range."</p>
+      <span class="ts">38:01</span>
+    </div>
+
+    <div class="quote">
+      <p>"Remember those equal lows down here I was telling you about — what's below that? Sell stops. So you want to be taking profits here and or here."</p>
+      <span class="ts">38:30</span>
+    </div>
+
+    <h3>Trailing Stop Guidance</h3>
+
+    <div class="quote">
+      <p>"If you do that you're probably gonna get stopped out because you don't have the understanding or the experience to know where to place a protective stop while it's being trailed."</p>
+      <span class="ts">41:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"Once it takes this low out down here and if you want to hold on to position then you can roll your stop to here — but not before. Why? Because you've taken out a significant intermediate term low."</p>
+      <span class="ts">41:28</span>
+    </div>
+  </section>
+
+  <!-- ─── 07 INTERNAL vs EXTERNAL ─── -->
+  <section id="int-ext">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Internal Range Liquidity vs External Range Liquidity</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"This is internal range liquidity because it's internal relative to this low and this high — that range. So it's in the middle of that range, which makes it internal range liquidity."</p>
+      <span class="ts">45:33</span>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"What is the stops below these lows down here? External range liquidity."</p>
+      <span class="ts">45:44</span>
+    </div>
+
+    <div class="quote">
+      <p>"Partials — internal range. External range — your trade. Very simple logic isn't it."</p>
+      <span class="ts">45:52</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot"></div><span class="card-title">Internal Range Liquidity</span></div>
+        <p><em>"It's internal relative to this low and this high — that range. So it's in the middle of that range."</em></p>
+        <span class="ts">45:33</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bear"></div><span class="card-title">External Range Liquidity</span></div>
+        <p><em>"What is the stops below these lows down here? External range liquidity."</em></p>
+        <span class="ts">45:44</span>
+      </div>
+      <div class="concept-card">
+        <div class="card-header"><div class="card-dot bull"></div><span class="card-title">Partials vs Full Target</span></div>
+        <p><em>"Partials — internal range. External range — your trade."</em></p>
+        <span class="ts">45:52</span>
+      </div>
+    </div>
+
+    <h3>Fibonacci / Equilibrium Context</h3>
+
+    <div class="quote">
+      <p>"We have 50 — that's your equilibrium. So everything above that price level — because this low to that high, that's our price run — and 50 below it is discount. So there's your little fair value gap right there. That right there — that's your target going short. But this is internal range liquidity because it's internal relative to this low and this high."</p>
+      <span class="ts">45:11</span>
+    </div>
+  </section>
+
+  <!-- ─── 08 TOP-DOWN ─── -->
+  <section id="topdown">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Top-Down Time Frame Process</h2>
+    </div>
+
+    <div class="quote quote-gold">
+      <p>"Here we have the 15 minute time frame from today — this is where I tell you to start. This is your bellwether chart."</p>
+      <span class="ts">25:17</span>
+    </div>
+
+    <div class="quote">
+      <p>"Once you have this level on your chart on a 15 minute time frame you drop down to your five. Everything's transposed from the 15 to the five minute."</p>
+      <span class="ts">26:45</span>
+    </div>
+
+    <div class="quote">
+      <p>"I want to go down and really fine tune it so I'm dropping down through all the time frames — five, four, three, two, one. And if I'm being completely honest with you I have those charts all open at the same time across my desk so I'm constantly referring to all of them."</p>
+      <span class="ts">28:05</span>
+    </div>
+
+    <div class="quote">
+      <p>"You start stripping down from a top down — five minute, four minute, three minute, two minute, one minute."</p>
+      <span class="ts">26:35</span>
+    </div>
+
+    <h3>The 8:30 Anchor</h3>
+
+    <div class="quote">
+      <p>"We have 8:30 marked here — very specific, right element of time, 8:30. Why? Because there's news that comes out."</p>
+      <span class="ts">25:53</span>
+    </div>
+
+    <div class="quote">
+      <p>"You want to have a vertical line delineated on TradingView. The way you do that is simply go in here, pick the vertical line and drop it right there at 8:30."</p>
+      <span class="ts">31:30</span>
+    </div>
+
+    <h3>9:30 Equity Open</h3>
+
+    <div class="quote">
+      <p>"The equity market opens at 9:30. Stock markets start getting really busy and volatile around that time frame."</p>
+      <span class="ts">33:03</span>
+    </div>
+
+    <div class="quote bear">
+      <p>"Usually, not always but usually, the first run at 9:30 is opposite to what the real move you want to be doing."</p>
+      <span class="ts">33:16</span>
+    </div>
+
+    <h3>Back Testing via TradingView Replay</h3>
+
+    <div class="quote">
+      <p>"You can use this function here. While you can't watch live data, just use this I guess is the best thing you can have as an alternative."</p>
+      <span class="ts">30:00</span>
+    </div>
+
+    <div class="quote">
+      <p>"I'm showing you so that way you can back test and practice and look at price action in a way where it means something more than just looking at a static chart."</p>
+      <span class="ts">32:02</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>What This Model Is</h3>
+
+    <div class="quote quote-gold">
+      <p>"Is every example I've shown you happening in the time of the day the same way each time? And is it performing as I taught it? Yes. That's a model. That's a trading plan. That's an executable idea that you can go in and engage with a demo account and over time you get good at this."</p>
+      <span class="ts">46:49</span>
+    </div>
+  </section>
+
+  <!-- ─── 09 FLASHCARDS ─── -->
+  <section id="study">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Study Flashcards</h2>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.85rem;font-family:'JetBrains Mono',monospace;margin-bottom:1rem;">Click any card to reveal — answers are direct transcript quotes.</p>
+
+    <div class="flashcard-grid">
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the core principle of how to internalize price delivery?</div>
+        <div class="flashcard-answer">"We do not trade patterns for patterns sake. We do not trade indicator readings or momentum. We look to enter longs where retail sells. We look to enter shorts where retail buys."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the most crucial element when engaging price?</div>
+        <div class="flashcard-answer">"The most important thing is time because time — that is the most crucial element. So time of day is vital when we're engaging price."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What does a bearish ICT Fair Value Gap look like — how many candles and what is the formation?</div>
+        <div class="flashcard-answer">"It's a three candle formation. The first candle's low has to be traded below on the immediate following candle. The next candle has to trade with an extended low as well that went below candle number two but does not trade with a high that trades back to candle number one's low."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the upper and lower boundaries of a bearish fair value gap?</div>
+        <div class="flashcard-answer">"The upper end of the fair value gap is going to be the low of candle number one. The lower end of the fair value gap is going to be the high of candle number three."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Which candle is where the fair value gap resides?</div>
+        <div class="flashcard-answer">"The number two candle is always going to be where the gap resides."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What are the upper and lower boundaries of a bullish fair value gap?</div>
+        <div class="flashcard-answer">"Candle number one's high — that is the low of the fair value gap. Candle number three's low is the high of the fair value gap."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the condition for an optimal bearish FVG formation?</div>
+        <div class="flashcard-answer">"Optimal formations of the bearish ICT fair value gap will be found after a run into buy side liquidity. This model is meant for you to look for periods where price runs above an old high, then it breaks down, and then you look for this pattern."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is displacement and what quality must it have?</div>
+        <div class="flashcard-answer">"The significance I'm placing on the term quick is linked directly to the term displacement. It's got to be energetic, it can't be a little lethargic little move. It's got to show a real willingness to want to go lower and preferably close below that."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where exactly does the fair value gap form relative to displacement?</div>
+        <div class="flashcard-answer">"Between the displacement high and the displacement low — in between, right before the market structure is broken bullishly and the low that ran into the sell stops. That is your range. This is exactly where you're looking for a fair value gap."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What happens if there is no fair value gap in the displacement range?</div>
+        <div class="flashcard-answer">"If there is no fair value gap in here guess what — you don't have a trade. You wait or go to another market."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the easiest entry for a bearish FVG short?</div>
+        <div class="flashcard-answer">"The easiest entry would be trading just above candle number three's high. You can put a limit order right there and be done. Simple, don't have to worry about guessing where to put your limit order in — it's right there."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Where is the stop loss placed for a bearish FVG short?</div>
+        <div class="flashcard-answer">"Place your stop right above candle number one or you can put it above candle number two."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is internal range liquidity?</div>
+        <div class="flashcard-answer">"It's internal relative to this low and this high — that range. So it's in the middle of that range, which makes it internal range liquidity."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is external range liquidity and when do you target it?</div>
+        <div class="flashcard-answer">"What is the stops below these lows down here? External range liquidity. Partials — internal range. External range — your trade."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the bellwether chart and what is the top-down process?</div>
+        <div class="flashcard-answer">"Here we have the 15 minute time frame — this is where I tell you to start. This is your bellwether chart. Once you have this level on your chart on a 15 minute time frame you drop down to your five. Everything's transposed from the 15 to the five minute."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the paint roller analogy describing about price action?</div>
+        <div class="flashcard-answer">"As you keep rolling down towards the floor, you'll start seeing these little pockets that look really porous. What do you have to do to fix that? You just change directions and start rolling the paint roller back up the same place you roll down. That's exactly what price does."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">What is the market doing in the gap area between candle 1's low and candle 3's high in a bearish FVG?</div>
+        <div class="flashcard-answer">"Between this candle's low and this candle's high we only have sell side offered. There's little pockets right in here where price has not been efficiently offered for buyers."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+      <div class="flashcard" onclick="this.classList.toggle('revealed')">
+        <div class="flashcard-question">Usually what does the first run at 9:30 represent?</div>
+        <div class="flashcard-answer">"Usually, not always but usually, the first run at 9:30 is opposite to what the real move you want to be doing."</div>
+        <span class="reveal-hint">tap to reveal</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

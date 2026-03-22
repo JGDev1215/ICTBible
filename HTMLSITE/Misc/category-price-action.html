@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Knowledge Library - Price Action & PD Arrays</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #08090c;
+            --bg-nav: #0d0f14;
+            --bg-nav-hover: #13161d;
+            --border: #1e2330;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8892a8;
+            --text-muted: #555d70;
+            --accent: #d4a855;
+            --accent-dim: rgba(212, 168, 85, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .global-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 18px;
+            background: var(--bg-nav);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(6px);
+        }
+        .global-brand {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .global-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .global-topbar a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        header {
+            padding: 28px 24px 10px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+
+        main {
+            padding: 18px 24px 48px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            background: var(--bg-nav);
+            transition: all 0.15s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            background: var(--bg-nav-hover);
+        }
+
+        .card a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 520px) {
+            .global-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="category-nav">
+        <a href="index.html">Back to Home</a>
+    </div>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="title">Price Action & PD Arrays</h1>
+        <p class="subtitle">Structure, displacement, and price delivery arrays.</p>
+    </header>
+
+    <main>
+        <div class="grid">
+            <div class="card">
+                <a href="ict-orderblock-lecture.html">Order Blocks Lecture</a>
+                <p>Dealing range, OTE & confluence factors</p>
+            </div>
+            <div class="card">
+                <a href="rejection-block-study.html">Rejection Blocks</a>
+                <p>False breakouts & accumulation/distribution</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ORDER_BLOCKS_KILL_ZONES__2026-02-01.html">Order Blocks & Kill Zones</a>
+                <p>Kill zone timing & entry zones</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">Change in State of Delivery</a>
+                <p>Order block formation & buy programs</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__RECLAIMED_ORDERBLOCK__2026-02-01.html">Reclaimed Order Block</a>
+                <p>Invalidation patterns & reversal signals</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__PROPULSION_BLOCK__2026-02-01.html">Propulsion Block</a>
+                <p>Explosive moves & displacement</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ADVANCED_BREAKER_THEORY__2026-02-01.html">Advanced Breaker Theory</a>
+                <p>Additional study topic</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MARKET_MAKER_MODELS__2026-02-01.html">Market Maker Models</a>
+                <p>AMD cycles & accumulation/distribution</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__MARKET_MAKER_TRAP_HEAD_SHOULDERS__2026-02-01.html">Market Maker Trap: Head & Shoulders</a>
+                <p>Trap patterns & manipulation signatures</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__JUDAS_SWING__2026-02-01.html">Judas Swing</a>
+                <p>False directional moves & reversal traps</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__DOUBLE_TOPS_DOUBLE_BOTTOMS__2026-02-01.html">Double Tops & Bottoms</a>
+                <p>Measured moves & stop hunting</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__TRENDLINE_PHANTOMS__2026-02-01.html">Trendline Phantoms</a>
+                <p>Trendline liquidity & false breaks</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__DIVERGENCE_PHANTOMS__2026-02-01.html">Divergence Phantoms</a>
+                <p>Market maker traps & indicator manipulation</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__HTF_PD_ARRAYS_HIERARCHY__2026-02-01.html">HTF PD Arrays & Hierarchy</a>
+                <p>Higher timeframe structure & price delivery sequencing</p>
+            </div>
+            <div class="card">
+                <a href="ICT_BIBLE__ONE_SETUP_FOR_LIFE__2026-02-01.html">One Setup For Life</a>
+                <p>Additional study topic</p>
+            </div>
+            <div class="card">
+                <a href="ict_blending_patterns_time_price.html">Blending Price Patterns with Time & Price</a>
+                <p>Combining Breakers + Optimal Trade Entry</p>
+            </div>
+            <div class="card">
+                <a href="ict-smt-divergence-study.html">SMT Divergence & Breaker Pattern</a>
+                <p>Correlated markets divergence for institutional price delivery</p>
+            </div>
+            <div class="card">
+                <a href="ict-sick-sister-consolidation-model.html">Sick Sister Consolidation Model</a>
+                <p>Consolidation + expansion pattern recognition</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

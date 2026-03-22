@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Blocks and Kill Zones - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1.5rem 2rem; }
+            header p { font-size: 1rem; }
+            nav { padding: 0.75rem 1rem; gap: 0.75rem; }
+            nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            main { padding: 2rem 1rem 4rem; }
+            section { margin-bottom: 3rem; }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        /* Global navigation bar */
+        .global-topbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 16px;
+            background: #0d0f14;
+            border-bottom: 1px solid #1e2330;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .global-topbar a {
+            color: #e4e8f0;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #1e2330;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .global-topbar a:hover {
+            border-color: #d4a855;
+            color: #d4a855;
+            background: rgba(212, 168, 85, 0.12);
+        }
+</style>
+</head>
+<body>
+    <nav class="chapter-nav">
+        <a href="category-price-action.html">Return to Category</a>
+        <a href="ICT_BIBLE__CHANGE_IN_STATE_OF_DELIVERY__2026-02-01.html">Next Chapter</a>
+        <a href="ICT_BIBLE__IMPULSE_PRICE_SWINGS_AND_MARKET_PROTRACTION__2026-02-01.html">Next Category</a>
+    </nav>
+
+    
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+<header>
+        <h1>Order Blocks and Kill Zones</h1>
+        <p>ICT Gems - Understanding Order Block Selection and Kill Zone Timing</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#structure">State Change</a>
+        <a href="#suspect-rally">Suspect Rally</a>
+        <a href="#swing-high">Swing High</a>
+        <a href="#entry">Entry Setup</a>
+        <a href="#killzones">Kill Zones</a>
+        <a href="#timing">Timing Rules</a>
+        <a href="#risk">Risk Management</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="definition">
+            <h2>Order Block Definition</h2>
+            <blockquote class="quote">
+                <span class="timestamp">(0:07)</span>
+                <p><em>"it's a change in the state of delivery"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:08)</span>
+                <p><em>"the algorithm changes its state of delivery"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="structure">
+            <h2>Change in State of Delivery</h2>
+
+            <h3>Trigger Point</h3>
+            <blockquote class="quote">
+                <span class="timestamp">(0:10)</span>
+                <p><em>"as soon as we get below this candle's open the market starts delivering cell side"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:15)</span>
+                <p><em>"and then it breaks this swing low so now we have changed gears internally"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Change in State of Delivery</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="400" x2="750" y2="400" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Candle 1 - Before State Change -->
+                <rect x="100" y="250" width="40" height="100" fill="none" stroke="#2ed573" stroke-width="2"/>
+                <line x1="120" y1="220" x2="120" y2="370" stroke="#2ed573" stroke-width="2"/>
+                <text x="120" y="395" fill="#e8e8ed" font-size="12" text-anchor="middle">Candle</text>
+
+                <!-- Candle Open Line -->
+                <line x1="100" y1="250" x2="200" y2="250" stroke="#ffa502" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="210" y="255" fill="#ffa502" font-size="14">Candle's Open</text>
+
+                <!-- Price Breaking Below Open -->
+                <circle cx="220" cy="280" r="6" fill="#ff4757"/>
+                <text x="230" y="285" fill="#ff4757" font-size="14" font-weight="bold">Below Open</text>
+                <text x="230" y="302" fill="#ff4757" font-size="12">Market starts delivering</text>
+                <text x="230" y="318" fill="#ff4757" font-size="12">sell side</text>
+
+                <!-- Swing Low -->
+                <line x1="300" y1="350" x2="500" y2="350" stroke="#9898a8" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="320" y="370" fill="#9898a8" font-size="12">Swing Low</text>
+                <circle cx="300" cy="350" r="5" fill="#9898a8"/>
+
+                <!-- Break of Swing Low -->
+                <circle cx="520" cy="380" r="8" fill="#ff4757"/>
+                <text x="535" y="385" fill="#ff4757" font-size="14" font-weight="bold">Breaks Swing Low</text>
+                <text x="535" y="402" fill="#ffa502" font-size="13" font-style="italic">"changed gears internally"</text>
+
+                <!-- Arrow showing downward delivery -->
+                <path d="M 550 330 L 550 375" stroke="#ff4757" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#ff4757"/>
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="suspect-rally">
+            <h2>Suspect Rally</h2>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:19)</span>
+                <p><em>"any rally after that is just setting up another run to go lower"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:25)</span>
+                <p><em>"so words this is a suspect rally okay"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Suspect Rally</text>
+
+                <!-- Price action -->
+                <line x1="50" y1="380" x2="750" y2="380" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Initial decline after state change -->
+                <polyline points="100,200 200,250 250,300 300,350"
+                    stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="150" y="190" fill="#ff4757" font-size="12">Swing Low Broken</text>
+                <text x="150" y="205" fill="#ff4757" font-size="12">(State Changed)</text>
+
+                <!-- Suspect Rally -->
+                <polyline points="300,350 400,280 450,260"
+                    stroke="#ffa502" stroke-width="3" fill="none" stroke-dasharray="8,4"/>
+                <text x="350" y="250" fill="#ffa502" font-size="16" font-weight="bold">Suspect Rally</text>
+
+                <!-- Arrow showing continuation lower -->
+                <polyline points="450,260 550,320 650,370"
+                    stroke="#ff4757" stroke-width="3" fill="none"/>
+                <text x="550" y="350" fill="#ff4757" font-size="14">"setting up another run to go lower"</text>
+
+                <!-- Annotation -->
+                <text x="400" y="420" fill="#e8e8ed" font-size="14" font-style="italic" text-anchor="middle">
+                    After gears changed internally, rallies are suspect
+                </text>
+            </svg>
+        </section>
+
+        <section id="swing-high">
+            <h2>Intermediate Term Swing High</h2>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:28)</span>
+                <p><em>"so this is an intermediate term High swing High because it has the imbalance it should not trade higher than that high"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Stop Loss Placement</span>
+                </div>
+                <blockquote class="quote">
+                    <span class="timestamp">(0:33)</span>
+                    <p><em>"that's the reason why I'm telling you you can put your stop loss there"</em></p>
+                </blockquote>
+            </div>
+
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Intermediate Term Swing High with Imbalance</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="380" x2="750" y2="380" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Swing High -->
+                <circle cx="350" cy="150" r="8" fill="#2ed573"/>
+                <text x="360" y="140" fill="#2ed573" font-size="14" font-weight="bold">Intermediate Term</text>
+                <text x="360" y="157" fill="#2ed573" font-size="14" font-weight="bold">Swing High</text>
+
+                <!-- Imbalance area -->
+                <rect x="320" y="160" width="60" height="80" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="350" y="205" fill="#ffa502" font-size="13" text-anchor="middle">Imbalance</text>
+
+                <!-- Stop Loss Line -->
+                <line x1="200" y1="150" x2="500" y2="150" stroke="#ff4757" stroke-width="3" stroke-dasharray="10,5"/>
+                <text x="510" y="155" fill="#ff4757" font-size="16" font-weight="bold">Stop Loss Here</text>
+
+                <!-- Price should not exceed -->
+                <text x="350" y="120" fill="#e8e8ed" font-size="13" text-anchor="middle" font-style="italic">
+                    "should not trade higher than that high"
+                </text>
+
+                <!-- Entry area below -->
+                <rect x="300" y="280" width="100" height="30" fill="#2ed573" opacity="0.3" stroke="#2ed573" stroke-width="2"/>
+                <text x="350" y="300" fill="#2ed573" font-size="13" text-anchor="middle">Entry Area (Below)</text>
+            </svg>
+        </section>
+
+        <section id="entry">
+            <h2>Entry Setup and Execution</h2>
+
+            <h3>Setup Opportunity</h3>
+            <blockquote class="quote">
+                <span class="timestamp">(0:37)</span>
+                <p><em>"this setup here gives us a nice opportunity to get short so you could be a seller here on a limit entry"</em></p>
+            </blockquote>
+
+            <h3>Limit Order Placement</h3>
+            <blockquote class="quote">
+                <span class="timestamp">(0:41)</span>
+                <p><em>"so you place your limit order here and you just walk away from it you let it go"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Limit Entry Setup</text>
+
+                <!-- Price axis -->
+                <line x1="50" y1="420" x2="750" y2="420" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Swing High with Stop Loss -->
+                <line x1="150" y1="150" x2="650" y2="150" stroke="#ff4757" stroke-width="2" stroke-dasharray="8,4"/>
+                <text x="660" y="155" fill="#ff4757" font-size="14">Stop Loss</text>
+                <circle cx="300" cy="150" r="6" fill="#ff4757"/>
+                <text x="300" y="130" fill="#e8e8ed" font-size="13" text-anchor="middle">Intermediate Term</text>
+                <text x="300" y="145" fill="#e8e8ed" font-size="13" text-anchor="middle">Swing High</text>
+
+                <!-- Limit Order Level -->
+                <line x1="150" y1="280" x2="650" y2="280" stroke="#2ed573" stroke-width="3" stroke-dasharray="10,5"/>
+                <text x="660" y="285" fill="#2ed573" font-size="16" font-weight="bold">Limit Order</text>
+                <text x="660" y="302" fill="#2ed573" font-size="13">"you could be a seller here"</text>
+
+                <!-- Order placement point -->
+                <circle cx="400" cy="280" r="8" fill="#2ed573"/>
+                <text x="400" y="310" fill="#ffa502" font-size="14" text-anchor="middle" font-style="italic">"place your limit order here</text>
+                <text x="400" y="328" fill="#ffa502" font-size="14" text-anchor="middle" font-style="italic">and you just walk away from it"</text>
+
+                <!-- Setup area -->
+                <rect x="350" y="200" width="100" height="60" fill="#ffa502" opacity="0.2" stroke="#ffa502" stroke-width="2"/>
+                <text x="400" y="235" fill="#ffa502" font-size="13" text-anchor="middle">Setup Area</text>
+
+                <!-- Expected move -->
+                <path d="M 420 290 L 520 380" stroke="#ff4757" stroke-width="2" fill="none" marker-end="url(#arrowred)"/>
+                <text x="530" y="385" fill="#ff4757" font-size="13">Expected Move Lower</text>
+
+                <defs>
+                    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#ff4757"/>
+                    </marker>
+                </defs>
+            </svg>
+        </section>
+
+        <section id="killzones">
+            <h2>Kill Zones - True Purpose</h2>
+
+            <blockquote class="quote">
+                <span class="timestamp">(1:11)</span>
+                <p><em>"it's important to know why the kill zones are there"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(1:13)</span>
+                <p><em>"kill zones are when you determine your entry and you place your orders and you walk away"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Critical Distinction</span>
+                </div>
+                <blockquote class="quote">
+                    <span class="timestamp">(1:17)</span>
+                    <p><em>"you don't need to have your entry filled inside that Killzone window"</em></p>
+                </blockquote>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Kill Zone Function</span>
+                </div>
+                <blockquote class="quote">
+                    <span class="timestamp">(1:24)</span>
+                    <p><em>"your order idea and your order placement needs to be considered at that time"</em></p>
+                </blockquote>
+            </div>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Kill Zone - Order Placement Window</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="350" x2="750" y2="350" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Kill Zone Window -->
+                <rect x="150" y="100" width="200" height="220" fill="#ffa502" opacity="0.15" stroke="#ffa502" stroke-width="3"/>
+                <text x="250" y="85" fill="#ffa502" font-size="18" text-anchor="middle" font-weight="bold">KILL ZONE</text>
+
+                <!-- Action during kill zone -->
+                <text x="250" y="150" fill="#e8e8ed" font-size="14" text-anchor="middle" font-weight="bold">Determine Entry</text>
+                <text x="250" y="180" fill="#e8e8ed" font-size="14" text-anchor="middle">↓</text>
+                <text x="250" y="210" fill="#e8e8ed" font-size="14" text-anchor="middle" font-weight="bold">Place Orders</text>
+                <text x="250" y="240" fill="#e8e8ed" font-size="14" text-anchor="middle">↓</text>
+                <text x="250" y="270" fill="#e8e8ed" font-size="14" text-anchor="middle" font-weight="bold">Walk Away</text>
+
+                <!-- After kill zone -->
+                <rect x="400" y="100" width="250" height="220" fill="#2ed573" opacity="0.1" stroke="#2ed573" stroke-width="2"/>
+                <text x="525" y="85" fill="#2ed573" font-size="16" text-anchor="middle">Entry Can Fill Anytime</text>
+                <text x="525" y="200" fill="#9898a8" font-size="13" text-anchor="middle" font-style="italic">"you don't need to have your entry</text>
+                <text x="525" y="220" fill="#9898a8" font-size="13" text-anchor="middle" font-style="italic">filled inside that Killzone window"</text>
+
+                <!-- Time labels -->
+                <text x="250" y="370" fill="#ffa502" font-size="14" text-anchor="middle">Kill Zone Time</text>
+                <text x="525" y="370" fill="#2ed573" font-size="14" text-anchor="middle">After Kill Zone</text>
+            </svg>
+        </section>
+
+        <section id="timing">
+            <h2>Timing Rules</h2>
+
+            <h3>11:30 Order Management Rule</h3>
+            <blockquote class="quote">
+                <span class="timestamp">(0:47)</span>
+                <p><em>"now what happens if it doesn't fill you by 11:30 pull the order"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:50)</span>
+                <p><em>"that's it don't put a you good to cancel just pull it"</em></p>
+            </blockquote>
+
+            <h3>Reason for Same-Day Entry</h3>
+            <blockquote class="quote">
+                <span class="timestamp">(0:55)</span>
+                <p><em>"because you want to be entering on the day that it creates this"</em></p>
+            </blockquote>
+
+            <h3>No Setup = No Trade</h3>
+            <blockquote class="quote">
+                <span class="timestamp">(1:29)</span>
+                <p><em>"if you can't derive a order placement for setup or trade entry by that time you have nothing to do and that's it"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(1:36)</span>
+                <p><em>"you basically taken no risk on and you have to wait till the next trading opportunity or trading day"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">11:30 Order Management Rule</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="300" x2="750" y2="300" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Setup Creation -->
+                <rect x="100" y="120" width="150" height="150" fill="#2ed573" opacity="0.2" stroke="#2ed573" stroke-width="2"/>
+                <text x="175" y="110" fill="#2ed573" font-size="14" text-anchor="middle" font-weight="bold">Setup Day</text>
+                <text x="175" y="160" fill="#e8e8ed" font-size="13" text-anchor="middle">Setup Creates</text>
+                <text x="175" y="190" fill="#e8e8ed" font-size="13" text-anchor="middle">↓</text>
+                <text x="175" y="220" fill="#e8e8ed" font-size="13" text-anchor="middle">Place Limit Order</text>
+                <text x="175" y="320" fill="#2ed573" font-size="13" text-anchor="middle">Morning</text>
+
+                <!-- 11:30 Deadline -->
+                <line x1="400" y1="80" x2="400" y2="320" stroke="#ff4757" stroke-width="4"/>
+                <text x="400" y="70" fill="#ff4757" font-size="18" text-anchor="middle" font-weight="bold">11:30 AM</text>
+                <text x="400" y="350" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">PULL ORDER</text>
+                <text x="400" y="368" fill="#ff4757" font-size="12" text-anchor="middle">"just pull it"</text>
+
+                <!-- Before 11:30 -->
+                <text x="280" y="180" fill="#2ed573" font-size="14" text-anchor="middle">Entry Can Fill</text>
+                <circle cx="280" cy="200" r="6" fill="#2ed573"/>
+
+                <!-- After 11:30 - Risk Zone -->
+                <rect x="450" y="120" width="250" height="150" fill="#ff4757" opacity="0.15" stroke="#ff4757" stroke-width="2"/>
+                <text x="575" y="110" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Risk Zone</text>
+                <text x="575" y="180" fill="#e8e8ed" font-size="12" text-anchor="middle">"you want to be entering</text>
+                <text x="575" y="198" fill="#e8e8ed" font-size="12" text-anchor="middle">on the day that it creates this"</text>
+                <text x="575" y="230" fill="#ff4757" font-size="11" text-anchor="middle">Wrong time of day</text>
+            </svg>
+        </section>
+
+        <section id="risk">
+            <h2>Risk Management - Relative Equal Highs</h2>
+
+            <blockquote class="quote">
+                <span class="timestamp">(0:57)</span>
+                <p><em>"because relative equal highs if if it doesn't drop off it could come up in at a time of day where you w really want to be there"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <span class="timestamp">(1:04)</span>
+                <p><em>"and it could fill you and then keep on running and take out the relative equal high at a deeper pass and then stop you out"</em></p>
+            </blockquote>
+
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Title -->
+                <text x="400" y="30" fill="#ffa502" font-size="20" text-anchor="middle" font-weight="bold">Relative Equal Highs Risk Scenario</text>
+
+                <!-- Timeline -->
+                <line x1="50" y1="450" x2="750" y2="450" stroke="#9898a8" stroke-width="2"/>
+
+                <!-- Relative Equal Highs -->
+                <circle cx="200" cy="150" r="6" fill="#ff4757"/>
+                <circle cx="280" cy="155" r="6" fill="#ff4757"/>
+                <line x1="200" y1="150" x2="280" y2="155" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="240" y="135" fill="#ff4757" font-size="14" text-anchor="middle" font-weight="bold">Relative Equal Highs</text>
+
+                <!-- Stop Loss Above -->
+                <line x1="150" y1="120" x2="330" y2="125" stroke="#ff4757" stroke-width="3"/>
+                <text x="340" y="125" fill="#ff4757" font-size="13">Stop Loss</text>
+
+                <!-- Limit Entry -->
+                <line x1="150" y1="280" x2="600" y2="280" stroke="#2ed573" stroke-width="2" stroke-dasharray="8,4"/>
+                <text x="610" y="285" fill="#2ed573" font-size="13">Limit Entry</text>
+
+                <!-- Scenario: Wrong timing -->
+                <text x="400" y="70" fill="#ffa502" font-size="15" text-anchor="middle" font-style="italic">If entered at wrong time of day:</text>
+
+                <!-- Price action - fills entry then runs up -->
+                <polyline points="350,300 380,280 420,220 480,180 540,130"
+                    stroke="#ff4757" stroke-width="3" fill="none" marker-end="url(#arrowstop)"/>
+
+                <text x="380" y="315" fill="#2ed573" font-size="12">"could fill you"</text>
+                <circle cx="380" cy="280" r="5" fill="#2ed573"/>
+
+                <text x="450" y="200" fill="#ff4757" font-size="12">"keep on running"</text>
+
+                <text x="530" y="100" fill="#ff4757" font-size="12" font-weight="bold">"take out the relative</text>
+                <text x="530" y="115" fill="#ff4757" font-size="12" font-weight="bold">equal high at a deeper pass"</text>
+
+                <!-- Stop out point -->
+                <circle cx="540" cy="130" r="8" fill="#ff4757"/>
+                <text x="555" y="135" fill="#ff4757" font-size="14" font-weight="bold">STOPPED OUT</text>
+
+                <defs>
+                    <marker id="arrowstop" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#ff4757"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Why Timing Matters</span>
+                </div>
+                <p>Entering at the wrong time of day exposes you to the risk that price could fill your limit entry, then reverse and take out relative equal highs above your stop loss before moving in your intended direction.</p>
+            </div>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (direct quotes from transcript)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is an Order Block?</div>
+                    <div class="flashcard-answer">"it's a change in the state of delivery" (0:07)<br><br>"the algorithm changes its state of delivery" (0:08)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When does the algorithm change its state of delivery?</div>
+                    <div class="flashcard-answer">"as soon as we get below this candle's open the market starts delivering cell side and then it breaks this swing low so now we have changed gears internally" (0:10-0:17)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a suspect rally?</div>
+                    <div class="flashcard-answer">"any rally after that is just setting up another run to go lower" (0:19-0:22)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why should you place your stop loss at the intermediate term swing high?</div>
+                    <div class="flashcard-answer">"so this is an intermediate term High swing High because it has the imbalance it should not trade higher than that high that's the reason why I'm telling you you can put your stop loss there" (0:28-0:35)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you execute the limit entry setup?</div>
+                    <div class="flashcard-answer">"you could be a seller here on a limit entry so you place your limit order here and you just walk away from it you let it go" (0:39-0:45)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do you do if your limit order doesn't fill by 11:30?</div>
+                    <div class="flashcard-answer">"now what happens if it doesn't fill you by 11:30 pull the order that's it don't put a you good to cancel just pull it" (0:47-0:52)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why pull the order if it doesn't fill by 11:30?</div>
+                    <div class="flashcard-answer">"because you want to be entering on the day that it creates this because relative equal highs if if it doesn't drop off it could come up in at a time of day where you w really want to be there and it could fill you and then keep on running and take out the relative equal high at a deeper pass and then stop you out" (0:55-1:09)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the true purpose of kill zones?</div>
+                    <div class="flashcard-answer">"kill zones are when you determine your entry and you place your orders and you walk away" (1:13-1:17)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Does your entry need to fill inside the kill zone window?</div>
+                    <div class="flashcard-answer">"you don't need to have your entry filled inside that Killzone window" (1:17-1:20)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What needs to happen during the kill zone time?</div>
+                    <div class="flashcard-answer">"your order idea and your order placement needs to be considered at that time" (1:24-1:26)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What should you do if you can't derive a setup by kill zone time?</div>
+                    <div class="flashcard-answer">"if you can't derive a order placement for setup or trade entry by that time you have nothing to do and that's it you basically taken no risk on and you have to wait till the next trading opportunity or trading day" (1:29-1:40)</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What happens after the market "changed gears internally"?</div>
+                    <div class="flashcard-answer">"any rally after that is just setting up another run to go lower so words this is a suspect rally" (0:19-0:25)</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Optional: Track flashcard progress
+        let revealedCount = 0;
+        const totalCards = document.querySelectorAll('.flashcard').length;
+
+        document.querySelectorAll('.flashcard').forEach(card => {
+            card.addEventListener('click', function() {
+                if (!this.classList.contains('revealed')) {
+                    revealedCount++;
+                    if (revealedCount === totalCards) {
+                        console.log('All flashcards reviewed!');
+                    }
+                }
+            });
+        });
+    </script>
+    </main>
+</body>
+</html>

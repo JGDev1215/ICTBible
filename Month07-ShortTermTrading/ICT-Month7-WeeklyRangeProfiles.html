@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Range Profiles - ICT Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #242433;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a8;
+            --accent-bear: #ff4757;
+            --accent-bull: #2ed573;
+            --accent-gold: #ffa502;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            padding: 4rem 2rem 3rem;
+            border-bottom: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-gold);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .quote {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .quote em {
+            color: var(--accent-gold);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 165, 2, 0.1);
+        }
+
+        .concept-card.bullish {
+            border-left: 4px solid var(--accent-bull);
+        }
+
+        .concept-card.bearish {
+            border-left: 4px solid var(--accent-bear);
+        }
+
+        .concept-card.neutral {
+            border-left: 4px solid var(--text-secondary);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .badge.bullish {
+            background: var(--accent-bull);
+            color: var(--bg-primary);
+        }
+
+        .badge.bearish {
+            background: var(--accent-bear);
+            color: var(--bg-primary);
+        }
+
+        .badge.neutral {
+            background: var(--text-secondary);
+            color: var(--bg-primary);
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flashcard {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .flashcard-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .flashcard-answer {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .flashcard.revealed .flashcard-answer {
+            display: block;
+        }
+
+        .flashcard.revealed .flashcard-question::after {
+            content: " ✓";
+            color: var(--accent-bull);
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-bull);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+        <nav class="chapter-nav">
+        <a href="category-time-sessions.html">Return to Category</a>
+        <a href="index.html">Library Home</a>
+    </nav>
+
+    <nav class="global-topbar" aria-label="Main">
+        <div class="global-brand">ICT Library</div>
+        <ul class="global-links">
+            <li><a href="index.html">Library Home</a></li>
+            <li><a href="all-topics.html">Full Index</a></li>
+        </ul>
+    </nav>
+
+<header>
+        <h1>Weekly Range Profiles</h1>
+        <p>Market manipulation templates for weekly price action structures</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#tuesday-low">Tuesday Low</a>
+        <a href="#tuesday-high">Tuesday High</a>
+        <a href="#wednesday-low">Wednesday Low</a>
+        <a href="#wednesday-high">Wednesday High</a>
+        <a href="#consolidation">Consolidation</a>
+        <a href="#seek-destroy">Seek & Destroy</a>
+        <a href="#wednesday-reversal">Wed Reversal</a>
+        <a href="#study">Study</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <blockquote class="quote">
+                <p><em>"this is one of the lessons that if you just look through it quickly and not paying much attention to it it's going to look rather uh ambiguous it's going to seem unfruitful but its impact is shown and solidified really by you going through the price data and seeing these profiles unfold in hindsight seeing how they operate and the conditions that I'm giving you how they are always generally precursors to them forming"</em></p>
+            </blockquote>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Purpose of Weekly Range Profiles</span>
+                </div>
+                <p><em>"the weekly range you'll find it generally will be one of these templates so if we're looking for information to lead to bullish or bearish ideas if we have that limited to okay we want to be bullish we go to our profiles that are bullish and we start looking for telltale signs or characteristics that are given to you in these uh slides by blending that and also looking for the manipulation factor that takes place the market makers manipulate price Within These market profiles you're going to see that it's pretty much almost like to script"</em></p>
+            </div>
+
+            <div class="concept-card">
+                <div class="card-header">
+                    <span class="card-title">Weekly Objective Framework</span>
+                </div>
+                <p><em>"one shot one kill is you're looking for one setup to pay you your weekly objective my objective is usually 50 to 75 Pips a week so if I'm looking for something that's going to frame that that type of move I'm generally going to be using these manipulation templates to frame the idea whether I'm bullish or bearish and looking for characteristics to line up if those characteristics aren't obvious or in alignment then I'm generally going to sit on my hands and either day trade scalp or do nothing"</em></p>
+            </div>
+        </section>
+
+        <section id="tuesday-low">
+            <h2>Classic Tuesday Low of the Week</h2>
+
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bullish">BULLISH</span>
+                </div>
+                <p><em>"this is a market profile that is generally bullish so you're already looking for bullish prices anyway"</em></p>
+            </div>
+
+            <h3>Manipulation Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"what you're looking for is manipulation in the form of price hovering above a higher time frame discount array on Monday then drops into a higher time frame discount array on Tuesday to form the low of the week"</em></p>
+            </blockquote>
+
+            <h3>How to Anticipate</h3>
+            <blockquote class="quote">
+                <p><em>"you have to know the higher time frame discount arrays and when the market fails to drop into that array odds are Tuesday will likely see the drive lower Tuesday London open and or New York session for the classic Tuesday low of the week"</em></p>
+            </blockquote>
+
+            <h3>Entry Timing</h3>
+            <blockquote class="quote">
+                <p><em>"what you be looking for is a market that is primarily bullish and the market trades down on Tuesday into a discount"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"for the classic Tuesday low of the week it can come back and make a lower low in the New York sessions there's one caveat that has to be applied to both of them so have that in your notes"</em></p>
+            </blockquote>
+
+            <h3>Exit Timing</h3>
+            <blockquote class="quote">
+                <p><em>"Thursday and or going into Friday but generally you want to look for the high the form for the week by Thursday's New York session it can carry over into Friday a little bit but in the general rule of thumb just look for Thursday as the Lion's portion of the weekly range"</em></p>
+            </blockquote>
+
+            <h3>Scenario 1: Liquidity Pool Entry</h3>
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Old Low Liquidity Run</span>
+                </div>
+                <p><em>"this is going to be in the form of either a old monthly weekly or daily low to run a liquidity pool in other words it's running out sell stops"</em></p>
+                <p><em>"you're looking for it to trade up into a premium Market PD array now the key is is you're going looking for a time frame lesser than the discount liquidity pool that you use to buy off of for an example if you bought a monthly liquidity pool you're going to be looking for a weekly or daily premium PD array to trade up into"</em></p>
+            </div>
+
+            <h3>Scenario 2: Old High Retest</h3>
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Breakout Retest as Support</span>
+                </div>
+                <p><em>"for the discount Market you see the market trade down to an old monthly weekly or daily high that means the market has already broken out above a historical high or an old high and the market has now come back and retested that area as support"</em></p>
+                <p><em>"you'll be looking for this Market to trade up into a premium PD array and or a fib extension combination of 127 or 168 extensions or a 100% symmetrical price swing or what I classify as a perfect Market structure swing"</em></p>
+            </div>
+
+            <h3>Scenario 3: Bullish Order Block</h3>
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Order Block Entry</span>
+                </div>
+                <p><em>"we'd be looking for the market to trade down into a discount market and trading into a bullish order block this could be either a monthly a weekly and or daily or any combination of overlap of those three time frames it can also be a 4 hour"</em></p>
+                <p><em>"this can occur as a market that's already been trading higher and you've determined the overall price move may be much significantly higher than what you see graphically depicted here in this diagram in other words it could be a multi week scenario where the market could trade higher for more than one week"</em></p>
+            </div>
+
+            <h3>Swing Grade Entries</h3>
+            <blockquote class="quote">
+                <p><em>"if that's the case you could be seeing the trade trade down into support or bull shoulder block on Tuesday where you'll see the first swing grade or it could be happening in at the equilibrium price point where price could be expanding up and seeing equal measured move higher or it could be a third swing grade"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"generally third swing grades are the halfway point between the equilibrium and the ultimate objective in your price objective for the for the trade generally you don't see a stop run in the third swing grade right before the Terminus of the the price move you're looking to trade entirely as the profit"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"generally you don't see a stop run there but you do get a bullish Order Box sometimes that you can trade off of"</em></p>
+            </blockquote>
+
+            <h3>Target Framework</h3>
+            <blockquote class="quote">
+                <p><em>"you're going to be looking for it to trade up into a premium Market PD array and or F extension overlapping of 127 or 168 or a perfect symmetrical price swing or basically a 100% duplication or measured move of the price swing that traded down into the Tuesday low and you're going to be looking for it to trade up into a time frame lesser than that of what you used for the bullish order block"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if we used a weekly order block we're going to be looking for a daily or 4 hour premium PD array to take our profits at something lining up with price above us in the premium Market but in a time frame lesser than that which we traded our entry on"</em></p>
+            </blockquote>
+
+            <h3>Fair Value Gap Entry</h3>
+            <blockquote class="quote">
+                <p><em>"fair value or a liquidity void also could be an instance where this trade could materialize"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="tuesday-high">
+            <h2>Classic Tuesday High of the Week</h2>
+
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bearish">BEARISH</span>
+                </div>
+                <p><em>"this Market profile is generally bearish you're already expecting lower prices"</em></p>
+            </div>
+
+            <h3>Manipulation Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"the manipulation You're Expecting is when price is hovering below a higher time frame premium array Monday then Rises into a higher time frame premium array on Tuesday to form the high of the week"</em></p>
+            </blockquote>
+
+            <h3>How to Anticipate</h3>
+            <blockquote class="quote">
+                <p><em>"you anticipate this forming by knowing the higher time frame premium arrays and when the market fails to rise into that array odds are Tuesday we'll likely see the drive higher Tuesday's London open Andor New York session"</em></p>
+            </blockquote>
+
+            <h3>Important Caveat</h3>
+            <blockquote class="quote">
+                <p><em>"just like the classic Tuesday low of the week well the classic high of the week there can be another run higher to make a higher high in the week for this profile than the high was formed in the London session Tuesday so other words it can come back and and run the London High out and still form this"</em></p>
+            </blockquote>
+
+            <h3>Scenario 1: Old High Liquidity Run</h3>
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Buy Stop Raid</span>
+                </div>
+                <p><em>"a market trading up into a premium Market could be trading up to an old monthly weekly or daily high in the form of running a liquidity pool other words buy stops above an old high"</em></p>
+                <p><em>"we'll be looking to frame the trade with a time frame lesser than that which we used for the premium liquidity pool and we're going to be trading down into a discount Market PD array"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"for instance an example would be if you sold short at a daily High being ran out for liquidity run on buy stops you could see a 4 Hour Discount PD array to trade down into at your own objective"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"another example would be if you're looking for a weekly High to run out buy stops you'd be looking for a daily or 4hour discount Market PD array again you're looking for a time frame lesser than that which you use to trade with"</em></p>
+            </blockquote>
+
+            <h3>Scenario 2: Old Low Retest</h3>
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Support Broken Now Resistance</span>
+                </div>
+                <p><em>"the market trading up into a premium market and trading up to an old monthly weekly or daily low that means the Market's already broken down out of a measure of Market structure or maybe it took out an old low now it's retesting that as as support broken now resistance"</em></p>
+                <p><em>"we'd be looking for a discount Market PD array and or FIB extension of 127 and 168 and or a perfect symmetrical price swing and a time frame lesser than that which we used for the premium old low"</em></p>
+            </div>
+
+            <h3>Example Framework</h3>
+            <blockquote class="quote">
+                <p><em>"in other words for an example we will be looking for the market in a bearish context we're looking for lower prices overall The Market opens on Monday trades up into Tuesday creating the high of the week but it's retesting a old month weekly or daily low so that daily low whatever it is we're going to be using that as our means of framing our entry with the expectation that we're going to be selling short looking for a discount Market PD array in a time frame lesser than that which we used to get short off of"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if we're trading a weekly low as resistance we could also employ a lower time frame bearish order block or something that effect to get in sync with it but for instance if we're using the weekly low we'd be looking to trade down to a discount daily or discount 4 hour Market PD and an overlapping FIB extension converging at day 127 or 168 or a perfect symmetrical price swing"</em></p>
+            </blockquote>
+
+            <h3>Scenario 3: Fair Value Gap & Bearish Order Block</h3>
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Premium Entry Patterns</span>
+                </div>
+                <p><em>"fair value or void that fills in is all that's necessary before the Tuesday highs formed back up to that old monthly weekly or daily low"</em></p>
+                <p><em>"a fair value or liquidity void and a market moving up into a premium bearish order block either a monthly weekly or daily and or it could be a first swing grade or at equilibrium or it could be a third swing grade entry"</em></p>
+            </div>
+
+            <h3>Multi-Swing Example</h3>
+            <blockquote class="quote">
+                <p><em>"if we're seeing a larger longer term price move going lower if we graded our swings we could be looking for this scenario to take place at the first grade swing equilibrium or the third swing grade"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"discount Market PD array or FIB extension 127 168 or perfect symmetrical price swing measured move in a time frame lesser than the bearish order block we use to trade off of"</em></p>
+            </blockquote>
+
+            <h3>Real-World Example</h3>
+            <blockquote class="quote">
+                <p><em>"the market makers will see the for instance we could Gap open lower on Sunday and then all through Monday we could trade up through higher and then up into Tuesday London open or New York open we could create the high of the week we would be in a premium Market relative to the weekly range that's just started we would potentially fill in a fair value gap or a liquidity void trading back up to for instance a daily bearish order block so if it gets to a daily be bearish order block we could be using a for 4 Hour Discount Market PD array that overlaps with a 127 or 168 or perfect symmetrical price swing in our fib and you hold for the opportunity to unfold until Thursday and maybe into Friday"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="wednesday-low">
+            <h2>Wednesday Low of Week</h2>
+
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bullish">BULLISH</span>
+                </div>
+                <p><em>"this is when you're generally bullish on the marketplace already"</em></p>
+            </div>
+
+            <h3>Manipulation Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"the manipulation you're looking for is when price is hovering above a higher time frame discount array Monday and Tuesday then drops into the higher time frame discount array on Wednesday to form the low of the week"</em></p>
+            </blockquote>
+
+            <h3>How to Anticipate</h3>
+            <blockquote class="quote">
+                <p><em>"you anticipate this by knowing the higher time frame discount arrays and when the market fails to drop into that array odds are Wednesday will likely see the drive lower Wednesday's London open Andor New York session"</em></p>
+            </blockquote>
+
+            <h3>Additional Conditions</h3>
+            <blockquote class="quote">
+                <p><em>"Monday and Tuesday can also be down days as well to form this profile"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"Wednesday London session low can be ran out on the Wednesday New York session and then it can create the low of the week so be be aware that that can possibly happen as well"</em></p>
+            </blockquote>
+
+            <h3>Typical Pattern Development</h3>
+            <blockquote class="quote">
+                <p><em>"we'll generally see the market show a short-term low on Monday and trading up into Tuesday and then Tuesday we'll see it trade lower down into a discount market"</em></p>
+            </blockquote>
+
+            <h3>Scenario 1: Liquidity Pool - Reflection Pattern</h3>
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Sell Stop Raid</span>
+                </div>
+                <p><em>"it could be trading down into an old monthly weekly or daily low for a liquidity pool in other words running out sell stops and we're looking for the market to trade up into a premium Market PD in a time frame lesser than the discount liquidity pool that we Ed to train off of for a long"</em></p>
+                <p><em>"if you're familiar with my old teachings many times this is the framework I use for a reflection pattern the reflection pattern is basically um a 127 or 168 extension where it runs out an old low but it's going to trade down to a discount Market PD array if it takes out the sell stops below the lows we're going to be looking for the market to trade up into Thursday or Friday preferably Friday into a premium Market PD"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"if we're going to see this occur on a weekly we're going to be looking for the long on the weekly and ex exiting our position on a daily or 4-Hour premium Market PD"</em></p>
+            </blockquote>
+
+            <h3>Scenario 2: Old High Retest</h3>
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Breakout Retest</span>
+                </div>
+                <p><em>"we can frame our Market with a discount Market old monthly weekly or daily high in other words we've seen the market trade up broken out now it's coming back down Monday we started to trade up a little bit then Tuesday it traded lower down to the old high so it could be a monthly high that it ret trades back down into on Wednesday"</em></p>
+                <p><em>"we're going to be framing that with an expectation of seeing the market rally up into Friday with a premium market pdra and or FIB extension of 127 68 or perfect symmetrical price swing in a time frame lesser than that of which we used for the old high longan"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"for instance if we bought a old monthly High retest after it's broken out we can see the monthly High acting as support so our lesser time frame PD array for premium Target would be seen either in a weekly daily or 4 Hour the key is finding where it overlaps with the 127 and 168"</em></p>
+            </blockquote>
+
+            <h3>Key Point on Extensions</h3>
+            <blockquote class="quote">
+                <p><em>"we're not just simply looking for 127 and 168 extensions we're doing that also and coupling it with an all these examples with a lesser time frame PD array that's contrary to what we use to enter the trade"</em></p>
+            </blockquote>
+
+            <h3>Scenario 3: Bullish Order Block & Swing Grades</h3>
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Multi-Week Price Move</span>
+                </div>
+                <p><em>"we could see the market trade down in Wednesday into a discount Market when the Market's generally primarily bullish anyway and we're going to trade into a bullish order block and it could be in a form of a monthly or weekly or daily or it could be a first swing grade entry"</em></p>
+                <p><em>"in other words if we see the market moving higher um much longer term than just one week and we're seeing our first retracement back where we can get our long long one swing trade or a position trade on that it could occur at that first swing grade or it could occur at the equilibrium of the overall price move or halfway point of what you expect to see as a overall price uh Target or could occur at the third swing grade"</em></p>
+            </div>
+
+            <h3>Four-Stage Framework</h3>
+            <blockquote class="quote">
+                <p><em>"when we look at Price swings or targets and And Trades we graduate it into four stages first stage second stage takes us to equilibrium third stage or third swing grade and then the fourth is Terminus where the end of the trade takes effect and that's where your profits are taken that's the maximum we expect to see the market move"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"this occurs sometimes at the first equilibrium and third swing grade as a potential opportunity"</em></p>
+            </blockquote>
+
+            <h3>Pattern Development Example</h3>
+            <blockquote class="quote">
+                <p><em>"the market could be just floating around between a premium and discount Market on Sunday and Monday and Tuesday then Wednesday it trades down into a discount level where it clearly hits a order block and now can be capitalized and send price higher in through Thursday and the Friday"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the fair value or liquidity void that run down that price swing is what you use your fibs on to run your extensions for 127 168 or a perfect 100% duplication of that price swing down just projected from the high"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="wednesday-high">
+            <h2>Wednesday High of Week</h2>
+
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bearish">BEARISH</span>
+                </div>
+                <p><em>"this profile is generally bearish you're already looking for lower prices"</em></p>
+            </div>
+
+            <h3>Manipulation Pattern</h3>
+            <blockquote class="quote">
+                <p><em>"the manipulation You're Expecting is when price is hovering below a higher time frame premium array Monday and Tuesday then Rises into that higher time frame premium array array on Wednesday to form the high of the week"</em></p>
+            </blockquote>
+
+            <h3>How to Anticipate</h3>
+            <blockquote class="quote">
+                <p><em>"you anticipate this by knowing the higher time frame premium arrays and when the market fails to rise into that array odds are Wednesday we'll likely see the drive higher Wednesday's London open Andor New York session"</em></p>
+            </blockquote>
+
+            <h3>Additional Conditions</h3>
+            <blockquote class="quote">
+                <p><em>"Monday and Tuesday can be up days as well to form this profile"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"the London open high on Wednesday can be ran out on Wednesday's New York session and still create the high of the week so have that in your notes"</em></p>
+            </blockquote>
+
+            <h3>Scenario 1: Old High Liquidity Run - Stop Run</h3>
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Classic Stop Run</span>
+                </div>
+                <p><em>"the market will trade up into a premium market up into an old monthly weekly or daily High liquidity pool in other words it's running out an old high and we're framing the idea with a move down into a discount Market PD array in a time frame lesser than that which we used for a premium liquidity pool"</em></p>
+                <p><em>"if you're looking for a move that's much longer than just uh just one week we could be at the Midway point of that and you'll see a short-term High being ran out this is a classic stop run and this is generally what you see on a Wednesday"</em></p>
+            </div>
+
+            <blockquote class="quote">
+                <p><em>"for instance like a weekly liquidity pool if he runs out a weekly high and takes out those buy stops we could expect to see a daily or 4 Hour Discount account PD array be our objective for the week"</em></p>
+            </blockquote>
+
+            <h3>Scenario 2: Old Low Retest</h3>
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Fair Value Gap & Resistance Retest</span>
+                </div>
+                <p><em>"we have a fair value or liquidity void and then it runs through that for the stops if we see that and we're overall bearish this again we're going to be looking for this as a scenario where it's a retest to an old low"</em></p>
+                <p><em>"this could be a return back to a premium Market in the form of an old monthly weekly or daily low and we're looking for a discount Market PD array and or a fib extension of 127 to 168 and or a perfect symmetrical price swing in a time frame lesser than that which we used for a premium old low retest"</em></p>
+            </div>
+
+            <h3>Example Framework</h3>
+            <blockquote class="quote">
+                <p><em>"in other words if we're looking for a retest back to a monthly low if we get short on that monthly low when we use the hourly chart we can find tune net to a smaller degree of risk but we're framing our trade off of the monthly lad that's being retested traded button to Wednesday we're going to be looking for that opportunity to send us lower"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if it's monthly that we're looking at that low or Wednesday to sell short from we're going to be looking for a weekly daily or 4 Hour Discount PD array that has an extension overlap of 127 to 168 or perfect symmetrical price swing from that low up to Wednesday's high"</em></p>
+            </blockquote>
+
+            <h3>Fibonacci Projection Method</h3>
+            <blockquote class="quote">
+                <p><em>"in other words Tuesday's low the Wednesday's high that price swing up that's what you're going to be anchoring your FIB on and the extensions below Tuesday's low would be a projection of 127 168 or perfect symmetrical price swing or that of Tuesday's low the Wednesday's high that range subtracted from Tuesday's low that would be a perfect symmetrical price swing"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"if you get that overlapping with a in this case if we were looking at a monthly low uh we could be looking for a weekly daily or 4 Hour Discount PD array that overlaps with that so again we're blinding time and price"</em></p>
+            </blockquote>
+
+            <h3>Scenario 3: Bearish Order Block & Swing Grades</h3>
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Premium Entry Patterns</span>
+                </div>
+                <p><em>"we're looking for a fair value or liquidity void price taking up into a premium into a bearish order block on a monthly weekly or daily basis or it could be returned back into our first retracement of an overall larger price swing and this will be the first swing grade entry or it could occur at equilibrium or could be a third swing grade entry"</em></p>
+                <p><em>"discount Market PD array or FIB extension preferably both overlapping 127 or 168 or perfect symmetrical price swing in a time frame lesser than that of the bearish order block that we use to Trad entry on"</em></p>
+            </div>
+        </section>
+
+        <section id="consolidation">
+            <h2>Consolidation Profiles</h2>
+
+            <h3>Consolidation Thursday Reversal - Bullish</h3>
+
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bullish">BULLISH</span>
+                </div>
+                <p><em>"this is a generally bullish Market condition"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"we're going to be looking for consolidation Monday through Wednesday then price runs the ented week low and rejects it forming a market reversal the key is it's consolidating it's not really going higher or lower Monday through Wednesday"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"you have to know the higher time frame discount arrays and when the market fails to drop into that array odds are Thursday we'll likely see the drive lower Thursday on a market driver news Andor rate release late New York session this is typically around the 2:00 Eastern stand Standard time or 2 p.m. New York time"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"you'll see this happen where the Market opens up on a Sunday and Monday trades sideways on Monday and Tuesday and Wednesday and then all of a sudden Market trades down on Thursday into a discount Market"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"many times Traders expecting the market to shoot higher because of buy stocks being taken out or will be deemed as a market structure shift bullishly but we're looking for sell stops in a bullish Market to be ran out so when that happens generally it's going to be like a fomc or an employment release"</em></p>
+            </blockquote>
+
+            <h4>News Driver Timing</h4>
+            <blockquote class="quote">
+                <p><em>"the fomc release generally happens around the 2:00 hour in Eastern Standard Time New York time or could be a New York session employment data release that uh can send the market higher based on this false break below an old low earlier in the week on Monday or Tuesday"</em></p>
+            </blockquote>
+
+            <h4>Turtle Soup Long Setup</h4>
+            <blockquote class="quote">
+                <p><em>"this false break becomes a turtle suit long and you're looking for the market to trade up into where the weekly buy stops are this is your liquidity pool and it's going to trade up into that level as your weekly objective"</em></p>
+            </blockquote>
+
+            <h4>One Shot One Kill Framework</h4>
+            <blockquote class="quote">
+                <p><em>"your one shot one kill setup would be buying the break below the weekly low on Monday or Tuesday running out the sell stops on the heels of either a high impact news event with employment data on the New York session around 8:30 in the morning Eastern Standard time or if you're again if you just want to play the FC announcement"</em></p>
+            </blockquote>
+
+            <h4>FOMC Trading Caution</h4>
+            <blockquote class="quote">
+                <p><em>"once the market drives down takes those sell stops out you can take a very very very very low risk entry and small position don't put a lot lot of money on this type of trade because if it's fomc you can get really crushed if it's a lot of whipsaw on it but if you're going to be trading fomc very very small position wait for the initial knee- reaction put your limit order down below the low that's formed on Monday and Tuesday absorb all those sell stops and look for the buy stops to be ran out for the intraday high or running out the in week high in the form of the buy stops liquidity pool"</em></p>
+            </blockquote>
+
+            <h4>Target & Timing</h4>
+            <blockquote class="quote">
+                <p><em>"your one shot one kill would be framed on a Thursday going into Friday so it's really one day's worth of action that you waited for all week"</em></p>
+            </blockquote>
+
+            <h3>Consolidation Thursday Reversal - Bearish</h3>
+
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bearish">BEARISH</span>
+                </div>
+                <p><em>"for a bearish market profile"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"the manipulation you're looking for is consolidation Monday through Wednesday then it runs the intra week high and rejects it forming a market reversal"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"you anticipate this by knowing the higher time frame premium arrays and when the market fails to rise into that array odds are Thursday will likely see a drive higher Thursday on a market driver news or rate release late New York session around 2 pm New York time"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"this is generally on rate announcements fomc or interest rate uh adjustments on Thursday the market trades up into a premium Market earlier in the week it'll look like it's taking out sell stops or Market structure shift has broken to the downside and then Wednesday and the Thursday you'll see the buy stops taken that were formed intra week"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"usually fomc 2 p p.m. Eastern Standard Time or a 8:30 a.m. eastern standard time employment release uh could be the driver for this where the Market's driven up to above the intra week high to take out the buy stops in an overall bearish Market environment"</em></p>
+            </blockquote>
+
+            <h4>Turtle Soup Short Setup</h4>
+            <blockquote class="quote">
+                <p><em>"the market causes a false break this is a turtle soup short and you're going to be looking for the targeting of the sell stops below the intra week low for your liquidity pool"</em></p>
+            </blockquote>
+
+            <h3>Consolidation Midweek Rally - Bullish</h3>
+
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bullish">BULLISH</span>
+                </div>
+                <p><em>"this is a bullish Market profile already expecting higher prices"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"the manipulation You're Expecting is consolidation Monday through Wednesday then runs the in week high and then expands higher into Friday"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"how to anticipate when the market is bullish and has yet to run to the premium array on the higher time frames it has recently rallied from a discount array and simply paused without any bearish reversal price action indicating price is about to expand higher for the premium array"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"what we generally look for is the market to start off on a Monday right right from the beginning and on Tuesday it'll see a retracement down into Wednesday and you're going to be moving back into a discount fair value gap or liquidity void or bullish order block so any one of those scenarios could be your Catalyst but you're looking for a discount PD array"</em></p>
+            </blockquote>
+
+            <h4>News Timing</h4>
+            <blockquote class="quote">
+                <p><em>"you're expecting on Wednesday a high or medium impact news event either in London or in New York session"</em></p>
+            </blockquote>
+
+            <h4>Swing Projection Fulcrum</h4>
+            <blockquote class="quote">
+                <p><em>"your swing projection or FC Chrome point is the intra week high formed on Tuesday now this could also be a Monday high too in other words it could trade up to creating a short-term high on Monday and then trading down Tuesday and into Wednesday but that's one simp simple caveat to this this template"</em></p>
+            </blockquote>
+
+            <h4>Target Framework</h4>
+            <blockquote class="quote">
+                <p><em>"your a aiming for a premium PD array either in the form of a monthly weekly or daily and converging FIB extensions of 127 and or 168 or could be a perfect measured swing projection"</em></p>
+            </blockquote>
+
+            <h4>Fibonacci Projection Method</h4>
+            <blockquote class="quote">
+                <p><em>"the swing projection fulcrum is the highest high at which the market starts to retrace from that's the point which you want to pull your FIB down from into where it trades into the order block that'll give you a swing projections up into the premium PD arrays"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we have our high here this is going to be our swing point fom and then we're going to take our FIB anchor from the high down into the order block or whatever PD array that we're using for Discount to enter that's our level we expect price to move up from so there's our range what we get then is an extension of 127 and or 168 FIB extension which takes us up into the premium Market"</em></p>
+            </blockquote>
+
+            <h4>Key Requirement</h4>
+            <blockquote class="quote">
+                <p><em>"what we look for not just a fib of 127 or 168 we're looking for a time frame lesser than that which we used to get long on either a bullish order block bearish order block whatever that time frame we see forming our entry on on Wednesday we use a lesser time frame to take our profits at but it has to be an overlapping of a premium PD array and a lesser time frame we Ed to buy at that overlaps with 127 and 168"</em></p>
+            </blockquote>
+
+            <h4>Time and Price Confluence</h4>
+            <blockquote class="quote">
+                <p><em>"the FIB overlap levels are based on the time frame we enter on we look for a lower time frame to see a PD array in a premium range to overlap with that at 127 and 168 when we get those two things we have a high Confluence uh level where we have both time and price in agreen where the algo may very easily retra for those levels and then that' be it for the Target"</em></p>
+            </blockquote>
+
+            <h3>Consolidation Midweek Decline - Bearish</h3>
+
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bearish">BEARISH</span>
+                </div>
+                <p><em>"this is a bearish market profile you're already expecting bearish prices"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"the manipulation you're looking for is when price is consolidating Monday through Wednesday then runs the entry week low and expands lower into Friday"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"you anticipate this profile forming when the market is bearish and has yet to run the discount array on the higher time frames it has recently declined from a premium array and simply paused without any bullish reversal price action indicating price is about to expand lower for the discount array"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"what we're seeing is on Wednesday you'll see uh it could it could occur on Tuesday too but uh we're looking for a premium fair value gap or liquidity void to be filled in or trading up into a bearish order block and high or medium impact news in Wednesday London open or New York open"</em></p>
+            </blockquote>
+
+            <h4>Target Framework</h4>
+            <blockquote class="quote">
+                <p><em>"we have a swing projection FC Chrome point and we expect to see the market trade down to a discount PD array in the form of a monthly weekly daily and converging FIB extensions in the form of 127 or 168 and again it could be a perfect symmetrical price swing or 100% measured move"</em></p>
+            </blockquote>
+
+            <h4>Fibonacci Calculation Method</h4>
+            <blockquote class="quote">
+                <p><em>"we have our premium fair value gap or liquidity void and or bearish order block other which we're looking to sell short at a premium PD array in a bearish market environment we know our low of the week is formed measure that up from our falr point and we get our 127 extension from that low to Wednesday's High projected down that's 127% of the range between Tuesday's low and Wednesday's high and then we get the 168% of the range of Tuesday's low to Wednesday's high"</em></p>
+            </blockquote>
+
+            <h4>Manual Calculation</h4>
+            <blockquote class="quote">
+                <p><em>"you don't need a Fibonacci overlay toll for this all you have to do is get Wednesday's highest high and Tuesday's lowest low and or it could be Wednesday's low okay but basically you're looking for the lowest low between Monday's opening and Wednesday when it trades up it's got to be trading up so whatever that highest high is that forms your projected low is whatever the range low is for the week up to Wednesday's high that range in terms of Pips times that by 1.27 and that'll give you your range that you subtract from Wednesday's high and you can do the same thing for the range from the low of the week up to Wednesday's High whatever that is in terms of Pips you times up by 1.6 68 you subtract that number of Pips from Wednesday's high and that'll give you your Fibonacci extension low"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="seek-destroy">
+            <h2>Seek and Destroy Profiles</h2>
+
+            <h3>Seek and Destroy Bullish Friday</h3>
+
+            <div class="concept-card neutral">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge neutral">NEUTRAL / LOW PROBABILITY</span>
+                </div>
+                <p><em>"this is a neutral or low probability Market profile"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"the telltale signs the manipulation is taking part in this profile is where price is consolidating Monday through Thursday running shallow stops under and above the intra week highs and lows then runs the intra week high and expands higher into Friday"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"had to anticipate it when the market is awaiting interest trade announcements and or non-farm payroll can create this profile in the summer months of July and August it's better to avoid trading these conditions"</em></p>
+            </blockquote>
+
+            <h4>Trading Approach</h4>
+            <blockquote class="quote">
+                <p><em>"all other all we're really doing is watching to see if it gives us any favorable outcome and it's more or less a market environment you want to be either on the sidelines or just demon trading just for experience"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"the market will generally create a small consolidation throughout the week going into Thursday we have a liquidity pool for sell stops that's forms in intra week higher medium impact news on Thursday usually it's like I said it's either fomc or uh employment decision"</em></p>
+            </blockquote>
+
+            <h4>Execution Framework</h4>
+            <blockquote class="quote">
+                <p><em>"we're going to be anticipating the sell stop rate below the lows of the week intra week buy stocks would be determined and a liquidity run to a daily or weekly premium PD would be the uh result in other words we're not going to be looking just for a intra we run on buy stops we're going to be looking for a run completely above all of the intra week highs to it look liity run on daily or weekly premium PD arrays"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"in other words we're going to be creating a new weekly Range High in a level that hadn't been traded for so far for that week and it's going to move it aggressively and very speedily to that level"</em></p>
+            </blockquote>
+
+            <h4>Alternative Scenario</h4>
+            <blockquote class="quote">
+                <p><em>"this Market environment can occur when the Market's bullish but it also can occur when the Market's bearish uh if the market trades Down Below in Old low or breaks out on a higher time frame but fails to have any movement lower we can get a third a high impact or medium impact news event or interest rate environment that sends us aggressively higher"</em></p>
+            </blockquote>
+
+            <h4>Trading Difficulty Warning</h4>
+            <blockquote class="quote">
+                <p><em>"in this environment or this Market profile this is one of the hardest ones to trade and if you see the market just consolidating back and forth taking buy stops and sell stops you know throughout the week it's probably better for you just sit on your hands and just don't trade anymore because the chances are you getting this right are not 50/50 you know and if you're wrong it can really blow through whatever your stop loss is if especially if it's fomc or if it's you know um well it would just have to be something along with the monetary policy"</em></p>
+            </blockquote>
+
+            <h4>Reversal Watch</h4>
+            <blockquote class="quote">
+                <p><em>"once it gets up to a daily or weekly premium PD array what we're looking for there is we want to see possibly a potential reversal so what we're doing is why is this template useful there's your answer you're waiting for it to get up to a daily or weekly PR premium PD array once it does that we are expecting a reversal"</em></p>
+            </blockquote>
+
+            <h3>Seek and Destroy Bearish Friday</h3>
+
+            <div class="concept-card neutral">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge neutral">NEUTRAL / LOW PROBABILITY</span>
+                </div>
+                <p><em>"the profile again is neutral low probability"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"manipulation is seen by Price consolidating Monday through Thursday running shallow stops under and above the intry week highs and lows then runs the intra week low expands lower into Friday"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"how to anticipate it when the market is awaiting interest rate announcements or non-farm payroll can create this profile in the summer months of July and August it's better again to avoid these conditions"</em></p>
+            </blockquote>
+
+            <h4>Observation, Not Trading</h4>
+            <blockquote class="quote">
+                <p><em>"what we're looking for is the outcome of this we're not looking to trade it"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"we're looking for the market to create a consolidation Monday through Wednesday and then building a liquidity pool of buy stops intra week and on Thursday we anticipate that market to be taken up to that level taken out to buy stops and a run on highend or medium impact news usually is the Catalyst for that"</em></p>
+            </blockquote>
+
+            <h4>Execution Framework</h4>
+            <blockquote class="quote">
+                <p><em>"we're anticipating the buy stop readed and the market will run the intra week sell stops and ultimately Target a liquidity run to a daily and or weekly discount PD array"</em></p>
+            </blockquote>
+
+            <blockquote class="quote">
+                <p><em>"we're not looking to trade this we're looking for it to unfold usually when the markets are in consolidation Monday Tuesday and Wednesday and it's usually like a employment number or it's a fomc type event uh that type of Market driver that's released later on in the week the second half of the week uh post Wednesday New York open"</em></p>
+            </blockquote>
+
+            <h4>Target Framework</h4>
+            <blockquote class="quote">
+                <p><em>"we're looking for the market to run to a higher time frame pdra okay and if we see they run the buy stops inra week and they sink it lower what we're going to be watching for not that we're trying to trade it we're looking for it to trade down into a higher time frame daily or weekly discount PD array"</em></p>
+            </blockquote>
+
+            <h4>Reversal Watch</h4>
+            <blockquote class="quote">
+                <p><em>"when that happens what we're looking for a potential reversal"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="wednesday-reversal">
+            <h2>Wednesday Weekly Reversal Profiles</h2>
+
+            <h3>Wednesday Weekly Reversal - Bullish</h3>
+
+            <div class="concept-card bullish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bullish">BULLISH</span>
+                </div>
+                <p><em>"this Market profile is bullish you're already expecting higher prices"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"the manipulation you're looking for is where pric is consolidating Monday through Tuesday and drives lower into a higher time frame discount array to induce sell stops then strongly reverses"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"how to anticipate this when the market is trading at a long-term or intermediate term low price will pair institutional buying with pending cells side liquidity or traditionally known as a sell stop raid"</em></p>
+            </blockquote>
+
+            <h4>Difference from Wednesday Low</h4>
+            <blockquote class="quote">
+                <p><em>"Wednesday weekly reversal now this is not the same as the Wednesday low of the week since a little bit slight slightly different"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"we're looking for an old low or retail support and high or medium impact news drives price down below that and it is generally on a higher time frame basis that we see these types of moves taking place in other words we're running a weekly monthly level or support level out and it's on the heels of higher medium impact news and then once it dries down below that the Market discounts that news and reverses"</em></p>
+            </blockquote>
+
+            <h4>Extension Framework</h4>
+            <blockquote class="quote">
+                <p><em>"what we're looking for is a Fibonacci extension of 127 or 168 or even a perfect symmetrical price swing but generally it's usually a 127 or 168 extension from the old low uh retail support rally up into Tuesday's High uh project that down uh that'll give us some measure of uh extension"</em></p>
+            </blockquote>
+
+            <h4>Target Development</h4>
+            <blockquote class="quote">
+                <p><em>"the market usually will find its way down into a monthly weekly or daily discount array and we'll be using the swing projection falc point to project up to a 127 or 168 extension and overlapping of a weekly or daily premium PD array"</em></p>
+            </blockquote>
+
+            <h3>Wednesday Weekly Reversal - Bearish</h3>
+
+            <div class="concept-card bearish">
+                <div class="card-header">
+                    <span class="card-title">Profile Type</span>
+                    <span class="badge bearish">BEARISH</span>
+                </div>
+                <p><em>"profile bearish you're already expecting lower prices"</em></p>
+            </div>
+
+            <h4>Manipulation Pattern</h4>
+            <blockquote class="quote">
+                <p><em>"the manipulation You're Expecting is when pric is consolidating Monday through Tuesday and it drives higher into a higher time frame premium array to induce buy stops then strongly reverses"</em></p>
+            </blockquote>
+
+            <h4>How to Anticipate</h4>
+            <blockquote class="quote">
+                <p><em>"had anticipate this when the market is trading at a long-term or intermediate-term high price will pair institutional selling with pending buy side liquidity or as otherwise known a buy stop raid"</em></p>
+            </blockquote>
+
+            <h4>Pattern Development</h4>
+            <blockquote class="quote">
+                <p><em>"we're looking for old high or retail resistance higher medium impact news runs it above it and then the market rejects or discounts that news event"</em></p>
+            </blockquote>
+
+            <h4>Target Framework</h4>
+            <blockquote class="quote">
+                <p><em>"it takes us up into a Fibonacci one extent 127 or 168 extension and a monthly weekly or daily premium array in other words we're looking for something up air to align with that 127 168 extension and then the market will look to move below the swing projection falc Point down into a weekly or daily discount PD array overlapping with a Fibonacci extension of 127 or 168"</em></p>
+            </blockquote>
+        </section>
+
+        <section id="study">
+            <h2>Study & Review</h2>
+            <p>Click each card to reveal the answer (from transcript quotes)</p>
+
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Classic Tuesday Low of the Week profile?</div>
+                    <div class="flashcard-answer">"this is a market profile that is generally bullish so you're already looking for bullish prices anyway and what you're looking for is manipulation in the form of price hovering above a higher time frame discount array on Monday then drops into a higher time frame discount array on Tuesday to form the low of the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you anticipate the Classic Tuesday Low of the Week?</div>
+                    <div class="flashcard-answer">"you have to know the higher time frame discount arrays and when the market fails to drop into that array odds are Tuesday will likely see the drive lower Tuesday London open and or New York session for the classic Tuesday low of the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should the weekly high form for Tuesday Low profile?</div>
+                    <div class="flashcard-answer">"generally you want to look for the high the form for the week by Thursday's New York session it can carry over into Friday a little bit but in the general rule of thumb just look for Thursday as the Lion's portion of the weekly range"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What timeframe should you use for targets vs entry?</div>
+                    <div class="flashcard-answer">"the key is is you're going looking for a time frame lesser than the discount liquidity pool that you use to buy off of for an example if you bought a monthly liquidity pool you're going to be looking for a weekly or daily premium PD array to trade up into"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the Classic Tuesday High of the Week profile?</div>
+                    <div class="flashcard-answer">"this Market profile is generally bearish you're already expecting lower prices and the manipulation You're Expecting is when price is hovering below a higher time frame premium array Monday then Rises into a higher time frame premium array on Tuesday to form the high of the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the reflection pattern?</div>
+                    <div class="flashcard-answer">"the reflection pattern is basically um a 127 or 168 extension where it runs out an old low but it's going to trade down to a discount Market PD array if it takes out the sell stops below the lows we're going to be looking for the market to trade up into Thursday or Friday preferably Friday into a premium Market PD"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are the four stages of price swing grading?</div>
+                    <div class="flashcard-answer">"when we look at Price swings or targets and And Trades we graduate it into four stages first stage second stage takes us to equilibrium third stage or third swing grade and then the fourth is Terminus where the end of the trade takes effect and that's where your profits are taken that's the maximum we expect to see the market move"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Do you see stop runs at the third swing grade?</div>
+                    <div class="flashcard-answer">"generally third swing grades are the halfway point between the equilibrium and the ultimate objective in your price objective for the for the trade generally you don't see a stop run in the third swing grade right before the Terminus of the the price move you're looking to trade entirely as the profit"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is Consolidation Thursday Reversal?</div>
+                    <div class="flashcard-answer">"we're going to be looking for consolidation Monday through Wednesday then price runs the ented week low and rejects it forming a market reversal the key is it's consolidating it's not really going higher or lower Monday through Wednesday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What news events drive Thursday reversals?</div>
+                    <div class="flashcard-answer">"Thursday on a market driver news Andor rate release late New York session this is typically around the 2:00 Eastern stand Standard time or 2 p.m. New York time... generally it's going to be like a fomc or an employment release the fomc release generally happens around the 2:00 hour in Eastern Standard Time New York time"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a turtle soup long setup?</div>
+                    <div class="flashcard-answer">"this false break becomes a turtle suit long and you're looking for the market to trade up into where the weekly buy stops are this is your liquidity pool and it's going to trade up into that level as your weekly objective"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How should you trade FOMC events?</div>
+                    <div class="flashcard-answer">"if you're going to be trading fomc very very small position wait for the initial knee- reaction put your limit order down below the low that's formed on Monday and Tuesday absorb all those sell stops and look for the buy stops to be ran out... don't put a lot lot of money on this type of trade because if it's fomc you can get really crushed if it's a lot of whipsaw on it"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is Consolidation Midweek Rally?</div>
+                    <div class="flashcard-answer">"this is a bullish Market profile already expecting higher prices... the manipulation You're Expecting is consolidation Monday through Wednesday then runs the in week high and then expands higher into Friday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the swing projection fulcrum?</div>
+                    <div class="flashcard-answer">"the swing projection fulcrum is the highest high at which the market starts to retrace from that's the point which you want to pull your FIB down from into where it trades into the order block that'll give you a swing projections up into the premium PD arrays"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What makes a high confluence target level?</div>
+                    <div class="flashcard-answer">"when we get those two things we have a high Confluence uh level where we have both time and price in agreen where the algo may very easily retra for those levels and then that' be it for the Target"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do you calculate Fibonacci extensions without a tool?</div>
+                    <div class="flashcard-answer">"you're looking for the lowest low between Monday's opening and Wednesday when it trades up... whatever the range low is for the week up to Wednesday's high that range in terms of Pips times that by 1.27 and that'll give you your range that you subtract from Wednesday's high... you times up by 1.6 68 you subtract that number of Pips from Wednesday's high and that'll give you your Fibonacci extension low"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What are Seek and Destroy profiles?</div>
+                    <div class="flashcard-answer">"this is a neutral or low probability Market profile... price is consolidating Monday through Thursday running shallow stops under and above the intra week highs and lows then runs the intra week high and expands higher into Friday"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Should you trade Seek and Destroy profiles?</div>
+                    <div class="flashcard-answer">"this is one of the hardest ones to trade and if you see the market just consolidating back and forth taking buy stops and sell stops you know throughout the week it's probably better for you just sit on your hands and just don't trade anymore because the chances are you getting this right are not 50/50"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">Why are Seek and Destroy templates useful?</div>
+                    <div class="flashcard-answer">"once it gets up to a daily or weekly premium PD array what we're looking for there is we want to see possibly a potential reversal so what we're doing is why is this template useful there's your answer you're waiting for it to get up to a daily or weekly PR premium PD array once it does that we are expecting a reversal"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is Wednesday Weekly Reversal?</div>
+                    <div class="flashcard-answer">"this Market profile is bullish you're already expecting higher prices the manipulation you're looking for is where pric is consolidating Monday through Tuesday and drives lower into a higher time frame discount array to induce sell stops then strongly reverses"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How is Wednesday Weekly Reversal different from Wednesday Low?</div>
+                    <div class="flashcard-answer">"Wednesday weekly reversal now this is not the same as the Wednesday low of the week since a little bit slight slightly different we're looking for an old low or retail support and high or medium impact news drives price down below that and it is generally on a higher time frame basis that we see these types of moves taking place"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is institutional buying paired with in reversals?</div>
+                    <div class="flashcard-answer">"when the market is trading at a long-term or intermediate term low price will pair institutional buying with pending cells side liquidity or traditionally known as a sell stop raid"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is the weekly objective target?</div>
+                    <div class="flashcard-answer">"one shot one kill is you're looking for one setup to pay you your weekly objective my objective is usually 50 to 75 Pips a week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What if you miss Tuesday/Wednesday entry?</div>
+                    <div class="flashcard-answer">"the moves that transpire on Tuesday and Wednesday you may not get the actual highest high to Short from or the lowest low to buy from and that's not important um once we have the range defined and we see the characteristics that out line a potential Direction going into Friday's close that in itself can be your one shot one kill so you can look for opportunities on the back end of the week"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What to do when characteristics don't align?</div>
+                    <div class="flashcard-answer">"if those characteristics aren't obvious or in alignment then I'm generally going to sit on my hands and either day trade scalp or do nothing"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">How do market makers manipulate weekly profiles?</div>
+                    <div class="flashcard-answer">"the market makers manipulate price Within These market profiles you're going to see that it's pretty much almost like to script"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What must you do to validate these profiles?</div>
+                    <div class="flashcard-answer">"its impact is shown and solidified really by you going through the price data and seeing these profiles unfold in hindsight seeing how they operate and the conditions that I'm giving you how they are always generally precursors to them forming"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What do you always combine with Fibonacci extensions?</div>
+                    <div class="flashcard-answer">"we're not just simply looking for 127 and 168 extensions we're doing that also and coupling it with an all these examples with a lesser time frame PD array that's contrary to what we use to enter the trade"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">When should you avoid trading?</div>
+                    <div class="flashcard-answer">"when the market is awaiting interest trade announcements and or non-farm payroll can create this profile in the summer months of July and August it's better to avoid trading these conditions"</div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('revealed')">
+                    <div class="flashcard-question">What is a perfect symmetrical price swing?</div>
+                    <div class="flashcard-answer">"a 100% symmetrical price swing or what I classify as a perfect Market structure swing... a perfect 100% duplication of that price swing down just projected from the high"</div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Flash card reveal all functionality (optional)
+        let allRevealed = false;
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'r' || e.key === 'R') {
+                allRevealed = !allRevealed;
+                document.querySelectorAll('.flashcard').forEach(card => {
+                    if (allRevealed) {
+                        card.classList.add('revealed');
+                    } else {
+                        card.classList.remove('revealed');
+                    }
+                });
+            }
+        });
+    </script>
+    </main>
+</body>
+</html>
